@@ -118,7 +118,7 @@ export async function fetchGameList(
 const getGoodUrl = (relativeUrl: string): URL => {
   const host = window.location.hostname;
   let fqdn = 'https://tapto-designer.netlify.app';
-  if (host.includes('netlify') || host.includes('tapto')) {
+  if (host.includes('netlify') || host.includes('tapto') || host.includes('design.zaparoo.org')) {
     fqdn = `${window.location.protocol}//${window.location.hostname}`;
   } 
   const url = new URL(
