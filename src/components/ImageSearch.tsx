@@ -126,6 +126,21 @@ export default function ImageSearch({
       <div className="searchModal">
         <div className="verticalStack">
           <div className="horizontalStack searchHeader">
+            <Tooltip
+              title={
+                searchResults.length > 0
+                  ? `Go back to results for ${searchQuery}`
+                  : `Close`
+              }
+            >
+              <IconButton
+                onClick={() =>
+                  searchResults.length ? setSearchResults([]) : setOpen(false)
+                }
+              >
+                {searchResults.length ? <ArrowBackIcon /> : <CloseIcon />}
+              </IconButton>
+            </Tooltip>
             <TextField
               className="textField"
               size="small"
@@ -156,21 +171,6 @@ export default function ImageSearch({
                 <p>Search</p>
               )}
             </Button>
-            <Tooltip
-              title={
-                searchResults.length > 0
-                  ? `Go back to results for ${searchQuery}`
-                  : `Close`
-              }
-            >
-              <IconButton
-                onClick={() =>
-                  searchResults.length ? setSearchResults([]) : setOpen(false)
-                }
-              >
-                {searchResults.length ? <ArrowBackIcon /> : <CloseIcon />}
-              </IconButton>
-            </Tooltip>
           </div>
           {searchResults.length === 0 && (
             <div className="searchResultsContainer horizontalStack">
@@ -187,9 +187,9 @@ export default function ImageSearch({
                     className="verticalStack"
                     onClick={() => switchToGameView(gameEntry.id)}
                   >
-                    <Typography variant="h6">{gameEntry.gameTitle}</Typography>
+                    <Typography variant="h6">See more images for</Typography>
                     <Typography variant="h6">
-                      {gameEntry.platform?.name}
+                      {gameEntry.gameTitle} - {gameEntry.platform?.name}
                     </Typography>
                   </Button>
                 </div>
