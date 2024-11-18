@@ -121,6 +121,15 @@ export default function ImageSearch({
     });
   };
 
+  const disclaimer = (
+    <Typography>
+      Search results and images provided by{' '}
+      <a href="https://thegamesdb.net/" target="_blank">
+        TheGamesDB
+      </a>
+    </Typography>
+  );
+
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
       <div className="searchModal">
@@ -174,6 +183,7 @@ export default function ImageSearch({
           </div>
           {searchResults.length === 0 && (
             <div className="searchResultsContainer horizontalStack">
+              {disclaimer}
               {gameEntries.map((gameEntry) => (
                 <div className="searchResult" key={gameEntry.id}>
                   <Button>
@@ -206,6 +216,7 @@ export default function ImageSearch({
           )}
           {searchResults.length > 0 && (
             <div className="searchResultsContainer horizontalStack">
+              {disclaimer}
               {searchResults.map((result) => (
                 <Button className="searchResult" key={result.imageUrl}>
                   <img
