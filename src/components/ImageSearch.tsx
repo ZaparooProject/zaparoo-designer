@@ -122,12 +122,14 @@ export default function ImageSearch({
   };
 
   const disclaimer = (
-    <Typography>
-      Search results and images provided by{' '}
-      <a href="https://thegamesdb.net/" target="_blank">
-        TheGamesDB
-      </a>
-    </Typography>
+    <div className="horizontalStack disclaimer">
+      <Typography>
+        Search results and images provided by{' '}
+        <a href="https://thegamesdb.net/" target="_blank">
+          TheGamesDB
+        </a>
+      </Typography>
+    </div>
   );
 
   return (

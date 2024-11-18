@@ -63,6 +63,10 @@
   padding: 18px;
 }
 
+.disclaimer {
+  justify-content: space-around;
+}
+
 @media (max-width: 768px) {
   .searchHeader .textField {
     width: calc(100% - 52px); /* 40px + column gap 12 */
