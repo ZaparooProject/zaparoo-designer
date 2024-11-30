@@ -35,5 +35,5 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
 }
 
 export const config: Config = {
-  path: Object.values(apiDefinitions).map(value => `${value.urlPath}*`) as unknown as `/${string}`,
+  path: ["/thegamesdb/*", "/screenscraper/*"],
 };
