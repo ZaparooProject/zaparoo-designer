@@ -7,7 +7,6 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
 
   for (const apiDefinition of Object.values(apiDefinitions)) {
     const path = url.split(apiDefinition.urlPath)[1];
-    console.log({ path })
     if (!path || response) continue;
     const newUrl = apiDefinition.newUrl(path, apiDefinition.endpoint);
     const { body, status, statusText } = await fetch(newUrl);
