@@ -16,9 +16,9 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
     searchParams.get("page") ?? "1",
     searchParams.get("platformId") ?? "",
   )
-  console.log({ searchUrl })
-  const { body, status, statusText } = await fetch(searchUrl!);
-  
+  const { body, status, statusText } = await fetch(searchUrl!.href);
+  console.log({ searchUrl, body })
+
   const respHeaders = prepareCorsHeaders(req);
 
   return new Response(body, { status, statusText, headers: respHeaders });
