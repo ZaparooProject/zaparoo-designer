@@ -16,14 +16,13 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
     searchParams.get("page") ?? "1",
     searchParams.get("platformId") ?? "",
   )
-  console.log(searchUrl.href)
   try {
     const { body, status, statusText } = await fetch(searchUrl!.href);
     const respHeaders = prepareCorsHeaders(req);
-
     return new Response(body, { status, statusText, headers: respHeaders });
-  } catch(e) {
+  } catch(e: unknown) {
     console.log(e)
+    return new Response('{}', { status: 500, statusText: 'error' });
   }  
 }
 

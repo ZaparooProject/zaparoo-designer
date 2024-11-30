@@ -22,7 +22,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
     endpoint: process.env.ENDPOINT!,
     newUrl: (path, endpoint) => `${endpoint}${path}&apikey=${process.env.APIKEY}`,
     getSearchURL: (searchTerm: string, page: string, platformId?: string) => {
-      const searchPath = '/thegamesdb/v1.1/Games/ByGameName';
+      const searchPath = '/v1.1/Games/ByGameName';
       const url = new URL(
         searchPath,
         process.env.ENDPOINT!,
