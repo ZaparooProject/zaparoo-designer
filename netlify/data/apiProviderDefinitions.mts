@@ -1,22 +1,45 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ProviderDefinitions = {
-  searchPath: string;
   urlPath: `/${string}/`;
   endpoint: string;
   newUrl: (path: string, endpoint: string) => string;
+  getSearchURL?: (searchTerm: string, page: string, platformId?: string) => URL
+  searchResultNormalization?: (results: unknown[]) => SearchResult[];
 };
 
-export const apiDefinitions: Record<string, ProviderDefinitions> = {
+type SearchResult = {
+
+}
+
+export const enum availablePlatforms {
+  THEGAMESDB = 'thegamesdb',
+  SCREEN_SCRAPER = 'screenscraper',
+}
+
+export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
   thegamesdb: {
     urlPath: '/thegamesdb/',
     endpoint: process.env.ENDPOINT!,
     newUrl: (path, endpoint) => `${endpoint}${path}&apikey=${process.env.APIKEY}`,
-    searchPath: '',
+    getSearchURL: (searchTerm: string, page: string, platformId?: string) => {
+      const searchPath = '/thegamesdb/v1.1/Games/ByGameName';
+      const url = new URL(
+        searchPath,
+        process.env.ENDPOINT!,
+      );
+      url.searchParams.append('name', searchTerm);
+      url.searchParams.append('fields', 'platform,players,overview,');
+      url.searchParams.append('include', 'boxart,platform');
+      url.searchParams.append('page', page);
+      if (platformId) {
+        url.searchParams.append('filter[platform]', `${platformId}`);
+      }
+      return url;
+    }
   },
   screenscraper: {
     urlPath: '/screenscraper/',
     endpoint: process.env.SCREENSCRAPER_ENDPOINT!,
     newUrl: (path, endpoint) => `${endpoint}${path}&output=JSON&devid=${process.env.SCREENSCRAPER_USERNAME}&devpassword=${process.env.SCREENSCRAPER_PASSWORD}&softname=zaparoo`,
-    searchPath: '',
   }
 } as const;

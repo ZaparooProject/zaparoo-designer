@@ -1,5 +1,5 @@
 export type Platform = {
-  popular: boolean;
+  popular?: boolean;
   id: number;
   name: string;
   alias: string;
@@ -17,7 +17,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "alias": "all",
       "icon": "",
       "console": "",
-      overview: "",
+      "overview": "",
     },
     "1": {
       "popular": true,
