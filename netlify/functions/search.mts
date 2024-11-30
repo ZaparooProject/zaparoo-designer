@@ -7,7 +7,6 @@ const SEARCH_PLATFORM: availablePlatforms = availablePlatforms.THEGAMESDB
 
 // search games by name
 export default async (req: Request /* , context: Context */): Promise<Response> => {
-  return new Response("Hello, world!");
   const { url } = req;
   const parsedUrl = new URL(url);
   const searchParams = parsedUrl.searchParams
@@ -17,6 +16,7 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
     searchParams.get("page") ?? "1",
     searchParams.get("platformId") ?? "",
   )
+  console.log({ searchUrl })
   const { body, status, statusText } = await fetch(searchUrl!);
   
   const respHeaders = prepareCorsHeaders(req);
