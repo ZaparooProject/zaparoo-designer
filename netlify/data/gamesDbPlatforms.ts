@@ -1,4 +1,5 @@
 export type Platform = {
+  popular: boolean;
   id: number;
   name: string;
   alias: string;
@@ -10,6 +11,7 @@ export type Platform = {
 export const count = 150 as const;
 export const platforms: Record<Platform["id"], Platform> = {
     "0": {
+      "popular": true,
       "id": 0,
       "name": "all",
       "alias": "all",
@@ -18,6 +20,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       overview: "",
     },
     "1": {
+      "popular": true,
       "id": 1,
       "name": "PC",
       "alias": "pc",
@@ -26,6 +29,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "1.png"
     },
     "2": {
+      "popular": true,
       "id": 2,
       "name": "Nintendo GameCube",
       "alias": "nintendo-gamecube",
@@ -34,6 +38,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "2.png"
     },
     "3": {
+      "popular": true,
       "id": 3,
       "name": "Nintendo 64",
       "alias": "nintendo-64",
@@ -42,6 +47,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "3.png"
     },
     "4": {
+      "popular": true,
       "id": 4,
       "name": "Nintendo Game Boy",
       "alias": "nintendo-gameboy",
@@ -50,6 +56,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4.png"
     },
     "5": {
+      "popular": true,
       "id": 5,
       "name": "Nintendo Game Boy Advance",
       "alias": "nintendo-gameboy-advance",
@@ -58,6 +65,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "5.png"
     },
     "6": {
+      "popular": true,
       "id": 6,
       "name": "Super Nintendo (SNES)",
       "alias": "super-nintendo-snes",
@@ -66,6 +74,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "6.png"
     },
     "7": {
+      "popular": true,
       "id": 7,
       "name": "Nintendo Entertainment System (NES)",
       "alias": "nintendo-entertainment-system-nes",
@@ -74,6 +83,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "7.png"
     },
     "8": {
+      "popular": true,
       "id": 8,
       "name": "Nintendo DS",
       "alias": "nintendo-ds",
@@ -82,6 +92,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "8.png"
     },
     "9": {
+      "popular": true,
       "id": 9,
       "name": "Nintendo Wii",
       "alias": "nintendo-wii",
@@ -90,6 +101,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "9.png"
     },
     "10": {
+      "popular": true,
       "id": 10,
       "name": "Sony Playstation",
       "alias": "sony-playstation",
@@ -98,6 +110,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "10.png"
     },
     "11": {
+      "popular": true,
       "id": 11,
       "name": "Sony Playstation 2",
       "alias": "sony-playstation-2",
@@ -106,6 +119,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "11.png"
     },
     "12": {
+      "popular": true,
       "id": 12,
       "name": "Sony Playstation 3",
       "alias": "sony-playstation-3",
@@ -114,6 +128,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "12.png"
     },
     "13": {
+      "popular": true,
       "id": 13,
       "name": "Sony Playstation Portable",
       "alias": "sony-psp",
@@ -122,6 +137,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "13.png"
     },
     "14": {
+      "popular": true,
       "id": 14,
       "name": "Microsoft Xbox",
       "alias": "microsoft-xbox",
@@ -130,6 +146,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "14.png"
     },
     "15": {
+      "popular": true,
       "id": 15,
       "name": "Microsoft Xbox 360",
       "alias": "microsoft-xbox-360",
@@ -138,6 +155,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "15.png"
     },
     "16": {
+      "popular": true,
       "id": 16,
       "name": "Sega Dreamcast",
       "alias": "sega-dreamcast",
@@ -146,6 +164,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "16.png"
     },
     "17": {
+      "popular": true,
       "id": 17,
       "name": "Sega Saturn",
       "alias": "sega-saturn",
@@ -154,6 +173,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "17.png"
     },
     "18": {
+      "popular": true,
       "id": 18,
       "name": "Sega Genesis",
       "alias": "sega-genesis",
@@ -162,6 +182,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "18.png"
     },
     "20": {
+      "popular": true,
       "id": 20,
       "name": "Sega Game Gear",
       "alias": "sega-game-gear",
@@ -170,6 +191,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "20.png"
     },
     "21": {
+      "popular": true,
       "id": 21,
       "name": "Sega CD",
       "alias": "sega-cd",
@@ -178,6 +200,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "21.png"
     },
     "22": {
+      "popular": true,
       "id": 22,
       "name": "Atari 2600",
       "alias": "atari-2600",
@@ -186,6 +209,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "22.png"
     },
     "23": {
+      "popular": true,
       "id": 23,
       "name": "Arcade",
       "alias": "arcade",
@@ -194,6 +218,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "23.png"
     },
     "24": {
+      "popular": true,
       "id": 24,
       "name": "Neo Geo",
       "alias": "neogeo",
@@ -202,6 +227,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "24.png"
     },
     "25": {
+      "popular": true,
       "id": 25,
       "name": "3DO",
       "alias": "3do",
@@ -210,6 +236,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "25.png"
     },
     "26": {
+      "popular": true,
       "id": 26,
       "name": "Atari 5200",
       "alias": "atari-5200",
@@ -218,6 +245,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "26.png"
     },
     "27": {
+      "popular": true,
       "id": 27,
       "name": "Atari 7800",
       "alias": "atari-7800",
@@ -226,6 +254,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "27.png"
     },
     "28": {
+      "popular": true,
       "id": 28,
       "name": "Atari Jaguar",
       "alias": "atari-jaguar",
@@ -234,6 +263,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "28.png"
     },
     "29": {
+      "popular": true,
       "id": 29,
       "name": "Atari Jaguar CD",
       "alias": "atari-jaguar-cd",
@@ -242,6 +272,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "29.png"
     },
     "30": {
+      "popular": true,
       "id": 30,
       "name": "Atari XE",
       "alias": "atari-xe",
@@ -250,6 +281,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "30.png"
     },
     "31": {
+      "popular": true,
       "id": 31,
       "name": "Colecovision",
       "alias": "colecovision",
@@ -258,6 +290,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "31.png"
     },
     "32": {
+      "popular": true,
       "id": 32,
       "name": "Intellivision",
       "alias": "intellivision",
@@ -266,6 +299,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "32.png"
     },
     "33": {
+      "popular": true,
       "id": 33,
       "name": "Sega 32X",
       "alias": "sega-32x",
@@ -274,6 +308,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "33.png"
     },
     "34": {
+      "popular": true,
       "id": 34,
       "name": "TurboGrafx 16",
       "alias": "turbografx-16",
@@ -282,6 +317,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "34.png"
     },
     "35": {
+      "popular": true,
       "id": 35,
       "name": "Sega Master System",
       "alias": "sega-master-system",
@@ -290,6 +326,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "35.png"
     },
     "36": {
+      "popular": true,
       "id": 36,
       "name": "Sega Mega Drive",
       "alias": "sega-mega-drive",
@@ -298,6 +335,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "37": {
+      "popular": true,
       "id": 37,
       "name": "Mac OS",
       "alias": "mac-os",
@@ -306,6 +344,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "37.png"
     },
     "38": {
+      "popular": true,
       "id": 38,
       "name": "Nintendo Wii U",
       "alias": "nintendo-wii-u",
@@ -314,6 +353,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "38.png"
     },
     "39": {
+      "popular": true,
       "id": 39,
       "name": "Sony Playstation Vita",
       "alias": "sony-playstation-vita",
@@ -322,6 +362,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "39.png"
     },
     "40": {
+      "popular": true,
       "id": 40,
       "name": "Commodore 64",
       "alias": "commodore-64",
@@ -330,6 +371,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "40.png"
     },
     "41": {
+      "popular": true,
       "id": 41,
       "name": "Nintendo Game Boy Color",
       "alias": "nintendo-gameboy-color",
@@ -338,6 +380,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "41.png"
     },
     "4911": {
+      "popular": true,
       "id": 4911,
       "name": "Amiga",
       "alias": "amiga",
@@ -346,6 +389,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4911.png"
     },
     "4912": {
+      "popular": true,
       "id": 4912,
       "name": "Nintendo 3DS",
       "alias": "nintendo-3ds",
@@ -354,6 +398,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4912.png"
     },
     "4913": {
+      "popular": true,
       "id": 4913,
       "name": "Sinclair ZX Spectrum",
       "alias": "sinclair-zx-spectrum",
@@ -362,6 +407,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4913.png"
     },
     "4914": {
+      "popular": true,
       "id": 4914,
       "name": "Amstrad CPC",
       "alias": "amstrad-cpc",
@@ -370,6 +416,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4914.png"
     },
     "4915": {
+      "popular": true,
       "id": 4915,
       "name": "iOS",
       "alias": "ios",
@@ -378,6 +425,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4916": {
+      "popular": true,
       "id": 4916,
       "name": "Android",
       "alias": "android",
@@ -386,6 +434,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4917": {
+      "popular": true,
       "id": 4917,
       "name": "Philips CD-i",
       "alias": "philips-cd-i",
@@ -394,6 +443,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4917.png"
     },
     "4918": {
+      "popular": true,
       "id": 4918,
       "name": "Nintendo Virtual Boy",
       "alias": "nintendo-virtual-boy",
@@ -402,6 +452,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4918.png"
     },
     "4919": {
+      "popular": true,
       "id": 4919,
       "name": "Sony Playstation 4",
       "alias": "sony-playstation-4",
@@ -410,6 +461,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4919.png"
     },
     "4920": {
+      "popular": true,
       "id": 4920,
       "name": "Microsoft Xbox One",
       "alias": "microsoft-xbox-one",
@@ -418,6 +470,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4920.png"
     },
     "4921": {
+      "popular": true,
       "id": 4921,
       "name": "Ouya",
       "alias": "ouya",
@@ -426,6 +479,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4922": {
+      "popular": true,
       "id": 4922,
       "name": "Neo Geo Pocket",
       "alias": "neo-geo-pocket",
@@ -434,6 +488,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4922.png"
     },
     "4923": {
+      "popular": true,
       "id": 4923,
       "name": "Neo Geo Pocket Color",
       "alias": "neo-geo-pocket-color",
@@ -442,6 +497,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4923.png"
     },
     "4924": {
+      "popular": true,
       "id": 4924,
       "name": "Atari Lynx",
       "alias": "atari-lynx",
@@ -450,6 +506,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4924.png"
     },
     "4925": {
+      "popular": true,
       "id": 4925,
       "name": "WonderSwan",
       "alias": "wonderswan",
@@ -458,6 +515,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4925.png"
     },
     "4926": {
+      "popular": true,
       "id": 4926,
       "name": "WonderSwan Color",
       "alias": "wonderswan-color",
@@ -466,6 +524,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4926.png"
     },
     "4927": {
+      "popular": true,
       "id": 4927,
       "name": "Magnavox Odyssey 2",
       "alias": "magnavox-odyssey-2",
@@ -474,6 +533,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4927.png"
     },
     "4928": {
+      "popular": true,
       "id": 4928,
       "name": "Fairchild Channel F",
       "alias": "fairchild",
@@ -482,6 +542,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4928.png"
     },
     "4929": {
+      "popular": true,
       "id": 4929,
       "name": "MSX",
       "alias": "msx",
@@ -490,6 +551,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4929.png"
     },
     "4930": {
+      "popular": true,
       "id": 4930,
       "name": "PC-FX",
       "alias": "pcfx",
@@ -498,6 +560,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4930.png"
     },
     "4931": {
+      "popular": true,
       "id": 4931,
       "name": "Sharp X68000",
       "alias": "x68",
@@ -506,6 +569,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4931.png"
     },
     "4932": {
+      "popular": true,
       "id": 4932,
       "name": "FM Towns Marty",
       "alias": "fmtowns",
@@ -514,6 +578,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4932.png"
     },
     "4933": {
+      "popular": true,
       "id": 4933,
       "name": "PC-88",
       "alias": "pc88",
@@ -522,6 +587,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4933.png"
     },
     "4934": {
+      "popular": true,
       "id": 4934,
       "name": "PC-98",
       "alias": "pc98",
@@ -530,6 +596,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4934.png"
     },
     "4935": {
+      "popular": true,
       "id": 4935,
       "name": "Nuon",
       "alias": "nuon",
@@ -538,6 +605,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4935.png"
     },
     "4936": {
+      "popular": true,
       "id": 4936,
       "name": "Famicom Disk System",
       "alias": "fds",
@@ -546,6 +614,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4936.png"
     },
     "4937": {
+      "popular": true,
       "id": 4937,
       "name": "Atari ST",
       "alias": "atari-st",
@@ -554,6 +623,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4937.png"
     },
     "4938": {
+      "popular": true,
       "id": 4938,
       "name": "N-Gage",
       "alias": "ngage",
@@ -562,6 +632,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4938.png"
     },
     "4939": {
+      "popular": true,
       "id": 4939,
       "name": "Vectrex",
       "alias": "vectrex",
@@ -570,6 +641,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4939.png"
     },
     "4940": {
+      "popular": true,
       "id": 4940,
       "name": "Game.com",
       "alias": "game-com",
@@ -578,6 +650,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4940.png"
     },
     "4941": {
+      "popular": true,
       "id": 4941,
       "name": "TRS-80 Color Computer",
       "alias": "trs80-color",
@@ -586,6 +659,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4941.png"
     },
     "4942": {
+      "popular": true,
       "id": 4942,
       "name": "Apple II",
       "alias": "apple2",
@@ -594,6 +668,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4942.png"
     },
     "4943": {
+      "popular": true,
       "id": 4943,
       "name": "Atari 800",
       "alias": "atari800",
@@ -602,6 +677,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4943.png"
     },
     "4944": {
+      "popular": true,
       "id": 4944,
       "name": "Acorn Archimedes",
       "alias": "acorn-archimedes",
@@ -610,6 +686,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4944.png"
     },
     "4945": {
+      "popular": true,
       "id": 4945,
       "name": "Commodore VIC-20",
       "alias": "commodore-vic20",
@@ -618,6 +695,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4945.png"
     },
     "4946": {
+      "popular": true,
       "id": 4946,
       "name": "Commodore 128",
       "alias": "c128",
@@ -626,6 +704,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4946.png"
     },
     "4947": {
+      "popular": true,
       "id": 4947,
       "name": "Amiga CD32",
       "alias": "amiga-cd32",
@@ -634,6 +713,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4947.png"
     },
     "4948": {
+      "popular": true,
       "id": 4948,
       "name": "Mega Duck",
       "alias": "megaduck",
@@ -642,6 +722,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4948.png"
     },
     "4949": {
+      "popular": true,
       "id": 4949,
       "name": "SEGA SG-1000",
       "alias": "sg1000",
@@ -650,6 +731,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4949.png"
     },
     "4950": {
+      "popular": true,
       "id": 4950,
       "name": "Game & Watch",
       "alias": "game-and-watch",
@@ -658,6 +740,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4950.png"
     },
     "4951": {
+      "popular": true,
       "id": 4951,
       "name": "Handheld Electronic Games (LCD)",
       "alias": "lcd",
@@ -666,6 +749,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4952": {
+      "popular": true,
       "id": 4952,
       "name": "Dragon 32/64",
       "alias": "dragon32-64",
@@ -674,6 +758,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4952.png"
     },
     "4953": {
+      "popular": true,
       "id": 4953,
       "name": "Texas Instruments TI-99/4A",
       "alias": "texas-instruments-ti-99-4a",
@@ -682,6 +767,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4953.png"
     },
     "4954": {
+      "popular": true,
       "id": 4954,
       "name": "Acorn Electron",
       "alias": "acorn-electron",
@@ -690,6 +776,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4954.png"
     },
     "4955": {
+      "popular": true,
       "id": 4955,
       "name": "TurboGrafx CD",
       "alias": "turbo-grafx-cd",
@@ -698,6 +785,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4955.png"
     },
     "4956": {
+      "popular": true,
       "id": 4956,
       "name": "Neo Geo CD",
       "alias": "neo-geo-cd",
@@ -706,6 +794,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4956.png"
     },
     "4957": {
+      "popular": true,
       "id": 4957,
       "name": "Nintendo Pokémon Mini",
       "alias": "nintendo-pokmon-mini",
@@ -714,6 +803,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4957.png"
     },
     "4958": {
+      "popular": true,
       "id": 4958,
       "name": "Sega Pico",
       "alias": "sega-pico",
@@ -722,6 +812,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4958.png"
     },
     "4959": {
+      "popular": true,
       "id": 4959,
       "name": "Watara Supervision",
       "alias": "watara-supervision",
@@ -730,6 +821,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4959.png"
     },
     "4960": {
+      "popular": true,
       "id": 4960,
       "name": "Tomy Tutor",
       "alias": "tomy-pyta",
@@ -738,6 +830,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4960.png"
     },
     "4961": {
+      "popular": true,
       "id": 4961,
       "name": "Magnavox Odyssey 1",
       "alias": "magnavox-odyssey",
@@ -746,6 +839,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4961.png"
     },
     "4962": {
+      "popular": true,
       "id": 4962,
       "name": "Gakken Compact Vision",
       "alias": "gakken-compact-vision",
@@ -754,6 +848,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4962.png"
     },
     "4963": {
+      "popular": true,
       "id": 4963,
       "name": "Emerson Arcadia 2001",
       "alias": "emerson-arcadia-2001",
@@ -762,6 +857,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4963.png"
     },
     "4964": {
+      "popular": true,
       "id": 4964,
       "name": "Casio PV-1000",
       "alias": "casio-pv-1000",
@@ -770,6 +866,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4964.png"
     },
     "4965": {
+      "popular": true,
       "id": 4965,
       "name": "Epoch Cassette Vision",
       "alias": "epoch-cassette-vision",
@@ -778,6 +875,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4965.png"
     },
     "4966": {
+      "popular": true,
       "id": 4966,
       "name": "Epoch Super Cassette Vision",
       "alias": "epoch-super-cassette-vision",
@@ -786,6 +884,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4966.png"
     },
     "4967": {
+      "popular": true,
       "id": 4967,
       "name": "RCA Studio II",
       "alias": "rca-studio-ii",
@@ -794,6 +893,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4967.png"
     },
     "4968": {
+      "popular": true,
       "id": 4968,
       "name": "Bally Astrocade",
       "alias": "bally-astrocade",
@@ -802,6 +902,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4968.png"
     },
     "4969": {
+      "popular": true,
       "id": 4969,
       "name": "APF MP-1000",
       "alias": "apf-mp-1000",
@@ -810,6 +911,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4969.png"
     },
     "4970": {
+      "popular": true,
       "id": 4970,
       "name": "Coleco Telstar Arcade",
       "alias": "coleco-telstar-arcade",
@@ -818,6 +920,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4970.png"
     },
     "4971": {
+      "popular": true,
       "id": 4971,
       "name": "Nintendo Switch",
       "alias": "nintendo-switch",
@@ -826,6 +929,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4971.png"
     },
     "4972": {
+      "popular": true,
       "id": 4972,
       "name": "Milton Bradley Microvision",
       "alias": "milton-bradley-microvision",
@@ -834,6 +938,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4973": {
+      "popular": true,
       "id": 4973,
       "name": "Entex Select-a-Game",
       "alias": "entex-select-a-game",
@@ -842,6 +947,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4974": {
+      "popular": true,
       "id": 4974,
       "name": "Entex Adventure Vision",
       "alias": "entex-adventure-vision",
@@ -850,6 +956,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4975": {
+      "popular": true,
       "id": 4975,
       "name": "Pioneer LaserActive",
       "alias": "",
@@ -858,6 +965,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4975.png"
     },
     "4976": {
+      "popular": true,
       "id": 4976,
       "name": "Action Max",
       "alias": "action-max",
@@ -866,6 +974,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4976.png"
     },
     "4977": {
+      "popular": true,
       "id": 4977,
       "name": "Sharp X1",
       "alias": "sharp-x1",
@@ -874,6 +983,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4978": {
+      "popular": true,
       "id": 4978,
       "name": "Fujitsu FM-7",
       "alias": "fujitsu-fm-7",
@@ -882,6 +992,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4979": {
+      "popular": true,
       "id": 4979,
       "name": "SAM Coupé",
       "alias": "sam-coupe",
@@ -890,6 +1001,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4980": {
+      "popular": true,
       "id": 4980,
       "name": "Sony Playstation 5",
       "alias": "sony-playstation-5",
@@ -898,6 +1010,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4980.jpg"
     },
     "4981": {
+      "popular": true,
       "id": 4981,
       "name": "Microsoft Xbox Series X",
       "alias": "microsoft-xbox-series-x",
@@ -906,6 +1019,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4981.png"
     },
     "4982": {
+      "popular": true,
       "id": 4982,
       "name": "Tandy Visual Interactive System",
       "alias": "tandy-vis",
@@ -914,6 +1028,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": ""
     },
     "4983": {
+      "popular": true,
       "id": 4983,
       "name": "R-Zone",
       "alias": "r-zone",
@@ -922,6 +1037,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": ""
     },
     "4984": {
+      "popular": true,
       "id": 4984,
       "name": "Xavix Port",
       "alias": "xavix-port",
@@ -930,6 +1046,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4985": {
+      "popular": true,
       "id": 4985,
       "name": "Evercade",
       "alias": "evercade",
@@ -938,6 +1055,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4986": {
+      "popular": true,
       "id": 4986,
       "name": "Oric-1",
       "alias": "oric-1",
@@ -946,6 +1064,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4987": {
+      "popular": true,
       "id": 4987,
       "name": "HyperScan",
       "alias": "hyperscan",
@@ -954,6 +1073,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4988": {
+      "popular": true,
       "id": 4988,
       "name": "V.Smile",
       "alias": "v-smile",
@@ -962,6 +1082,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4989": {
+      "popular": true,
       "id": 4989,
       "name": "Mattel Aquarius",
       "alias": "mattel-aquarius",
@@ -970,6 +1091,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4990": {
+      "popular": true,
       "id": 4990,
       "name": "Oculus Quest",
       "alias": "oculus-quest",
@@ -978,6 +1100,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4991": {
+      "popular": true,
       "id": 4991,
       "name": "Casio Loopy",
       "alias": "casio-loopy",
@@ -986,6 +1109,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4992": {
+      "popular": true,
       "id": 4992,
       "name": "Gizmondo",
       "alias": "gizmondo",
@@ -994,6 +1118,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4993": {
+      "popular": true,
       "id": 4993,
       "name": "Philips Tele-Spiel ES-2201",
       "alias": "philips-tele-spiel-es-2201",
@@ -1002,6 +1127,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4994": {
+      "popular": true,
       "id": 4994,
       "name": "Interton VC 4000",
       "alias": "interton-vc-4000",
@@ -1010,6 +1136,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4995": {
+      "popular": true,
       "id": 4995,
       "name": "Bandai TV Jack 5000",
       "alias": "bandai-tv-jack-5000",
@@ -1018,6 +1145,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4996": {
+      "popular": true,
       "id": 4996,
       "name": "SHG Black Point",
       "alias": "shg-black-point",
@@ -1026,6 +1154,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4997": {
+      "popular": true,
       "id": 4997,
       "name": "BBC Bridge Companion",
       "alias": "bbc-bridge-companion",
@@ -1034,6 +1163,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4998": {
+      "popular": true,
       "id": 4998,
       "name": "VTech Socrates",
       "alias": "vtech-socrates",
@@ -1042,6 +1172,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "4999": {
+      "popular": true,
       "id": 4999,
       "name": "Amstrad GX4000",
       "alias": "amstrad-gx4000",
@@ -1050,6 +1181,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5000": {
+      "popular": true,
       "id": 5000,
       "name": "Playdia",
       "alias": "playdia",
@@ -1058,6 +1190,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5001": {
+      "popular": true,
       "id": 5001,
       "name": "Apple Pippin",
       "alias": "apple-pippin",
@@ -1066,6 +1199,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5002": {
+      "popular": true,
       "id": 5002,
       "name": "Game Wave",
       "alias": "game-wave",
@@ -1074,6 +1208,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5003": {
+      "popular": true,
       "id": 5003,
       "name": "Palmtex Super Micro",
       "alias": "palmtex-super-micro",
@@ -1082,6 +1217,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5004": {
+      "popular": true,
       "id": 5004,
       "name": "Gamate",
       "alias": "gamate",
@@ -1090,6 +1226,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5005": {
+      "popular": true,
       "id": 5005,
       "name": "VTech CreatiVision",
       "alias": "vtech-creativision",
@@ -1098,6 +1235,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5006": {
+      "popular": true,
       "id": 5006,
       "name": "Commodore 16",
       "alias": "commodore-16",
@@ -1106,6 +1244,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5007": {
+      "popular": true,
       "id": 5007,
       "name": "Commodore Plus/4",
       "alias": "commodore-plus/4",
@@ -1114,6 +1253,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5008": {
+      "popular": true,
       "id": 5008,
       "name": "Commodore PET",
       "alias": "commodore-pet",
@@ -1122,6 +1262,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5009": {
+      "popular": true,
       "id": 5009,
       "name": "Sinclair ZX80",
       "alias": "sinclair-zx80",
@@ -1130,6 +1271,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5010": {
+      "popular": true,
       "id": 5010,
       "name": "Sinclair ZX81",
       "alias": "sinclair-zx81",
@@ -1138,6 +1280,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5011": {
+      "popular": true,
       "id": 5011,
       "name": "Stadia",
       "alias": "stadia",
@@ -1146,6 +1289,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5012": {
+      "popular": true,
       "id": 5012,
       "name": "Didj",
       "alias": "didj",
@@ -1154,6 +1298,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5013": {
+      "popular": true,
       "id": 5013,
       "name": "BBC Micro",
       "alias": "bbc-micro",
@@ -1162,6 +1307,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5014": {
+      "popular": true,
       "id": 5014,
       "name": "Acorn Atom",
       "alias": "acorn-atom",
@@ -1170,6 +1316,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5015": {
+      "popular": true,
       "id": 5015,
       "name": "GP32",
       "alias": "gp32",
@@ -1178,6 +1325,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5016": {
+      "popular": true,
       "id": 5016,
       "name": "Playdate",
       "alias": "playdate",
@@ -1186,6 +1334,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5017": {
+      "popular": true,
       "id": 5017,
       "name": "Tapwave Zodiac",
       "alias": "tapwave-zodiac",
@@ -1194,6 +1343,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5018": {
+      "popular": true,
       "id": 5018,
       "name": "J2ME (Java Platform, Micro Edition)",
       "alias": "j2me-(java-platform,-micro-edition)",
@@ -1202,6 +1352,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5019": {
+      "popular": true,
       "id": 5019,
       "name": "Jupiter Ace",
       "alias": "jupiter-ace",
@@ -1210,6 +1361,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": null
     },
     "5020": {
+      "popular": true,
       "id": 5020,
       "name": "Sinclair QL",
       "alias": "sinclair-ql",
