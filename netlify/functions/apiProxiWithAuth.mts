@@ -17,9 +17,10 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
   const { url } = req;
   let response;
 
-  Object.values(apiDefinitions).forEach(async (apiDefinition) => {
+  for (const apiDefinition of Object.values(apiDefinitions)) {
     const path = url.split(apiDefinition.urlPath)[1];
-    if (!path || response) return;
+    console.log({ path })
+    if (!path || response) continue;
     const newUrl = apiDefinition.newUrl(path, apiDefinition.endpoint);
     const { body, status, statusText } = await fetch(newUrl);
     const origin = req.headers.get('Origin') ?? '';
@@ -29,11 +30,11 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
       respHeaders['Cache-Control'] = 'max-age=86400';
     }
     response = new Response(body, { status, statusText, headers: respHeaders });
-  });
+  }
 
   return response;
 }
 
 export const config: Config = {
-  path: ["/thegamesdb/*", "/screenscraper/*"],
+  path: Object.values(apiDefinitions).map(({ urlPath }) => `${urlPath}*` as `/${string}`),
 };
