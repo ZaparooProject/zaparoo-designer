@@ -11,9 +11,10 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
   const parsedUrl = new URL(url);
   const searchParams = parsedUrl.searchParams
   const { getSearchURL = noop } = apiDefinitions[SEARCH_PLATFORM];
+  console.log({ searchParams })
   const searchUrl = getSearchURL(
     searchParams.get("searchTerm") ?? "",
-    searchParams.get("page") ?? "0",
+    searchParams.get("page") ?? "1",
     searchParams.get("platformId") ?? "",
   )
   const { body, status, statusText } = await fetch(searchUrl!);
@@ -24,5 +25,5 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
 }
 
 export const config: Config = {
-  path: ["/api/search"]
+  path: "/api/search*"
 };

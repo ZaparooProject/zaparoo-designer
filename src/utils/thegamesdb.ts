@@ -1,6 +1,6 @@
 import { Platform } from '../../netlify/data/gamesDbPlatforms';
 
-const GAMESDB_SEARCH_ENDPOINT = '/api/search';
+const SEARCH_ENDPOINT = '/api/search';
 const GAMESDB_IMAGE_ENDPOINT = '/thegamesdb/v1/Games/Images';
 
 export interface ImageSearchResult {
@@ -57,13 +57,11 @@ export async function fetchGameList(
   platform: Platform,
   page: string,
 ): Promise<GameListData> {
-  const url = getGoodUrl(GAMESDB_SEARCH_ENDPOINT);
-  url.searchParams.append('name', query);
-  url.searchParams.append('fields', 'platform,players,overview,');
-  url.searchParams.append('include', 'boxart,platform');
+  const url = getGoodUrl(SEARCH_ENDPOINT);
+  url.searchParams.append('searchTerm', query);
   url.searchParams.append('page', page);
   if (platform.id !== 0) {
-    url.searchParams.append('filter[platform]', `${platform.id}`);
+    url.searchParams.append('platformId', `${platform.id}`);
   }
   return (
     fetch(url, {
