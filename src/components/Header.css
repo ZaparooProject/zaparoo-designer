@@ -44,7 +44,7 @@
 }
 
 #logo {
-  height: 42px;
+  height: auto;
   width: 127px;
   display: flex;
 }

@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import bgUrl from '../assets/homebg.jpg';
-import logoUrl from '../assets/log.svg';
+import logoUrl from '../assets/zaparoo.png';
 import examplesUrl from '../assets/tapto_cards.jpg';
 import { templateAuthors } from '../templateAuthors';
 
