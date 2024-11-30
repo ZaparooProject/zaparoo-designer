@@ -31,6 +31,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
       url.searchParams.append('fields', 'platform,players,overview,');
       url.searchParams.append('include', 'boxart,platform');
       url.searchParams.append('page', page);
+      url.searchParams.append('apikey', process.env.APIKEY!);
       if (platformId) {
         url.searchParams.append('filter[platform]', `${platformId}`);
       }
