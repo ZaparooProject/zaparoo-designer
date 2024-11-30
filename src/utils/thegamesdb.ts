@@ -1,4 +1,4 @@
-import { Platform } from '../gamesDbPlatforms';
+import { Platform } from '../../netlify/data/gamesDbPlatforms';
 
 const GAMESDB_SEARCH_ENDPOINT = '/thegamesdb/v1.1/Games/ByGameName';
 const GAMESDB_IMAGE_ENDPOINT = '/thegamesdb/v1/Games/Images';
@@ -39,7 +39,7 @@ export type GameImagesData = {
 
 export let platformsData: Platform[] = [];
 
-export const platformPromise = import('../gamesDbPlatforms').then((data) => {
+export const platformPromise = import('../../netlify/data/gamesDbPlatforms').then((data) => {
   const allPlatform = data.platforms['0'];
   const sortedValues = Object.values(data.platforms).slice(1).sort((valueA, valueB) => {
     return valueA.name > valueB.name ? 1 : -1;

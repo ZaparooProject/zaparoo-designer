@@ -21,6 +21,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "deps/pdfkit.js"],
+  "include": ["src", "deps/pdfkit.js", "netlify/data/gamesDbPlatforms.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

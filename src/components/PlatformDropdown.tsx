@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Platform } from '../gamesDbPlatforms';
+import { Platform } from '../../netlify/data/gamesDbPlatforms';
 import { platformPromise, platformsData } from '../utils/thegamesdb';
 
 type PlatformDropdownProps = {

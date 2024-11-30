@@ -27,7 +27,7 @@ import {
   type GameEntry,
   type ImageSearchResult,
 } from '../utils/thegamesdb';
-import { Platform } from '../gamesDbPlatforms';
+import { Platform } from '../../netlify/data/gamesDbPlatforms';
 import { PlatformDropdown } from './PlatformDropdown';
 
 export default function ImageSearch({
