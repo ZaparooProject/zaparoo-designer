@@ -65,7 +65,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
       headers: await this.requestHeaders(),
       // parent = null excludes duplicates of versions
       // company involved != null probably excludes romhacks
-      body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*; search "${searchTerm}"; where version_parent = null & involved_companies != null & artworks.animated = false; limit ${pageSize}; offset ${offSet};`,
+      body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*; search "${searchTerm}"; where version_parent = null & (cover != null | artwork != null); limit ${pageSize}; offset ${offSet};`,
     });
   }
 
@@ -78,14 +78,18 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
           storyline,
           summary,
         } as SearchResult;
-        if (cover) {
-          result.cover = extractUsefulImage(cover);
-        }
         if (artworks) {
           result.artworks = artworks.map((data) => extractUsefulImage(data));
         }
         if (screenshots) {
           result.screenshots = screenshots.map((data) => extractUsefulImage(data));
+        }
+        if (cover) {
+          result.cover = extractUsefulImage(cover);
+        } else {
+          if (artworks) {
+            result.cover = result.artworks[0];
+          }
         }
         if (platforms) {
           result.platforms = platforms.map(({ abbreviation, name, platform_logo }) => ({

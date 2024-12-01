@@ -185,7 +185,7 @@ export default function ImageSearch({
                 <div className="searchResult" key={gameEntry.id}>
                   <Button>
                     <img
-                      src={gameEntry.cover?.url ?? gameEntry?.artworks?.[0].url}
+                      src={gameEntry.cover?.url}
                       onClick={(e) => addImage(e, gameEntry.cover.url)}
                       style={{ cursor: 'pointer' }}
                     />
@@ -196,7 +196,10 @@ export default function ImageSearch({
                   >
                     <Typography variant="h6">See more images for</Typography>
                     <Typography variant="h6">
-                      {gameEntry.name} - {gameEntry.platforms?.[0].abbreviation}
+                      {gameEntry.name} -{' '}
+                      {gameEntry.platforms
+                        ?.map((p) => p.abbreviation)
+                        .join(' - ')}
                     </Typography>
                   </Button>
                 </div>
