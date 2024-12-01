@@ -72,7 +72,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
           'Client-ID': process.env.IGDB_CLIENT_ID!,
           'Authorization': `Bearer ${token}`,
         },
-        body: "fields *"
+        body: "fields *;"
       });
     }
   }

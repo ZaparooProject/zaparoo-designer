@@ -2,10 +2,7 @@ import type { Config } from "@netlify/functions"
 import { prepareCorsHeaders } from '../data/utils';
 import { apiDefinitions, availablePlatforms } from '../data/apiProviderDefinitions.mjs';
 
-const noop = () => {};
-
 const LOGOS_PLATFORM: availablePlatforms = availablePlatforms.IGDB
-
 
 // search games by name
 export default async (req: Request /* , context: Context */): Promise<Response> => {
