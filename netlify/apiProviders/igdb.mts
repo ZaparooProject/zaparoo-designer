@@ -28,14 +28,13 @@ type IGDBGamesResult = {
 }
 
 const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
-  const sizeUrl = img.width >= img.height ? 't_1080p' : 't_cover_big_2x';
   const sizeThumb = img.width >= img.height ? 'screenshot_big' : 't_cover_big';
   return {
     image_id: img.image_id,
     id: img.id,
     width: img.width,
     height: img.height,
-    url: 'https:' + img.url.replace('t_thumb',  sizeUrl).replace('.jpg', img.alpha_channel ? '.png' : '.jpg'),
+    url: 'https:' + img.url.replace('t_thumb',  't_original').replace('.jpg', img.alpha_channel ? '.png' : '.jpg'),
     thumb: 'https:' + img.url.replace('t_thumb', sizeThumb).replace('.jpg', img.alpha_channel ? '.png' : '.jpg'),
   };
 };
