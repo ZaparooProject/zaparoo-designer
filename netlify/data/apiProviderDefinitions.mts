@@ -73,10 +73,10 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
           'Client-ID': process.env.IGDB_CLIENT_ID!,
           'Authorization': `Bearer ${token}`,
         },
-        body: "fields *; limit 500"
+        body: "fields *; limit 200;"
       });
     },
-    getCovers: async () => {
+    getCoversRequest: async () => {
       const path = '/v4/covers';
       const token = await getToken();
       const url = new URL(
@@ -90,7 +90,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
           'Client-ID': process.env.IGDB_CLIENT_ID!,
           'Authorization': `Bearer ${token}`,
         },
-        body: "fields *; limit 500"
+        body: "fields *; limit 500;"
       });
     }
   }
