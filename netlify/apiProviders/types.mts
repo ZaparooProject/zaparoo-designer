@@ -23,6 +23,7 @@ export type SearchResult = {
   name: string;
   storyline: string;
   platforms?: Platform[];
+  extra_images: number;
 };
 
 export type SearchResults = {

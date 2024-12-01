@@ -76,6 +76,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
   }
 
   async convertToSearchResults(data: IGDBGamesResult[]): Promise<SearchResults> {
+    let extraImages = 0;
     return {
       results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary}) => {
         const result = {
@@ -86,9 +87,11 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
         } as SearchResult;
         if (artworks) {
           result.artworks = artworks.map((data) => extractUsefulImage(data));
+          extraImages += artworks.length;
         }
         if (screenshots) {
           result.screenshots = screenshots.map((data) => extractUsefulImage(data));
+          extraImages += screenshots.length;
         }
         if (cover) {
           result.cover = extractUsefulImage(cover);
@@ -104,6 +107,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
             platform_logo: platform_logo ? extractUsefulImage(platform_logo) : undefined,
           }))
         }
+        result.extra_images = extraImages;
         return result;
       }),
     };

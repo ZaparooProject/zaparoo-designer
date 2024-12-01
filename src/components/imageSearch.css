@@ -24,7 +24,6 @@
   flex-wrap: wrap;
   row-gap: 24px;
   column-gap: 24px;
-  justify-content: space-between;
   overflow-y: scroll;
 }
 
@@ -36,6 +35,7 @@
 }
 
 .searchResultSub {
+  border: 1px solid white;
   width: 100%;
   min-height: 300px;
 }
@@ -43,6 +43,10 @@
 .searchResultSub .title {
   width: 100%;
   height: 36px;
+}
+
+.searchResultSub .searchResult {
+  min-height: unset;
 }
 
 .loader {

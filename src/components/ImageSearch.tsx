@@ -164,57 +164,70 @@ export default function ImageSearch({
             {disclaimer}
             {gameEntries.map((gameEntry: SearchResult) => (
               <>
-                <div className="searchResult" key={gameEntry.id}>
-                  <Button>
-                    <img
-                      src={gameEntry.cover.thumb}
-                      onClick={(e) => addImage(e, gameEntry.cover.url)}
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </Button>
-                  <Button
-                    className="verticalStack"
-                    onClick={() => setOpenGameId(gameEntry.id)}
-                  >
-                    <Typography variant="h6">
-                      See{' '}
-                      {(gameEntry.screenshots?.length || 0) +
-                        (gameEntry.artworks?.length || 0)}{' '}
-                      more images for
-                    </Typography>
-                    <Typography variant="h6">
-                      {gameEntry.name} -{' '}
-                      {gameEntry.platforms
-                        ?.map((p) => p.abbreviation)
-                        .join(' - ')}
-                    </Typography>
-                  </Button>
-                </div>
+                {gameEntry.id !== openGameId && (
+                  <div className="searchResult" key={gameEntry.id}>
+                    <Button>
+                      <img
+                        src={gameEntry.cover.thumb}
+                        onClick={(e) => addImage(e, gameEntry.cover.url)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </Button>
+                    <Button
+                      className="verticalStack"
+                      onClick={() => setOpenGameId(gameEntry.id)}
+                    >
+                      <Typography variant="h6">
+                        See{' '}
+                        {(gameEntry.screenshots?.length || 0) +
+                          (gameEntry.artworks?.length || 0)}{' '}
+                        more images for
+                      </Typography>
+                      <Typography variant="h6">
+                        {gameEntry.name} -{' '}
+                        {gameEntry.platforms
+                          ?.map((p) => p.abbreviation)
+                          .join(' - ')}
+                      </Typography>
+                    </Button>
+                  </div>
+                )}
                 {gameEntry.id === openGameId && (
-                  <div className="searchResultSub">
+                  <div className="searchResultSub verticalStack">
                     <div className="title">{gameEntry.name}</div>
-                    {gameEntry.artworks?.map((art) => (
-                      <div className="searchResult" key={art.id}>
+                    <div className="horizontalStack searchResultsContainer">
+                      <div className="searchResult" key={gameEntry.id}>
                         <Button>
                           <img
-                            src={art.thumb}
-                            onClick={(e) => addImage(e, art.url)}
+                            src={gameEntry.cover.thumb}
+                            onClick={(e) => addImage(e, gameEntry.cover.url)}
                             style={{ cursor: 'pointer' }}
                           />
                         </Button>
                       </div>
-                    ))}
-                    {gameEntry.screenshots?.map((screenshot) => (
-                      <div className="searchResult" key={screenshot.id}>
-                        <Button>
-                          <img
-                            src={screenshot.thumb}
-                            onClick={(e) => addImage(e, screenshot.url)}
-                            style={{ cursor: 'pointer' }}
-                          />
-                        </Button>
-                      </div>
-                    ))}
+                      {gameEntry.artworks?.map((art) => (
+                        <div className="searchResult" key={art.id}>
+                          <Button>
+                            <img
+                              src={art.thumb}
+                              onClick={(e) => addImage(e, art.url)}
+                              style={{ cursor: 'pointer' }}
+                            />
+                          </Button>
+                        </div>
+                      ))}
+                      {gameEntry.screenshots?.map((screenshot) => (
+                        <div className="searchResult" key={screenshot.id}>
+                          <Button>
+                            <img
+                              src={screenshot.thumb}
+                              onClick={(e) => addImage(e, screenshot.url)}
+                              style={{ cursor: 'pointer' }}
+                            />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </>
