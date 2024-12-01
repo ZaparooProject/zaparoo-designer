@@ -12,7 +12,7 @@ type Platform = {
 
 }
 
-type ApiGamesResult = {
+type IGDBGamesResult = {
   id: string;
   artworks: IGDBImage[];
   screenshots: IGDBImage[];
@@ -20,9 +20,18 @@ type ApiGamesResult = {
   summary: string;
   name: string;
   platforms: Platform[];
+  storyline;
 }
 
-export class IGBDProvider extends BaseProvider<ApiGamesResult> {
+const extractUsefulImage = (img: IGDBImage & any): IGDBImage => {
+  return {
+    id: img.id,
+    url: img.url.replace('t_thumb', 't_1080p').replace('.jpg', '.png'),
+    alpha_channel: img.alpha_channel,
+  };
+};
+
+export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
 
   urlPath = '/igdb/';
   endpoint = process.env.IGDB_ENDPOINT;
@@ -58,8 +67,19 @@ export class IGBDProvider extends BaseProvider<ApiGamesResult> {
     });
   }
 
-  async convertToSearchResults(data: ApiGamesResult[]) {
-    return data as unknown as SearchResults;
+  async convertToSearchResults(data: IGDBGamesResult[]): Promise<SearchResults> {
+    return {
+      results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary}) => ({
+        id,
+        artworks: artworks.map((data) => extractUsefulImage(data)),
+        cover: extractUsefulImage(cover),
+        name,
+        platforms: platforms,
+        screenshots: screenshots.map((data) => extractUsefulImage(data)),
+        storyline,
+        summary,
+      })),
+    };
   }
 
   async getPlatformLogosRequest(): Promise<Request> {

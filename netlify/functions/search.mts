@@ -9,15 +9,18 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
   const parsedUrl = new URL(url);
   const searchParams = parsedUrl.searchParams
   const provider = new IGBDProvider();
-  const searchRquest = await provider.getSearchRequest(
+  const searchRequest = await provider.getSearchRequest(
     searchParams.get("searchTerm") ?? "",
     searchParams.get("page") ?? "1",
     searchParams.get("platformId") ?? "",
   )
   try {
-    const { body, status, statusText } = await fetch(searchRquest);
+    const response = await fetch(searchRequest);
+    const { status, statusText } = response;
+    const data = await response.json();
+    const converted = await provider.convertToSearchResults(data);
     const respHeaders = prepareCorsHeaders(req);
-    return new Response(body, { status, statusText, headers: respHeaders });
+    return new Response(JSON.stringify(converted), { status, statusText, headers: respHeaders });
   } catch(e: unknown) {
     console.log(e)
     return genericError();
