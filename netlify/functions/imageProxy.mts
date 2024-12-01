@@ -1,6 +1,6 @@
 import type { Config } from "@netlify/functions"
 
-const supportedDestinations = ['cdn.thegamesdb.net'];
+const supportedDestinations = ['cdn.thegamesdb.net', 'images.igdb.com'];
 
 export default async (req: Request /* , context: Context */): Promise<Response> => {
   const { url } = req;
