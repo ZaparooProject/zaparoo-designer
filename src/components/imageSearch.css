@@ -35,6 +35,16 @@
   width: 22%;
 }
 
+.searchResultSub {
+  width: 100%;
+  min-height: 300px;
+}
+
+.searchResultSub .title {
+  width: 100%;
+  height: 36px;
+}
+
 .loader {
   display: flex;
   align-items: center;

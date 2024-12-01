@@ -28,7 +28,7 @@ type IGDBGamesResult = {
 }
 
 const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
-  const sizeThumb = img.width >= img.height ? 'screenshot_big' : 't_cover_big';
+  const sizeThumb = img.width >= img.height ? 't_screenshot_big' : 't_cover_big';
   return {
     image_id: img.image_id,
     id: img.id,

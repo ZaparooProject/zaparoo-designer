@@ -14,13 +14,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
 import { boxShadow } from '../constants';
 import CloseIcon from '@mui/icons-material/Close';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import IconButton from '@mui/material/IconButton';
 import { useInView } from 'react-intersection-observer';
 
 import './imageSearch.css';
-import { fetchGameImages, fetchGameList, getImage } from '../utils/search';
+import { fetchGameList, getImage } from '../utils/search';
 import { Platform } from '../../netlify/data/gamesDbPlatforms';
 import { PlatformDropdown } from './PlatformDropdown';
 import { SearchResult } from '../../netlify/apiProviders/types.mts';
@@ -38,7 +37,6 @@ export default function ImageSearch({
   const [gameEntries, setGameEntries] = useState<SearchResult[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searching, setSearching] = useState<boolean>(false);
   const [platform, setPlatform] = useState<Platform>({
     id: 0,
@@ -48,6 +46,7 @@ export default function ImageSearch({
     icon: '',
     console: '',
   });
+  const [openGameId, setOpenGameId] = useState<SearchResult['id']>(0);
   const [, startTransition] = useTransition();
   const timerRef = useRef(0);
   const SEARCH_THROTTLING = 1000;
@@ -70,7 +69,6 @@ export default function ImageSearch({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const executeSearchWithReset = (e: any) => {
     e.preventDefault();
-    setSearchResults([]);
     setPage(1);
     setSearching(true);
     executeSearch(searchQuery, page, platform, false);
@@ -110,12 +108,6 @@ export default function ImageSearch({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  const switchToGameView = (gameId: string) => {
-    fetchGameImages(gameId).then((data: any) => {
-      setSearchResults(data.images);
-    });
-  };
-
   const disclaimer = (
     <div className="horizontalStack disclaimer">
       <Typography>
@@ -132,19 +124,9 @@ export default function ImageSearch({
       <div className="searchModal">
         <div className="verticalStack">
           <div className="horizontalStack searchHeader">
-            <Tooltip
-              title={
-                searchResults.length > 0
-                  ? `Go back to results for ${searchQuery}`
-                  : `Close`
-              }
-            >
-              <IconButton
-                onClick={() =>
-                  searchResults.length ? setSearchResults([]) : setOpen(false)
-                }
-              >
-                {searchResults.length ? <ArrowBackIcon /> : <CloseIcon />}
+            <Tooltip title="Close">
+              <IconButton onClick={() => setOpen(false)}>
+                <CloseIcon />
               </IconButton>
             </Tooltip>
             <TextField
@@ -178,23 +160,28 @@ export default function ImageSearch({
               )}
             </Button>
           </div>
-          {searchResults.length === 0 && (
-            <div className="searchResultsContainer horizontalStack">
-              {disclaimer}
-              {gameEntries.map((gameEntry: SearchResult) => (
+          <div className="searchResultsContainer horizontalStack">
+            {disclaimer}
+            {gameEntries.map((gameEntry: SearchResult) => (
+              <>
                 <div className="searchResult" key={gameEntry.id}>
                   <Button>
                     <img
-                      src={gameEntry.cover?.thumb}
+                      src={gameEntry.cover.thumb}
                       onClick={(e) => addImage(e, gameEntry.cover.url)}
                       style={{ cursor: 'pointer' }}
                     />
                   </Button>
                   <Button
                     className="verticalStack"
-                    onClick={() => switchToGameView(gameEntry.id)}
+                    onClick={() => setOpenGameId(gameEntry.id)}
                   >
-                    <Typography variant="h6">See more images for</Typography>
+                    <Typography variant="h6">
+                      See{' '}
+                      {(gameEntry.screenshots?.length || 0) +
+                        (gameEntry.artworks?.length || 0)}{' '}
+                      more images for
+                    </Typography>
                     <Typography variant="h6">
                       {gameEntry.name} -{' '}
                       {gameEntry.platforms
@@ -203,34 +190,44 @@ export default function ImageSearch({
                     </Typography>
                   </Button>
                 </div>
-              ))}
-              {new Array(gameEntries.length % 4).fill(0).map(() => (
-                <div className="searchResult" />
-              ))}
-              {hasMore && searchResults.length === 0 && (
-                <div className="loader" ref={ref}>
-                  <CircularProgress color="secondary" size={24} />
-                </div>
-              )}
-            </div>
-          )}
-          {/* {searchResults.length > 0 && (
-            <div className="searchResultsContainer horizontalStack">
-              {disclaimer}
-              {searchResults.map((result) => (
-                <Button className="searchResult" key={result.imageUrl}>
-                  <img
-                    src={result.thumbnailUrl}
-                    onClick={(e) => addImage(e, result.imageUrl)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                </Button>
-              ))}
-              {new Array(searchResults.length % 4).fill(0).map((_, index) => (
-                <div className="searchResult" key={index} />
-              ))}
-            </div>
-          )} */}
+                {gameEntry.id === openGameId && (
+                  <div className="searchResultSub">
+                    <div className="title">{gameEntry.name}</div>
+                    {gameEntry.artworks?.map((art) => (
+                      <div className="searchResult" key={art.id}>
+                        <Button>
+                          <img
+                            src={art.thumb}
+                            onClick={(e) => addImage(e, art.url)}
+                            style={{ cursor: 'pointer' }}
+                          />
+                        </Button>
+                      </div>
+                    ))}
+                    {gameEntry.screenshots?.map((screenshot) => (
+                      <div className="searchResult" key={screenshot.id}>
+                        <Button>
+                          <img
+                            src={screenshot.thumb}
+                            onClick={(e) => addImage(e, screenshot.url)}
+                            style={{ cursor: 'pointer' }}
+                          />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            ))}
+            {new Array(gameEntries.length % 4).fill(0).map(() => (
+              <div className="searchResult" />
+            ))}
+            {hasMore && (
+              <div className="loader" ref={ref}>
+                <CircularProgress color="secondary" size={24} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Modal>
