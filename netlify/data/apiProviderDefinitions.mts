@@ -56,7 +56,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
       const token = await getToken();
       const url = new URL(
         searchPath,
-        process.env.IGDB_CLIENT_ID!,
+        process.env.IGDB_ENDPOINT!,
       );
       const pageSize = 50;
       const offSet = (parseInt(page, 10) - 1) * pageSize;
