@@ -20,13 +20,12 @@ import genesisBg from './assets/genesis_bg.svg';
 import pcEngine from './assets/pcengine.svg';
 import pcEngineBG from './assets/pcengine_bg.svg';
 import animeOt4ku from './assets/tapto_0t4ku.svg';
-import cassetTape from './assets/cassette_tape.svg';
 import mininfcAlice from './assets/3by5_steam.svg';
 import cardFront from './assets/cardfront.png';
 import { Authors } from './templateAuthors';
 import { templateType } from './resourcesTypedef';
 import { logoResource } from './logos';
-
+import { cassetteTemplates } from './cassetteTemplates';
 import { NFCCCsizeCard, TapeBoxCover, tapToPrePrinted, miniNfcCard } from './printMediaTypes';
 
 export const templates: Record<string, templateType> = {
@@ -459,35 +458,6 @@ export const templates: Record<string, templateType> = {
     media: TapeBoxCover,
     key: 'cassetteBoxBlank',
   },
-  cassetteBoxV2: {
-    layout: 'horizontal',
-    label: 'Casset box cover',
-    overlay: {
-      layerWidth: 1233,
-      layerHeight: 1200,
-      url: cassetTape,
-      height: 1 - 123/1200,
-      width: 1 - 454/1233,
-      y: 123/1200,
-      x: 454/1233,
-      isSvg: true,
-      strategy: 'cover',
-    },
-    edits: [{
-      id: 'placeholder_logo_1',
-      resource: logoResource,
-    }, {
-      id: 'placeholder_logo_2',
-      resource: logoResource,
-    }, {
-      id: 'placeholder_logo_3',
-      resource: logoResource,
-    }],
-    canEdit: true,
-    author: Authors.animeotaku, // to be changed with Phoneix data
-    media: TapeBoxCover,
-    key: 'cassetteBoxV2',
-  },
   miniNfcAlice: {
     layout: 'vertical',
     label: 'Steam 3by5cm',
@@ -505,6 +475,7 @@ export const templates: Record<string, templateType> = {
     media: miniNfcCard,
     key: 'miniNfcAlice',
   },
+  ...cassetteTemplates
 } as const;
 
 export const defaultTemplateKey = 'hucard';

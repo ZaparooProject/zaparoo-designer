@@ -8,7 +8,8 @@
     "prebuild": "cp ./src/utils/blob-stream.js ./node_modules/blob-stream/",
     "build": "yarn prebuild && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-cassette": "node scripts/cassette/buildCassetteCover.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
