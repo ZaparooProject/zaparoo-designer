@@ -9,7 +9,9 @@ type IGDBImage = {
 };
 
 type Platform = {
-
+  abbreviation: string;
+  name: string;
+  platform_logo: IGDBImage;
 }
 
 type IGDBGamesResult = {
@@ -73,7 +75,6 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
         const result = {
           id,
           name,
-          platforms: platforms,
           storyline,
           summary,
         } as SearchResult;
@@ -85,6 +86,13 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
         }
         if (screenshots) {
           result.screenshots = screenshots.map((data) => extractUsefulImage(data));
+        }
+        if (platforms) {
+          result.platforms = platforms.map(({ abbreviation, name, platform_logo }) => ({
+            abbreviation,
+            name,
+            platform_logo: extractUsefulImage(platform_logo),
+          }))
         }
         return result;
       }),
