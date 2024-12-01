@@ -70,7 +70,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
         },
         // parent = null excludes duplicates of versions
         // company involved != null probably excludes romhacks
-        body: `fields *; search "${searchTerm}"; where version_parent = null & involved_companies != null; limit ${pageSize}; offset ${offSet};`,
+        body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*; search "${searchTerm}"; where version_parent = null & involved_companies != null; limit ${pageSize}; offset ${offSet};`,
       });
     },
     getPlatformLogosRequest: async () => {
