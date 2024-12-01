@@ -72,7 +72,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
       results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary}) => ({
         id,
         artworks: artworks.map((data) => extractUsefulImage(data)),
-        cover: extractUsefulImage(cover),
+        ...(cover ? { cover: extractUsefulImage(cover) } : {}),
         name,
         platforms: platforms,
         screenshots: screenshots.map((data) => extractUsefulImage(data)),
