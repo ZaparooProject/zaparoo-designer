@@ -5,7 +5,7 @@ type ProviderDefinitions = {
   urlPath: `/${string}/`;
   endpoint: string;
   newUrl: (path: string, endpoint: string) => string;
-  getSearchURL?: (searchTerm: string, page: string, platformId?: string) => URL
+  getSearchRequest?: (searchTerm: string, page: string, platformId?: string) => Promise<Request>
   searchResultNormalization?: (results: unknown[]) => SearchResult[];
   getPlatformLogosRequest?: () => Promise<Request>;
   getCoversRequest?: () => Promise<Request>;
@@ -24,7 +24,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
     urlPath: '/thegamesdb/',
     endpoint: process.env.ENDPOINT!,
     newUrl: (path, endpoint) => `${endpoint}${path}&apikey=${process.env.APIKEY}`,
-    getSearchURL: (searchTerm: string, page: string, platformId?: string) => {
+    getSearchRequest: async (searchTerm: string, page: string, platformId?: string) => {
       const searchPath = '/v1.1/Games/ByGameName';
       const url = new URL(
         searchPath,
@@ -38,7 +38,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
       if (platformId) {
         url.searchParams.append('filter[platform]', `${platformId}`);
       }
-      return url;
+      return new Request(url);
     }
   },
   [availablePlatforms.SCREEN_SCRAPER]: {
@@ -51,12 +51,14 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
     endpoint: process.env.IGDB_ENDPOINT!,
     newUrl: (path, endpoint) => `${endpoint}${path}`,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getSearchURL: (searchTerm: string, page: string, platformId?: string) => {
-      const searchPath = '/v4/search';
+    getSearchRequest: async (searchTerm: string, page: string, platformId?: string) => {
+      const searchPath = '/v4/games';
       const url = new URL(
         searchPath,
-        process.env.ENDPOINT!,
+        process.env.IGDB_CLIENT_ID!,
       );
+      // fields name, involved_companies; search "Assassins Creed"; where version_parent = null;
+
       return url;
     },
     getPlatformLogosRequest: async () => {
