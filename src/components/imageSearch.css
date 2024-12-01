@@ -41,8 +41,12 @@
 }
 
 .searchResultSub .title {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  height: 36px;
+  padding: 12px;
+  background-color: white;
+  color: black;
 }
 
 .searchResultSub .searchResult {

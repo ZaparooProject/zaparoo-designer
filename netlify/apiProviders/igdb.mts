@@ -76,9 +76,9 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
   }
 
   async convertToSearchResults(data: IGDBGamesResult[]): Promise<SearchResults> {
-    let extraImages = 0;
     return {
       results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary}) => {
+        let extraImages = 0;
         const result = {
           id,
           name,

@@ -175,14 +175,16 @@ export default function ImageSearch({
                     </Button>
                     <Button
                       className="verticalStack"
-                      onClick={() => setOpenGameId(gameEntry.id)}
+                      onClick={() =>
+                        gameEntry.extra_images > 0 &&
+                        setOpenGameId(gameEntry.id)
+                      }
                     >
-                      <Typography variant="h6">
-                        See{' '}
-                        {(gameEntry.screenshots?.length || 0) +
-                          (gameEntry.artworks?.length || 0)}{' '}
-                        more images for
-                      </Typography>
+                      {gameEntry.extra_images > 0 && (
+                        <Typography variant="h6">
+                          See {gameEntry.extra_images} more images for
+                        </Typography>
+                      )}
                       <Typography variant="h6">
                         {gameEntry.name} -{' '}
                         {gameEntry.platforms
@@ -194,12 +196,17 @@ export default function ImageSearch({
                 )}
                 {gameEntry.id === openGameId && (
                   <div className="searchResultSub verticalStack">
-                    <div className="title">{gameEntry.name}</div>
+                    <div className="title">
+                      {gameEntry.name}{' '}
+                      {gameEntry.platforms
+                        ?.map((p) => p.abbreviation)
+                        .join(' - ')}
+                    </div>
                     <div className="horizontalStack searchResultsContainer">
                       <div className="searchResult" key={gameEntry.id}>
                         <Button>
                           <img
-                            src={gameEntry.cover.thumb}
+                            src={gameEntry.cover.url}
                             onClick={(e) => addImage(e, gameEntry.cover.url)}
                             style={{ cursor: 'pointer' }}
                           />
@@ -209,7 +216,7 @@ export default function ImageSearch({
                         <div className="searchResult" key={art.id}>
                           <Button>
                             <img
-                              src={art.thumb}
+                              src={art.url}
                               onClick={(e) => addImage(e, art.url)}
                               style={{ cursor: 'pointer' }}
                             />
@@ -220,7 +227,7 @@ export default function ImageSearch({
                         <div className="searchResult" key={screenshot.id}>
                           <Button>
                             <img
-                              src={screenshot.thumb}
+                              src={screenshot.url}
                               onClick={(e) => addImage(e, screenshot.url)}
                               style={{ cursor: 'pointer' }}
                             />
