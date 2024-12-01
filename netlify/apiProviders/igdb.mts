@@ -28,7 +28,7 @@ type IGDBGamesResult = {
 const extractUsefulImage = (img: IGDBImage & any): IGDBImage => {
   return {
     id: img.id,
-    url: img.url.replace('t_thumb', 't_1080p').replace('.jpg', '.png'),
+    url: 'https:' + img.url.replace('t_thumb', 't_1080p').replace('.jpg', '.png'),
     alpha_channel: img.alpha_channel,
   };
 };
