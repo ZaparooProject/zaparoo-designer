@@ -1,5 +1,6 @@
 import { BaseProvider } from "./baseProvider.mjs";
 import { getToken } from "./twitchTokenManager.mjs";
+import { type SearchResults } from "./types.mts";
 
 type IGDBImage = {
   url: string;
@@ -58,7 +59,7 @@ export class IGBDProvider extends BaseProvider<ApiGamesResult> {
   }
 
   async convertToSearchResults(data: ApiGamesResult[]) {
-    return data as ;
+    return data as unknown as SearchResults;
   }
 
   async getPlatformLogosRequest(): Promise<Request> {
