@@ -41,12 +41,11 @@ export async function fetchGameList(
     })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((res) => res.json() as Promise<SearchResults>)
-      .then(async (res) => {
-        console.log(res);
+      .then(async ({ results }) => {
           await platformPromise;
           return {
             hasMore: false,
-            games: [] as SearchResult[],
+            games: results,
           };
       })
       .catch((err) => {
@@ -61,7 +60,8 @@ export async function fetchGameList(
 
 const getGoodUrl = (relativeUrl: string): URL => {
   const host = window.location.hostname;
-  let fqdn = 'https://tapto-designer.netlify.app';
+  // let fqdn = 'https://design.zaparoo.org';
+  let fqdn = 'https://deploy-preview-75--zaparoo-designer.netlify.app/';
   if (host.includes('netlify') || host.includes('design.zaparoo.org')) {
     fqdn = `${window.location.protocol}//${window.location.hostname}`;
   } 
