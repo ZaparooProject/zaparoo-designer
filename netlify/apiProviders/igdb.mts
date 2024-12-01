@@ -1,6 +1,6 @@
 import { BaseProvider } from "./baseProvider.mjs";
 import { getToken } from "./twitchTokenManager.mjs";
-import { type SearchResults } from "./types.mts";
+import { type SearchResult, type SearchResults } from "./types.mts";
 
 type IGDBImage = {
   url: string;
@@ -69,16 +69,25 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
 
   async convertToSearchResults(data: IGDBGamesResult[]): Promise<SearchResults> {
     return {
-      results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary}) => ({
-        id,
-        artworks: artworks.map((data) => extractUsefulImage(data)),
-        ...(cover ? { cover: extractUsefulImage(cover) } : {}),
-        name,
-        platforms: platforms,
-        screenshots: screenshots.map((data) => extractUsefulImage(data)),
-        storyline,
-        summary,
-      })),
+      results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary}) => {
+        const result = {
+          id,
+          name,
+          platforms: platforms,
+          storyline,
+          summary,
+        } as SearchResult;
+        if (cover) {
+          result.cover = extractUsefulImage(cover);
+        }
+        if (artworks) {
+          result.artworks = artworks.map((data) => extractUsefulImage(data));
+        }
+        if (screenshots) {
+          result.screenshots = screenshots.map((data) => extractUsefulImage(data));
+        }
+        return result;
+      }),
     };
   }
 
