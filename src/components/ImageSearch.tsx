@@ -46,7 +46,7 @@ export default function ImageSearch({
     icon: '',
     console: '',
   });
-  const [openGameId, setOpenGameId] = useState<SearchResult['id']>(0);
+  const [openGameId, setOpenGameId] = useState<SearchResult['id']>('0');
   const [, startTransition] = useTransition();
   const timerRef = useRef(0);
   const SEARCH_THROTTLING = 1000;
