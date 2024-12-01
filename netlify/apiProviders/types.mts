@@ -1,7 +1,10 @@
 export type ResultImage = {
   url: string;
+  thumb: string;
   id: string;
   image_id: string;
+  width: number;
+  height: number;
 }
 
 export type Platform = {

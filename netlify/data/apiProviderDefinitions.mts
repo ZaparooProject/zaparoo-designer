@@ -13,7 +13,6 @@ type SearchResult = unknown;
 
 export const enum availablePlatforms {
   THEGAMESDB = 'thegamesdb',
-  SCREEN_SCRAPER = 'screenscraper',
 }
 
 export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
@@ -37,10 +36,5 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
       }
       return new Request(url);
     }
-  },
-  [availablePlatforms.SCREEN_SCRAPER]: {
-    urlPath: '/screenscraper/',
-    endpoint: process.env.SCREENSCRAPER_ENDPOINT!,
-    newUrl: (path, endpoint) => `${endpoint}${path}&output=JSON&devid=${process.env.SCREENSCRAPER_USERNAME}&devpassword=${process.env.SCREENSCRAPER_PASSWORD}&softname=zaparoo`,
   },
 } as const;

@@ -1,11 +1,13 @@
 import { BaseProvider } from "./baseProvider.mjs";
 import { getToken } from "./twitchTokenManager.mjs";
-import { type SearchResult, type SearchResults } from "./types.mts";
+import type { ResultImage, SearchResult, SearchResults } from "./types.mts";
 
 type IGDBImage = {
   url: string;
   id: string;
   image_id: string;
+  width: number;
+  height: number;
 };
 
 type Platform = {
@@ -25,11 +27,16 @@ type IGDBGamesResult = {
   storyline;
 }
 
-const extractUsefulImage = (img: IGDBImage & any): IGDBImage => {
+const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
+  const sizeUrl = img.width >= img.height ? 't_1080p' : 't_cover_big_2x';
+  const sizeThumb = img.width >= img.height ? 'screenshot_big' : 't_cover_big';
   return {
     image_id: img.image_id,
     id: img.id,
-    url: 'https:' + img.url.replace('t_thumb', 't_1080p').replace('.jpg', img.alpha_channel ? '.png' : '.jpg'),
+    width: img.width,
+    height: img.height,
+    url: 'https:' + img.url.replace('t_thumb',  sizeUrl).replace('.jpg', img.alpha_channel ? '.png' : '.jpg'),
+    thumb: 'https:' + img.url.replace('t_thumb', sizeThumb).replace('.jpg', img.alpha_channel ? '.png' : '.jpg'),
   };
 };
 
