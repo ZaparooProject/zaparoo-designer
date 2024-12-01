@@ -1,14 +1,15 @@
 import type { Config } from "@netlify/functions"
 import { prepareCorsHeaders } from '../data/utils';
 import { apiDefinitions, availablePlatforms } from '../data/apiProviderDefinitions.mjs';
+import { genericError } from "../utils.mts";
 
-const LOGOS_PLATFORM: availablePlatforms = availablePlatforms.IGDB
+const COVERS_PLATFORM: availablePlatforms = availablePlatforms.IGDB
 
 // search games by name
 export default async (req: Request /* , context: Context */): Promise<Response> => {
-  const { getCoversRequest } = apiDefinitions[LOGOS_PLATFORM];
+  const { getCoversRequest } = apiDefinitions[COVERS_PLATFORM];
   if (!getCoversRequest) {
-    return new Response('{}', { status: 500, statusText: 'error' });
+    return genericError();
   }
   const request = await getCoversRequest();
   try {
@@ -17,7 +18,7 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
     return new Response(body, { status, statusText, headers: respHeaders });
   } catch(e: unknown) {
     console.log(e)
-    return new Response('{}', { status: 500, statusText: 'error' });
+    return genericError();
   }  
 }
 

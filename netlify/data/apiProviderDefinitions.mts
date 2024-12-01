@@ -53,13 +53,25 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getSearchRequest: async (searchTerm: string, page: string, platformId?: string) => {
       const searchPath = '/v4/games';
+      const token = await getToken();
       const url = new URL(
         searchPath,
         process.env.IGDB_CLIENT_ID!,
       );
+      const pageSize = 50;
+      const offSet = (parseInt(page, 10) - 1) * pageSize;
       // fields name, involved_companies; search "Assassins Creed"; where version_parent = null;
-
-      return url;
+      return new Request(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Client-ID': process.env.IGDB_CLIENT_ID!,
+          'Authorization': `Bearer ${token}`,
+        },
+        // parent = null excludes duplicates of versions
+        // company involved != null probably excludes romhacks
+        body: `fields *; search "${searchTerm}"; where version_parent = null & involved_companies != null; limit ${pageSize}; offset ${offSet}`
+      });
     },
     getPlatformLogosRequest: async () => {
       const path = '/v4/platform_logos';
