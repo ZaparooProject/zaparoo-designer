@@ -8,6 +8,7 @@ type ProviderDefinitions = {
   getSearchURL?: (searchTerm: string, page: string, platformId?: string) => URL
   searchResultNormalization?: (results: unknown[]) => SearchResult[];
   getPlatformLogosRequest?: () => Promise<Request>;
+  getCoversRequest?: () => Promise<Request>;
 };
 
 type SearchResult = unknown;
@@ -72,7 +73,24 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
           'Client-ID': process.env.IGDB_CLIENT_ID!,
           'Authorization': `Bearer ${token}`,
         },
-        body: "fields *;"
+        body: "fields *; limit 500"
+      });
+    },
+    getCovers: async () => {
+      const path = '/v4/covers';
+      const token = await getToken();
+      const url = new URL(
+        path,
+        process.env.IGDB_ENDPOINT!,
+      );
+      return new Request(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Client-ID': process.env.IGDB_CLIENT_ID!,
+          'Authorization': `Bearer ${token}`,
+        },
+        body: "fields *; limit 500"
       });
     }
   }
