@@ -185,7 +185,7 @@ export default function ImageSearch({
                 <div className="searchResult" key={gameEntry.id}>
                   <Button>
                     <img
-                      src={gameEntry.cover?.url}
+                      src={gameEntry.cover?.thumb}
                       onClick={(e) => addImage(e, gameEntry.cover.url)}
                       style={{ cursor: 'pointer' }}
                     />
