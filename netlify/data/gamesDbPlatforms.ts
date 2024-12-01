@@ -38,7 +38,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "2.png"
     },
     "3": {
-      "popular": false,
+      "popular": true,
       "id": 3,
       "name": "Nintendo 64",
       "alias": "nintendo-64",
@@ -47,7 +47,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "3.png"
     },
     "4": {
-      "popular": false,
+      "popular": true,
       "id": 4,
       "name": "Nintendo Game Boy",
       "alias": "nintendo-gameboy",
@@ -56,7 +56,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4.png"
     },
     "5": {
-      "popular": false,
+      "popular": true,
       "id": 5,
       "name": "Nintendo Game Boy Advance",
       "alias": "nintendo-gameboy-advance",
@@ -65,7 +65,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "5.png"
     },
     "6": {
-      "popular": false,
+      "popular": true,
       "id": 6,
       "name": "Super Nintendo (SNES)",
       "alias": "super-nintendo-snes",
@@ -74,7 +74,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "6.png"
     },
     "7": {
-      "popular": false,
+      "popular": true,
       "id": 7,
       "name": "Nintendo Entertainment System (NES)",
       "alias": "nintendo-entertainment-system-nes",
@@ -101,7 +101,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "9.png"
     },
     "10": {
-      "popular": false,
+      "popular": true,
       "id": 10,
       "name": "Sony Playstation",
       "alias": "sony-playstation",
@@ -164,7 +164,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "16.png"
     },
     "17": {
-      "popular": false,
+      "popular": true,
       "id": 17,
       "name": "Sega Saturn",
       "alias": "sega-saturn",
@@ -173,7 +173,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "17.png"
     },
     "18": {
-      "popular": false,
+      "popular": true,
       "id": 18,
       "name": "Sega Genesis",
       "alias": "sega-genesis",
@@ -218,7 +218,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "23.png"
     },
     "24": {
-      "popular": false,
+      "popular": true,
       "id": 24,
       "name": "Neo Geo",
       "alias": "neogeo",
@@ -308,7 +308,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "33.png"
     },
     "34": {
-      "popular": false,
+      "popular": true,
       "id": 34,
       "name": "TurboGrafx 16",
       "alias": "turbografx-16",
@@ -326,7 +326,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "35.png"
     },
     "36": {
-      "popular": false,
+      "popular": true,
       "id": 36,
       "name": "Sega Mega Drive",
       "alias": "sega-mega-drive",
@@ -371,7 +371,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "40.png"
     },
     "41": {
-      "popular": false,
+      "popular": true,
       "id": 41,
       "name": "Nintendo Game Boy Color",
       "alias": "nintendo-gameboy-color",
@@ -776,7 +776,7 @@ export const platforms: Record<Platform["id"], Platform> = {
       "console": "4954.png"
     },
     "4955": {
-      "popular": false,
+      "popular": true,
       "id": 4955,
       "name": "TurboGrafx CD",
       "alias": "turbo-grafx-cd",
