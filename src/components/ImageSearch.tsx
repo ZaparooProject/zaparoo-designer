@@ -20,15 +20,10 @@ import IconButton from '@mui/material/IconButton';
 import { useInView } from 'react-intersection-observer';
 
 import './imageSearch.css';
-import {
-  fetchGameImages,
-  fetchGameList,
-  getImage,
-  type GameEntry,
-  type ImageSearchResult,
-} from '../utils/thegamesdb';
+import { fetchGameImages, fetchGameList, getImage } from '../utils/search';
 import { Platform } from '../../netlify/data/gamesDbPlatforms';
 import { PlatformDropdown } from './PlatformDropdown';
+import { SearchResult } from '../../netlify/apiProviders/types.mts';
 
 export default function ImageSearch({
   open,
@@ -40,10 +35,10 @@ export default function ImageSearch({
   const { files, setFiles } = useFileDropperContext();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [gameEntries, setGameEntries] = useState<GameEntry[]>([]);
+  const [gameEntries, setGameEntries] = useState<SearchResult[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [moreLink, setMoreLink] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<ImageSearchResult[]>([]);
+  const [hasMore, setHasMore] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searching, setSearching] = useState<boolean>(false);
   const [platform, setPlatform] = useState<Platform>({
     id: 0,
@@ -93,16 +88,16 @@ export default function ImageSearch({
     }
     timerRef.current = now;
     fetchGameList(searchQuery, platform, page.toString()).then(
-      ({ games, moreLink }) => {
+      ({ games, hasMore }) => {
         if (queueResults) {
           setGameEntries([...gameEntries, ...games]);
         } else {
           setGameEntries(games);
         }
-        if (moreLink) {
+        if (hasMore) {
           setPage(page + 1);
         }
-        setMoreLink(moreLink);
+        setHasMore(hasMore);
         setSearching(false);
       },
     );
@@ -115,7 +110,7 @@ export default function ImageSearch({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  const switchToGameView = (gameId: number) => {
+  const switchToGameView = (gameId: string) => {
     fetchGameImages(gameId).then((data: any) => {
       setSearchResults(data.images);
     });
@@ -186,12 +181,12 @@ export default function ImageSearch({
           {searchResults.length === 0 && (
             <div className="searchResultsContainer horizontalStack">
               {disclaimer}
-              {gameEntries.map((gameEntry) => (
+              {gameEntries.map((gameEntry: SearchResult) => (
                 <div className="searchResult" key={gameEntry.id}>
                   <Button>
                     <img
-                      src={gameEntry.boxart}
-                      onClick={(e) => addImage(e, gameEntry.boxart)}
+                      src={gameEntry.cover.url}
+                      onClick={(e) => addImage(e, gameEntry.cover.url)}
                       style={{ cursor: 'pointer' }}
                     />
                   </Button>
@@ -201,7 +196,7 @@ export default function ImageSearch({
                   >
                     <Typography variant="h6">See more images for</Typography>
                     <Typography variant="h6">
-                      {gameEntry.gameTitle} - {gameEntry.platform?.name}
+                      {gameEntry.name} - {gameEntry.platforms?.[0].abbreviation}
                     </Typography>
                   </Button>
                 </div>
@@ -209,14 +204,14 @@ export default function ImageSearch({
               {new Array(gameEntries.length % 4).fill(0).map(() => (
                 <div className="searchResult" />
               ))}
-              {moreLink && searchResults.length === 0 && (
+              {hasMore && searchResults.length === 0 && (
                 <div className="loader" ref={ref}>
                   <CircularProgress color="secondary" size={24} />
                 </div>
               )}
             </div>
           )}
-          {searchResults.length > 0 && (
+          {/* {searchResults.length > 0 && (
             <div className="searchResultsContainer horizontalStack">
               {disclaimer}
               {searchResults.map((result) => (
@@ -232,7 +227,7 @@ export default function ImageSearch({
                 <div className="searchResult" key={index} />
               ))}
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </Modal>

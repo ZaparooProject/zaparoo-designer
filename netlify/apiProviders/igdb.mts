@@ -5,13 +5,13 @@ import { type SearchResult, type SearchResults } from "./types.mts";
 type IGDBImage = {
   url: string;
   id: string;
-  alpha_channel: boolean;
+  image_id: string;
 };
 
 type Platform = {
   abbreviation: string;
   name: string;
-  platform_logo: IGDBImage;
+  platform_logo?: IGDBImage;
 }
 
 type IGDBGamesResult = {
@@ -27,9 +27,9 @@ type IGDBGamesResult = {
 
 const extractUsefulImage = (img: IGDBImage & any): IGDBImage => {
   return {
+    image_id: img.image_id,
     id: img.id,
-    url: 'https:' + img.url.replace('t_thumb', 't_1080p').replace('.jpg', '.png'),
-    alpha_channel: img.alpha_channel,
+    url: 'https:' + img.url.replace('t_thumb', 't_1080p').replace('.jpg', img.alpha_channel ? '.png' : '.jpg'),
   };
 };
 

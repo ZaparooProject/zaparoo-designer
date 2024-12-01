@@ -1,17 +1,12 @@
 import type { Config } from "@netlify/functions"
 import { prepareCorsHeaders } from '../data/utils';
-import { apiDefinitions, availablePlatforms } from '../data/apiProviderDefinitions.mjs';
 import { genericError } from "../utils.mjs";
-
-const LOGOS_PLATFORM: availablePlatforms = availablePlatforms.IGDB
+import { IGBDProvider } from "../apiProviders/igdb.mts";
 
 // search games by name
 export default async (req: Request /* , context: Context */): Promise<Response> => {
-  const { getPlatformLogosRequest } = apiDefinitions[LOGOS_PLATFORM];
-  if (!getPlatformLogosRequest) {
-    return genericError();
-  }
-  const request = await getPlatformLogosRequest();
+  const provider = new IGBDProvider();
+  const request = await provider.getPlatformLogosRequest();
   try {
     const { body, status, statusText } = await fetch(request);
     const respHeaders = prepareCorsHeaders(req);
