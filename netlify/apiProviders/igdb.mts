@@ -91,7 +91,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
           result.platforms = platforms.map(({ abbreviation, name, platform_logo }) => ({
             abbreviation,
             name,
-            platform_logo: extractUsefulImage(platform_logo),
+            platform_logo: platform_logo ? extractUsefulImage(platform_logo) : undefined,
           }))
         }
         return result;
