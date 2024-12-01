@@ -1,20 +1,15 @@
 import type { Config } from "@netlify/functions"
 import { prepareCorsHeaders } from '../data/utils';
-import { apiDefinitions, availablePlatforms } from '../data/apiProviderDefinitions.mjs';
 import { genericError } from "../utils.mjs";
-
-const SEARCH_PLATFORM: availablePlatforms = availablePlatforms.IGDB
+import { IGBDProvider } from "../apiProviders/igdb.mts";
 
 // search games by name
 export default async (req: Request /* , context: Context */): Promise<Response> => {
   const { url } = req;
   const parsedUrl = new URL(url);
   const searchParams = parsedUrl.searchParams
-  const { getSearchRequest } = apiDefinitions[SEARCH_PLATFORM];
-  if (!getSearchRequest) {
-    return genericError();
-  }
-  const searchRquest = await getSearchRequest(
+  const provider = new IGBDProvider();
+  const searchRquest = await provider.getSearchRequest(
     searchParams.get("searchTerm") ?? "",
     searchParams.get("page") ?? "1",
     searchParams.get("platformId") ?? "",
