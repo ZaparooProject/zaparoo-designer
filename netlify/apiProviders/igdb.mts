@@ -157,12 +157,12 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
         id,
         name,
         abbreviation,
-        versions: versions.map(({ id, name, abbreviation, platform_logo }) => ({
+        versions: versions ? versions.map(({ id, name, abbreviation, platform_logo }) => ({
           id,
           name,
           abbreviation,
           platform_logo: extractUsefulImage(platform_logo)
-        })),
+        })) : [],
         platform_logo: extractUsefulImage(platform_logo),
       }))
     }
