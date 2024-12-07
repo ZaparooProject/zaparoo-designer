@@ -149,6 +149,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
   }
 
   async convertToPlatformsResults(data: IGDBMultiQueryWithCount<IGDBPlatformsResult[]>): Promise<PlatformResults> {
+    console.log(data[1])
     const platforms = data[1].results;
     const count = data[0].count;
     return {
