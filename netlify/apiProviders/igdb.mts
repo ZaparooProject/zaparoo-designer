@@ -147,8 +147,9 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
           }
         }
         if (platforms) {
-          result.platforms = platforms.map(({ id }) => ({
+          result.platforms = platforms.map(({ id, abbreviation }) => ({
             id,
+            abbreviation,
           }))
         }
         if (involved_companies) {
