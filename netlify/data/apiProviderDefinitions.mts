@@ -3,17 +3,16 @@ type ProviderDefinitions = {
   urlPath: `/${string}/`;
   endpoint: string;
   newUrl: (path: string, endpoint: string) => string;
-  getSearchURL?: (searchTerm: string, page: string, platformId?: string) => URL
+  getSearchRequest?: (searchTerm: string, page: string, platformId?: string) => Promise<Request>
   searchResultNormalization?: (results: unknown[]) => SearchResult[];
+  getPlatformLogosRequest?: () => Promise<Request>;
+  getCoversRequest?: () => Promise<Request>;
 };
 
-type SearchResult = {
-
-}
+type SearchResult = unknown;
 
 export const enum availablePlatforms {
   THEGAMESDB = 'thegamesdb',
-  SCREEN_SCRAPER = 'screenscraper',
 }
 
 export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
@@ -21,7 +20,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
     urlPath: '/thegamesdb/',
     endpoint: process.env.ENDPOINT!,
     newUrl: (path, endpoint) => `${endpoint}${path}&apikey=${process.env.APIKEY}`,
-    getSearchURL: (searchTerm: string, page: string, platformId?: string) => {
+    getSearchRequest: async (searchTerm: string, page: string, platformId?: string) => {
       const searchPath = '/v1.1/Games/ByGameName';
       const url = new URL(
         searchPath,
@@ -35,12 +34,7 @@ export const apiDefinitions: Record<availablePlatforms, ProviderDefinitions> = {
       if (platformId) {
         url.searchParams.append('filter[platform]', `${platformId}`);
       }
-      return url;
+      return new Request(url);
     }
   },
-  [availablePlatforms.SCREEN_SCRAPER]: {
-    urlPath: '/screenscraper/',
-    endpoint: process.env.SCREENSCRAPER_ENDPOINT!,
-    newUrl: (path, endpoint) => `${endpoint}${path}&output=JSON&devid=${process.env.SCREENSCRAPER_USERNAME}&devpassword=${process.env.SCREENSCRAPER_PASSWORD}&softname=zaparoo`,
-  }
 } as const;

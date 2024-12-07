@@ -23,5 +23,5 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
 }
 
 export const config: Config = {
-  path: ["/thegamesdb/*", "/screenscraper/*"]
+  path: "/thegamesdb/*"
 };
