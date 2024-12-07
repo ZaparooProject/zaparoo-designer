@@ -105,7 +105,6 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
       // company involved != null probably excludes romhacks
       body: `
       query games/count "games_count" {
-        search "${searchTerm}";
         where version_parent = null & (cover != null | artworks != null);
       };
 
