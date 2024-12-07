@@ -124,7 +124,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
     return new Request(url, {
       method: 'POST',
       headers: await this.requestHeaders(),
-      body: "fields abbreviation, alternative_name, generation, name, platform_logo, platform_logo.*; limit 500;"
+      body: "fields abbreviation, alternative_name, generation, name, platform_logo, platform_logo.*; where platform_logo != null; limit 500;"
     });
   }
 
