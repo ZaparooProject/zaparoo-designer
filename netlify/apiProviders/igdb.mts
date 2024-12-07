@@ -110,7 +110,7 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
       };
 
       query games "games" {
-        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, involved_companies, involved_companies.company.logo.*;
+        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.abbreviation;
         search "${searchTerm}";
         where version_parent = null & (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};
