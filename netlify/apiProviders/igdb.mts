@@ -198,10 +198,16 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
 
   async converToCompaniesResults(data: IGDBMultiQueryWithCount<IGDBCompanyResult[]>): Promise<unknown> {
     const companies = data[1].result;
+    console.log(companies)
     const count = data[0].count;
     return {
       count,
-      results: companies,
+      results: companies ? companies.map(({ id, name, description, logo }) => ({
+        id,
+        name,
+        description,
+        ...(logo ? { logo: extractUsefulImage(logo) } : {}),
+      })) : [],
     }
   }
 }
