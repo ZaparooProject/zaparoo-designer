@@ -152,11 +152,12 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
           }))
         }
         if (involved_companies) {
+          console.log(involved_companies)
           result.involved_companies = involved_companies.map(({ id, company }) => ({
             id,
             company: {
               ...company,
-              ...(company.logo ? extractUsefulImage(company.logo) : {}),
+              ...(company.logo ? { logo: extractUsefulImage(company.logo) } : {}),
             }
           }));
         }
