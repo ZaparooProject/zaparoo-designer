@@ -8,9 +8,13 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
   const provider = new IGBDProvider();
   const request = await provider.getPlatformsRequest();
   try {
-    const { body, status, statusText } = await fetch(request);
+
+    const response = await fetch(request);
+    const { status, statusText } = response;
+    const data = await response.json();
+    const converted = await provider.convertToPlatformsResults(data);
     const respHeaders = prepareCorsHeaders(req);
-    return new Response(body, { status, statusText, headers: respHeaders });
+    return new Response(JSON.stringify(converted), { status, statusText, headers: respHeaders });
   } catch(e: unknown) {
     console.log(e)
     return genericError();
