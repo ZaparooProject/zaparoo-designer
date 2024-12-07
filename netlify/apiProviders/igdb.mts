@@ -104,10 +104,6 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
       // parent = null excludes duplicates of versions
       // company involved != null probably excludes romhacks
       body: `
-      query games/count "games_count" {
-        where version_parent = null & (cover != null | artworks != null);
-      };
-
       query games "games" {
         fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.abbreviation;
         search "${searchTerm}";
