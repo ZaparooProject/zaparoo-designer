@@ -20,6 +20,17 @@ type IGDBImage = {
   height: number;
 };
 
+type IGDBCompany = {
+  id,
+  name,
+  logo: IGDBImage
+}
+
+type IGDBInvolvedCompany = {
+  id,
+  company: IGDBCompany
+}
+
 type IGDBGamesResult = {
   id: string;
   artworks: IGDBImage[];
@@ -28,6 +39,7 @@ type IGDBGamesResult = {
   summary: string;
   name: string;
   platforms: IGDBPlatformsResult[];
+  involved_companies: IGDBInvolvedCompany[];
   storyline;
 }
 
@@ -59,7 +71,7 @@ export const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
   };
 };
 
-export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
+export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGamesResult[]>> {
 
   urlPath = '/igdb/';
   endpoint = process.env.IGDB_ENDPOINT;
@@ -91,13 +103,27 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
       headers: await this.requestHeaders(),
       // parent = null excludes duplicates of versions
       // company involved != null probably excludes romhacks
-      body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*; search "${searchTerm}"; where version_parent = null & (cover != null | artworks != null); limit ${pageSize}; offset ${offSet};`,
+      body: `
+      query games/count "games_count" {
+        search "${searchTerm}";
+        where version_parent = null & (cover != null | artworks != null);
+      };
+
+      query games "games" {
+        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.id, involved_companies, involved_companies.company.logo.*
+        search "${searchTerm}";
+        where version_parent = null & (cover != null | artworks != null);
+        limit ${pageSize}; offset ${offSet};
+      };`
     });
   }
 
-  async convertToSearchResults(data: IGDBGamesResult[]): Promise<SearchResults> {
+  async convertToSearchResults(data: IGDBMultiQueryWithCount<IGDBGamesResult[]>): Promise<SearchResults> {
+    const games = data[1].result;
+    const count = data[0].count;
     return {
-      results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary}) => {
+      count,
+      results: games.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies }) => {
         let extraImages = 0;
         const result = {
           id,
@@ -121,11 +147,18 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
           }
         }
         if (platforms) {
-          result.platforms = platforms.map(({ abbreviation, name, platform_logo }) => ({
-            abbreviation,
-            name,
-            platform_logo: platform_logo ? extractUsefulImage(platform_logo) : undefined,
+          result.platforms = platforms.map(({ id }) => ({
+            id,
           }))
+        }
+        if (involved_companies) {
+          result.involved_companies = involved_companies.map(({ id, company }) => ({
+            id,
+            company: {
+              ...company,
+              ...(company.logo ? extractUsefulImage(company.logo) : {}),
+            }
+          }));
         }
         result.extra_images = extraImages;
         return result;

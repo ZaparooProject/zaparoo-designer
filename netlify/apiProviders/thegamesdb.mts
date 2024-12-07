@@ -32,7 +32,7 @@ const extractUsefulImage = (img: IGDBImage & any): IGDBImage => {
   };
 };
 
-export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
+export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
 
   urlPath = '/igdb/';
   endpoint = process.env.IGDB_ENDPOINT;
@@ -61,6 +61,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
 
   async convertToSearchResults(data: IGDBGamesResult[]): Promise<SearchResults> {
     return {
+      count: 3,
       results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary}) => {
         const result = {
           id,

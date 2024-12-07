@@ -23,11 +23,13 @@ export type SearchResult = {
   summary: string;
   name: string;
   storyline: string;
-  platforms?: PlatformResult[];
+  platforms?: Pick<PlatformResult, 'id'>[];
+  involved_companies: unknown[];
   extra_images: number;
 };
 
 export type SearchResults = {
+  count: number;
   results: SearchResult[],
 }
 
