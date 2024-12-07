@@ -91,7 +91,7 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getSearchRequest(searchTerm: string, page: string, platformId?: string): Promise<Request> {
-    const searchPath = '/v4/games';
+    const searchPath = 'v4/multiquery';
     const url = new URL(
       searchPath,
       this.endpoint,
@@ -120,6 +120,7 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
 
   async convertToSearchResults(data: IGDBMultiQueryWithCount<IGDBGamesResult[]>): Promise<SearchResults> {
     const games = data[1].result;
+
     const count = data[0].count;
     return {
       count,
