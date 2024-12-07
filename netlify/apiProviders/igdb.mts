@@ -119,8 +119,8 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
   }
 
   async convertToSearchResults(data: IGDBMultiQueryWithCount<IGDBGamesResult[]>): Promise<SearchResults> {
+    console.log(data);
     const games = data[1].result;
-
     const count = data[0].count;
     return {
       count,
