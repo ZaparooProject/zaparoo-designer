@@ -71,7 +71,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
       headers: await this.requestHeaders(),
       // parent = null excludes duplicates of versions
       // company involved != null probably excludes romhacks
-      body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*; search "${searchTerm}"; where version_parent = null & (cover != null | artworks != null); limit ${pageSize}; offset ${offSet};`,
+      body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*; search "${searchTerm}"; where version_parent = null & (cover != null | artworks != null); limit ${pageSize}; offset ${offSet};`,
     });
   }
 
@@ -113,8 +113,8 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
     };
   }
 
-  async getPlatformLogosRequest(): Promise<Request> {
-    const path = '/v4/platform_logos';
+  async getPlatformsRequest(): Promise<Request> {
+    const path = '/v4/platforms';
     const url = new URL(
       path,
       this.endpoint,
@@ -122,7 +122,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
     return new Request(url, {
       method: 'POST',
       headers: await this.requestHeaders(),
-      body: "fields *; limit 200;"
+      body: "fields abbreviation, alternative_name, generation, name, platform_logo, platform_logo.url, platform_logo; limit 500; where platform_logo.alpha_channel = true;"
     });
   }
 }

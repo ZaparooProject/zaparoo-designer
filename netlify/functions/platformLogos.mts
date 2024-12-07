@@ -6,7 +6,7 @@ import { IGBDProvider } from "../apiProviders/igdb.mts";
 // search games by name
 export default async (req: Request /* , context: Context */): Promise<Response> => {
   const provider = new IGBDProvider();
-  const request = await provider.getPlatformLogosRequest();
+  const request = await provider.getPlatformsRequest();
   try {
     const { body, status, statusText } = await fetch(request);
     const respHeaders = prepareCorsHeaders(req);
@@ -18,5 +18,5 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
 }
 
 export const config: Config = {
-  path: "/api/platform_logos"
+  path: "/api/platforms"
 };
