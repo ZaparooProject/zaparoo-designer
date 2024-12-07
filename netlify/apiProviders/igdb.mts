@@ -37,6 +37,7 @@ type IGDBPlatformsResult = {
   alternative_name: string;
   name: string;
   platform_logo: IGDBImage;
+  versions: IGDBPlatformsResult[];
 }
 
 export const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
@@ -140,7 +141,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
       };
 
       query platforms "platforms" {
-        fields abbreviation, alternative_name, generation, name, platform_logo, platform_logo.*;
+        fields abbreviation, alternative_name, generation, name, platform_logo, versions, platform_logo.*, versions.*, versions.platform_logo.*;
         where platform_logo != null;
         limit 500;
       };`
@@ -152,10 +153,16 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
     const count = data[0].count;
     return {
       count,
-      results: platforms.map(({ id, name, abbreviation, platform_logo }: IGDBPlatformsResult) => ({
+      results: platforms.map(({ id, name, abbreviation, platform_logo, versions }: IGDBPlatformsResult) => ({
         id,
         name,
         abbreviation,
+        versions: versions.map(({ id, name, abbreviation, platform_logo }) => ({
+          id,
+          name,
+          abbreviation,
+          platform_logo: extractUsefulImage(platform_logo)
+        })),
         platform_logo: extractUsefulImage(platform_logo),
       }))
     }
