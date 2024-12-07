@@ -7,7 +7,8 @@ export type ResultImage = {
   height: number;
 }
 
-export type Platform = {
+export type PlatformResult = {
+  id: string;
   name: string;
   abbreviation: string;
   platform_logo: ResultImage;
@@ -22,10 +23,14 @@ export type SearchResult = {
   summary: string;
   name: string;
   storyline: string;
-  platforms?: Platform[];
+  platforms?: PlatformResult[];
   extra_images: number;
 };
 
 export type SearchResults = {
   results: SearchResult[],
+}
+
+export type PlatformResults = {
+  results: PlatformResult[],
 }

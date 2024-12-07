@@ -1,6 +1,6 @@
 import { BaseProvider } from "./baseProvider.mjs";
 import { getToken } from "./twitchTokenManager.mjs";
-import type { ResultImage, SearchResult, SearchResults } from "./types.mts";
+import type { ResultImage, SearchResult, SearchResults, PlatformResults } from "./types.mts";
 
 type IGDBImage = {
   url: string;
@@ -10,12 +10,6 @@ type IGDBImage = {
   height: number;
 };
 
-type Platform = {
-  abbreviation: string;
-  name: string;
-  platform_logo?: IGDBImage;
-}
-
 type IGDBGamesResult = {
   id: string;
   artworks: IGDBImage[];
@@ -23,11 +17,19 @@ type IGDBGamesResult = {
   cover: IGDBImage;
   summary: string;
   name: string;
-  platforms: Platform[];
+  platforms: IGDBPlatformsResult[];
   storyline;
 }
 
-const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
+type IGDBPlatformsResult = {
+  id: string;
+  abbreviation: string;
+  alternative_name: string;
+  name: string;
+  platform_logo: IGDBImage;
+}
+
+export const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
   const sizeThumb = img.width >= img.height ? 't_screenshot_big' : 't_cover_big';
   return {
     image_id: img.image_id,
@@ -122,7 +124,18 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
     return new Request(url, {
       method: 'POST',
       headers: await this.requestHeaders(),
-      body: "fields abbreviation, alternative_name, generation, name, platform_logo, platform_logo.url, platform_logo; limit 500; where platform_logo.alpha_channel = true;"
+      body: "fields abbreviation, alternative_name, generation, name, platform_logo, platform_logo.*; where platform_logo.alpha_channel = true; limit 500;"
     });
+  }
+
+  async convertToPlatformsResults(data: IGDBPlatformsResult[]): Promise<PlatformResults> {
+    return {
+      results: data.map(({ id, name, abbreviation, platform_logo }: IGDBPlatformsResult) => ({
+        id,
+        name,
+        abbreviation,
+        platform_logo: extractUsefulImage(platform_logo),
+      }))
+    }
   }
 }
