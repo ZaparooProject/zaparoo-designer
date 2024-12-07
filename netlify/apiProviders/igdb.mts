@@ -4,7 +4,7 @@ import type { ResultImage, SearchResult, SearchResults, PlatformResults } from "
 
 type IGDBMultiQueryResult<T> = {
   name: string;
-  results: T
+  result: T
 }
 
 type IGDBMultiQueryWithCount<T> = [{
@@ -38,6 +38,13 @@ type IGDBPlatformsResult = {
   name: string;
   platform_logo: IGDBImage;
   versions: IGDBPlatformsResult[];
+}
+
+type IGDBCompanyResult = {
+  id;
+  name;
+  description;
+  logo: IGDBImage;
 }
 
 export const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
@@ -149,8 +156,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
   }
 
   async convertToPlatformsResults(data: IGDBMultiQueryWithCount<IGDBPlatformsResult[]>): Promise<PlatformResults> {
-    console.log(data[1])
-    const platforms = data[1].results;
+    const platforms = data[1].result;
     const count = data[0].count;
     return {
       count,
@@ -166,6 +172,36 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
         })) : [],
         platform_logo: extractUsefulImage(platform_logo),
       }))
+    }
+  }
+
+  async getCompaniesRequest(): Promise<Request> {
+    const path = 'v4/multiquery';
+    const url = new URL(
+      path,
+      this.endpoint,
+    );
+    return new Request(url, {
+      method: 'POST',
+      headers: await this.requestHeaders(),
+      body: `
+      query companies/count "companies_count" {
+
+      };
+
+      query companies "companies" {
+        fields id, description, logo, name, logo.*;
+        limit 500;
+      };`
+    });
+  }
+
+  async converToCompaniesResults(data: IGDBMultiQueryWithCount<IGDBCompanyResult[]>): Promise<unknown> {
+    const companies = data[1].result;
+    const count = data[0].count;
+    return {
+      count,
+      results: companies,
     }
   }
 }
