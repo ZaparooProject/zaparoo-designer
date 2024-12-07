@@ -2,6 +2,16 @@ import { BaseProvider } from "./baseProvider.mjs";
 import { getToken } from "./twitchTokenManager.mjs";
 import type { ResultImage, SearchResult, SearchResults, PlatformResults } from "./types.mts";
 
+type IGDBMultiQueryResult<T> = {
+  name: string;
+  results: T
+}
+
+type IGDBMultiQueryWithCount<T> = [{
+  name: string;
+  count: number;
+}, IGDBMultiQueryResult<T>]
+
 type IGDBImage = {
   url: string;
   id: string;
@@ -116,7 +126,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
   }
 
   async getPlatformsRequest(): Promise<Request> {
-    const path = '/v4/platforms';
+    const path = 'v4/multiquery';
     const url = new URL(
       path,
       this.endpoint,
@@ -124,13 +134,25 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult> {
     return new Request(url, {
       method: 'POST',
       headers: await this.requestHeaders(),
-      body: "fields abbreviation, alternative_name, generation, name, platform_logo, platform_logo.*; where platform_logo != null; limit 500;"
+      body: `
+      query platforms/count "platforms_count" {
+        where platform_logo != null;
+      };
+
+      query platforms "platforms" {
+        fields abbreviation, alternative_name, generation, name, platform_logo, platform_logo.*;
+        where platform_logo != null;
+        limit 500;
+      };`
     });
   }
 
-  async convertToPlatformsResults(data: IGDBPlatformsResult[]): Promise<PlatformResults> {
+  async convertToPlatformsResults(data: IGDBMultiQueryWithCount<IGDBPlatformsResult[]>): Promise<PlatformResults> {
+    const platforms = data[1].results;
+    const count = data[0].count;
     return {
-      results: data.map(({ id, name, abbreviation, platform_logo }: IGDBPlatformsResult) => ({
+      count,
+      results: platforms.map(({ id, name, abbreviation, platform_logo }: IGDBPlatformsResult) => ({
         id,
         name,
         abbreviation,

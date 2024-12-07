@@ -32,5 +32,6 @@ export type SearchResults = {
 }
 
 export type PlatformResults = {
+  count: number;
   results: PlatformResult[],
 }
