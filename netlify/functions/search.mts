@@ -18,8 +18,8 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
     const response = await fetch(searchRequest);
     const { status, statusText, headers } = response;
     const data = await response.json();
-    const converted = await provider.convertToSearchResults(data);
-    console.log(headers);
+    const converted = await provider.convertToSearchResults(data, headers["x-count"]);
+    console.log(headers["x-count"], headers["x-count"].value);
     const respHeaders = prepareCorsHeaders(req);
     return new Response(JSON.stringify(converted), { status, statusText, headers: respHeaders });
   } catch(e: unknown) {
