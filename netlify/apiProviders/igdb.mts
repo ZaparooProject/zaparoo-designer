@@ -91,7 +91,7 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getSearchRequest(searchTerm: string, page: string, platformId?: string): Promise<Request> {
-    const searchPath = 'v4/games';
+    const searchPath = '/v4/games';
     const url = new URL(
       searchPath,
       this.endpoint,
@@ -103,7 +103,9 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
       headers: await this.requestHeaders(),
       // parent = null excludes duplicates of versions
       // company involved != null probably excludes romhacks
-      body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.abbreviation involved_companies, involved_companies.company.logo.*;
+      //  body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*; search "${searchTerm}"; where version_parent = null & (cover != null | artworks != null); limit ${pageSize}; offset ${offSet};`,
+
+      body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.abbreviation, involved_companies, involved_companies.company.logo.*;
         search "${searchTerm}";
         where version_parent = null & (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`
