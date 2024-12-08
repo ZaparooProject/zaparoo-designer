@@ -16,11 +16,12 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
   )
   try {
     const response = await fetch(searchRequest);
-    const { body, status, statusText } = response;
-    // const data = await response.json();
-    // const converted = await provider.convertToSearchResults(data);
+    const { status, statusText, headers } = response;
+    const data = await response.json();
+    const converted = await provider.convertToSearchResults(data);
+    console.log(headers);
     const respHeaders = prepareCorsHeaders(req);
-    return new Response(body, { status, statusText, headers: respHeaders });
+    return new Response(JSON.stringify(converted), { status, statusText, headers: respHeaders });
   } catch(e: unknown) {
     console.log(e)
     return genericError();

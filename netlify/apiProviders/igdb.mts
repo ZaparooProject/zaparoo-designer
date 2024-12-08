@@ -91,40 +91,31 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getSearchRequest(searchTerm: string, page: string, platformId?: string): Promise<Request> {
-    const searchPath = '/v4/multiquery';
+    const searchPath = '/v4/games';
     const url = new URL(
       searchPath,
       this.endpoint,
     );
     const pageSize = 50;
     const offSet = (parseInt(page, 10) - 1) * pageSize;
+    // parent = null excludes duplicates of versions
+    // company involved != null probably excludes romhacks
     const body = `
-      query games/count "games_count" {
+        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         search "${searchTerm}";
         where version_parent = null & (cover != null | artworks != null);
-      };
-
-      query games "games" {
-        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*;
-        search "${searchTerm}";
-        where version_parent = null & (cover != null | artworks != null);
-        limit ${pageSize}; offset ${offSet};
-      };`;
-    console.log(body);
+        limit ${pageSize}; offset ${offSet};`
     return new Request(url, {
       method: 'POST',
       headers: await this.requestHeaders(),
-      // parent = null excludes duplicates of versions
-      // company involved != null probably excludes romhacks
+
       // fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*; search "${searchTerm}"; where version_parent = null & (cover != null | artworks != null); limit ${pageSize}; offset ${offSet};
       body,
     });
   }
 
-  async convertToSearchResults(data: IGDBMultiQueryWithCount<IGDBGamesResult[]>): Promise<SearchResults> {
-    console.log(data);
-    const games = data[1].result;
-    const count = data[0].count;
+  async convertToSearchResults(data: IGDBGamesResult[], count = 51): Promise<SearchResults> {
+    const games = data;
     return {
       count,
       results: games.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies }) => {
