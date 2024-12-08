@@ -1,9 +1,8 @@
 import { PlatformResult } from '../../netlify/apiProviders/types.mts';
-import type { SearchResults, SearchResult, ResultImage } from '../../netlify/apiProviders/types.mjs';
+import type { SearchResults, SearchResult } from '../../netlify/apiProviders/types.mjs';
 import { SEARCH_PAGESIZE } from '../../netlify/apiProviders/constants.mts';
 
 const SEARCH_ENDPOINT = '/api/search';
-const GAMESDB_IMAGE_ENDPOINT = '/thegamesdb/v1/Games/Images';
 
 export let platformsData: PlatformResult[] = [];
 
