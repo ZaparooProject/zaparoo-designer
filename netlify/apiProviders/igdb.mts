@@ -98,25 +98,26 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
     );
     const pageSize = 50;
     const offSet = (parseInt(page, 10) - 1) * pageSize;
+    const body = `
+      query games/count "games_count" {
+        search "${searchTerm}";
+        where version_parent = null & (cover != null | artworks != null);
+      };
+
+      query games "games" {
+        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*;
+        search "${searchTerm}";
+        where version_parent = null & (cover != null | artworks != null);
+        limit ${pageSize}; offset ${offSet};
+      };`;
+    console.log(body);
     return new Request(url, {
       method: 'POST',
       headers: await this.requestHeaders(),
       // parent = null excludes duplicates of versions
       // company involved != null probably excludes romhacks
       // fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*; search "${searchTerm}"; where version_parent = null & (cover != null | artworks != null); limit ${pageSize}; offset ${offSet};
-      body: `
-      query games/count "games_count" {
-        search "${searchTerm}";
-        where version_parent = null & (cover != null | artworks != null);
-      };
-
-      
-      query games "games" {
-        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
-        search "${searchTerm}";
-        where version_parent = null & (cover != null | artworks != null);
-        limit ${pageSize}; offset ${offSet};
-      };`
+      body,
     });
   }
 
