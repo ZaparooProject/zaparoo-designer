@@ -164,7 +164,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
   }
 
   async getPlatformsRequest(): Promise<Request> {
-    const path = '/v4/multiquery';
+    const path = '/v4/platforms';
     const url = new URL(
       path,
       this.endpoint,
@@ -173,23 +173,16 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
       method: 'POST',
       headers: await this.requestHeaders(),
       body: `
-      query platforms/count "platforms_count" {
-        where platform_logo != null;
-      };
-
-      query platforms "platforms" {
         fields abbreviation, alternative_name, generation, name, platform_logo, versions, platform_logo.*, versions.*, versions.platform_logo.*;
         limit 500;
-      };`
+      `
     });
   }
 
-  async convertToPlatformsResults(data: IGDBMultiQueryWithCount<IGDBPlatformsResult[]>): Promise<PlatformResults> {
-    const platforms = data[1].result;
-    const count = data[0].count;
+  async convertToPlatformsResults(data: IGDBPlatformsResult[], count: number = 0): Promise<PlatformResults> {
     return {
       count,
-      results: platforms.map(({ id, name, abbreviation, platform_logo, versions }: IGDBPlatformsResult) => ({
+      results: data.map(({ id, name, abbreviation, platform_logo, versions }: IGDBPlatformsResult) => ({
         id,
         name,
         abbreviation,

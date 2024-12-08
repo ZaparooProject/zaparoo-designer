@@ -10,9 +10,11 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
   try {
 
     const response = await fetch(request);
-    const { status, statusText } = response;
+    const { status, statusText, headers } = response;
     const data = await response.json();
-    const converted = await provider.convertToPlatformsResults(data);
+    const xCount = headers.get("x-count");
+    const count = xCount ? parseInt(xCount, 10) : undefined;
+    const converted = await provider.convertToPlatformsResults(data, count);
     const respHeaders = prepareCorsHeaders(req);
     return new Response(JSON.stringify(converted), { status, statusText, headers: respHeaders });
   } catch(e: unknown) {

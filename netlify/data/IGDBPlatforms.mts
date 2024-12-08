@@ -628,6 +628,7 @@ export const platforms = {
     },
     {
       "id": 136,
+      popular: true,
       "name": "Neo Geo CD",
       "versions": [
         {
@@ -718,6 +719,7 @@ export const platforms = {
     },
     {
       "id": 150,
+      popular: true,
       "name": "Turbografx-16/PC Engine CD",
       "versions": [
         {
@@ -945,6 +947,7 @@ export const platforms = {
     },
     {
       "id": 119,
+      popular: true,
       "name": "Neo Geo Pocket",
       "versions": [
         {
@@ -1344,6 +1347,7 @@ export const platforms = {
     },
     {
       "id": 120,
+      popular: true,
       "name": "Neo Geo Pocket Color",
       "versions": [
         {
@@ -1880,6 +1884,7 @@ export const platforms = {
     },
     {
       "id": 15,
+      popular: true,
       "name": "Commodore C64/128/MAX",
       "abbreviation": "C64",
       "versions": [
@@ -2151,6 +2156,7 @@ export const platforms = {
     },
     {
       "id": 86,
+      popular: true,
       "name": "TurboGrafx-16/PC Engine",
       "abbreviation": "turbografx16",
       "versions": [
@@ -2178,6 +2184,7 @@ export const platforms = {
     },
     {
       "id": 114,
+      popular: true,
       "name": "Amiga CD32",
       "versions": [
         {
@@ -2722,6 +2729,7 @@ export const platforms = {
     },
     {
       "id": 79,
+      popular: true,
       "name": "Neo Geo MVS",
       "abbreviation": "neogeomvs",
       "versions": [
@@ -2775,6 +2783,7 @@ export const platforms = {
     },
     {
       "id": 80,
+      popular: true,
       "name": "Neo Geo AES",
       "abbreviation": "neogeoaes",
       "versions": [
@@ -4456,6 +4465,7 @@ export const platforms = {
     {
       "id": 7,
       "name": "PlayStation",
+      popular: true,
       "abbreviation": "PS1",
       "versions": [
         {
