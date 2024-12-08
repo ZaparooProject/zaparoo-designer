@@ -179,7 +179,6 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
 
       query platforms "platforms" {
         fields abbreviation, alternative_name, generation, name, platform_logo, versions, platform_logo.*, versions.*, versions.platform_logo.*;
-        where platform_logo != null;
         limit 500;
       };`
     });
