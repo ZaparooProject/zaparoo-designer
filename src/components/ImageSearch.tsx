@@ -199,6 +199,7 @@ export default function ImageSearch({
                   <div
                     className="searchResultSub verticalStack"
                     id={`sub-${openGameId}`}
+                    key={gameEntry.id}
                   >
                     <div className="title">
                       {gameEntry.name}{' '}
@@ -207,7 +208,7 @@ export default function ImageSearch({
                         .join(' - ')}
                     </div>
                     <div className="horizontalStack searchResultsContainer">
-                      <div className="searchResult" key={gameEntry.id}>
+                      <div className="searchResult">
                         <Button>
                           <img
                             src={gameEntry.cover.url}
