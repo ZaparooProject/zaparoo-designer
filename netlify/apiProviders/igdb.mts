@@ -113,6 +113,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
         fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         ${termSearch}
         where version_parent = null & ${platformSearch} (cover != null | artworks != null);
+        order name asc;
         limit ${pageSize}; offset ${offSet};`
     return new Request(url, {
       method: 'POST',
