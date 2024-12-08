@@ -1,11 +1,11 @@
-import { Platform } from '../../netlify/data/gamesDbPlatforms';
+import { PlatformResult } from '../../netlify/apiProviders/types.mts';
 import type { SearchResults, SearchResult, ResultImage } from '../../netlify/apiProviders/types.mjs';
 import { SEARCH_PAGESIZE } from '../../netlify/apiProviders/constants.mts';
 
 const SEARCH_ENDPOINT = '/api/search';
 const GAMESDB_IMAGE_ENDPOINT = '/thegamesdb/v1/Games/Images';
 
-export let platformsData: Platform[] = [];
+export let platformsData: PlatformResult[] = [];
 
 export type ResultsForSearchUI = {
   games: SearchResult[];
@@ -13,22 +13,20 @@ export type ResultsForSearchUI = {
   count: number;
 }
 
-export const platformPromise = import('../../netlify/data/gamesDbPlatforms').then((data) => {
-  const allPlatform = data.platforms['0'];
-  const sortedValues = Object.values(data.platforms).slice(1).sort((valueA, valueB) => {
-    return valueA.name > valueB.name ? 1 : -1;
-  });
-  sortedValues.unshift(allPlatform);
-  platformsData = sortedValues;
+export const platformPromise = import('../../netlify/data/IGDBPlatforms.mts').then((data) => {
+  const allPlatform = { id: 0, name: 'All', abbreviation: 'all', versions: [] };
+  const platforms = data.platforms.results;
+  platforms.unshift(allPlatform)
+  platformsData = platforms;
   return {
-    count: data.count,
-    platforms: sortedValues,
+    count: data.platforms.count,
+    platforms: platformsData,
   };
 });
 
 export async function fetchGameList(
   query: string,
-  platform: Platform,
+  platform: PlatformResult,
   page: string,
 ): Promise<ResultsForSearchUI> {
   const url = getGoodUrl(SEARCH_ENDPOINT);

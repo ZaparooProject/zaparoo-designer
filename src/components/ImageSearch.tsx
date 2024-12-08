@@ -20,7 +20,7 @@ import { useInView } from 'react-intersection-observer';
 
 import './imageSearch.css';
 import { fetchGameList, getImage } from '../utils/search';
-import { Platform } from '../../netlify/data/gamesDbPlatforms';
+import { PlatformResult } from '../../netlify/apiProviders/types.mts';
 import { PlatformDropdown } from './PlatformDropdown';
 import { SearchResult } from '../../netlify/apiProviders/types.mts';
 
@@ -38,13 +38,10 @@ export default function ImageSearch({
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [searching, setSearching] = useState<boolean>(false);
-  const [platform, setPlatform] = useState<Platform>({
+  const [platform, setPlatform] = useState<PlatformResult>({
     id: 0,
-    name: 'all',
-    alias: 'all',
-    overview: '',
-    icon: '',
-    console: '',
+    name: 'All',
+    abbreviation: 'All',
   });
   const [openGameId, setOpenGameId] = useState<SearchResult['id']>('0');
   const [, startTransition] = useTransition();
@@ -81,7 +78,7 @@ export default function ImageSearch({
   const executeSearch = (
     searchQuery: string,
     page: number,
-    platform: Platform,
+    platform: PlatformResult,
     queueResults: boolean = true,
   ) => {
     const now = performance.now();

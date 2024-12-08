@@ -45,7 +45,7 @@ type IGDBGamesResult = {
 }
 
 type IGDBPlatformsResult = {
-  id: string;
+  id: number;
   abbreviation: string;
   alternative_name: string;
   name: string;
@@ -99,12 +99,16 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     );
     const pageSize = SEARCH_PAGESIZE;
     const offSet = (parseInt(page, 10) - 1) * pageSize;
+    let platformSearch = '';
+    if (platformId) {
+      platformSearch  = ` platforms = [${platformId}] & `;
+    }
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks
     const body = `
         fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         search "${searchTerm}";
-        where version_parent = null & (cover != null | artworks != null);
+        where version_parent = null & ${platformSearch} (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`
     return new Request(url, {
       method: 'POST',

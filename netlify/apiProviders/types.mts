@@ -8,7 +8,7 @@ export type ResultImage = {
 }
 
 export type PlatformResult = {
-  id: string;
+  id: number;
   name: string;
   abbreviation: string;
   platform_logo?: ResultImage;

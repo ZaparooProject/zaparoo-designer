@@ -4,22 +4,22 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Platform } from '../../netlify/data/gamesDbPlatforms';
+import { type PlatformResult } from '../../netlify/apiProviders/types.mjs';
 import { platformPromise, platformsData } from '../utils/search';
 
 type PlatformDropdownProps = {
-  setPlatform: (p: Platform) => void;
-  platform: Platform;
+  setPlatform: (p: PlatformResult) => void;
+  platform: PlatformResult;
 };
 
 export const PlatformDropdown = ({
   setPlatform,
   platform,
 }: PlatformDropdownProps): JSX.Element => {
-  const [, setReady] = useState(true);
+  const [ready, setReady] = useState(false);
   useEffect(() => {
     platformPromise.then(() => setReady(true));
-  }, []);
+  }, [ready]);
   const togglePlatform = useCallback(
     async (evt: SelectChangeEvent<string>) => {
       const value = evt.target.value;
