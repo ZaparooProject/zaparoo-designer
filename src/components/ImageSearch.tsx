@@ -56,6 +56,10 @@ export default function ImageSearch({
     threshold: 0.9,
   });
 
+  useEffect(() => {
+    document.getElementById(`sub-${openGameId}`)?.scrollIntoView(true);
+  }, [openGameId]);
+
   const addImage = async (e: MouseEvent<HTMLImageElement>, url: string) => {
     const target = e.target as HTMLImageElement;
     getImage(url, target.src).then((file) => {
@@ -71,7 +75,7 @@ export default function ImageSearch({
     e.preventDefault();
     setPage(1);
     setSearching(true);
-    executeSearch(searchQuery, page, platform, false);
+    executeSearch(searchQuery, 1, platform, false);
   };
 
   const executeSearch = (
@@ -195,7 +199,10 @@ export default function ImageSearch({
                   </div>
                 )}
                 {gameEntry.id === openGameId && (
-                  <div className="searchResultSub verticalStack">
+                  <div
+                    className="searchResultSub verticalStack"
+                    id={`sub-${openGameId}`}
+                  >
                     <div className="title">
                       {gameEntry.name}{' '}
                       {gameEntry.platforms

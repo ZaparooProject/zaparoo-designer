@@ -1,5 +1,6 @@
 import { Platform } from '../../netlify/data/gamesDbPlatforms';
 import type { SearchResults, SearchResult, ResultImage } from '../../netlify/apiProviders/types.mjs';
+import { SEARCH_PAGESIZE } from '../../netlify/apiProviders/constants.mts';
 
 const SEARCH_ENDPOINT = '/api/search';
 const GAMESDB_IMAGE_ENDPOINT = '/thegamesdb/v1/Games/Images';
@@ -9,6 +10,7 @@ export let platformsData: Platform[] = [];
 export type ResultsForSearchUI = {
   games: SearchResult[];
   hasMore: boolean;
+  count: number;
 }
 
 export const platformPromise = import('../../netlify/data/gamesDbPlatforms').then((data) => {
@@ -41,16 +43,18 @@ export async function fetchGameList(
     })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((res) => res.json() as Promise<SearchResults>)
-      .then(async ({ results }) => {
+      .then(async ({ results, count }) => {
           await platformPromise;
           return {
-            hasMore: false,
+            count,
+            hasMore: (count / SEARCH_PAGESIZE) > parseInt(page, 10) ? true : false,
             games: results,
           };
       })
       .catch((err) => {
         console.error(err);
         return {
+          count: 0,
           hasMore: false,
           games: [] as SearchResult[],
         };

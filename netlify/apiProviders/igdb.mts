@@ -1,4 +1,5 @@
 import { BaseProvider } from "./baseProvider.mjs";
+import { SEARCH_PAGESIZE } from "./constants.mjs";
 import { getToken } from "./twitchTokenManager.mjs";
 import type { ResultImage, SearchResult, SearchResults, PlatformResults } from "./types.mts";
 
@@ -71,7 +72,7 @@ export const extractUsefulImage = (img: IGDBImage & any): ResultImage => {
   };
 };
 
-export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGamesResult[]>> {
+export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
 
   urlPath = '/igdb/';
   endpoint = process.env.IGDB_ENDPOINT;
@@ -96,7 +97,7 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
       searchPath,
       this.endpoint,
     );
-    const pageSize = 50;
+    const pageSize = SEARCH_PAGESIZE;
     const offSet = (parseInt(page, 10) - 1) * pageSize;
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks
@@ -148,7 +149,6 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
           }))
         }
         if (involved_companies) {
-          console.log(involved_companies)
           result.involved_companies = involved_companies.map(({ id, company }) => ({
             id,
             company: {
@@ -228,7 +228,6 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
 
   async converToCompaniesResults(data: IGDBMultiQueryWithCount<IGDBCompanyResult[]>): Promise<unknown> {
     const companies = data[1].result;
-    console.log(companies)
     const count = data[0].count;
     return {
       count,

@@ -35,6 +35,7 @@
 }
 
 .searchResultSub {
+  overflow-x: hidden;
   border: 1px solid white;
   width: 100%;
   min-height: 300px;
