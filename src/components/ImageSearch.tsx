@@ -2,6 +2,8 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Checkbox from '@mui/material/Checkbox';
+
 import {
   useState,
   type MouseEvent,
@@ -37,6 +39,7 @@ export default function ImageSearch({
   const [gameEntries, setGameEntries] = useState<SearchResult[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
+  const [isRomHacks, setIsRomHacks] = useState<boolean>(false);
   const [searching, setSearching] = useState<boolean>(false);
   const [platform, setPlatform] = useState<PlatformResult>({
     id: 0,
@@ -57,6 +60,11 @@ export default function ImageSearch({
     document.getElementById(`sub-${openGameId}`)?.scrollIntoView(true);
   }, [openGameId]);
 
+  useEffect(() => {
+    setPage(1);
+    setHasMore(false);
+  }, [platform, isRomHacks]);
+
   const addImage = async (e: MouseEvent<HTMLImageElement>, url: string) => {
     const target = e.target as HTMLImageElement;
     getImage(url, target.src).then((file) => {
@@ -72,13 +80,14 @@ export default function ImageSearch({
     e.preventDefault();
     setPage(1);
     setSearching(true);
-    executeSearch(searchQuery, 1, platform, false);
+    executeSearch(searchQuery, 1, platform, isRomHacks, false);
   };
 
   const executeSearch = (
     searchQuery: string,
     page: number,
     platform: PlatformResult,
+    isRomHacks: boolean,
     queueResults: boolean = true,
   ) => {
     const now = performance.now();
@@ -86,7 +95,7 @@ export default function ImageSearch({
       return;
     }
     timerRef.current = now;
-    fetchGameList(searchQuery, platform, page.toString()).then(
+    fetchGameList(searchQuery, platform, page.toString(), isRomHacks).then(
       ({ games, hasMore }) => {
         if (queueResults) {
           setGameEntries([...gameEntries, ...games]);
@@ -104,7 +113,7 @@ export default function ImageSearch({
 
   useEffect(() => {
     if (inView) {
-      executeSearch(searchQuery, page, platform, true);
+      executeSearch(searchQuery, page, platform, isRomHacks, true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
@@ -143,6 +152,16 @@ export default function ImageSearch({
               }
             />
             <PlatformDropdown setPlatform={setPlatform} platform={platform} />
+            <Checkbox
+              color="secondary"
+              checked={isRomHacks}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                const isSelectedCheckbox = (e.target as HTMLInputElement)
+                  .checked;
+                setIsRomHacks(isSelectedCheckbox);
+              }}
+            />
             <Button
               variant="contained"
               size="small"
