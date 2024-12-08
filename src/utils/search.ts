@@ -74,33 +74,6 @@ const getGoodUrl = (relativeUrl: string): URL => {
   return url;
 }
 
-export async function fetchGameImages(gameId: string): Promise<{ images: ResultImage[] }> {
-  const url = getGoodUrl(GAMESDB_IMAGE_ENDPOINT);
-  url.searchParams.append('games_id', `${gameId}`);
-  url.searchParams.append(
-    'filter[type]',
-    'fanart,banner,boxart,screenshot,clearlogo,titlescreen',
-  );
-  return (
-    fetch(url, {
-      mode: 'cors',
-    })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((res) => res.json() as Promise<any>)
-      .then(() => {
-        return {
-          images: [] as ResultImage[],
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        return {
-          images: [] as ResultImage[],
-        };
-      })
-  );
-}
-
 export async function getImage(cdnUrl: string, previousUrl: string): Promise<File> {
   const url = getGoodUrl('/imageProxy/');
   url.searchParams.append('imageUrl', `${cdnUrl}`);
