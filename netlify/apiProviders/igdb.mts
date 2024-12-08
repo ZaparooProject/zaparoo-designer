@@ -91,7 +91,7 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getSearchRequest(searchTerm: string, page: string, platformId?: string): Promise<Request> {
-    const searchPath = '/v4/games';
+    const searchPath = '/v4/multiquery';
     const url = new URL(
       searchPath,
       this.endpoint,
@@ -103,22 +103,30 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
       headers: await this.requestHeaders(),
       // parent = null excludes duplicates of versions
       // company involved != null probably excludes romhacks
-      //  body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*; search "${searchTerm}"; where version_parent = null & (cover != null | artworks != null); limit ${pageSize}; offset ${offSet};`,
-
-      body: `fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.abbreviation, involved_companies, involved_companies.company.logo.*;
+      // fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*,platforms.*, platforms.platform_logo.*; search "${searchTerm}"; where version_parent = null & (cover != null | artworks != null); limit ${pageSize}; offset ${offSet};
+      body: `
+      query games/count "games_count" {
         search "${searchTerm}";
         where version_parent = null & (cover != null | artworks != null);
-        limit ${pageSize}; offset ${offSet};`
+      };
+
+      
+      query games "games" {
+        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
+        search "${searchTerm}";
+        where version_parent = null & (cover != null | artworks != null);
+        limit ${pageSize}; offset ${offSet};
+      };`
     });
   }
 
-  async convertToSearchResults(data: IGDBGamesResult[]): Promise<SearchResults> {
+  async convertToSearchResults(data: IGDBMultiQueryWithCount<IGDBGamesResult[]>): Promise<SearchResults> {
     console.log(data);
-    // const games = data[1].result;
-    // const count = data[0].count;
+    const games = data[1].result;
+    const count = data[0].count;
     return {
-      count: 51,
-      results: data.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies }) => {
+      count,
+      results: games.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies }) => {
         let extraImages = 0;
         const result = {
           id,
@@ -164,7 +172,7 @@ export class IGBDProvider extends BaseProvider<IGDBMultiQueryWithCount<IGDBGames
   }
 
   async getPlatformsRequest(): Promise<Request> {
-    const path = 'v4/multiquery';
+    const path = '/v4/multiquery';
     const url = new URL(
       path,
       this.endpoint,
