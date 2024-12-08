@@ -145,9 +145,16 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
         }
         if (cover) {
           result.cover = extractUsefulImage(cover);
+        } else if (artworks) {
+          result.cover = result.artworks[0];
         } else {
-          if (artworks) {
-            result.cover = result.artworks[0];
+          result.cover = {
+            url: '',
+            thumb: '',
+            width: 0,
+            height: 0,
+            image_id: 'none',
+            id: 0,
           }
         }
         if (platforms) {
