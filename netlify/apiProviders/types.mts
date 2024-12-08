@@ -37,5 +37,6 @@ export type PlatformResults = {
   count: number;
   results: (PlatformResult & {
     versions: PlatformResult[];
+    popular?: boolean,
   })[],
 }

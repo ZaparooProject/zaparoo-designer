@@ -69,6 +69,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 416,
       "name": "64DD",
       "versions": [
@@ -199,6 +200,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 16,
       "name": "Amiga",
       "abbreviation": "Amiga",
@@ -258,6 +260,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 114,
       "name": "Amiga CD32",
       "versions": [
@@ -284,6 +287,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 25,
       "name": "Amstrad CPC",
       "abbreviation": "ACPC",
@@ -323,6 +327,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 506,
       "name": "Amstrad GX4000",
       "versions": [
@@ -581,6 +586,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 75,
       "name": "Apple II",
       "abbreviation": "Apple][",
@@ -608,6 +614,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 115,
       "name": "Apple IIGS",
       "versions": [
@@ -660,6 +667,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 52,
       "name": "Arcade",
       "abbreviation": "Arcade",
@@ -927,6 +935,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 59,
       "name": "Atari 2600",
       "abbreviation": "Atari2600",
@@ -966,6 +975,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 66,
       "name": "Atari 5200",
       "abbreviation": "Atari5200",
@@ -993,6 +1003,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 60,
       "name": "Atari 7800",
       "abbreviation": "Atari7800",
@@ -1020,6 +1031,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 65,
       "name": "Atari 8-bit",
       "abbreviation": "Atari8bit",
@@ -1059,6 +1071,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 62,
       "name": "Atari Jaguar",
       "abbreviation": "Jaguar",
@@ -1086,6 +1099,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 410,
       "name": "Atari Jaguar CD",
       "versions": [
@@ -1112,6 +1126,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 61,
       "name": "Atari Lynx",
       "abbreviation": "Lynx",
@@ -1151,6 +1166,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 63,
       "name": "Atari ST/STE",
       "abbreviation": "Atari-ST",
@@ -1481,6 +1497,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 68,
       "name": "ColecoVision",
       "abbreviation": "colecovision",
@@ -1508,6 +1525,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 93,
       "name": "Commodore 16",
       "abbreviation": "C16",
@@ -1535,6 +1553,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 15,
       "name": "Commodore C64/128/MAX",
       "abbreviation": "C64",
@@ -1574,6 +1593,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 158,
       "name": "Commodore CDTV",
       "versions": [
@@ -1654,6 +1674,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 71,
       "name": "Commodore VIC-20",
       "abbreviation": "vic-20",
@@ -1755,6 +1776,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 13,
       "name": "DOS",
       "abbreviation": "DOS",
@@ -1794,6 +1816,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 153,
       "name": "Dragon 32/64",
       "versions": [
@@ -1820,6 +1843,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 23,
       "name": "Dreamcast",
       "abbreviation": "DC",
@@ -2082,6 +2106,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 99,
       "name": "Family Computer",
       "abbreviation": "famicom",
@@ -2145,6 +2170,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 51,
       "name": "Family Computer Disk System",
       "abbreviation": "fds",
@@ -2263,6 +2289,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 378,
       "name": "Gamate",
       "versions": [
@@ -2289,6 +2316,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 33,
       "name": "Game Boy",
       "abbreviation": "Game Boy",
@@ -2340,6 +2368,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 24,
       "name": "Game Boy Advance",
       "abbreviation": "GBA",
@@ -2391,6 +2420,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 22,
       "name": "Game Boy Color",
       "abbreviation": "GBC",
@@ -2444,6 +2474,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 307,
       "name": "Game & Watch",
       "abbreviation": "G&W",
@@ -2669,6 +2700,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 67,
       "name": "Intellivision",
       "abbreviation": "intellivision",
@@ -3132,6 +3164,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 408,
       "name": "Mega Duck/Cougar Boy",
       "versions": [
@@ -3253,6 +3286,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 27,
       "name": "MSX",
       "abbreviation": "MSX",
@@ -3280,6 +3314,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 53,
       "name": "MSX2",
       "abbreviation": "MSX2",
@@ -3333,6 +3368,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 80,
       "name": "Neo Geo AES",
       "abbreviation": "neogeoaes",
@@ -3360,6 +3396,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 136,
       "name": "Neo Geo CD",
       "versions": [
@@ -3386,6 +3423,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 79,
       "name": "Neo Geo MVS",
       "abbreviation": "neogeomvs",
@@ -3413,6 +3451,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 119,
       "name": "Neo Geo Pocket",
       "versions": [
@@ -3439,6 +3478,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 120,
       "name": "Neo Geo Pocket Color",
       "versions": [
@@ -3465,6 +3505,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 137,
       "name": "New Nintendo 3DS",
       "versions": [
@@ -3534,6 +3575,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 37,
       "name": "Nintendo 3DS",
       "abbreviation": "3DS",
@@ -3585,6 +3627,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 4,
       "name": "Nintendo 64",
       "abbreviation": "N64",
@@ -3624,6 +3667,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 20,
       "name": "Nintendo DS",
       "abbreviation": "NDS",
@@ -3687,6 +3731,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 159,
       "name": "Nintendo DSi",
       "versions": [
@@ -3725,6 +3770,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 18,
       "name": "Nintendo Entertainment System",
       "abbreviation": "NES",
@@ -4325,6 +4371,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 128,
       "name": "PC Engine SuperGrafx",
       "abbreviation": "supergrafx",
@@ -4352,6 +4399,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 274,
       "name": "PC-FX",
       "versions": [
@@ -4378,6 +4426,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 6,
       "name": "PC (Microsoft Windows)",
       "abbreviation": "PC",
@@ -4592,6 +4641,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 117,
       "name": "Philips CD-i",
       "versions": [
@@ -4697,6 +4747,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 7,
       "name": "PlayStation",
       "abbreviation": "PS1",
@@ -4740,6 +4791,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 8,
       "name": "PlayStation 2",
       "abbreviation": "PS2",
@@ -4779,6 +4831,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 9,
       "name": "PlayStation 3",
       "abbreviation": "PS3",
@@ -4912,6 +4965,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 38,
       "name": "PlayStation Portable",
       "abbreviation": "PSP",
@@ -4987,6 +5041,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 46,
       "name": "PlayStation Vita",
       "abbreviation": "Vita",
@@ -5237,6 +5292,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 30,
       "name": "Sega 32X",
       "abbreviation": "Sega32",
@@ -5268,6 +5324,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 78,
       "name": "Sega CD",
       "abbreviation": "segacd",
@@ -5295,6 +5352,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 482,
       "name": "Sega CD 32X",
       "versions": [
@@ -5321,6 +5379,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 35,
       "name": "Sega Game Gear",
       "abbreviation": "Game Gear",
@@ -5348,6 +5407,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 64,
       "name": "Sega Master System/Mark III",
       "abbreviation": "SMS",
@@ -5403,6 +5463,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 29,
       "name": "Sega Mega Drive/Genesis",
       "abbreviation": "Genesis/MegaDrive",
@@ -5474,6 +5535,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 339,
       "name": "Sega Pico",
       "versions": [
@@ -5500,6 +5562,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 32,
       "name": "Sega Saturn",
       "abbreviation": "Saturn",
@@ -5527,6 +5590,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 84,
       "name": "SG-1000",
       "abbreviation": "sg1000",
@@ -5603,6 +5667,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 121,
       "name": "Sharp X68000",
       "versions": [
@@ -5655,6 +5720,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 373,
       "name": "Sinclair ZX81",
       "versions": [
@@ -5691,6 +5757,7 @@ export const platforms: PlatformResults = {
       ]
     },
     {
+      popular: true,
       "id": 163,
       "name": "SteamVR",
       "abbreviation": "Steam VR",
@@ -5718,6 +5785,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 480,
       "name": "Super A'Can",
       "versions": [
@@ -5744,6 +5812,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 58,
       "name": "Super Famicom",
       "abbreviation": "SFAM",
@@ -5825,6 +5894,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 19,
       "name": "Super Nintendo Entertainment System",
       "abbreviation": "SNES",
@@ -6144,6 +6214,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 86,
       "name": "TurboGrafx-16/PC Engine",
       "abbreviation": "turbografx16",
@@ -6171,6 +6242,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 150,
       "name": "Turbografx-16/PC Engine CD",
       "versions": [
@@ -6253,6 +6325,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 70,
       "name": "Vectrex",
       "abbreviation": "vectrex",
@@ -6280,6 +6353,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 87,
       "name": "Virtual Boy",
       "abbreviation": "virtualboy",
@@ -6573,6 +6647,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 5,
       "name": "Wii",
       "abbreviation": "Wii",
@@ -6612,6 +6687,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 41,
       "name": "Wii U",
       "abbreviation": "WiiU",
@@ -6802,6 +6878,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 57,
       "name": "WonderSwan",
       "abbreviation": "WonderSwan",
@@ -6853,6 +6930,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 123,
       "name": "WonderSwan Color",
       "versions": [
@@ -6879,6 +6957,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 11,
       "name": "Xbox",
       "abbreviation": "XBOX",
@@ -6906,6 +6985,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 12,
       "name": "Xbox 360",
       "abbreviation": "X360",
@@ -7089,6 +7169,7 @@ export const platforms: PlatformResults = {
       }
     },
     {
+      popular: true,
       "id": 26,
       "name": "ZX Spectrum",
       "abbreviation": "ZXS",
