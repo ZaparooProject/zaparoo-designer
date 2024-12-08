@@ -1,7 +1,7 @@
 export type ResultImage = {
   url: string;
   thumb: string;
-  id: string;
+  id: number;
   image_id: string;
   width: number;
   height: number;
