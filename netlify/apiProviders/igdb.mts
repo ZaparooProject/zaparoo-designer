@@ -91,7 +91,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async getSearchRequest(searchTerm: string, page: string, platformId?: string): Promise<Request> {
+  async getSearchRequest(searchTerm: string, page: string, platformId?: string, romHacks: boolean = false): Promise<Request> {
     const searchPath = '/v4/games';
     const url = new URL(
       searchPath,
@@ -101,18 +101,22 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     const offSet = (parseInt(page, 10) - 1) * pageSize;
     let platformSearch = '';
     let termSearch = '';
+    let companyInvolved = '';
     if (searchTerm) {
       termSearch = `search "${searchTerm}";`;
     }
     if (platformId) {
       platformSearch  = ` platforms = [${platformId}] & `;
     }
+    if (!romHacks) {
+      companyInvolved  = ` involved_companies != null & `;
+    }
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks
     const body = `
         fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         ${termSearch}
-        where version_parent = null & ${platformSearch} (cover != null | artworks != null);
+        where version_parent = null & ${platformSearch} ${companyInvolved} (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`
 
     return new Request(url, {

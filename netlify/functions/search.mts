@@ -13,6 +13,7 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
     searchParams.get("searchTerm") ?? "",
     searchParams.get("page") ?? "1",
     searchParams.get("platformId") ?? "",
+    searchParams.get("romHacks") === '1',
   )
   try {
     const response = await fetch(searchRequest);
