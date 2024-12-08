@@ -11,7 +11,7 @@ export type PlatformResult = {
   id: string;
   name: string;
   abbreviation: string;
-  platform_logo: ResultImage;
+  platform_logo?: ResultImage;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,5 +35,7 @@ export type SearchResults = {
 
 export type PlatformResults = {
   count: number;
-  results: PlatformResult[],
+  results: (PlatformResult & {
+    versions: PlatformResult[];
+  })[],
 }

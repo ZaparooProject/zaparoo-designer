@@ -13,8 +13,8 @@ export type ResultsForSearchUI = {
   count: number;
 }
 
-export const platformPromise = import('../../netlify/data/gamesDbPlatforms').then((data) => {
-  const allPlatform = data.platforms['0'];
+export const platformPromise = import('../../netlify/data/IGDBPlatforms.mts').then((data) => {
+  const allPlatform = data.results.platforms['0'];
   const sortedValues = Object.values(data.platforms).slice(1).sort((valueA, valueB) => {
     return valueA.name > valueB.name ? 1 : -1;
   });

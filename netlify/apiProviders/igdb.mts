@@ -174,6 +174,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
       headers: await this.requestHeaders(),
       body: `
         fields abbreviation, alternative_name, generation, name, platform_logo, versions, platform_logo.*, versions.*, versions.platform_logo.*;
+        sort name asc;
         limit 500;
       `
     });
@@ -192,7 +193,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
           abbreviation,
           ...(platform_logo ? { platform_logo: extractUsefulImage(platform_logo) } : {}),
         })) : [],
-        platform_logo: extractUsefulImage(platform_logo),
+        ...(platform_logo ? { platform_logo: extractUsefulImage(platform_logo) } : {}),
       }))
     }
   }
