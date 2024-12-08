@@ -116,6 +116,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
         sort name asc;
         limit ${pageSize}; offset ${offSet};`
 
+    console.log(body);
     return new Request(url, {
       method: 'POST',
       headers: await this.requestHeaders(),
