@@ -122,8 +122,8 @@ export default function ImageSearch({
     <div className="horizontalStack disclaimer">
       <Typography>
         Search results and images provided by{' '}
-        <a href="https://thegamesdb.net/" target="_blank">
-          TheGamesDB
+        <a href="https://www.igdb.com/" target="_blank">
+          IGDB
         </a>
       </Typography>
     </div>
@@ -152,16 +152,19 @@ export default function ImageSearch({
               }
             />
             <PlatformDropdown setPlatform={setPlatform} platform={platform} />
-            <Checkbox
-              color="secondary"
-              checked={isRomHacks}
-              onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                e.stopPropagation();
-                const isSelectedCheckbox = (e.target as HTMLInputElement)
-                  .checked;
-                setIsRomHacks(isSelectedCheckbox);
-              }}
-            />
+            <Typography display="flex" alignItems="center">
+              <Checkbox
+                color="secondary"
+                checked={isRomHacks}
+                onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                  e.stopPropagation();
+                  const isSelectedCheckbox = (e.target as HTMLInputElement)
+                    .checked;
+                  setIsRomHacks(isSelectedCheckbox);
+                }}
+              />
+              Fanmade
+            </Typography>
             <Button
               variant="contained"
               size="small"
