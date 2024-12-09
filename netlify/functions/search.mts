@@ -10,9 +10,9 @@ export default async (req: Request /* , context: Context */): Promise<Response> 
   const searchParams = parsedUrl.searchParams
   const provider = new IGBDProvider();
   const searchRequest = await provider.getSearchRequest(
-    searchParams.get("searchTerm") ?? "",
-    searchParams.get("page") ?? "1",
-    searchParams.get("platformId") ?? "",
+    searchParams.get("searchTerm") ?? '',
+    searchParams.get("page") ?? '1',
+    searchParams.get("platformId") ?? '',
     searchParams.get("romHacks") === '1',
   )
   try {

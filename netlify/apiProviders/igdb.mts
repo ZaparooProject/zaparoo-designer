@@ -41,6 +41,7 @@ type IGDBGamesResult = {
   name: string;
   platforms: IGDBPlatformsResult[];
   involved_companies: IGDBInvolvedCompany[];
+  keywords: { id: number, name: string }[];
   storyline;
 }
 
@@ -114,7 +115,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks
     const body = `
-        fields id,artworks,cover,genres,name,platforms,screenshots,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
+        fields id,artworks,cover,genres,name,platforms,screenshots,keywords,storyline,summary,artworks.*,cover.*,screenshots.*,keywords.name, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         ${termSearch}
         where version_parent = null & ${platformSearch} ${companyInvolved} (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`
@@ -130,8 +131,9 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     const games = data;
     return {
       count,
-      results: games.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies }) => {
+      results: games.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies, keywords }) => {
         let extraImages = 0;
+        keywords.forEach(keyword => console.log(name, keyword.id, keyword.name))
         const result = {
           id,
           name,
