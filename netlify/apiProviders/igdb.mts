@@ -135,9 +135,8 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     const games = data;
     return {
       count,
-      results: games.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies, keywords }) => {
+      results: games.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies }) => {
         let extraImages = 0;
-        keywords && keywords.forEach(keyword => console.log(name, keyword.id, keyword.name))
         const result = {
           id,
           name,
