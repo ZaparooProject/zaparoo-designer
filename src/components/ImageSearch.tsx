@@ -39,7 +39,7 @@ export default function ImageSearch({
   const [gameEntries, setGameEntries] = useState<SearchResult[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
-  const [isRomHacks, setIsRomHacks] = useState<boolean>(true);
+  const [isRomHacks /* , setIsRomHacks */] = useState<boolean>(true);
   const [searching, setSearching] = useState<boolean>(false);
   const [platform, setPlatform] = useState<PlatformResult>({
     id: 0,
