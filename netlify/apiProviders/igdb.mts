@@ -102,7 +102,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     const offSet = (parseInt(page, 10) - 1) * pageSize;
     let platformSearch = '';
     let termSearch = '';
-    let companyInvolved = '';
+    let romHackFilter = '';
     if (searchTerm) {
       termSearch = `search "${searchTerm}";`;
     }
@@ -114,14 +114,14 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
       // 16696 = rom hack
       // 24124 = fangame
       // 27216 = fanmade
-      companyInvolved  = ` keywords = !(2004, 16696, 24124, 27216) & `;
+      romHackFilter  = ` keywords = !(2004, 16696, 24124, 27216) & `;
     }
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks
     const body = `
         fields id,artworks,cover,genres,name,platforms,screenshots,keywords,storyline,summary,artworks.*,cover.*,screenshots.*,keywords.name, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         ${termSearch}
-        where version_parent = null & ${platformSearch} ${companyInvolved} (cover != null | artworks != null);
+        where version_parent = null & ${platformSearch} ${romHackFilter} (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`
 
     return new Request(url, {
