@@ -118,6 +118,7 @@
   .searchModal {
     width: calc(100vw - 16px);
     padding: 8px;
+    padding-left: 0px;
     height: 100vh;
     top: 0px;
   }

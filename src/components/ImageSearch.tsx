@@ -39,7 +39,7 @@ export default function ImageSearch({
   const [gameEntries, setGameEntries] = useState<SearchResult[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
-  const [isRomHacks, setIsRomHacks] = useState<boolean>(false);
+  const [isRomHacks, setIsRomHacks] = useState<boolean>(true);
   const [searching, setSearching] = useState<boolean>(false);
   const [platform, setPlatform] = useState<PlatformResult>({
     id: 0,
@@ -152,7 +152,7 @@ export default function ImageSearch({
               }
             />
             <PlatformDropdown setPlatform={setPlatform} platform={platform} />
-            <Typography display="flex" alignItems="center">
+            {/* <Typography display="flex" alignItems="center">
               <Checkbox
                 color="secondary"
                 checked={isRomHacks}
@@ -164,7 +164,7 @@ export default function ImageSearch({
                 }}
               />
               Fanmade
-            </Typography>
+            </Typography> */}
             <Button
               variant="contained"
               size="small"
