@@ -11,6 +11,7 @@ import {
   useEffect,
   useRef,
   Fragment,
+  useCallback,
 } from 'react';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -27,6 +28,35 @@ import { PlatformResult } from '../../netlify/apiProviders/types.mts';
 import { PlatformDropdown } from './PlatformDropdown';
 import { SearchResult } from '../../netlify/apiProviders/types.mts';
 import { Snackbar } from '@mui/material';
+
+const SearchResultView = ({
+  thumb,
+  url,
+  name,
+  children,
+  addImage,
+}: {
+  thumb: string;
+  url: string;
+  name: string;
+  children?: JSX.Element;
+  addImage: (
+    e: MouseEvent<HTMLImageElement>,
+    url: string,
+    name: string,
+  ) => void;
+}) => (
+  <div className="searchResult">
+    <Button>
+      <img
+        src={thumb}
+        onClick={(e) => addImage(e, url, name)}
+        style={{ cursor: 'pointer' }}
+      />
+    </Button>
+    {children}
+  </div>
+);
 
 export default function ImageSearch({
   open,
@@ -68,20 +98,19 @@ export default function ImageSearch({
     setHasMore(false);
   }, [platform, isRomHacks]);
 
-  const addImage = async (
-    e: MouseEvent<HTMLImageElement>,
-    url: string,
-    name: string,
-  ) => {
-    const target = e.target as HTMLImageElement;
-    setOpenSnackbar(`Adding ${name}`);
-    getImage(url, target.src).then((file) => {
-      startTransition(() => {
-        setFiles([...files, file]);
-        setTimeout(() => setOpenSnackbar(''), 1000);
+  const addImage = useCallback(
+    (e: MouseEvent<HTMLImageElement>, url: string, name: string) => {
+      const target = e.target as HTMLImageElement;
+      setOpenSnackbar(`Adding ${name}`);
+      getImage(url, target.src).then((file) => {
+        startTransition(() => {
+          setFiles([...files, file]);
+          setTimeout(() => setOpenSnackbar(''), 1000);
+        });
       });
-    });
-  };
+    },
+    [files, setFiles],
+  );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const executeSearchWithReset = (e: any) => {
@@ -134,29 +163,6 @@ export default function ImageSearch({
           IGDB
         </a>
       </Typography>
-    </div>
-  );
-
-  const SearchResult = ({
-    thumb,
-    url,
-    name,
-    children,
-  }: {
-    thumb: string;
-    url: string;
-    name: string;
-    children?: JSX.Element;
-  }) => (
-    <div className="searchResult">
-      <Button>
-        <img
-          src={thumb}
-          onClick={(e) => addImage(e, url, name)}
-          style={{ cursor: 'pointer' }}
-        />
-      </Button>
-      {children}
     </div>
   );
 
@@ -223,10 +229,11 @@ export default function ImageSearch({
               {gameEntries.map((gameEntry: SearchResult) => (
                 <Fragment key={`game-${gameEntry.id}`}>
                   {gameEntry.id !== openGameId && (
-                    <SearchResult
+                    <SearchResultView
                       name={gameEntry.name}
                       thumb={gameEntry.cover.thumb}
                       url={gameEntry.cover.url}
+                      addImage={addImage}
                     >
                       <Button
                         className="verticalStack"
@@ -247,7 +254,7 @@ export default function ImageSearch({
                             .join(' - ')}
                         </Typography>
                       </Button>
-                    </SearchResult>
+                    </SearchResultView>
                   )}
                   {gameEntry.id === openGameId && (
                     <div
@@ -261,25 +268,28 @@ export default function ImageSearch({
                           .join(' - ')}
                       </div>
                       <div className="horizontalStack searchResultsContainer">
-                        <SearchResult
+                        <SearchResultView
                           name={gameEntry.name}
                           thumb={gameEntry.cover.thumb}
                           url={gameEntry.cover.url}
+                          addImage={addImage}
                         />
                         {gameEntry.artworks?.map((art) => (
-                          <SearchResult
+                          <SearchResultView
                             key={`art-${art.id}`}
                             name={gameEntry.name}
                             thumb={art.thumb}
                             url={art.url}
+                            addImage={addImage}
                           />
                         ))}
                         {gameEntry.screenshots?.map((screenshot) => (
-                          <SearchResult
+                          <SearchResultView
                             key={`screen-${screenshot.id}`}
                             name={gameEntry.name}
                             thumb={screenshot.thumb}
                             url={screenshot.url}
+                            addImage={addImage}
                           />
                         ))}
                       </div>
