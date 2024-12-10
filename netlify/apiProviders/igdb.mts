@@ -114,7 +114,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
       // 16696 = rom hack
       // 24124 = fangame
       // 27216 = fanmade
-      romHackFilter  = ` keywords = !(2004, 16696, 24124, 27216) & `;
+      romHackFilter  = ` keywords != (2004, 16696, 24124, 27216) & `;
     }
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks

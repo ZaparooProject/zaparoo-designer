@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-// import Checkbox from '@mui/material/Checkbox';
+import Checkbox from '@mui/material/Checkbox';
 
 import {
   useState,
@@ -41,7 +41,7 @@ export default function ImageSearch({
   const [gameEntries, setGameEntries] = useState<SearchResult[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
-  const [isRomHacks /* , setIsRomHacks */] = useState<boolean>(true);
+  const [isRomHacks, setIsRomHacks] = useState<boolean>(true);
   const [searching, setSearching] = useState<boolean>(false);
   const [openSnackbar, setOpenSnackbar] = useState<string>('');
   const [platform, setPlatform] = useState<PlatformResult>({
@@ -156,24 +156,24 @@ export default function ImageSearch({
                 value={searchQuery}
                 onChange={(evt) => setSearchQuery(evt.target.value)}
                 style={{ fontWeight: 400, fontSize: 14 }}
-                onKeyDown={(e: any) =>
-                  e.key === 'Enter' && executeSearchWithReset(e)
-                }
-              />
-              <PlatformDropdown setPlatform={setPlatform} platform={platform} />
-              {/* <Typography display="flex" alignItems="center">
-              <Checkbox
-                color="secondary"
-                checked={isRomHacks}
-                onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                  e.stopPropagation();
-                  const isSelectedCheckbox = (e.target as HTMLInputElement)
-                    .checked;
-                  setIsRomHacks(isSelectedCheckbox);
+                onKeyDown={(e: any) => {
+                  e.key === 'Enter' && executeSearchWithReset(e);
                 }}
               />
-              Fanmade
-            </Typography> */}
+              <PlatformDropdown setPlatform={setPlatform} platform={platform} />
+              <Typography display="flex" alignItems="center">
+                <Checkbox
+                  color="secondary"
+                  checked={isRomHacks}
+                  onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                    e.stopPropagation();
+                    const isSelectedCheckbox = (e.target as HTMLInputElement)
+                      .checked;
+                    setIsRomHacks(isSelectedCheckbox);
+                  }}
+                />
+                Fanmade
+              </Typography>
               <Button
                 variant="contained"
                 size="small"
