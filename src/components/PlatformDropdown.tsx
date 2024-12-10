@@ -41,7 +41,7 @@ export const PlatformDropdown = ({
       >
         {platformsData.map((aPlatform) => (
           <MenuItem
-            key={aPlatform.id}
+            key={`platform-${aPlatform.id}`}
             value={aPlatform.id.toString()}
             selected={aPlatform.id === platform.id}
             sx={{ fontWeight: 400 }}
