@@ -119,7 +119,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks
     const body = `
-        fields id,artworks,cover,genres,name,platforms,screenshots,keywords,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
+        fields id,artworks,cover,genres,name,platforms,screenshots,keywords,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, platforms.abbreviation, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         ${termSearch}
         where version_parent = null & ${platformSearch} ${romHackFilter} (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`

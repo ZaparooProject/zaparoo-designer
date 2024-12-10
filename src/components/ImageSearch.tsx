@@ -137,6 +137,29 @@ export default function ImageSearch({
     </div>
   );
 
+  const SearchResult = ({
+    thumb,
+    url,
+    name,
+    children,
+  }: {
+    thumb: string;
+    url: string;
+    name: string;
+    children?: JSX.Element;
+  }) => (
+    <div className="searchResult">
+      <Button>
+        <img
+          src={thumb}
+          onClick={(e) => addImage(e, url, name)}
+          style={{ cursor: 'pointer' }}
+        />
+      </Button>
+      {children}
+    </div>
+  );
+
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
       <>
@@ -200,16 +223,11 @@ export default function ImageSearch({
               {gameEntries.map((gameEntry: SearchResult) => (
                 <Fragment key={`game-${gameEntry.id}`}>
                   {gameEntry.id !== openGameId && (
-                    <div className="searchResult">
-                      <Button>
-                        <img
-                          src={gameEntry.cover.thumb}
-                          onClick={(e) =>
-                            addImage(e, gameEntry.cover.url, gameEntry.name)
-                          }
-                          style={{ cursor: 'pointer' }}
-                        />
-                      </Button>
+                    <SearchResult
+                      name={gameEntry.name}
+                      thumb={gameEntry.cover.thumb}
+                      url={gameEntry.cover.url}
+                    >
                       <Button
                         className="verticalStack"
                         onClick={() =>
@@ -229,7 +247,7 @@ export default function ImageSearch({
                             .join(' - ')}
                         </Typography>
                       </Button>
-                    </div>
+                    </SearchResult>
                   )}
                   {gameEntry.id === openGameId && (
                     <div
@@ -243,45 +261,26 @@ export default function ImageSearch({
                           .join(' - ')}
                       </div>
                       <div className="horizontalStack searchResultsContainer">
-                        <div className="searchResult">
-                          <Button>
-                            <img
-                              src={gameEntry.cover.thumb}
-                              onClick={(e) =>
-                                addImage(e, gameEntry.cover.url, gameEntry.name)
-                              }
-                              style={{ cursor: 'pointer' }}
-                            />
-                          </Button>
-                        </div>
+                        <SearchResult
+                          name={gameEntry.name}
+                          thumb={gameEntry.cover.thumb}
+                          url={gameEntry.cover.url}
+                        />
                         {gameEntry.artworks?.map((art) => (
-                          <div className="searchResult" key={`art-${art.id}`}>
-                            <Button>
-                              <img
-                                src={art.thumb}
-                                onClick={(e) =>
-                                  addImage(e, art.url, gameEntry.name)
-                                }
-                                style={{ cursor: 'pointer' }}
-                              />
-                            </Button>
-                          </div>
+                          <SearchResult
+                            key={`art-${art.id}`}
+                            name={gameEntry.name}
+                            thumb={art.thumb}
+                            url={art.url}
+                          />
                         ))}
                         {gameEntry.screenshots?.map((screenshot) => (
-                          <div
-                            className="searchResult"
+                          <SearchResult
                             key={`screen-${screenshot.id}`}
-                          >
-                            <Button>
-                              <img
-                                src={screenshot.thumb}
-                                onClick={(e) =>
-                                  addImage(e, screenshot.url, gameEntry.name)
-                                }
-                                style={{ cursor: 'pointer' }}
-                              />
-                            </Button>
-                          </div>
+                            name={gameEntry.name}
+                            thumb={screenshot.thumb}
+                            url={screenshot.url}
+                          />
                         ))}
                       </div>
                     </div>
