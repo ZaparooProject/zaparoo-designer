@@ -47,7 +47,7 @@ const SearchResultView = ({
   ) => void;
 }) => (
   <div className="searchResult">
-    <Button>
+    <Button style={{ backgroundColor: 'transparent' }}>
       <img
         src={thumb}
         onClick={(e) => addImage(e, url, name)}
