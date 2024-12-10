@@ -11,10 +11,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.15.3",
-    "@mui/material": "^5.15.1",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
+    "@mui/icons-material": "6.1.10",
+    "@mui/material": "6.1.10",
     "@netlify/functions": "^2.6.0",
     "@react-three/fiber": "^8.17.7",
     "@types/blob-stream": "^0.1.33",
