@@ -1,29 +1,26 @@
-# Zaparoo templates format
+# Templates Format
 
-Templates are SVG.
-The SVG [format](https://www.w3.org/TR/SVG11/) is very flexible, SVGs come in many forms and shape and support a lot of features.
-The Zaparoo designer does not support any SVG feature. Zaparoo designer uses FabricJS to parse and render templates on a canvas and export them on a printable PDF, and so it inherits all the FabricJS limitations.
+Templates are in [SVG format](https://www.w3.org/TR/SVG11/).
+
+Zaparoo Designer uses [FabricJS](https://fabricjs.com/) to parse/render templates on a canvas and export them on a printable PDF. It is limited by the features FabricJS supports.
 
 ## General guidelines
 
-Zaparoo designer supports the following svg tags:
+Designer supports the following SVG tags:
 
 - Image
 - Rect
 - Path
 - Gradient
 
-The SVG vector format can be stretched without issues, but as a generic reference and to help everyone understand the template is a good idea to use a viewport that starts from 0,0 and to have no content bleeding outside the viewport.
+It's recommended to use a viewport that starts from 0,0 and to have no content bleeding outside the viewport.
 
-The preferred unit for measures is in pixels, as many pixels as you would need to print at 300dpi. This is only for easyness of calculation and debugging.
+The preferred unit for measurement is in pixels and assuming a final print of 300dpi. For example, if you are working for a 2 by 3 inch label, it is advised to work with a 600 by 900 canvas and a viewBox that is `0 0 600 900`.
 
-So for example if you are working for a 2 by 3 inch label, it is advised to work with a 600 by 900 canvas and a viewBox that is "0 0 600 900"
+Templates contributed to the Zaparoo Designer repository must not contain and copyrighted material or infringe on any trademarks, including Zaparoo trademarks.
 
-If you want to contribute a template for the designer do not add any copyrighted material in it.
+If you are building a template for a specific console or video game company, do not add the console logo or company logo, use placeholders instead. Users will search for their own logos on a third party API or search engines, and place them in the template.
 
-If you are building a template for a specific console or videogame company, do not add the console logo or company logo, but uses placeholders and then users will search for their own logos on third party api or search engines and place them in the template.
+A license must be included in all contributed templates using an XML comment. The license is your choice, but we recommend some variant of the [Creative Commons](https://creativecommons.org/) licenses that works best for your preferences. You can use the [Creative Common License Chooser](https://chooser-beta.creativecommons.org/) to easily pick the most appropriate one.
 
-When submitting a template add a license in it with an xml comment.
-You can write anything that you want in your own license, but if you can use one of those premade ones you will make easier to understand what is allowed to do with your template. A classic example is to allow or not allow other users to modify your template and create new ones, or sell it on etsy.
-
-## The canvas dimensions
+## Canvas dimensions
