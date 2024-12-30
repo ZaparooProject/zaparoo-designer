@@ -88,3 +88,15 @@ export type templateType = {
   printableAreas?: PrintableArea[],
   key: string;
 };
+
+export type templateTypeV2 = {
+  version: number;
+  layout: layoutOrientation;
+  url: string;
+  label: string;
+  /* a reference to the author data */
+  author: Authors;
+  media: MediaDefinition;
+  printableAreas?: PrintableArea[],
+  key: string;
+};

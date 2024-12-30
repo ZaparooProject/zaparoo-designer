@@ -56,4 +56,11 @@ The resulting SVG initial tag would look like something like this:
 
 ## The template layers
 
-The SVG is a stack of graphic layer,
+The SVG and so your template will be a stack of layers.
+There will be a spot for one or more images between the stack.
+Let's take for example our original basic template, the one with the old logo:
+
+```xml
+
+
+```

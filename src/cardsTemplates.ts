@@ -24,12 +24,12 @@ import cassetTape from './assets/cassette_tape.svg';
 import mininfcAlice from './assets/3by5_steam.svg';
 import cardFront from './assets/cardfront.png';
 import { Authors } from './templateAuthors';
-import { templateType } from './resourcesTypedef';
+import type { templateType, templateTypeV2 } from './resourcesTypedef';
 import { logoResource } from './logos';
 
 import { NFCCCsizeCard, TapeBoxCover, tapToPrePrinted, miniNfcCard } from './printMediaTypes';
 
-export const templates: Record<string, templateType> = {
+export const templates: Record<string, templateType | templateTypeV2> = {
   blankH: {
     layout: 'horizontal',
     label: 'Blank H cover',
@@ -489,18 +489,10 @@ export const templates: Record<string, templateType> = {
     key: 'cassetteBoxV2',
   },
   miniNfcAlice: {
+    version: 2,
     layout: 'vertical',
     label: 'Steam 3by5cm',
-    overlay: {
-      url: mininfcAlice,
-      isSvg: true,
-      layerWidth: 354,
-      layerHeight: 591,
-      height: 445/591,
-      width: 305/354,
-      y: 117/591,
-      x: 25/354,
-    },
+    url: mininfcAlice,
     author: Authors.alice,
     media: miniNfcCard,
     key: 'miniNfcAlice',
