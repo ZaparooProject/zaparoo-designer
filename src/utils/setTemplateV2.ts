@@ -177,11 +177,11 @@ export const setTemplateV2OnCanvases = async (
     const templateScale = util.findScaleToFit({
       width: templateSize.x,
       height: templateSize.y,
-    }, media);
-
+    }, canvas);
+console.log({ templateScale, templateSize, media })
     fabricLayer.set('canvas', canvas);
-    fabricLayer.scaleX = templateScale;
-    fabricLayer.scaleY = templateScale;
+    // fabricLayer.scaleX = templateScale;
+    // fabricLayer.scaleY = templateScale;
     // set the overlay of the template in the center of the card
     reposition(fabricLayer, template);
     scaleImageToOverlayArea(placeholder, mainImage);

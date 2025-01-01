@@ -1,3 +1,5 @@
+import { templateType, templateTypeV2 } from "../resourcesTypedef";
+
 export const colorsDiffer = (colorsA: string[], colorsB: string[]): boolean =>
   colorsA.some((color, index) => colorsB[index] !== color);
 
@@ -15,3 +17,5 @@ export const downloadBlob = (blob: Blob, name: string): void => {
 }
 
 export const fromMMtoPxAt72DPI = (mm: number): number => mm / 25.4 * 72;
+
+export const isTemplateV2 = (t: templateType | templateTypeV2): t is templateTypeV2 => (t as templateTypeV2).version === 2;
