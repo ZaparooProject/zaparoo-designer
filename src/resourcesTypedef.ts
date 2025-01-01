@@ -1,4 +1,4 @@
-import { type SerializedGroupProps } from 'fabric';
+import { type Group, type SerializedGroupProps } from 'fabric';
 import type { Authors } from './templateAuthors';
 
 export type templateLayer = {
@@ -90,6 +90,7 @@ export type templateType = {
 };
 
 export type templateTypeV2 = {
+  parsed?: Promise<Group>;
   version: number;
   layout: layoutOrientation;
   url: string;
