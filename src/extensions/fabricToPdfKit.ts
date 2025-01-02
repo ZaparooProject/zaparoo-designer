@@ -220,6 +220,9 @@ const addGroupToPdf = async (
   transformPdf(group, pdfDoc);
   const objs = group.getObjects();
   for ( const object of objs) {
+    if (!object.visible) {
+      continue;
+    }
     if (object instanceof Path) {
       addPathToPdf(object, pdfDoc);
     }

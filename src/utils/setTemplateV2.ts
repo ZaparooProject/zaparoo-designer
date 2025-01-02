@@ -7,6 +7,7 @@ import {
   FabricObject,
   type Canvas,
   Rect,
+  Textbox,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
 import type { templateType, templateTypeV2 } from '../resourcesTypedef';
@@ -25,6 +26,12 @@ FabricObject.customProperties = [
   'original_fill'
 ];
 
+FabricImage.customProperties = [
+  'resourceType',
+  'original_stroke',
+  'original_fill'
+];
+
 // declare the methods for typescript
 declare module "fabric" {
   // to have the properties recognized on the instance and in the constructor
@@ -33,6 +40,10 @@ declare module "fabric" {
     "original_stroke": string;
     "zaparoo-placeholder"?: "main";
     "zaparoo-scale-strategy"?: "fit" | "cover";
+  }
+
+  interface FabricImage {
+    "resourceType"?: "main" | "screenshot" | "logo";
   }
 }
 
@@ -123,14 +134,13 @@ export const setTemplateV2OnCanvases = async (
 ): Promise<string[]> => {
   const { layout, url, parsed, media } = template;
 
-  const templateSource = await (parsed ?? (template.parsed = parseSvg(url)))
-  const fabricLayer = await templateSource.clone();
-
+  const templateSource = await (parsed ?? (template.parsed = parseSvg(url)));
+  // fixme: avoid parsing colors more than once.
+  const colors = extractUniqueColorsFromGroup(templateSource);
   const isHorizontal = layout === 'horizontal';
   const { width, height } = media;
   const finalWidth = isHorizontal ? width : height;
   const finalHeight = isHorizontal ? height : width;
-  const colors = extractUniqueColorsFromGroup(fabricLayer);
 
   for (const card of cards) {
     const { canvas } = card;
@@ -161,6 +171,7 @@ export const setTemplateV2OnCanvases = async (
       );
     }
     const mainImage = canvas.getObjects('image')[0] as FabricImage;
+    const fabricLayer = await templateSource.clone();
 
     const placeholder = fabricLayer.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main");
     if (!placeholder) {
