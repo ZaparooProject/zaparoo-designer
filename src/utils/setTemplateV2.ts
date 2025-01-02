@@ -127,7 +127,7 @@ export const setTemplateV2OnCanvases = async (
   const fabricLayer = await templateSource.clone();
 
   const isHorizontal = layout === 'horizontal';
-  const { width, height } = template.media;
+  const { width, height } = media;
   const finalWidth = isHorizontal ? width : height;
   const finalHeight = isHorizontal ? height : width;
   const colors = extractUniqueColorsFromGroup(fabricLayer);
@@ -178,10 +178,10 @@ export const setTemplateV2OnCanvases = async (
       width: templateSize.x,
       height: templateSize.y,
     }, canvas);
-console.log({ templateScale, templateSize, media })
+
     fabricLayer.set('canvas', canvas);
-    // fabricLayer.scaleX = templateScale;
-    // fabricLayer.scaleY = templateScale;
+    fabricLayer.scaleX = templateScale;
+    fabricLayer.scaleY = templateScale;
     // set the overlay of the template in the center of the card
     reposition(fabricLayer, template);
     scaleImageToOverlayArea(placeholder, mainImage);

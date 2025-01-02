@@ -1,7 +1,6 @@
 <svg width="354" height="591" viewBox="0 0 30 50" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
   <rect id="placeholder" zaparoo-placeholder="main" x="2.1186" y="9.8984" width="25.8474" height="37.6480" fill="none"
     stroke="red" stroke-dasharray="2 2" stroke-width="0.1" zaparoo-fill-strategy="fit" />
-  <rect width="29.832" height="49.832" x=".084" y=".084" ry="2.797" rx="2.797" fill="none" opacity="0" />
   <rect width="28.494" fill="none" stroke="#000" stroke-width=".506" height="40.994" x=".753" y="8.253" ry="2.05"
     rx="2" />
   <path d="M10.074 45c-.373 0-.674.3-.674.674V49.5H20.6v-3.826c0-.373-.301-.674-.675-.674h-9.85z" />
