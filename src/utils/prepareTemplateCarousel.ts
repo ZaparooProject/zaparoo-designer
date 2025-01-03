@@ -13,7 +13,7 @@ export const prepareTemplateCarousel = async (templates: (templateType | templat
       enableRetinaScaling: false,
       backgroundColor: 'white',
     });
-    canvas.add((new FabricImage(img)))
+    canvas.add((new FabricImage(img, { resourceType: "main" })))
     const card: CardData = {
       file: img,
       canvas,

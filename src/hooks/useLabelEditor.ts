@@ -39,7 +39,7 @@ export const useLabelEditor = ({
         }
         setImageReady(false);
         imagePromise.then((image) => {
-          const fabricImage = new FabricImage(image);
+          const fabricImage = new FabricImage(image, { resourceType: "main" });
           // @ts-expect-error no originalFile
           fabricImage.originalFile = file;
           const scale = util.findScaleToCover(fabricImage, fabricCanvas);

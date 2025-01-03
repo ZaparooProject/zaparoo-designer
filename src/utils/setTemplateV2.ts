@@ -84,15 +84,9 @@ export const scaleImageToOverlayArea = (
     scaleY: scale,
   });
 
-  const placeholderMatrix = placeholder.calcTransformMatrix();
-  mainImage.setPositionByOrigin(
-    new Point(
-      placeholderMatrix[4],
-      placeholderMatrix[5],
-    ),
-    'center',
-    'center',
-  );
+  mainImage.top = placeholder.top;
+  mainImage.left = placeholder.left;
+
   if (mainImage.clipPath) {
     mainImage.clipPath.left = mainImage.left;
     mainImage.clipPath.top = mainImage.top;
@@ -170,33 +164,45 @@ export const setTemplateV2OnCanvases = async (
         { cssOnly: true },
       );
     }
-    const mainImage = canvas.getObjects('image')[0] as FabricImage;
+    // save a reference to the original image
+    const mainImage = canvas.getObjects('image').find(
+      (fabricImage) => (fabricImage as FabricImage).resourceType === 'main'
+    ) as FabricImage;
+
+    // copy the template for this card
     const fabricLayer = await templateSource.clone();
-
-    const placeholder = fabricLayer.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main");
-    if (!placeholder) {
-      continue;
-    }
-
-    // remove strokewidth so the placeholder can clip the image
-    placeholder.strokeWidth = 0;
-    placeholder.visible = false;
+    // find out how bit it is naturally
     const templateSize = fabricLayer._getTransformedDimensions();
-    // find the layer that olds the image.
-
-    // scale the overlay asset to fit the designed media
+    // scale the overlay asset to fit the designed media ( the card )
     const templateScale = util.findScaleToFit({
       width: templateSize.x,
       height: templateSize.y,
     }, canvas);
 
-    fabricLayer.set('canvas', canvas);
     fabricLayer.scaleX = templateScale;
     fabricLayer.scaleY = templateScale;
+
     // set the overlay of the template in the center of the card
     reposition(fabricLayer, template);
-    scaleImageToOverlayArea(placeholder, mainImage);
-    canvas.overlayImage = fabricLayer;
+
+    // remove the previous template from the canvas if any.
+    canvas.remove(...canvas.getObjects());
+    // add the template to the canvas
+    canvas.add(...templateSource.removeAll());
+    // find the layer that olds the image.
+    const placeholder = canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main");
+    if (placeholder) {
+      // remove strokewidth so the placeholder can clip the image
+      placeholder.strokeWidth = 0;
+      // the placeholder stays with us but we don't want to see it
+      placeholder.visible = false;
+      // add the image on the placeholder
+      if (mainImage) {
+        const index = canvas.getObjects().indexOf(placeholder);
+        canvas.insertAt(index, mainImage);
+        scaleImageToOverlayArea(placeholder, mainImage);
+      }
+    }
   
     const { clipPath } = canvas;
     if (clipPath) {
