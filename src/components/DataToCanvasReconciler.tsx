@@ -48,12 +48,22 @@ export const DataToCanvasReconciler = () => {
       (card): card is Required<CardData> => !!card.isSelected && !!card.canvas,
     );
     setIsIdle(false);
-    setTemplateOnCanvases(selectedCardsWithDifferentTemplate, template).then(
-      () => {
+    if (isTemplateV2(template)) {
+      setTemplateV2OnCanvases(
+        selectedCardsWithDifferentTemplate,
+        template,
+      ).then(() => {
         updateColors(selectedCards, customColors, originalColors);
         setIsIdle(true);
-      },
-    );
+      });
+    } else {
+      setTemplateOnCanvases(selectedCardsWithDifferentTemplate, template).then(
+        () => {
+          updateColors(selectedCards, customColors, originalColors);
+          setIsIdle(true);
+        },
+      );
+    }
   }, [cards, customColors, originalColors, setIsIdle, template]);
 
   return null;

@@ -1,13 +1,11 @@
 import {
   FabricImage,
   util,
-  Point,
   loadSVGFromURL,
   Group,
   FabricObject,
   type Canvas,
   Rect,
-  Textbox,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
 import type { templateType, templateTypeV2 } from '../resourcesTypedef';
@@ -188,7 +186,7 @@ export const setTemplateV2OnCanvases = async (
     // remove the previous template from the canvas if any.
     canvas.remove(...canvas.getObjects());
     // add the template to the canvas
-    canvas.add(...templateSource.removeAll());
+    canvas.add(...fabricLayer.removeAll());
     // find the layer that olds the image.
     const placeholder = canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main");
     if (placeholder) {

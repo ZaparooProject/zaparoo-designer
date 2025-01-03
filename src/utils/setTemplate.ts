@@ -122,6 +122,7 @@ export const setTemplateOnCanvases = async (
   cards: CardData[],
   template: templateType,
 ): Promise<string[]> => {
+  console.trace(cards)
   const { overlay, background, shadow, layout } = template || {};
   const [overlayImageSource, backgroundImageSource] = await Promise.all([
     overlay &&

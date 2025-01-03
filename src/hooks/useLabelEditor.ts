@@ -69,6 +69,7 @@ export const useLabelEditor = ({
       card.colors = customColors;
       card.originalColors = originalColors;
       if (isTemplateV2(template)) {
+        debugger;
         setTemplateV2OnCanvases([card], template).then(() => {
           updateColors([card], customColors, originalColors);
           fabricCanvas.requestRenderAll();
