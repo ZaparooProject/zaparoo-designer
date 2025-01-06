@@ -5,7 +5,7 @@ You can read more about TapTo [here](https://github.com/wizzomafizzo/tapto)
 
 # How to use it
 
-This app is deploted at [https://tapto-designer.netlify.app/](https://tapto-designer.netlify.app/) and you can just use it, providing your own images or using the embedded search functionality.
+This app is deploted at [[https://tapto-designer.netlify.app](https://design.zaparoo.org/)/](https://tapto-designer.netlify.app/) and you can just use it, providing your own images or using the embedded search functionality.
 It has no server, no login, no way to save progress.
 Is meant for producing labels and download the result right away.
 Everything runs locally, your images aren't unploaded to any server.
