@@ -185,6 +185,8 @@ export const setTemplateV2OnCanvases = async (
 
     // remove the previous template from the canvas if any.
     canvas.remove(...canvas.getObjects());
+    canvas.backgroundImage = undefined;
+    canvas.overlayImage = undefined;
     // add the template to the canvas
     canvas.add(...fabricLayer.removeAll());
     // find the layer that olds the image.
