@@ -76,14 +76,16 @@ const addRectToPdf = (
   pdfDoc.save();
 
   transformPdf(rect, pdfDoc);
-  if (rect.rx || rect.ry) {
-    console.warn('Missing code for Rect rounded corners')
-  }
+  const hasRounds = rect.rx || rect.ry;
   const paintStroke = () => {
     if (rect.stroke && rect.stroke !== 'transparent') {
       const stroke = toPdfColor(rect.stroke, pdfDoc, rect);
       pdfDoc.lineWidth(rect.strokeWidth);
-      pdfDoc.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height);
+      if (hasRounds) {
+        pdfDoc.roundedRect(-rect.width / 2, -rect.height / 2, rect.width, rect.height, rect.rx)
+      } else {
+        pdfDoc.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height,);
+      }
       // pdfDoc.strokeOpacity(this.opacity);
       if (
         rect.strokeDashArray &&
@@ -102,7 +104,11 @@ const addRectToPdf = (
     if (rect.fill && rect.fill !== 'transparent') {
       const fill = toPdfColor(rect.fill, pdfDoc, rect);
       // pdfDoc.fillOpacity(this.opacity);
-      pdfDoc.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height);
+      if (hasRounds) {
+        pdfDoc.roundedRect(-rect.width / 2, -rect.height / 2, rect.width, rect.height, rect.rx)
+      } else {
+        pdfDoc.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height,);
+      }
       pdfDoc.fill(fill);
     }
   };
@@ -162,10 +168,7 @@ const transformPdf = (fabricObject: FabricObject, pdfDoc: any) => {
 const handleAbsoluteClipPath = (clipPath: FabricObject, pdfDoc: any) => {
   transformPdf(clipPath as FabricObject, pdfDoc);
   if (clipPath instanceof Rect) {
-    if (clipPath.rx || clipPath.ry) {
-      console.warn('Missing code for rounded corners rect clipPath')
-    }
-    pdfDoc.roundedRect(-clipPath.width / 2, -clipPath.height / 2, clipPath.width, clipPath.height, 0).clip();
+    pdfDoc.roundedRect(-clipPath.width / 2, -clipPath.height / 2, clipPath.width, clipPath.height, clipPath.rx).clip();
   }
   const matrix = clipPath.calcOwnMatrix();
   pdfDoc.transform(...util.invertTransform(matrix));
@@ -212,13 +215,7 @@ const addImageToPdf = async (
   pdfDoc.restore();
 };
 
-const addGroupToPdf = async (
-  group: Group,
-  pdfDoc: any,
-) => {
-  pdfDoc.save();
-  transformPdf(group, pdfDoc);
-  const objs = group.getObjects();
+const addObjectsToPdf = async (objs: FabricObject[], pdfDoc: any) => {
   for ( const object of objs) {
     if (!object.visible) {
       continue;
@@ -233,6 +230,16 @@ const addGroupToPdf = async (
       await addImageToPdf(object, pdfDoc);
     }
   }
+}
+
+const addGroupToPdf = async (
+  group: Group,
+  pdfDoc: any,
+) => {
+  pdfDoc.save();
+  transformPdf(group, pdfDoc);
+  const objs = group.getObjects();
+  await addObjectsToPdf(objs, pdfDoc);
   pdfDoc.restore();
 };
 
@@ -278,15 +285,13 @@ export const addCanvasToPdfPage = async (
     if (!template.background?.hidePrint) {
       if (canvas.backgroundImage instanceof Group) {
         await addGroupToPdf(canvas.backgroundImage, pdfDoc);
-      } else {
+      } else if (canvas.backgroundImage) {
         // add it as an image.
         // no usecase for this yet
         console.warn('Missing code to add images to pdf from background')
       }
     }
-    const mainImage = canvas.getObjects('image')[0] as FabricImage;
-    await addImageToPdf(mainImage, pdfDoc);
-  
+    await addObjectsToPdf(canvas.getObjects(), pdfDoc);
     if (canvas.overlayImage instanceof Group) {
       await addGroupToPdf(canvas.overlayImage, pdfDoc);
     } else {
