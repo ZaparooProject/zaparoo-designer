@@ -108,4 +108,4 @@ The visual attributes of the placeholder are purely for visual reference and won
 
 The template file looks like this:
 
-![template example](/template_example.png)
+![template example](/docs/template_example.png)
