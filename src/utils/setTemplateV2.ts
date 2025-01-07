@@ -127,6 +127,13 @@ export const setTemplateV2OnCanvases = async (
   const { layout, url, parsed, media } = template;
 
   const templateSource = await (parsed ?? (template.parsed = parseSvg(url)));
+  const placeholder = templateSource.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main");
+  if (placeholder) {
+      // remove strokewidth so the placeholder can clip the image
+      placeholder.strokeWidth = 0;
+      // the placeholder stays with us but we don't want to see it
+      placeholder.visible = false;
+  }
   // fixme: avoid parsing colors more than once.
   const colors = extractUniqueColorsFromGroup(templateSource);
   const isHorizontal = layout === 'horizontal';
@@ -192,10 +199,6 @@ export const setTemplateV2OnCanvases = async (
     // find the layer that olds the image.
     const placeholder = canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main");
     if (placeholder) {
-      // remove strokewidth so the placeholder can clip the image
-      placeholder.strokeWidth = 0;
-      // the placeholder stays with us but we don't want to see it
-      placeholder.visible = false;
       // add the image on the placeholder
       if (mainImage) {
         const index = canvas.getObjects().indexOf(placeholder);

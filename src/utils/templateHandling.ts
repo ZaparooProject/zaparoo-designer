@@ -16,6 +16,9 @@ import {
 export const extractUniqueColorsFromGroup = (group: Group): string[] => {
   const colors: string[] = [];
   group.forEachObject((object) => {
+    if (!object.visible) {
+      return;
+    }
     (['stroke', 'fill'] as const).forEach((property) => {
       if (
         object[property] &&
