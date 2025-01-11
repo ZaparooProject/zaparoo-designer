@@ -41,7 +41,7 @@ export const tapToPrePrinted: MediaDefinition = {
   strokeWidth: 2,
   stroke: 'black',
   fill: 'white',
-  label: 'Tapto pre-printed',
+  label: 'Zap Trading Card',
 };
 
 // or a musicasset box inlay cover
@@ -53,13 +53,26 @@ export const miniNfcCard: MediaDefinition = {
   strokeWidth: 2,
   stroke: 'black',
   fill: 'white',
-  label: 'Small nfc card 3x5cm',
+  label: 'Mini NFC card',
+};
+
+// taki cards
+export const r2PcbCard: MediaDefinition = {
+  width: 1050, // 63mm * 300dpi
+  height: 750, // 36mm * 300dpi
+  rx: 35,
+  ry: 35,
+  strokeWidth: 2,
+  stroke: 'black',
+  fill: 'white',
+  label: 'R2 PCB card',
 };
 
 export const mediaTargetList = [
   NFCCCsizeCard,
-  TapeBoxCover,
   tapToPrePrinted,
-  // taptoPrePrintedFullHeight,
   miniNfcCard,
+  TapeBoxCover,
+  r2PcbCard,
+  // taptoPrePrintedFullHeight,
 ];
