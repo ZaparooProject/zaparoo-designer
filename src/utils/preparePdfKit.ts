@@ -52,8 +52,8 @@ export const preparePdf = async (
   // take first card and compare with paper size, then try to guess best way to fit
   const firstCard = cards[0];
   const firstCardTemplate = firstCard.template!;
-  let widthInPt = fromPixToPoint(firstCardTemplate.layout === 'horizontal' ? firstCardTemplate.media.width : firstCardTemplate.media.height);
-  let heightInPt = fromPixToPoint(firstCardTemplate.layout === 'horizontal' ? firstCardTemplate.media.height : firstCardTemplate.media.width);
+  let widthInPt = fromPixToPoint(firstCardTemplate.media.width);
+  let heightInPt = fromPixToPoint(firstCardTemplate.media.height);
   const availPaperWidth = paperWidthInPt - leftMarginInPt - rightMarginInPt;
   const availPaperHeight = paperHeightInPt - topMarginInPt - bottomMarginInPt;
 
@@ -61,7 +61,7 @@ export const preparePdf = async (
   // the template media is counted always as horizontal/landscape.
   // isRotated means that it fits more prints if rotated as vertical
   // the paper template instead is defined as you would insert in the printer.
-  let isRotated = false;
+  let neutralTemplate: 'horizontal' | 'vertical' = 'horizontal';
   if (!_tmpColumns && !_tmpRows) {
     // naively divide width by width and height by height, find margins and spacing.
     const possibleRows = Math.floor(availPaperHeight / heightInPt);
@@ -80,7 +80,7 @@ export const preparePdf = async (
       if (Math.abs(marginsW - marginsH) > Math.abs(marginsWR - marginsHR)) {
         rows = possibleRowsRotated;
         columns = possibleColumsRotated;
-        isRotated = true;
+        neutralTemplate = 'vertical';
       } else {
         rows = possibleRows;
         columns = possibleColums;
@@ -90,13 +90,13 @@ export const preparePdf = async (
       rows = possibleRows;
       columns = possibleColums;
     } else {
-      isRotated = true;
+      neutralTemplate = 'vertical';
       rows = possibleRowsRotated;
       columns = possibleColumsRotated;
     }
   }
 
-  if (isRotated) {
+  if (neutralTemplate === 'vertical') {
     [widthInPt, heightInPt] = [heightInPt, widthInPt];
   }
 
@@ -169,7 +169,7 @@ export const preparePdf = async (
         }
       }
 
-      const needsRotation = isRotated || cards[index].template!.layout !== firstCardTemplate.layout;
+      const needsRotation = cards[index].template!.layout !== neutralTemplate;
 
       await addCanvasToPdfPage(
         canvas!,
