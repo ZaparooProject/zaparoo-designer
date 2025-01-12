@@ -109,3 +109,57 @@ The visual attributes of the placeholder are purely for visual reference and won
 The template file looks like this:
 
 ![template example](/docs/template_example.png)
+
+But When using it the template red dashed dot will not be visible.
+
+Once the template is ready you need to add it to the template list.
+
+```ts
+  minNfc: {
+    version: 2, // specify version as 2, fixed
+    layout: 'vertical', // vertical or horzintal
+    label: 'Steam 3by5cm', // a name of your liking
+    url: mininfcAlice, // the url of the file you create, more on this below.
+    author: Authors.alice, // Reference YOU as the author. more on this below
+    media: miniNfcCard, // reference the media size, create a new one if necessary
+    key: 'miniNfcAlice', // a unique string for some reason i really forgot
+  },
+```
+
+This javascript object goes in this file here:
+
+src/cardsTemplates.ts
+
+And it looks like this:
+
+```ts
+import mininfcAlice from './assets/3by5_steam.svg'; // where your SVG is placed
+import { Authors } from './templateAuthors'; // where the authors are defined
+
+import { miniNfcCard } from './printMediaTypes'; // where the media types are defined
+
+export const templates: Record<string, templateType | templateTypeV2> = {
+  blankH: {
+    layout: 'horizontal',
+    label: 'Blank H cover',
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    key: 'blankH',
+  },
+  // ... many templates after
+  miniNfcAlice: {
+    version: 2,
+    layout: 'vertical',
+    label: 'Steam 3by5cm',
+    url: mininfcAlice,
+    author: Authors.alice,
+    media: miniNfcCard,
+    key: 'miniNfcAlice',
+  },
+} as const;
+
+export const defaultTemplateKey = 'hucard';
+export const defaultTemplate = templates[defaultTemplateKey];
+```
+
+If you want to add your templates and you are willing to do the work yourself, please read this guide and if it doesn't work ask help in discord or with an issue, explaining what part is unclear or where you are stuck at.
