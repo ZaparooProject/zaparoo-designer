@@ -72,13 +72,28 @@ const TemplatesCarousel = memo(() => {
         }}
       >
         <div className="numberCircle">1</div>
-        <Typography variant="h5" color="secondary">
-          Select your media type:
-        </Typography>
-        <MediaTypeDropdown />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'left',
+            gap: '10px',
+          }}
+        >
+          <Typography variant="h5" color="secondary">
+            Select your media type:
+          </Typography>
+          <MediaTypeDropdown />
+        </div>
       </div>
       <div
-        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: "20px" }}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '20px',
+          textAlign: 'left',
+        }}
       >
         <div className="numberCircle">2</div>
         <Typography variant="h5" color="secondary">
@@ -122,6 +137,6 @@ const TemplatesCarousel = memo(() => {
       </div>
     </div>
   );
-      });
+});
 
-      export default TemplatesCarousel;
+export default TemplatesCarousel;
