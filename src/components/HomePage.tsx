@@ -6,6 +6,7 @@ import { templateAuthors } from '../templateAuthors';
 
 import './HomePage.css';
 import { Fragment, lazy } from 'react';
+import { Link } from '@mui/material';
 
 const Carousel = lazy(() => import('./Carousel'));
 
@@ -28,6 +29,44 @@ export const HomePage = () => {
       <div className="choose-template">
         <div className="textLayout">
           <Carousel />
+        </div>
+      </div>
+      <div className="intro">
+        <div className="textLayout">
+          <Typography variant="h3" color="primary">
+            What’s Zaparoo?
+          </Typography>
+          <Typography>
+            <a href="https://github.com/ZaparooProject/zaparoo-core/">
+              Zaparoo
+            </a>{' '}
+            is an open source system for launching games and scripted actions
+            using physical objects like NFC cards. It's a great way to make
+            playing games more accessible and add some fun to your gaming setup!
+          </Typography>
+          <Typography>
+            Additional hardware is required but the aim is to be affordable and
+            easily available. Please join the{' '}
+            <a href="https://zaparoo.org/discord">Discord</a> if you need any help
+            or want to show off your work!
+          </Typography>
+          <Typography className="links">
+            <Link href="https://zaparoo.org/downloads/">
+              Download Zaparoo
+            </Link>{' '}
+            |{' '}
+            <Link href="https://wiki.zaparoo.org/Labels">Printing Labels</Link>{' '}
+            |{' '}
+            <Link href="https://wiki.zaparoo.org/Custom_cases">
+              NFC Reader Cases
+            </Link>{' '}
+            | <Link href="https://zaparoo.org/discord">Discord</Link>{' '}
+            | <Link href="https://wiki.zaparoo.org/Vendors">Vendors</Link> |{' '}
+            <Link href="https://wiki.zaparoo.org/Community_projects">
+              Community Projects
+            </Link>{' '}
+            | <Link href="https://wiki.zaparoo.org/Core_API">API</Link>
+          </Typography>
         </div>
       </div>
       <div className="content">
@@ -61,7 +100,7 @@ export const HomePage = () => {
                 <a key={`auth_${index}`} href={href}>
                   {name}
                 </a>
-                {index != Object.values(templateAuthors).length-1 ? ', ' : ''}
+                {index != Object.values(templateAuthors).length - 1 ? ', ' : ''}
               </Fragment>
             ))}
           </Typography>
