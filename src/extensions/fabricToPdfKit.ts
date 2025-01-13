@@ -217,7 +217,7 @@ const addImageToPdf = async (
 
 const addObjectsToPdf = async (objs: FabricObject[], pdfDoc: any) => {
   for ( const object of objs) {
-    if (!object.visible) {
+    if (!object.visible || object["zaparoo-no-print"]) {
       continue;
     }
     if (object instanceof Path) {

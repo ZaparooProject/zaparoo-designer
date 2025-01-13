@@ -6,6 +6,7 @@ import {
   FabricObject,
   type Canvas,
   Rect,
+  Path,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
 import type { templateType, templateTypeV2 } from '../resourcesTypedef';
@@ -14,20 +15,24 @@ import { extractUniqueColorsFromGroup } from './templateHandling';
 FabricObject.ownDefaults.originX = 'center';
 FabricObject.ownDefaults.originY = 'center';
 FabricObject.ownDefaults.objectCaching = false;
-/* add the ability to parse 'id' to rects */
-Rect.ATTRIBUTE_NAMES = [...Rect.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy'];
+/* add the ability to parse 'id' and zaparoo attributes to shapes */
+Rect.ATTRIBUTE_NAMES = [...Rect.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy', 'zaparoo-no-print'];
+Path.ATTRIBUTE_NAMES = [...Path.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy', 'zaparoo-no-print'];
+FabricImage.ATTRIBUTE_NAMES = [...FabricImage.ATTRIBUTE_NAMES, 'id', 'zaparoo-no-print'];
 FabricObject.customProperties = [
   'zaparoo-placeholder',
   'id',
   'zaparoo-fill-strategy',
   'original_stroke',
-  'original_fill'
+  'original_fill',
+  'zaparoo-no-print'
 ];
 
 FabricImage.customProperties = [
   'resourceType',
   'original_stroke',
-  'original_fill'
+  'original_fill',
+  'zaparoo-no-print'
 ];
 
 // declare the methods for typescript
@@ -37,6 +42,7 @@ declare module "fabric" {
     "original_fill": string;
     "original_stroke": string;
     "zaparoo-placeholder"?: "main";
+    "zaparoo-no-print"?: "true";
     "zaparoo-fill-strategy"?: "fit" | "cover";
   }
 
