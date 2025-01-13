@@ -2,12 +2,11 @@
  * A list of all the support label target for the app.
  */
 
-import type { MediaDefinition } from "./resourcesTypedef";
+import type { MediaDefinition } from './resourcesTypedef';
 
 // Media definition define the media the label is planned to be applied to.
 // Those options represent both canvas size and clipPath structure,
 // and so are props of Fabric.Rect
-
 
 // a standard credit card sized nfc card
 export const NFCCCsizeCard: MediaDefinition = {
@@ -18,7 +17,7 @@ export const NFCCCsizeCard: MediaDefinition = {
   strokeWidth: 2,
   stroke: 'black',
   fill: 'white',
-  label: 'Standard NFC card'
+  label: 'Standard NFC card',
 };
 
 // or a musicasset box inlay cover
@@ -56,10 +55,24 @@ export const miniNfcCard: MediaDefinition = {
   label: 'Small nfc card 3x5cm',
 };
 
+// retro remake pcb cards
+export const r2Pcb1_0: MediaDefinition = {
+  // TODO: these were swapped?
+  height: 405.71, // 34.35mm * 300dpi
+  width: 552.05, // 46.74mm * 300dpi
+  rx: 0, // ???
+  ry: 0, // ???
+  strokeWidth: 2,
+  stroke: 'black',
+  fill: 'white',
+  label: 'Retro Remake NFC PCB',
+};
+
 export const mediaTargetList = [
   NFCCCsizeCard,
-  TapeBoxCover,
-  tapToPrePrinted,
-  // taptoPrePrintedFullHeight,
   miniNfcCard,
+  tapToPrePrinted,
+  r2Pcb1_0,
+  TapeBoxCover,
+  // taptoPrePrintedFullHeight,
 ];

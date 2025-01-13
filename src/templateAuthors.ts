@@ -1,7 +1,7 @@
 type TemplateAuthors = {
   name: string;
   href: string;
-}
+};
 
 export const enum Authors {
   ariel,
@@ -11,6 +11,7 @@ export const enum Authors {
   ben,
   ewrt,
   alice,
+  wizzo,
 }
 
 export const templateAuthors: Record<Authors, TemplateAuthors> = {
@@ -33,8 +34,7 @@ export const templateAuthors: Record<Authors, TemplateAuthors> = {
   [Authors.ben]: {
     name: 'Ben Squibb',
     href: 'https://github.com/Stat-Mat',
-  }
-  ,
+  },
   [Authors.ewrt]: {
     name: 'Ewrt',
     href: 'https://github.com/ewrt101',
@@ -42,6 +42,9 @@ export const templateAuthors: Record<Authors, TemplateAuthors> = {
   [Authors.alice]: {
     name: 'Alice',
     href: 'https://github.com/alicecrawford',
-  }
+  },
+  [Authors.wizzo]: {
+    name: 'wizzo',
+    href: 'https://github.com/wizzomafizzo',
+  },
 } as const;
-

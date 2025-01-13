@@ -23,11 +23,18 @@ import animeOt4ku from './assets/tapto_0t4ku.svg';
 import cassetTape from './assets/cassette_tape.svg';
 import mininfcAlice from './assets/3by5_steam.svg';
 import cardFront from './assets/cardfront.png';
+import r2PcbCardFront from './assets/RetroRemake_PCBCardRev1-0.svg';
 import { Authors } from './templateAuthors';
 import type { templateType, templateTypeV2 } from './resourcesTypedef';
 import { logoResource } from './logos';
 
-import { NFCCCsizeCard, TapeBoxCover, tapToPrePrinted, miniNfcCard } from './printMediaTypes';
+import {
+  NFCCCsizeCard,
+  TapeBoxCover,
+  tapToPrePrinted,
+  miniNfcCard,
+  r2Pcb1_0,
+} from './printMediaTypes';
 
 export const templates: Record<string, templateType | templateTypeV2> = {
   blankH: {
@@ -63,19 +70,21 @@ export const templates: Record<string, templateType | templateTypeV2> = {
       url: '',
       layerHeight: 1050,
       layerWidth: 750,
-      x: 0.00,
+      x: 0.0,
       width: 1,
       y: 0.075,
       height: 0.415,
       isSvg: false,
       strategy: 'cover',
     },
-    printableAreas: [{
-      x: 0.00,
-      width: 1,
-      y: 0.075,
-      height: 0.415,
-    }],
+    printableAreas: [
+      {
+        x: 0.0,
+        width: 1,
+        y: 0.075,
+        height: 0.415,
+      },
+    ],
   },
   taptoPPFull: {
     canEdit: true,
@@ -96,19 +105,21 @@ export const templates: Record<string, templateType | templateTypeV2> = {
       url: '',
       layerHeight: 1050,
       layerWidth: 750,
-      x: 0.00,
+      x: 0.0,
       width: 1,
       y: 0.075,
       height: 0.855,
       isSvg: false,
       strategy: 'cover',
     },
-    printableAreas: [{
-      x: 0.00,
-      width: 1,
-      y: 0.075,
-      height: 0.855,
-    }],
+    printableAreas: [
+      {
+        x: 0.0,
+        width: 1,
+        y: 0.075,
+        height: 0.855,
+      },
+    ],
   },
   blankHF: {
     layout: 'horizontal',
@@ -428,10 +439,12 @@ export const templates: Record<string, templateType | templateTypeV2> = {
       x: 0,
       isSvg: true,
     },
-    edits: [{
-      id: 'placeholder_logo',
-      resource: logoResource,
-    }],
+    edits: [
+      {
+        id: 'placeholder_logo',
+        resource: logoResource,
+      },
+    ],
     label: 'full image + system',
     noMargin: true,
     author: Authors.animeotaku,
@@ -452,23 +465,27 @@ export const templates: Record<string, templateType | templateTypeV2> = {
       layerWidth: 1233,
       layerHeight: 1200,
       url: cassetTape,
-      height: 1 - 123/1200,
-      width: 1 - 454/1233,
-      y: 123/1200,
-      x: 454/1233,
+      height: 1 - 123 / 1200,
+      width: 1 - 454 / 1233,
+      y: 123 / 1200,
+      x: 454 / 1233,
       isSvg: true,
       strategy: 'cover',
     },
-    edits: [{
-      id: 'placeholder_logo_1',
-      resource: logoResource,
-    }, {
-      id: 'placeholder_logo_2',
-      resource: logoResource,
-    }, {
-      id: 'placeholder_logo_3',
-      resource: logoResource,
-    }],
+    edits: [
+      {
+        id: 'placeholder_logo_1',
+        resource: logoResource,
+      },
+      {
+        id: 'placeholder_logo_2',
+        resource: logoResource,
+      },
+      {
+        id: 'placeholder_logo_3',
+        resource: logoResource,
+      },
+    ],
     canEdit: true,
     author: Authors.animeotaku, // to be changed with Phoneix data
     media: TapeBoxCover,
@@ -482,6 +499,15 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     author: Authors.alice,
     media: miniNfcCard,
     key: 'miniNfcAlice',
+  },
+  retroRemakePcb1: {
+    version: 2,
+    layout: 'vertical',
+    label: 'NFC PCB 1.0 - Framed',
+    url: r2PcbCardFront,
+    author: Authors.wizzo,
+    media: r2Pcb1_0,
+    key: 'retroRemakePcb1',
   },
 } as const;
 
