@@ -18,11 +18,11 @@ FabricObject.ownDefaults.originX = 'center';
 FabricObject.ownDefaults.originY = 'center';
 FabricObject.ownDefaults.objectCaching = false;
 /* add the ability to parse 'id' to rects */
-Rect.ATTRIBUTE_NAMES = [...Rect.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-scale-strategy'];
+Rect.ATTRIBUTE_NAMES = [...Rect.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy'];
 FabricObject.customProperties = [
   'zaparoo-placeholder',
   'id',
-  'zaparoo-scale-strategy',
+  'zaparoo-fill-strategy',
   'original_stroke',
   'original_fill'
 ];
@@ -40,7 +40,7 @@ declare module "fabric" {
     "original_fill": string;
     "original_stroke": string;
     "zaparoo-placeholder"?: "main";
-    "zaparoo-scale-strategy"?: "fit" | "cover";
+    "zaparoo-fill-strategy"?: "fit" | "cover";
   }
 
   interface FabricImage {

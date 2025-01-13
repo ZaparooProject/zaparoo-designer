@@ -15,11 +15,11 @@ FabricObject.ownDefaults.originX = 'center';
 FabricObject.ownDefaults.originY = 'center';
 FabricObject.ownDefaults.objectCaching = false;
 /* add the ability to parse 'id' to rects */
-Rect.ATTRIBUTE_NAMES = [...Rect.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-scale-strategy'];
+Rect.ATTRIBUTE_NAMES = [...Rect.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy'];
 FabricObject.customProperties = [
   'zaparoo-placeholder',
   'id',
-  'zaparoo-scale-strategy',
+  'zaparoo-fill-strategy',
   'original_stroke',
   'original_fill'
 ];
@@ -37,7 +37,7 @@ declare module "fabric" {
     "original_fill": string;
     "original_stroke": string;
     "zaparoo-placeholder"?: "main";
-    "zaparoo-scale-strategy"?: "fit" | "cover";
+    "zaparoo-fill-strategy"?: "fit" | "cover";
   }
 
   interface FabricImage {
@@ -54,7 +54,7 @@ export const scaleImageToOverlayArea = (
   // scale the art to the designed area in the template. to fit
   // TODO: add option later for fit or cover
   const isRotated = mainImage.angle % 180 !== 0;
-  const isCover =  placeholder["zaparoo-scale-strategy"] === "cover";
+  const isCover =  placeholder["zaparoo-fill-strategy"] === "cover";
   const scaler = isCover ? util.findScaleToCover : util.findScaleToFit;
   const scaledOverlay = placeholder._getTransformedDimensions();
 
