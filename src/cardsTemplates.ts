@@ -22,8 +22,13 @@ import pcEngineBG from './assets/pcengine_bg.svg';
 import animeOt4ku from './assets/tapto_0t4ku.svg';
 import cassetTape from './assets/cassette_tape.svg';
 import mininfcAlice from './assets/3by5_steam.svg';
-import cardFront from './assets/cardfront.png';
 import r2PcbCardFront from './assets/RetroRemake_PCBCardRev1-0.svg';
+import upgradeStickerZTCSFull from './assets/ZapTradingCard_Single_Full.svg';
+import upgradeStickerZTCSFrame from './assets/ZapTradingCard_Single_Frame.svg';
+import upgradeStickerZTCDFull from './assets/ZapTradingCard_Double_Full.svg';
+import upgradeStickerZTCDFrame from './assets/ZapTradingCard_Double_Frame.svg';
+import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
+import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
 import type { templateType, templateTypeV2 } from './resourcesTypedef';
 import { logoResource } from './logos';
@@ -50,76 +55,6 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     author: Authors.andrea,
     media: NFCCCsizeCard,
     key: 'blankV',
-  },
-  taptoPPHalf: {
-    canEdit: true,
-    layout: 'vertical',
-    label: 'Half height tapto sticker',
-    author: Authors.tim,
-    media: tapToPrePrinted,
-    key: 'taptoPPHalf',
-    background: {
-      hidePrint: true,
-      url: cardFront,
-      isSvg: false,
-      layerHeight: 1050,
-      layerWidth: 750,
-    },
-    overlay: {
-      // full card size
-      url: '',
-      layerHeight: 1050,
-      layerWidth: 750,
-      x: 0.0,
-      width: 1,
-      y: 0.075,
-      height: 0.415,
-      isSvg: false,
-      strategy: 'cover',
-    },
-    printableAreas: [
-      {
-        x: 0.0,
-        width: 1,
-        y: 0.075,
-        height: 0.415,
-      },
-    ],
-  },
-  taptoPPFull: {
-    canEdit: true,
-    layout: 'vertical',
-    label: 'Full height tapto sticker',
-    author: Authors.tim,
-    media: tapToPrePrinted,
-    key: 'taptoPPFull',
-    background: {
-      hidePrint: true,
-      url: cardFront,
-      isSvg: false,
-      layerHeight: 1050,
-      layerWidth: 750,
-    },
-    overlay: {
-      // full card size
-      url: '',
-      layerHeight: 1050,
-      layerWidth: 750,
-      x: 0.0,
-      width: 1,
-      y: 0.075,
-      height: 0.855,
-      isSvg: false,
-      strategy: 'cover',
-    },
-    printableAreas: [
-      {
-        x: 0.0,
-        width: 1,
-        y: 0.075,
-        height: 0.855,
-      },
-    ],
   },
   blankHF: {
     layout: 'horizontal',
@@ -501,6 +436,7 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     key: 'miniNfcAlice',
   },
   retroRemakePcb1: {
+    canEdit: true,
     version: 2,
     layout: 'vertical',
     label: 'NFC PCB 1.0 - Framed',
@@ -508,6 +444,66 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     author: Authors.wizzo,
     media: r2Pcb1_0,
     key: 'retroRemakePcb1',
+  },
+  upgradeStickerT1: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Single Full',
+    url: upgradeStickerZTCSFull,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT1',
+  },
+  upgradeStickerT2: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Single Frame',
+    url: upgradeStickerZTCSFrame,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT2',
+  },
+  upgradeStickerT3: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Double Full',
+    url: upgradeStickerZTCDFull,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT3',
+  },
+  upgradeStickerT4: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Double Frame',
+    url: upgradeStickerZTCDFrame,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT4',
+  },
+  upgradeStickerT5: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Full',
+    url: upgradeStickerStdFull,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT5',
+  },
+  upgradeStickerT6: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Standard Card - Frame',
+    url: upgradeStickerStdFrame,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT6',
   },
 } as const;
 
