@@ -25,10 +25,13 @@ import mininfcAlice from './assets/3by5_steam.svg';
 import r2PcbCardFront from './assets/RetroRemake_PCBCardRev1-0.svg';
 import upgradeStickerZTCSFull from './assets/ZapTradingCard_Single_Full.svg';
 import upgradeStickerZTCSFrame from './assets/ZapTradingCard_Single_Frame.svg';
+import upgradeStickerZTCSRounded from './assets/ZapTradingCard_Single_RoundFrame.svg';
 import upgradeStickerZTCDFull from './assets/ZapTradingCard_Double_Full.svg';
 import upgradeStickerZTCDFrame from './assets/ZapTradingCard_Double_Frame.svg';
-import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
-import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
+import upgradeStickerZTCDRounded from './assets/ZapTradingCard_Double_RoundFrame.svg';
+
+// import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
+// import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
 import type { templateType, templateTypeV2 } from './resourcesTypedef';
 import { logoResource } from './logos';
@@ -489,8 +492,8 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     canEdit: true,
     version: 2,
     layout: 'vertical',
-    label: 'Trading Card - Full',
-    url: upgradeStickerStdFull,
+    label: 'Trading Card - Double Frame Rounded',
+    url: upgradeStickerZTCDRounded,
     author: Authors.tim,
     media: tapToPrePrinted,
     key: 'upgradeStickerT5',
@@ -499,8 +502,8 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     canEdit: true,
     version: 2,
     layout: 'vertical',
-    label: 'Standard Card - Frame',
-    url: upgradeStickerStdFrame,
+    label: 'Trading Card - Single Frame Rounded',
+    url: upgradeStickerZTCSRounded,
     author: Authors.tim,
     media: tapToPrePrinted,
     key: 'upgradeStickerT6',
