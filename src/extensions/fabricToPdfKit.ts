@@ -170,6 +170,12 @@ const handleAbsoluteClipPath = (clipPath: FabricObject, pdfDoc: any) => {
   if (clipPath instanceof Rect) {
     pdfDoc.roundedRect(-clipPath.width / 2, -clipPath.height / 2, clipPath.width, clipPath.height, clipPath.rx).clip();
   }
+  if (clipPath instanceof Path) {
+    const pathString = util
+      .transformPath(clipPath.path, iMatrix, clipPath.pathOffset).map((c) => c.join(' '))
+      .join(' ');
+    pdfDoc.path(pathString).clip();
+  }
   const matrix = clipPath.calcOwnMatrix();
   pdfDoc.transform(...util.invertTransform(matrix));
 }

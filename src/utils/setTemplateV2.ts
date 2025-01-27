@@ -92,10 +92,10 @@ export const scaleImageToOverlayArea = async (
   mainImage.top = placeholder.top;
   mainImage.left = placeholder.left;
 
-  // if (mainImage.clipPath) {
-  //   mainImage.clipPath.left = mainImage.left;
-  //   mainImage.clipPath.top = mainImage.top;
-  // }
+  if (mainImage.clipPath) {
+    mainImage.clipPath.left = mainImage.left;
+    mainImage.clipPath.top = mainImage.top;
+  }
   mainImage.setCoords();
 };
 
