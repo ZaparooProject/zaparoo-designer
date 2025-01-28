@@ -58,7 +58,7 @@ export const printTemplates: Record<string, PrintTemplate> = {
   },
   inch8by10: {
     gridSize: [0, 0],
-    label: ' 8 by 10 inches',
+    label: '8 by 10 inches',
     rows: 0,
     columns: 0,
     leftMargin: 5,
