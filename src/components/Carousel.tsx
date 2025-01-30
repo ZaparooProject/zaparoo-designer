@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import './Carousel.css';
 import { useAppDataContext } from '../contexts/appData';
 import { templateAuthors } from '../templateAuthors';
-import type { templateType } from '../resourcesTypedef';
+import type { templateType, templateTypeV2 } from '../resourcesTypedef';
 import {
   useState,
   useLayoutEffect,
@@ -31,7 +31,9 @@ const TemplatesCarousel = memo(() => {
     setItems(
       availableTemplates.filter(
         (tData) =>
-          (!!tData.overlay || !!tData.background) &&
+          (!!tData.overlay ||
+            !!tData.background ||
+            (tData as templateTypeV2).version === 2) &&
           !tData.key.includes('blank'),
       ),
     );

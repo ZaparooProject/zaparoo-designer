@@ -22,14 +22,30 @@ import pcEngineBG from './assets/pcengine_bg.svg';
 import animeOt4ku from './assets/tapto_0t4ku.svg';
 import cassetTape from './assets/cassette_tape.svg';
 import mininfcAlice from './assets/3by5_steam.svg';
-import cardFront from './assets/cardfront.png';
+import r2PcbCardFront from './assets/RetroRemake_PCBCardRev1-0.svg';
+import upgradeStickerZTCSFull from './assets/ZapTradingCard_Single_Full.svg';
+import upgradeStickerZTCSFrame from './assets/ZapTradingCard_Single_Frame.svg';
+import upgradeStickerZTCSRounded from './assets/ZapTradingCard_Single_RoundFrame.svg';
+import upgradeStickerZTCDFull from './assets/ZapTradingCard_Double_Full.svg';
+import upgradeStickerZTCDFrame from './assets/ZapTradingCard_Double_Frame.svg';
+import upgradeStickerZTCDRounded from './assets/ZapTradingCard_Double_RoundFrame.svg';
+import gameCardVertical from './assets/fossHuCardLabel.svg';
+
+// import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
+// import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
-import { templateType } from './resourcesTypedef';
+import type { templateType, templateTypeV2 } from './resourcesTypedef';
 import { logoResource } from './logos';
 
-import { NFCCCsizeCard, TapeBoxCover, tapToPrePrinted, miniNfcCard } from './printMediaTypes';
+import {
+  NFCCCsizeCard,
+  TapeBoxCover,
+  tapToPrePrinted,
+  miniNfcCard,
+  r2Pcb1_0,
+} from './printMediaTypes';
 
-export const templates: Record<string, templateType> = {
+export const templates: Record<string, templateType | templateTypeV2> = {
   blankH: {
     layout: 'horizontal',
     label: 'Blank H cover',
@@ -43,72 +59,6 @@ export const templates: Record<string, templateType> = {
     author: Authors.andrea,
     media: NFCCCsizeCard,
     key: 'blankV',
-  },
-  taptoPPHalf: {
-    canEdit: true,
-    layout: 'vertical',
-    label: 'Half height tapto sticker',
-    author: Authors.tim,
-    media: tapToPrePrinted,
-    key: 'taptoPPHalf',
-    background: {
-      hidePrint: true,
-      url: cardFront,
-      isSvg: false,
-      layerHeight: 1050,
-      layerWidth: 750,
-    },
-    overlay: {
-      // full card size
-      url: '',
-      layerHeight: 1050,
-      layerWidth: 750,
-      x: 0.00,
-      width: 1,
-      y: 0.075,
-      height: 0.415,
-      isSvg: false,
-      strategy: 'cover',
-    },
-    printableAreas: [{
-      x: 0.00,
-      width: 1,
-      y: 0.075,
-      height: 0.415,
-    }],
-  },
-  taptoPPFull: {
-    canEdit: true,
-    layout: 'vertical',
-    label: 'Full height tapto sticker',
-    author: Authors.tim,
-    media: tapToPrePrinted,
-    key: 'taptoPPFull',
-    background: {
-      hidePrint: true,
-      url: cardFront,
-      isSvg: false,
-      layerHeight: 1050,
-      layerWidth: 750,
-    },
-    overlay: {
-      // full card size
-      url: '',
-      layerHeight: 1050,
-      layerWidth: 750,
-      x: 0.00,
-      width: 1,
-      y: 0.075,
-      height: 0.855,
-      isSvg: false,
-      strategy: 'cover',
-    },
-    printableAreas: [{
-      x: 0.00,
-      width: 1,
-      y: 0.075,
-      height: 0.855,
-    }],
   },
   blankHF: {
     layout: 'horizontal',
@@ -146,6 +96,15 @@ export const templates: Record<string, templateType> = {
     media: NFCCCsizeCard,
     key: 'blankVF',
   },
+  gameCardV: {
+    version: 2,
+    layout: 'vertical',
+    url: gameCardVertical,
+    label: 'Game card Vertical',
+    author: Authors.tim,
+    media: NFCCCsizeCard,
+    key: 'gameCardV',
+  },
   tapto2: {
     layout: 'horizontal',
     overlay: {
@@ -171,24 +130,10 @@ export const templates: Record<string, templateType> = {
     key: 'tapto2',
   },
   tapto3: {
+    version: 2,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToVertical,
-      width: 1 - (37 * 2) / 619,
-      height: 1 - (37 + 144) / 994,
-      x: 37 / 619,
-      y: 37 / 994,
-      isSvg: true,
-    },
     shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToBgV,
-      isSvg: true,
-    },
+    url: tapToVertical,
     label: 'Tap-to V',
     author: Authors.tim,
     media: NFCCCsizeCard,
@@ -442,10 +387,12 @@ export const templates: Record<string, templateType> = {
       x: 0,
       isSvg: true,
     },
-    edits: [{
-      id: 'placeholder_logo',
-      resource: logoResource,
-    }],
+    edits: [
+      {
+        id: 'placeholder_logo',
+        resource: logoResource,
+      },
+    ],
     label: 'full image + system',
     noMargin: true,
     author: Authors.animeotaku,
@@ -466,44 +413,110 @@ export const templates: Record<string, templateType> = {
       layerWidth: 1233,
       layerHeight: 1200,
       url: cassetTape,
-      height: 1 - 123/1200,
-      width: 1 - 454/1233,
-      y: 123/1200,
-      x: 454/1233,
+      height: 1 - 123 / 1200,
+      width: 1 - 454 / 1233,
+      y: 123 / 1200,
+      x: 454 / 1233,
       isSvg: true,
       strategy: 'cover',
     },
-    edits: [{
-      id: 'placeholder_logo_1',
-      resource: logoResource,
-    }, {
-      id: 'placeholder_logo_2',
-      resource: logoResource,
-    }, {
-      id: 'placeholder_logo_3',
-      resource: logoResource,
-    }],
+    edits: [
+      {
+        id: 'placeholder_logo_1',
+        resource: logoResource,
+      },
+      {
+        id: 'placeholder_logo_2',
+        resource: logoResource,
+      },
+      {
+        id: 'placeholder_logo_3',
+        resource: logoResource,
+      },
+    ],
     canEdit: true,
     author: Authors.animeotaku, // to be changed with Phoneix data
     media: TapeBoxCover,
     key: 'cassetteBoxV2',
   },
   miniNfcAlice: {
+    version: 2,
     layout: 'vertical',
     label: 'Steam 3by5cm',
-    overlay: {
-      url: mininfcAlice,
-      isSvg: true,
-      layerWidth: 354,
-      layerHeight: 591,
-      height: 445/591,
-      width: 305/354,
-      y: 117/591,
-      x: 25/354,
-    },
+    url: mininfcAlice,
     author: Authors.alice,
     media: miniNfcCard,
     key: 'miniNfcAlice',
+  },
+  retroRemakePcb1: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'NFC PCB 1.0 - Framed',
+    url: r2PcbCardFront,
+    author: Authors.wizzo,
+    media: r2Pcb1_0,
+    key: 'retroRemakePcb1',
+  },
+  upgradeStickerT1: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Single Full',
+    url: upgradeStickerZTCSFull,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT1',
+  },
+  upgradeStickerT2: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Single Frame',
+    url: upgradeStickerZTCSFrame,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT2',
+  },
+  upgradeStickerT6: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Single Frame Rounded',
+    url: upgradeStickerZTCSRounded,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT6',
+  },
+  upgradeStickerT3: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Double Full',
+    url: upgradeStickerZTCDFull,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT3',
+  },
+  upgradeStickerT4: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Double Frame',
+    url: upgradeStickerZTCDFrame,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT4',
+  },
+  upgradeStickerT5: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Double Frame Rounded',
+    url: upgradeStickerZTCDRounded,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT5',
   },
 } as const;
 

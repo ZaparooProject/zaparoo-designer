@@ -1,0 +1,9 @@
+<svg viewBox="0 0 745 1040" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  xml:space="preserve">
+  <image zaparoo-no-print="true" xlink:href="https://design.zaparoo.org/ZapTradingCard.png" width="745" height="1040">
+  </image>
+  <g transform="matrix(1,0,0,2.04082,0,-79.9052)">
+    <rect zaparoo-placeholder="main" zaparoo-fill-strategy="cover" stroke-dasharray="5 5" x="0" y="76.772"
+      width="744.094" height="434.055" style="fill:none;stroke:red;stroke-width:.83px" />
+  </g>
+</svg>

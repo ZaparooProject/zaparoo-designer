@@ -4,6 +4,7 @@ import type { StaticCanvas } from 'fabric';
 import type { templateType } from '../resourcesTypedef';
 
 export type CardData = {
+  /* the source of the main image */
   file: File | HTMLImageElement,
   canvas?: StaticCanvas;
   template?: templateType;

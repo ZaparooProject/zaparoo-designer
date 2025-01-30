@@ -1,19 +1,23 @@
-# TapTo Designer
+# Zaparoo Designer
 
-This is a companion app to the TapTo system
-You can read more about TapTo [here](https://zaparoo.org) 
+A companion app to the Zaparoo project. The Designer allows you to easily generate Zaparoo labels from templates, ready to print and cut, right from your web browser using external sources for game media. Read more about the Zaparoo project at [Zaparoo.org](https://zaparoo.org/).
 
-# How to use it
+Zaparoo Designer is officially hosted at: [design.zaparoo.org](https://design.zaparoo.org/)
 
+# Usage
 This app is deployed at [https://design.zaparoo.org](https://design.zaparoo.org/) and you can just use it, providing your own images or using the embedded search functionality.
 It has no server, no login, no way to save progress.
 Is meant for producing labels and download the result right away.
 Everything runs locally, your images aren't unploaded to any server.
 
-You can load files by drag and drop or by browsing your file system
+1. Navigate to: [design.zaparoo.org](https://design.zaparoo.org/)
+2. Select `Add files` to upload a local image or `Search image` to search and load an image from [IGDB](https://www.igdb.com/).
+3. Make any template, color or media transformations you like to the final label.
+4. Repeat steps 2 and 3 for each label you want to create this session.
+5. Select `Print` and configure the output that works best for your printer or plotter.
+6. Press `Download`.
+7. Print the output PDF or PNG files on your printer.
 
-<img width="993" alt="image" src="https://github.com/asturur/nfc-retro-label-printer/assets/1194048/73c39227-b0bf-4c88-ac58-a4209e46c31e">
+## Trademarks
 
-Once you load some files you are presented with a default grid of cards with the default template:
-
-<img width="1382" alt="image" src="https://github.com/asturur/nfc-retro-label-printer/assets/1194048/06ac2545-db43-47fb-a230-e725d595c1a5">
+This repository contains Zaparoo trademark assets which are explicitly licensed to this project in this location by the trademark owner. These trademarks must be removed from the project or replaced if you intend to redistribute or adapt the project in any form. See the Zaparoo [Terms of Use](https://zaparoo.org/terms/) for further details.
