@@ -8,7 +8,7 @@ import {
   useTransition,
   memo,
 } from 'react';
-import logoUrl from '../assets/zaparoo.png';
+import logoUrl from '../img/zaparoo.png';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button } from './ResponsiveIconButton';

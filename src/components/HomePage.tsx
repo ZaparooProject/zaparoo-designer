@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
-import bgUrl from '../assets/homebg.jpg';
-import logoUrl from '../assets/zaparoo.png';
+import bgUrl from '../img/homebg.jpg';
+import logoUrl from '../img/zaparoo.png';
 import examplesUrl from '../assets/tapto_cards.jpg';
 import { templateAuthors } from '../templateAuthors';
 
@@ -47,21 +47,19 @@ export const HomePage = () => {
           <Typography>
             Additional hardware is required but the aim is to be affordable and
             easily available. Please join the{' '}
-            <a href="https://zaparoo.org/discord">Discord</a> if you need any help
-            or want to show off your work!
+            <a href="https://zaparoo.org/discord">Discord</a> if you need any
+            help or want to show off your work!
           </Typography>
           <Typography className="links">
-            <Link href="https://zaparoo.org/downloads/">
-              Download Zaparoo
-            </Link>{' '}
+            <Link href="https://zaparoo.org/downloads/">Download Zaparoo</Link>{' '}
             |{' '}
             <Link href="https://wiki.zaparoo.org/Labels">Printing Labels</Link>{' '}
             |{' '}
             <Link href="https://wiki.zaparoo.org/Custom_cases">
               NFC Reader Cases
             </Link>{' '}
-            | <Link href="https://zaparoo.org/discord">Discord</Link>{' '}
-            | <Link href="https://wiki.zaparoo.org/Vendors">Vendors</Link> |{' '}
+            | <Link href="https://zaparoo.org/discord">Discord</Link> |{' '}
+            <Link href="https://wiki.zaparoo.org/Vendors">Vendors</Link> |{' '}
             <Link href="https://wiki.zaparoo.org/Community_projects">
               Community Projects
             </Link>{' '}

@@ -9,8 +9,6 @@ import tapToHuBg from './assets/tapto_hucard_bg.svg';
 import tapToHuBgLarge from './assets/tapto_hucard_bg_large.svg';
 import tapToHuC64 from './assets/tapto_hucard_c64.svg';
 import tapToGB from './assets/tapto_gameboy_f.svg';
-import emptyVertical from './assets/empty_vertical.svg';
-import emptyHorizontal from './assets/empty_horizontal.svg';
 import tapToFloppy from './assets/tapto_floppy.svg';
 import floppy525 from './assets/tapto_floppy525.svg';
 import floppy525Bg from './assets/tapto_floppy525_bg.svg';
@@ -30,6 +28,10 @@ import upgradeStickerZTCDFull from './assets/ZapTradingCard_Double_Full.svg';
 import upgradeStickerZTCDFrame from './assets/ZapTradingCard_Double_Frame.svg';
 import upgradeStickerZTCDRounded from './assets/ZapTradingCard_Double_RoundFrame.svg';
 import gameCardVertical from './assets/fossHuCardLabel.svg';
+import blankCoverH from './assets/blank_cover_h.svg';
+import blankCoverV from './assets/blank_cover_v.svg';
+import blankFitH from './assets/blank_fit_h.svg';
+import blankFitV from './assets/blank_fit_v.svg';
 
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
@@ -46,56 +48,6 @@ import {
 } from './printMediaTypes';
 
 export const templates: Record<string, templateType | templateTypeV2> = {
-  blankH: {
-    layout: 'horizontal',
-    label: 'Blank H cover',
-    author: Authors.andrea,
-    media: NFCCCsizeCard,
-    key: 'blankH',
-  },
-  blankV: {
-    layout: 'vertical',
-    label: 'Blank V cover',
-    author: Authors.andrea,
-    media: NFCCCsizeCard,
-    key: 'blankV',
-  },
-  blankHF: {
-    layout: 'horizontal',
-    label: 'Blank H fit',
-    overlay: {
-      // full card size
-      url: emptyHorizontal,
-      layerWidth: 975,
-      layerHeight: 600,
-      x: 0.04,
-      width: 0.92,
-      y: 0.02,
-      height: 0.96,
-      isSvg: true,
-    },
-    author: Authors.andrea,
-    media: NFCCCsizeCard,
-    key: 'blankHF',
-  },
-  blankVF: {
-    layout: 'vertical',
-    label: 'Blank V fit',
-    overlay: {
-      // full card size
-      url: emptyVertical,
-      layerWidth: 600,
-      layerHeight: 975,
-      x: 0.02,
-      width: 0.96,
-      y: 0.04,
-      height: 0.92,
-      isSvg: true,
-    },
-    author: Authors.andrea,
-    media: NFCCCsizeCard,
-    key: 'blankVF',
-  },
   gameCardV: {
     version: 2,
     layout: 'vertical',
@@ -517,6 +469,42 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     author: Authors.tim,
     media: tapToPrePrinted,
     key: 'upgradeStickerT5',
+  },
+  blankH: {
+    version: 2,
+    layout: 'horizontal',
+    label: 'Blank H cover',
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    key: 'blankH',
+    url: blankCoverH,
+  },
+  blankV: {
+    version: 2,
+    layout: 'vertical',
+    label: 'Blank V cover',
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    key: 'blankV',
+    url: blankCoverV,
+  },
+  blankHF: {
+    version: 2,
+    layout: 'horizontal',
+    label: 'Blank H fit',
+    url: blankFitH,
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    key: 'blankHF',
+  },
+  blankVF: {
+    version: 2,
+    layout: 'vertical',
+    label: 'Blank V fit',
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    key: 'blankVF',
+    url: blankFitV,
   },
 } as const;
 

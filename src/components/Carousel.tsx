@@ -31,10 +31,9 @@ const TemplatesCarousel = memo(() => {
     setItems(
       availableTemplates.filter(
         (tData) =>
-          (!!tData.overlay ||
-            !!tData.background ||
-            (tData as templateTypeV2).version === 2) &&
-          !tData.key.includes('blank'),
+          !!tData.overlay ||
+          !!tData.background ||
+          (tData as templateTypeV2).version === 2,
       ),
     );
     setToLoad(0);
