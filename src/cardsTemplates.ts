@@ -29,6 +29,7 @@ import upgradeStickerZTCSRounded from './assets/ZapTradingCard_Single_RoundFrame
 import upgradeStickerZTCDFull from './assets/ZapTradingCard_Double_Full.svg';
 import upgradeStickerZTCDFrame from './assets/ZapTradingCard_Double_Frame.svg';
 import upgradeStickerZTCDRounded from './assets/ZapTradingCard_Double_RoundFrame.svg';
+import gameCardVertical from './assets/fossHuCardLabel.svg';
 
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
@@ -94,6 +95,15 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     author: Authors.andrea,
     media: NFCCCsizeCard,
     key: 'blankVF',
+  },
+  gameCardV: {
+    version: 2,
+    layout: 'vertical',
+    url: gameCardVertical,
+    label: 'Game card Vertical',
+    author: Authors.tim,
+    media: NFCCCsizeCard,
+    key: 'gameCardV',
   },
   tapto2: {
     layout: 'horizontal',
