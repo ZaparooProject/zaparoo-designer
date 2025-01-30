@@ -20,7 +20,6 @@ import genesisBg from './assets/genesis_bg.svg';
 import pcEngine from './assets/pcengine.svg';
 import pcEngineBG from './assets/pcengine_bg.svg';
 import animeOt4ku from './assets/tapto_0t4ku.svg';
-import cassetTape from './assets/cassette_tape.svg';
 import mininfcAlice from './assets/3by5_steam.svg';
 import r2PcbCardFront from './assets/RetroRemake_PCBCardRev1-0.svg';
 import upgradeStickerZTCSFull from './assets/ZapTradingCard_Single_Full.svg';
@@ -36,6 +35,7 @@ import gameCardVertical from './assets/fossHuCardLabel.svg';
 import { Authors } from './templateAuthors';
 import type { templateType, templateTypeV2 } from './resourcesTypedef';
 import { logoResource } from './logos';
+import { cassetteTemplates } from './cassetteTemplates';
 
 import {
   NFCCCsizeCard,
@@ -406,39 +406,6 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     media: TapeBoxCover,
     key: 'cassetteBoxBlank',
   },
-  cassetteBoxV2: {
-    layout: 'horizontal',
-    label: 'Casset box cover',
-    overlay: {
-      layerWidth: 1233,
-      layerHeight: 1200,
-      url: cassetTape,
-      height: 1 - 123 / 1200,
-      width: 1 - 454 / 1233,
-      y: 123 / 1200,
-      x: 454 / 1233,
-      isSvg: true,
-      strategy: 'cover',
-    },
-    edits: [
-      {
-        id: 'placeholder_logo_1',
-        resource: logoResource,
-      },
-      {
-        id: 'placeholder_logo_2',
-        resource: logoResource,
-      },
-      {
-        id: 'placeholder_logo_3',
-        resource: logoResource,
-      },
-    ],
-    canEdit: true,
-    author: Authors.animeotaku, // to be changed with Phoneix data
-    media: TapeBoxCover,
-    key: 'cassetteBoxV2',
-  },
   miniNfcAlice: {
     version: 2,
     layout: 'vertical',
@@ -448,6 +415,7 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     media: miniNfcCard,
     key: 'miniNfcAlice',
   },
+  ...cassetteTemplates,
   retroRemakePcb1: {
     canEdit: true,
     version: 2,
