@@ -468,6 +468,16 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     media: tapToPrePrinted,
     key: 'upgradeStickerT2',
   },
+  upgradeStickerT6: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Trading Card - Single Frame Rounded',
+    url: upgradeStickerZTCSRounded,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    key: 'upgradeStickerT6',
+  },
   upgradeStickerT3: {
     canEdit: true,
     version: 2,
@@ -497,16 +507,6 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     author: Authors.tim,
     media: tapToPrePrinted,
     key: 'upgradeStickerT5',
-  },
-  upgradeStickerT6: {
-    canEdit: true,
-    version: 2,
-    layout: 'vertical',
-    label: 'Trading Card - Single Frame Rounded',
-    url: upgradeStickerZTCSRounded,
-    author: Authors.tim,
-    media: tapToPrePrinted,
-    key: 'upgradeStickerT6',
   },
 } as const;
 
