@@ -41,7 +41,7 @@ const MediaTypeDropdown = ({
         label="Media type"
         value={currentKey}
         onChange={toggleMediaType}
-        sx={{ fontWeight: 400 }}
+        sx={{ fontWeight: 400, minWidth: 250, textAlign: 'left' }}
       >
         {mediaTargetList.map((item, key) => (
           <MenuItem

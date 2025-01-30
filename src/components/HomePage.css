@@ -9,7 +9,7 @@
 
 .homepage .topBanner {
   display: flex;
-  min-height: 300px;
+  min-height: 180px;
   background-size: cover;
 }
 

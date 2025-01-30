@@ -6,6 +6,8 @@ import {
 import { util, FabricImage, type StaticCanvas } from 'fabric';
 import { useAppDataContext } from '../contexts/appData';
 import { updateColors } from '../utils/updateColors';
+import { isTemplateV2 } from '../utils/utils';
+import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
 
 type useLabelEditorParams = {
   padderRef: MutableRefObject<HTMLDivElement | null>;
@@ -37,7 +39,7 @@ export const useLabelEditor = ({
         }
         setImageReady(false);
         imagePromise.then((image) => {
-          const fabricImage = new FabricImage(image);
+          const fabricImage = new FabricImage(image, { resourceType: "main" });
           // @ts-expect-error no originalFile
           fabricImage.originalFile = file;
           const scale = util.findScaleToCover(fabricImage, fabricCanvas);
@@ -66,10 +68,17 @@ export const useLabelEditor = ({
       card.template = template;
       card.colors = customColors;
       card.originalColors = originalColors;
-      setTemplateOnCanvases([card], template).then(() => {
-        updateColors([card], customColors, originalColors);
-        fabricCanvas.requestRenderAll();
-      });
+      if (isTemplateV2(template)) {
+        setTemplateV2OnCanvases([card], template).then(() => {
+          updateColors([card], customColors, originalColors);
+          fabricCanvas.requestRenderAll();
+        });
+      } else {
+        setTemplateOnCanvases([card], template).then(() => {
+          updateColors([card], customColors, originalColors);
+          fabricCanvas.requestRenderAll();
+        });
+      }
     }
     // shouldn't retrigger for index change or template change or colors
     // the data reconciler does that
