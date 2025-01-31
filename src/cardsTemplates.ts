@@ -6,7 +6,6 @@ import tapToHu from './assets/tapto_hucard.svg';
 import tapToHuSteam from './assets/tapto_hucard_steam.svg';
 import tapToHuSteamVR from './assets/tapto_hucard_steamVR.svg';
 import tapToHuBg from './assets/tapto_hucard_bg.svg';
-import tapToHuBgLarge from './assets/tapto_hucard_bg_large.svg';
 import tapToHuC64 from './assets/tapto_hucard_c64.svg';
 import tapToGB from './assets/tapto_gameboy_f.svg';
 import tapToFloppy from './assets/tapto_floppy.svg';
