@@ -10,7 +10,6 @@ import tapToHuC64 from './assets/tapto_hucard_c64.svg';
 import tapToGB from './assets/tapto_gameboy_f.svg';
 import tapToFloppy from './assets/tapto_floppy.svg';
 import floppy525 from './assets/tapto_floppy525.svg';
-import floppy525Bg from './assets/tapto_floppy525_bg.svg';
 import taptoNes from './assets/tapto_nes.svg';
 import tapToGenesis from './assets/tapto_genesis.svg';
 import genesisBg from './assets/genesis_bg.svg';
@@ -151,46 +150,18 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     key: 'taptoGB',
   },
   taptoFloppy: {
+    version: 2,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: '',
-      width: 1 - (76 + 77) / 619,
-      height: 1 - (276 + 10) / 994,
-      x: 77 / 619,
-      y: 276 / 994,
-      isSvg: false,
-    },
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToFloppy,
-      isSvg: true,
-    },
+    url: tapToFloppy,
     label: 'Floppy 3.5',
     author: Authors.andrea,
     media: NFCCCsizeCard,
     key: 'taptoFloppy',
   },
   taptoFloppy525: {
+    version: 2,
     layout: 'vertical',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: floppy525Bg,
-      isSvg: true,
-    },
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: floppy525,
-      width: 1 - (20 + 44) / 619,
-      height: 316 / 994,
-      x: 20 / 619,
-      y: 12.6 / 994,
-      isSvg: true,
-    },
+    url: floppy525,
     label: 'Floppy 5.25',
     author: Authors.andrea,
     media: NFCCCsizeCard,
