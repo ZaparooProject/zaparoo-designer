@@ -1,11 +1,9 @@
 import tapToHorizontal from './assets/tapto_horizontal.svg';
 import tapToVertical from './assets/tapto_vertical.svg';
-import tapToBg from './assets/tapto_pattern_bg.svg';
 import tapToBgV from './assets/tapto_pattern_bg_vertical.svg';
 import tapToHu from './assets/tapto_hucard.svg';
 import tapToHuSteam from './assets/tapto_hucard_steam.svg';
 import tapToHuSteamVR from './assets/tapto_hucard_steamVR.svg';
-import tapToHuBg from './assets/tapto_hucard_bg.svg';
 import tapToHuC64 from './assets/tapto_hucard_c64.svg';
 import tapToGB from './assets/tapto_gameboy_f.svg';
 import tapToFloppy from './assets/tapto_floppy.svg';
@@ -102,48 +100,18 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     key: 'hucardsteamVR',
   },
   hucardc64: {
+    version: 2,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuC64,
-      height: 1 - (84 + 268) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 268 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuBg,
-      isSvg: true,
-    },
+    url: tapToHuC64,
     label: 'HuCard (C64)',
     author: Authors.ben,
     media: NFCCCsizeCard,
     key: 'hucardc64',
   },
   taptoGB: {
+    version: 2,
     layout: 'horizontal',
-    overlay: {
-      layerWidth: 994,
-      layerHeight: 619,
-      url: tapToGB,
-      width: 1 - (310 + 37) / 994,
-      height: 1 - (37 * 2) / 619,
-      x: 310 / 994,
-      y: 37 / 619,
-      isSvg: true,
-    },
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 994,
-      layerHeight: 619,
-      url: tapToBg,
-      isSvg: true,
-    },
+    url: tapToGB,
     label: 'Tap-to Gameboy',
     author: Authors.ariel,
     media: NFCCCsizeCard,
@@ -237,18 +205,10 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     key: 'tapToPcEngine',
   },
   anime0taku: {
+    version: 2,
     canEdit: true,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 640,
-      layerHeight: 1006,
-      url: animeOt4ku,
-      height: 1,
-      width: 1,
-      y: 0,
-      x: 0,
-      isSvg: true,
-    },
+    url: animeOt4ku,
     edits: [
       {
         id: 'placeholder_logo',
