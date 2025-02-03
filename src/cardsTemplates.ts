@@ -9,7 +9,6 @@ import tapToFloppy from './assets/tapto_floppy.svg';
 import floppy525 from './assets/tapto_floppy525.svg';
 import taptoNes from './assets/tapto_nes.svg';
 import tapToGenesis from './assets/tapto_genesis.svg';
-import genesisBg from './assets/genesis_bg.svg';
 import pcEngine from './assets/pcengine.svg';
 import pcEngineBG from './assets/pcengine_bg.svg';
 import animeOt4ku from './assets/tapto_0t4ku.svg';
@@ -153,23 +152,9 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     key: 'tapToGenesis',
   },
   tapToPcEngine: {
+    version: 2,
     layout: 'vertical',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: pcEngineBG,
-      isSvg: true,
-    },
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: pcEngine,
-      height: 1 - (84 + 268) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 268 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
+    url: pcEngine,
     label: 'PcEngineCD',
     author: Authors.ariel,
     media: NFCCCsizeCard,
