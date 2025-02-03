@@ -1,6 +1,5 @@
 import tapToHorizontal from './assets/tapto_horizontal.svg';
 import tapToVertical from './assets/tapto_vertical.svg';
-import tapToBgV from './assets/tapto_pattern_bg_vertical.svg';
 import tapToHu from './assets/tapto_hucard.svg';
 import tapToHuSteam from './assets/tapto_hucard_steam.svg';
 import tapToHuSteamVR from './assets/tapto_hucard_steamVR.svg';
@@ -137,45 +136,17 @@ export const templates: Record<string, templateType | templateTypeV2> = {
   },
   tapToNes: {
     layout: 'vertical',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToBgV,
-      isSvg: true,
-    },
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: taptoNes,
-      width: 1 - (37 * 2) / 619,
-      height: 1 - (37 + 144) / 994,
-      x: 37 / 619,
-      y: 37 / 994,
-      isSvg: true,
-    },
+    version: 2,
+    url: taptoNes,
     label: 'Nes',
     author: Authors.ariel,
     media: NFCCCsizeCard,
     key: 'tapToNes',
   },
   tapToGenesis: {
+    version: 2,
     layout: 'vertical',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: genesisBg,
-      isSvg: true,
-    },
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToGenesis,
-      height: 1 - (84 + 268) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 268 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
+    url: tapToGenesis,
     label: 'Genesis',
     author: Authors.ariel,
     media: NFCCCsizeCard,
