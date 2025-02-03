@@ -10,7 +10,6 @@ import floppy525 from './assets/tapto_floppy525.svg';
 import taptoNes from './assets/tapto_nes.svg';
 import tapToGenesis from './assets/tapto_genesis.svg';
 import pcEngine from './assets/pcengine.svg';
-import pcEngineBG from './assets/pcengine_bg.svg';
 import animeOt4ku from './assets/tapto_0t4ku.svg';
 import cassetTape from './assets/cassette_tape.svg';
 import mininfcAlice from './assets/3by5_steam.svg';

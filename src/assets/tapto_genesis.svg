@@ -21,6 +21,9 @@
       <stop style="stop-opacity:1;stop-color:#8d8987" offset="1" id="stop11" />
     </linearGradient>
   </defs>
+  <path fill="#fff" fill-rule="evenodd"
+    d="M0 0v-226.65a5.94 5.94 0 0 0-5.94-5.94h-136.55a5.94 5.94 0 0 0-5.94 5.94V0a5.94 5.94 0 0 0 5.94 5.94H-5.94A5.94 5.94 0 0 0 0 0Z"
+    clip-path="url(#clipPath2)" transform="matrix(1.333 0 0 -1.333 197.9 7.92)" />
   <path fill="#010101"
     d="M197.9 7.92v302.2a7.92 7.92 0 0 1-7.91 7.93H7.92A7.92 7.92 0 0 1 0 310.13V7.93A7.92 7.92 0 0 1 7.92 0h182.07a7.92 7.92 0 0 1 7.91 7.92z" />
   <path fill="#1E1D1D"
