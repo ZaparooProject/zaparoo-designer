@@ -25,4 +25,6 @@
     height="53" x="500" y="22" />
   <rect stroke-width="1" stroke="white" stroke-dasharray="6 6" fill="none" id="placeholder_logo_3" width="150"
     height="150" x="304" y="1050" />
+  <rect id="placeholder" zaparoo-placeholder="main" x="454" y="123" width="779" height="1077" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="cover" />
 </svg>

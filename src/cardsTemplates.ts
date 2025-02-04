@@ -25,6 +25,7 @@ import blankCoverH from './assets/blank_cover_h.svg';
 import blankCoverV from './assets/blank_cover_v.svg';
 import blankFitH from './assets/blank_fit_h.svg';
 import blankFitV from './assets/blank_fit_v.svg';
+import cassetteTapeEmpty from './assets/cassette_tape_empty.svg';
 
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
@@ -177,6 +178,8 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     key: 'anime0taku',
   },
   cassetteBox: {
+    version: 2,
+    url: cassetteTapeEmpty,
     layout: 'horizontal',
     label: 'Casset box placeholder',
     author: Authors.animeotaku, // to be changed with Phoneix data
@@ -186,17 +189,8 @@ export const templates: Record<string, templateType | templateTypeV2> = {
   cassetteBoxV2: {
     layout: 'horizontal',
     label: 'Casset box cover',
-    overlay: {
-      layerWidth: 1233,
-      layerHeight: 1200,
-      url: cassetTape,
-      height: 1 - 123 / 1200,
-      width: 1 - 454 / 1233,
-      y: 123 / 1200,
-      x: 454 / 1233,
-      isSvg: true,
-      strategy: 'cover',
-    },
+    url: cassetTape,
+    version: 2,
     edits: [
       {
         id: 'placeholder_logo_1',
