@@ -9,6 +9,7 @@ import { type TemplateEdit } from '../resourcesTypedef';
 import { ResourceDisplay } from './ResourceDisplay';
 import { ImageAdjust } from './ImageAdjust';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
+import { getMainImage } from '../utils/setTemplateV2';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
@@ -74,61 +75,52 @@ export const ModalInternalComponent = ({
           'original_stroke',
         ]);
         canvas.loadFromJSON(jsonData).then(() => {
-          if (canvas.overlayImage) {
-            const overlay = canvas.overlayImage;
-            canvas.overlayImage = undefined;
-            overlay.controls = {};
-            overlay.lockMovementX = true;
-            overlay.lockMovementY = true;
-            overlay.perPixelTargetFind = true;
-            (overlay as Group).subTargetCheck = true;
-            // overlay.on('mousedown', (opt) => {
-            // const resource = opt.subTargets?.[0];
-            // if (resource && resource.resourceFor) {
-            //   const edit = selectedCard.template?.edits?.find(
-            //     // @ts-expect-error not sure what to do here
-            //     (edit) => edit.id === resource.resourceFor,
-            //   );
-            //   if (edit) {
-            //     setCurrentResource([edit, resource]);
-            //   }
-            // }
-            // });
-            canvas.add(overlay);
-            const [mainImage] = canvas.getObjects('image') as FabricImage[];
-            if (mainImage) {
-              mainImage.hasControls = false;
-              mainImage.hasBorders = false;
-              mainImage.strokeWidth = 0;
-              mainImage.imageSmoothing = false;
-            }
-            canvas.on('selection:created', ({ selected }) => {
-              if (selected[0] instanceof FabricImage) {
-                setImageAdjust(true);
-                setCurrentResource([undefined, undefined]);
-              } else {
-                setImageAdjust(false);
-              }
-            });
-            canvas.on('selection:cleared', ({ deselected }) => {
-              if (deselected[0] instanceof FabricImage) {
-                setImageAdjust(false);
-              }
-            });
-            canvas.on('selection:updated', ({ selected }) => {
-              if (selected[0] instanceof FabricImage) {
-                setImageAdjust(true);
-                setCurrentResource([undefined, undefined]);
-              } else {
-                setImageAdjust(false);
-              }
-            });
-            canvas.on('object:moving', ({ target }) => {
-              if (target instanceof FabricImage) {
-                fixImageInsideCanvas(target);
-              }
-            });
+          const mainImage = getMainImage(canvas);
+          if (mainImage) {
+            mainImage.hasControls = false;
+            mainImage.hasBorders = false;
+            mainImage.strokeWidth = 0;
+            mainImage.imageSmoothing = false;
           }
+          // canvas.on('mouse:down', (opt) => {
+          // const resource = opt.subTargets?.[0];
+          // if (resource && resource.resourceFor) {
+          //   const edit = selectedCard.template?.edits?.find(
+          //     // @ts-expect-error not sure what to do here
+          //     (edit) => edit.id === resource.resourceFor,
+          //   );
+          //   if (edit) {
+          //     setCurrentResource([edit, resource]);
+          //   }
+          // }
+          // });
+
+          canvas.on('selection:created', ({ selected }) => {
+            if (selected[0] instanceof FabricImage) {
+              setImageAdjust(true);
+              setCurrentResource([undefined, undefined]);
+            } else {
+              setImageAdjust(false);
+            }
+          });
+          canvas.on('selection:cleared', ({ deselected }) => {
+            if (deselected[0] instanceof FabricImage) {
+              setImageAdjust(false);
+            }
+          });
+          canvas.on('selection:updated', ({ selected }) => {
+            if (selected[0] instanceof FabricImage) {
+              setImageAdjust(true);
+              setCurrentResource([undefined, undefined]);
+            } else {
+              setImageAdjust(false);
+            }
+          });
+          canvas.on('object:moving', ({ target }) => {
+            if (target instanceof FabricImage) {
+              fixImageInsideCanvas(target);
+            }
+          });
           setReady(true);
         });
       }
