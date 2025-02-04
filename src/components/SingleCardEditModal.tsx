@@ -45,10 +45,6 @@ export const ModalInternalComponent = ({
 
   const confirmAndClose = useCallback(async () => {
     const canvas = editableCanvas.current!;
-    const [group] = canvas.getObjects('group');
-    canvas.remove(group);
-    canvas.overlayImage = group;
-    group.canvas = canvas;
     const data = canvas.toObject([
       'resourceFor',
       'id',
