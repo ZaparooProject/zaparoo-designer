@@ -5,6 +5,7 @@ import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { CardData } from '../contexts/fileDropper';
 import { Typography } from '@mui/material';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
+import { getMainImage, getPlaceholderMain } from '../utils/setTemplateV2';
 
 type ImageAdjustProps = {
   canvasRef: RefObject<Canvas>;
@@ -25,26 +26,16 @@ export const ImageAdjust = ({
 
   useEffect(() => {
     const canvas = canvasRef.current!;
-    const image = canvas.getObjects('image')[0];
-    const overlayObj = canvas.getObjects('group')[0];
-    const template = card.template;
-    const overlay = template?.overlay;
-    if (overlay) {
-      const dims = overlayObj
-        ? overlayObj._getTransformedDimensions()
-        : { x: overlay.layerWidth, y: overlay.layerHeight };
-      const destination = template?.noMargin
-        ? {
-            width: overlay.layerWidth,
-            height: overlay.layerHeight,
-          }
-        : {
-            width: overlay.width * dims.x,
-            height: overlay.height * dims.y,
-          };
-      const coverScale = util.findScaleToCover(image, destination);
-      setPrintsizeX(destination.width);
-      setPrintsizeY(destination.height);
+    const image = getMainImage(canvas);
+    const placeholderMain = getPlaceholderMain(canvas);
+    if (placeholderMain) {
+      const dims = placeholderMain._getTransformedDimensions();
+      const coverScale = util.findScaleToCover(image, {
+        width: dims.x,
+        height: dims.y,
+      });
+      setPrintsizeX(dims.x);
+      setPrintsizeY(dims.y);
       setMinScale(coverScale);
       setMaxScale(coverScale * 10);
       setValue(image.scaleX);
@@ -58,11 +49,11 @@ export const ImageAdjust = ({
       const canvas = canvasRef.current!;
       const image = canvas.getObjects('image')[0] as FabricImage;
       image.scale(value);
-      fixImageInsideCanvas(image, card.template!);
+      fixImageInsideCanvas(image);
       canvas.requestRenderAll();
       setValue(value);
     },
-    [canvasRef, card],
+    [canvasRef],
   );
 
   return (

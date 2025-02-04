@@ -129,7 +129,7 @@ export const ModalInternalComponent = ({
             });
             canvas.on('object:moving', ({ target }) => {
               if (target instanceof FabricImage) {
-                fixImageInsideCanvas(target, selectedCard.template!);
+                fixImageInsideCanvas(target);
               }
             });
           }
@@ -141,7 +141,7 @@ export const ModalInternalComponent = ({
         canvas && canvas.dispose();
       };
     }
-  }, [cards, currentCardIndex]);
+  }, [cards, currentCardIndex, selectedCard.canvas]);
   const classNameExt =
     layout === 'vertical' ? 'horizontalStack' : 'verticalStack';
   const classNameInt =

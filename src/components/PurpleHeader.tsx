@@ -7,10 +7,13 @@ import ColorChanger from './ColorChanger';
 import Typography from '@mui/material/Typography';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useAppDataContext } from '../contexts/appData';
-import { scaleImageToOverlayArea } from '../utils/setTemplateV2';
+import {
+  getMainImage,
+  getPlaceholderMain,
+  scaleImageToOverlayArea,
+} from '../utils/setTemplateV2';
 import { useCallback, useEffect } from 'react';
 import { colorsDiffer } from '../utils/utils';
-import { FabricImage } from 'fabric';
 
 const PurpleHeader = () => {
   const { selectedCardsCount, cards, removeCards, setSelectedCardsCount } =
@@ -58,15 +61,9 @@ const PurpleHeader = () => {
   const rotateMainImage = useCallback(() => {
     cards.current.forEach((card) => {
       if (card.isSelected && card.canvas) {
-        const placeholder = card.canvas
-          .getObjects()
-          .find((obj) => obj['zaparoo-placeholder'] === 'main');
-        const mainImage = card.canvas
-          .getObjects('image')
-          .find(
-            (fabricImage) =>
-              (fabricImage as FabricImage).resourceType === 'main',
-          ) as FabricImage;
+        const placeholder = getPlaceholderMain(card.canvas);
+        const mainImage = getMainImage(card.canvas);
+
         if (placeholder && mainImage) {
           mainImage.angle += 90;
           mainImage.angle %= 360;
