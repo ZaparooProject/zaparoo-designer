@@ -3,7 +3,7 @@ import {
   defaultTemplate,
   templates,
 } from '../cardsTemplates';
-import type { MediaDefinition, templateType } from '../resourcesTypedef';
+import type { MediaDefinition, templateType, templateTypeV2 } from '../resourcesTypedef';
 import {
   type PrintTemplate,
   defaultPrinterTemplate,
@@ -23,7 +23,7 @@ export type contextType = {
   originalColors: string[];
   customColors: string[];
   template: templateType;
-  availableTemplates: (templateType & { key: string; })[];
+  availableTemplates: (templateTypeV2)[];
   mediaType: MediaDefinition;
   printerTemplate: PrintTemplate;
   printerTemplateKey: string;

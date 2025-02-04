@@ -1,12 +1,8 @@
 import { useEffect, useState, MutableRefObject } from 'react';
 import { type CardData } from '../contexts/fileDropper';
-import {
-  setTemplateOnCanvases,
-} from '../utils/setTemplate';
 import { util, FabricImage, type StaticCanvas } from 'fabric';
 import { useAppDataContext } from '../contexts/appData';
 import { updateColors } from '../utils/updateColors';
-import { isTemplateV2 } from '../utils/utils';
 import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
 
 type useLabelEditorParams = {
@@ -68,17 +64,10 @@ export const useLabelEditor = ({
       card.template = template;
       card.colors = customColors;
       card.originalColors = originalColors;
-      if (isTemplateV2(template)) {
-        setTemplateV2OnCanvases([card], template).then(() => {
-          updateColors([card], customColors, originalColors);
-          fabricCanvas.requestRenderAll();
-        });
-      } else {
-        setTemplateOnCanvases([card], template).then(() => {
-          updateColors([card], customColors, originalColors);
-          fabricCanvas.requestRenderAll();
-        });
-      }
+      setTemplateV2OnCanvases([card], template).then(() => {
+        updateColors([card], customColors, originalColors);
+        fabricCanvas.requestRenderAll();
+      });
     }
     // shouldn't retrigger for index change or template change or colors
     // the data reconciler does that

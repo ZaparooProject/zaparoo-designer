@@ -23,19 +23,12 @@ const getTemplateId = (id: string) => `template_replace_${id}`;
 const TemplatesCarousel = memo(() => {
   const { setTemplate, availableTemplates } = useAppDataContext();
   const { setFiles } = useFileDropperContext();
-  const [items, setItems] = useState<(templateType & { key: string })[]>([]);
+  const [items, setItems] = useState<(templateTypeV2 & { key: string })[]>([]);
   const [img, setImg] = useState<HTMLImageElement>();
   const [toLoad, setToLoad] = useState(0);
 
   useLayoutEffect(() => {
-    setItems(
-      availableTemplates.filter(
-        (tData) =>
-          !!tData.overlay ||
-          !!tData.background ||
-          (tData as templateTypeV2).version === 2,
-      ),
-    );
+    setItems(availableTemplates);
     setToLoad(0);
   }, [availableTemplates]);
 

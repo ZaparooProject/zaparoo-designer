@@ -1,10 +1,7 @@
 import {
-  loadSVGFromURL,
   Group,
-  FabricObject,
   Color,
   Gradient,
-  type SerializedGroupProps,
 } from 'fabric';
 
 /**
@@ -42,15 +39,3 @@ export const extractUniqueColorsFromGroup = (group: Group): string[] => {
   });
   return colors;
 };
-
-export const parseSvg = (url: string): Promise<SerializedGroupProps> =>
-  loadSVGFromURL(url).then(({ objects }) => {
-    const nonNullObjects = objects.filter(
-      (objects) => !!objects,
-    ) as FabricObject[];
-    const group = new Group(nonNullObjects);
-    extractUniqueColorsFromGroup(group);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return group.toObject(['original_stroke', 'original_fill', 'id']);
-  });

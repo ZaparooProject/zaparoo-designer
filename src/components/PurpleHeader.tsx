@@ -7,7 +7,7 @@ import ColorChanger from './ColorChanger';
 import Typography from '@mui/material/Typography';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useAppDataContext } from '../contexts/appData';
-import { scaleImageToOverlayArea } from '../utils/setTemplate';
+import { scaleImageToOverlayArea } from '../utils/setTemplateV2';
 import { useCallback, useEffect } from 'react';
 import { colorsDiffer } from '../utils/utils';
 import { FabricImage } from 'fabric';
