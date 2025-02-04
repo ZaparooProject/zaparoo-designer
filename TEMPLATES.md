@@ -142,7 +142,7 @@ import { Authors } from './templateAuthors'; // where the authors are defined
 
 import { miniNfcCard } from './printMediaTypes'; // where the media types are defined
 
-export const templates: Record<string, templateType | templateTypeV2> = {
+export const templates: Record<string, templateTypeV2> = {
   blankH: {
     layout: 'horizontal',
     label: 'Blank H cover',

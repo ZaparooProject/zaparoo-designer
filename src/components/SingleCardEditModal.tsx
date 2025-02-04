@@ -86,19 +86,18 @@ export const ModalInternalComponent = ({
             overlay.lockMovementY = true;
             overlay.perPixelTargetFind = true;
             (overlay as Group).subTargetCheck = true;
-            overlay.on('mousedown', (opt) => {
-              const resource = opt.subTargets?.[0];
-              // @ts-expect-error not sure what to do here
-              if (resource && resource.resourceFor) {
-                const edit = selectedCard.template?.edits?.find(
-                  // @ts-expect-error not sure what to do here
-                  (edit) => edit.id === resource.resourceFor,
-                );
-                if (edit) {
-                  setCurrentResource([edit, resource]);
-                }
-              }
-            });
+            // overlay.on('mousedown', (opt) => {
+            // const resource = opt.subTargets?.[0];
+            // if (resource && resource.resourceFor) {
+            //   const edit = selectedCard.template?.edits?.find(
+            //     // @ts-expect-error not sure what to do here
+            //     (edit) => edit.id === resource.resourceFor,
+            //   );
+            //   if (edit) {
+            //     setCurrentResource([edit, resource]);
+            //   }
+            // }
+            // });
             canvas.add(overlay);
             const [mainImage] = canvas.getObjects('image') as FabricImage[];
             if (mainImage) {

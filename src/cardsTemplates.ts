@@ -30,8 +30,8 @@ import cassetteTapeEmpty from './assets/cassette_tape_empty.svg';
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
-import type { templateType, templateTypeV2 } from './resourcesTypedef';
-import { logoResource } from './logos';
+import type { templateTypeV2 } from './resourcesTypedef';
+// import { logoResource } from './logos';
 
 import {
   NFCCCsizeCard,
@@ -41,7 +41,7 @@ import {
   r2Pcb1_0,
 } from './printMediaTypes';
 
-export const templates: Record<string, templateType | templateTypeV2> = {
+export const templates: Record<string, templateTypeV2> = {
   gameCardV: {
     version: 2,
     layout: 'vertical',
@@ -63,7 +63,6 @@ export const templates: Record<string, templateType | templateTypeV2> = {
   tapto3: {
     version: 2,
     layout: 'vertical',
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
     url: tapToVertical,
     label: 'Tap-to V',
     author: Authors.tim,
@@ -165,14 +164,13 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     canEdit: true,
     layout: 'vertical',
     url: animeOt4ku,
-    edits: [
-      {
-        id: 'placeholder_logo',
-        resource: logoResource,
-      },
-    ],
+    // edits: [
+    //   {
+    //     id: 'placeholder_logo',
+    //     resource: logoResource,
+    //   },
+    // ],
     label: 'full image + system',
-    noMargin: true,
     author: Authors.animeotaku,
     media: NFCCCsizeCard,
     key: 'anime0taku',
@@ -191,20 +189,6 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     label: 'Casset box cover',
     url: cassetTape,
     version: 2,
-    edits: [
-      {
-        id: 'placeholder_logo_1',
-        resource: logoResource,
-      },
-      {
-        id: 'placeholder_logo_2',
-        resource: logoResource,
-      },
-      {
-        id: 'placeholder_logo_3',
-        resource: logoResource,
-      },
-    ],
     canEdit: true,
     author: Authors.animeotaku, // to be changed with Phoneix data
     media: TapeBoxCover,

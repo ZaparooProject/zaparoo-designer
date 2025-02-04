@@ -2,7 +2,7 @@
 import {
   FabricImage,
   type FabricObject,
-  Group,
+  // Group,
   type ImageProps,
   Path,
   type StaticCanvas,
@@ -14,7 +14,7 @@ import {
   type TMat2D,
   iMatrix
 } from 'fabric';
-import type { MediaDefinition, templateType } from '../resourcesTypedef';
+import type { MediaDefinition, templateTypeV2 } from '../resourcesTypedef';
 
 export const createDownloadStream = async (pdfDoc: any): Promise<Blob> => {
   // @ts-expect-error yeah no definitions
@@ -238,16 +238,16 @@ const addObjectsToPdf = async (objs: FabricObject[], pdfDoc: any) => {
   }
 }
 
-const addGroupToPdf = async (
-  group: Group,
-  pdfDoc: any,
-) => {
-  pdfDoc.save();
-  transformPdf(group, pdfDoc);
-  const objs = group.getObjects();
-  await addObjectsToPdf(objs, pdfDoc);
-  pdfDoc.restore();
-};
+// const addGroupToPdf = async (
+//   group: Group,
+//   pdfDoc: any,
+// ) => {
+//   pdfDoc.save();
+//   transformPdf(group, pdfDoc);
+//   const objs = group.getObjects();
+//   await addObjectsToPdf(objs, pdfDoc);
+//   pdfDoc.restore();
+// };
 
 const makeCardRegion = (box: box, templateMedia: MediaDefinition, pdfDoc: any): any => pdfDoc.roundedRect(box.x, box.y, box.width, box.height, templateMedia.rx / 4)
 
@@ -256,7 +256,7 @@ export const addCanvasToPdfPage = async (
   pdfDoc: any,
   box: box,
   needsRotation: boolean,
-  template: templateType,
+  template: templateTypeV2,
   asRaster: boolean
 ) => {
   // translate to position.
@@ -288,21 +288,7 @@ export const addCanvasToPdfPage = async (
     });
 
   } else {
-    if (!template.background?.hidePrint) {
-      if (canvas.backgroundImage instanceof Group) {
-        await addGroupToPdf(canvas.backgroundImage, pdfDoc);
-      } else if (canvas.backgroundImage) {
-        // add it as an image.
-        // no usecase for this yet
-        console.warn('Missing code to add images to pdf from background')
-      }
-    }
     await addObjectsToPdf(canvas.getObjects(), pdfDoc);
-    if (canvas.overlayImage instanceof Group) {
-      await addGroupToPdf(canvas.overlayImage, pdfDoc);
-    } else {
-      // add it as an image.
-    }
   }
 
   pdfDoc.restore();

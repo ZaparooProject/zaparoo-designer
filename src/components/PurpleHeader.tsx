@@ -58,15 +58,22 @@ const PurpleHeader = () => {
   const rotateMainImage = useCallback(() => {
     cards.current.forEach((card) => {
       if (card.isSelected && card.canvas) {
-        const mainImage = card.canvas.getObjects('image')[0] as FabricImage;
-        mainImage.angle += 90;
-        mainImage.angle %= 360;
-        scaleImageToOverlayArea(
-          card.template!,
-          card.canvas.overlayImage!,
-          mainImage,
-        );
-        card.canvas.requestRenderAll();
+        const placeholder = card.canvas
+          .getObjects()
+          .find((obj) => obj['zaparoo-placeholder'] === 'main');
+        const mainImage = card.canvas
+          .getObjects('image')
+          .find(
+            (fabricImage) =>
+              (fabricImage as FabricImage).resourceType === 'main',
+          ) as FabricImage;
+        if (placeholder && mainImage) {
+          mainImage.angle += 90;
+          mainImage.angle %= 360;
+
+          scaleImageToOverlayArea(placeholder, mainImage);
+          card.canvas.requestRenderAll();
+        }
       }
     });
   }, [cards]);

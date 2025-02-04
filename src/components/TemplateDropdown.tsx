@@ -5,11 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import { useAppDataContext } from '../contexts/appData';
-import type { templateType } from '../resourcesTypedef';
+import type { templateTypeV2 } from '../resourcesTypedef';
 
 type TemplateDropdownProps = {
   id: string;
-  template: templateType & { key: string };
+  template: templateTypeV2 & { key: string };
 };
 
 const TemplateDropdown = ({

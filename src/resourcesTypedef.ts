@@ -66,30 +66,8 @@ export type PrintableArea = {
   y: number;
 }
 
-export type templateType = {
-  layout: layoutOrientation;
-  overlay?: templateOverlay;
-  background?: templateLayer;
-  label: string;
-  /* box-shadow like property for the main image, 3 numbers + color */
-  shadow?: string;
-  /* if noMargin is true the image you load will cover the full card and bleed outside */
-  noMargin?: boolean;
-  /* a reference to the author data */
-  author: Authors;
-  /**
-   * if true it means a button to edit the tempalte is shown on screen
-   * More data in the template is needed to make that happen.
-   * */ 
-  canEdit?: boolean;
-
-  edits?: TemplateEdit[];
-  media: MediaDefinition;
-  printableAreas?: PrintableArea[],
-  key: string;
-};
-
 export type templateTypeV2 = {
+  canEdit?: boolean;
   parsed?: Promise<Group>;
   version: number;
   layout: layoutOrientation;

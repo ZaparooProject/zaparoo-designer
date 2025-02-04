@@ -1,9 +1,9 @@
-import type { templateType, templateTypeV2 } from "../resourcesTypedef";
+import type { templateTypeV2 } from "../resourcesTypedef";
 import { StaticCanvas, FabricImage } from 'fabric';
 import { setTemplateV2OnCanvases } from "./setTemplateV2";
 import { CardData } from "../contexts/fileDropper";
 
-export const prepareTemplateCarousel = async (templates: (templateType | templateTypeV2)[], img: HTMLImageElement): Promise<HTMLCanvasElement[]> => {
+export const prepareTemplateCarousel = async (templates: (templateTypeV2)[], img: HTMLImageElement): Promise<HTMLCanvasElement[]> => {
   const canvases = [];
   for (const template of templates) {
     const canvas = new StaticCanvas(undefined, {

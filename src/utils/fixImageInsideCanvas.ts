@@ -1,11 +1,11 @@
 import { Point, type TOriginX, type TOriginY, type FabricImage } from "fabric";
-import type { templateType } from "../resourcesTypedef";
+import type { templateTypeV2 } from "../resourcesTypedef";
 
 /**\
  * This function is meant to run in a context in which the canvas is zoomed and larger to fit the entire modal
  * In general the preview of the label editor are 1:1 pixel at 300dpi with the sizes and css scaled.
  */
-export const fixImageInsideCanvas = (target: FabricImage, template: templateType) => {
+export const fixImageInsideCanvas = (target: FabricImage, template: templateTypeV2) => {
   const { canvas } = target;
   if (!canvas) return;
   const overlayImage = canvas.getObjects('group')[0];

@@ -1,13 +1,13 @@
 import type { MutableRefObject } from 'react';
 import { createContext, useContext } from 'react';
 import type { StaticCanvas } from 'fabric';
-import type { templateType } from '../resourcesTypedef';
+import type { templateTypeV2 } from '../resourcesTypedef';
 
 export type CardData = {
   /* the source of the main image */
   file: File | HTMLImageElement,
   canvas?: StaticCanvas;
-  template?: templateType;
+  template?: templateTypeV2;
   isSelected: boolean;
   colors: string[];
   originalColors: string[];

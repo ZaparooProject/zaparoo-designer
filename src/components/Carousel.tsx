@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import './Carousel.css';
 import { useAppDataContext } from '../contexts/appData';
 import { templateAuthors } from '../templateAuthors';
-import type { templateType, templateTypeV2 } from '../resourcesTypedef';
+import type { templateTypeV2 } from '../resourcesTypedef';
 import {
   useState,
   useLayoutEffect,

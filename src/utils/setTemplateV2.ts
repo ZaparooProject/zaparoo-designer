@@ -9,7 +9,7 @@ import {
   Path,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
-import type { templateType, templateTypeV2 } from '../resourcesTypedef';
+import type { templateTypeV2 } from '../resourcesTypedef';
 import { extractUniqueColorsFromGroup } from './templateHandling';
 
 FabricObject.ownDefaults.originX = 'center';
@@ -50,7 +50,6 @@ declare module "fabric" {
     "resourceType"?: "main" | "screenshot" | "logo";
   }
 }
-
 
 export const scaleImageToOverlayArea = async (
   placeholder: FabricObject,
@@ -115,7 +114,7 @@ const parseSvg = (url: string): Promise<Group> =>
 
 const reposition = (
   fabricLayer: FabricObject,
-  template: templateType,
+  template: templateTypeV2,
 ): void => {
   if (template.layout === 'horizontal') {
     fabricLayer.left = template.media.width / 2;
