@@ -89,8 +89,8 @@ export const HomePage = () => {
           <Typography variant="h3">
             Made with ❤️ by{' '}
             <a href="https://github.com/asturur">Andrea Bogazzi</a>
-            <br />
-            Designed by <a href="https://timwilsie.com/">Tim Wilsie</a>
+            {/* <br />
+            Designed by <a href="https://timwilsie.com/">Tim Wilsie</a> */}
             <br />
             Templates provided by{' '}
             {Object.values(templateAuthors).map(({ name, href }, index) => (
