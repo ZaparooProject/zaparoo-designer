@@ -281,12 +281,13 @@ export const addCanvasToPdfPage = async (
   }
 
   if (asRaster) {
-    canvas.getObjects().forEach((object: FabricObject) => {
+    const canvasClone = await canvas.clone([]);
+    canvasClone.getObjects().forEach((object: FabricObject) => {
       if (object['zaparoo-no-print']) {
         object.visible = false;
       }
     });
-    const imageFetch = await (await fetch(canvas.toDataURL())).arrayBuffer();
+    const imageFetch = await (await fetch(canvasClone.toDataURL())).arrayBuffer();
     pdfDoc.image(imageFetch, 0, 0, {
       width: (needsRotation ? box.height : box.width) / 0.24,
       height: (needsRotation ? box.width : box.height) / 0.24,
