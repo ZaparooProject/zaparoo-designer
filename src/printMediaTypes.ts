@@ -20,6 +20,18 @@ export const NFCCCsizeCard: MediaDefinition = {
   label: 'Standard NFC card',
 };
 
+// a standard credit card sized nfc card
+export const NFCCCsizeSlimCard: MediaDefinition = {
+  width: 1004, // 3.346inch * 300dpi (85mm)
+  height: 591, // 1.9685inch * 300dpi, (50mm)
+  rx: 35,
+  ry: 35,
+  strokeWidth: 2,
+  stroke: 'black',
+  fill: 'white',
+  label: 'Standard NFC card (slim)',
+};
+
 // or a musicasset box inlay cover
 export const TapeBoxCover: MediaDefinition = {
   width: 1233, // 4.11inch * 300dpi
@@ -70,6 +82,7 @@ export const r2Pcb1_0: MediaDefinition = {
 
 export const mediaTargetList = [
   NFCCCsizeCard,
+  NFCCCsizeSlimCard,
   tapToPrePrinted,
   miniNfcCard,
   r2Pcb1_0,

@@ -194,13 +194,16 @@ export const setTemplateV2OnCanvases = async (
     // find out how bit it is naturally
     const templateSize = fabricLayer._getTransformedDimensions();
     // scale the overlay asset to fit the designed media ( the card )
-    const templateScale = util.findScaleToFit({
-      width: templateSize.x,
-      height: templateSize.y,
-    }, canvas);
+    // const templateScale = util.findScaleToFit({
+    //   width: templateSize.x,
+    //   height: templateSize.y,
+    // }, canvas);
 
-    fabricLayer.scaleX = templateScale;
-    fabricLayer.scaleY = templateScale;
+    // fabricLayer.scaleX = templateScale;
+    // fabricLayer.scaleY = templateScale;
+    fabricLayer.scaleX = canvas.width / templateSize.x;
+    fabricLayer.scaleY = canvas.height / templateSize.y;
+
 
     // set the overlay of the template in the center of the card
     reposition(fabricLayer, template);
