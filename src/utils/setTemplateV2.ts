@@ -194,7 +194,7 @@ export const setTemplateV2OnCanvases = async (
     // find out how bit it is naturally
     const templateSize = fabricLayer._getTransformedDimensions();
     if (template.stretchToFit) {
-      // Stretch the template to fit the canvas
+      // Stretch the overlay asset to fill the designed media ( the card )
       fabricLayer.scaleX = canvas.width / templateSize.x;
       fabricLayer.scaleY = canvas.height / templateSize.y;
     } else {
