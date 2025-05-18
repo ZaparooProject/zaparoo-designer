@@ -46,8 +46,9 @@ const SearchResultView = ({
     url: string,
     name: string,
   ) => void;
-}) =>
-  console.log(gameEntry) || (
+}) => {
+  console.log(gameEntry);
+  return (
     <div className="searchResult">
       <Button style={{ backgroundColor: 'transparent' }}>
         <img
@@ -59,6 +60,7 @@ const SearchResultView = ({
       {children}
     </div>
   );
+};
 
 export default function ImageSearch({
   open,
