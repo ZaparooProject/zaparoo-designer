@@ -59,6 +59,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Game card Vertical',
     author: Authors.tim,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'gameCardV',
   },
   tapto2: {
@@ -77,6 +78,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Tap-to H',
     author: Authors.tim,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'tapto2',
   },
   tapto3: {
@@ -95,6 +97,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Tap-to V',
     author: Authors.tim,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'tapto3',
   },
   hucard: {
@@ -113,6 +116,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'HuCard',
     author: Authors.tim,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'hucard',
   },
   hucardsteam: {
@@ -131,6 +135,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'HuCardSteam',
     author: Authors.ewrt,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'hucardsteam',
   },
   hucardsteamVR: {
@@ -149,6 +154,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'HuCardSteamVR',
     author: Authors.ewrt,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'hucardsteamVR',
   },
   hucardc64: {
@@ -167,6 +173,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'HuCard (C64)',
     author: Authors.ben,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'hucardc64',
   },
   taptoGB: {
@@ -185,6 +192,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Tap-to Gameboy',
     author: Authors.ariel,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'taptoGB',
   },
   taptoFloppy: {
@@ -203,6 +211,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Floppy 3.5',
     author: Authors.andrea,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'taptoFloppy',
   },
   taptoFloppy525: {
@@ -221,6 +230,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Floppy 5.25',
     author: Authors.andrea,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'taptoFloppy525',
   },
   tapToNes: {
@@ -239,6 +249,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Nes',
     author: Authors.ariel,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'tapToNes',
   },
   tapToGenesis: {
@@ -257,6 +268,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Genesis',
     author: Authors.ariel,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'tapToGenesis',
   },
   tapToPcEngine: {
@@ -275,6 +287,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'PcEngineCD',
     author: Authors.ariel,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'tapToPcEngine',
   },
   anime0taku: {
@@ -307,6 +320,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'full image + system',
     author: Authors.animeotaku,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'anime0taku',
   },
   cassetteBox: {
@@ -422,6 +436,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Blank H cover',
     author: Authors.andrea,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'blankH',
     url: blankCoverH,
   },
@@ -440,6 +455,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Blank V cover',
     author: Authors.andrea,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'blankV',
     url: blankCoverV,
   },
@@ -459,6 +475,7 @@ export const templates: Record<string, templateTypeV2> = {
     url: blankFitH,
     author: Authors.andrea,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'blankHF',
   },
   blankVF: {
@@ -476,6 +493,7 @@ export const templates: Record<string, templateTypeV2> = {
     label: 'Blank V fit',
     author: Authors.andrea,
     media: NFCCCsizeSlimCard,
+    stretchToFit: true,
     key: 'blankVF',
     url: blankFitV,
   },

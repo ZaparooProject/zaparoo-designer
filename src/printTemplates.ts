@@ -25,7 +25,7 @@ export const printTemplates: Record<string, PrintTemplate> = {
   },
   a4Stickers: {
     gridSize: [0, 0],
-    label: 'A4 (stickers)',
+    label: 'A4 (10x slim NFC)',
     rows: 0,
     columns: 0,
     leftMargin: 10,
