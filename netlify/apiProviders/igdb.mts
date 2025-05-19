@@ -91,7 +91,6 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getSearchRequest(searchTerm: string, page: string, platformId?: string, romHacks: boolean = false): Promise<Request> {
     const searchPath = '/v4/games';
     const url = new URL(
