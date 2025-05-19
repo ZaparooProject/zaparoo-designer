@@ -30,6 +30,7 @@ export const NFCCCsizeSlimCard: MediaDefinition = {
   stroke: 'black',
   fill: 'white',
   label: 'Standard NFC card (slim)',
+  stretchTemplate: true,
 };
 
 // or a musicasset box inlay cover
