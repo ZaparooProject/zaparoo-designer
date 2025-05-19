@@ -166,7 +166,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
         }
         if (platforms) {
           result.platforms = platforms.map(({ id, abbreviation, platform_logo, versions }) => {
-            const logos = versions.map(({ platform_logo }) => extractUsefulImage(platform_logo));
+            const logos = versions ? versions.map(({ platform_logo }) => extractUsefulImage(platform_logo)) : [];
             logos.push(extractUsefulImage(platform_logo));
             return {
               id,
