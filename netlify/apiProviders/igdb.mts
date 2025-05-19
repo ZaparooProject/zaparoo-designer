@@ -124,8 +124,6 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
         where version_parent = null & ${platformSearch} ${romHackFilter} (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`
 
-console.log(body)
-
     return new Request(url, {
       method: 'POST',
       headers: await this.requestHeaders(),
@@ -168,9 +166,10 @@ console.log(body)
           }
         }
         if (platforms) {
-          result.platforms = platforms.map(({ id, abbreviation }) => ({
+          result.platforms = platforms.map(({ id, abbreviation, platform_logo }) => ({
             id,
             abbreviation,
+            ...(platform_logo ? { logo: extractUsefulImage(platform_logo)} : {})
           }))
         }
         if (involved_companies) {
