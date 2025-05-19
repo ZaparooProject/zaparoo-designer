@@ -23,7 +23,7 @@ export type SearchResult = {
   summary: string;
   name: string;
   storyline: string;
-  platforms?: Pick<PlatformResult, 'id' | 'abbreviation'>[];
+  platforms?: (Pick<PlatformResult, 'id' | 'abbreviation'> & { logos: ResultImage[] })[];
   involved_companies: unknown[];
   extra_images: number;
 };
