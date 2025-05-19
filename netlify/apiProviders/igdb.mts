@@ -166,11 +166,15 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
           }
         }
         if (platforms) {
-          result.platforms = platforms.map(({ id, abbreviation, platform_logo }) => ({
-            id,
-            abbreviation,
-            ...(platform_logo ? { logo: extractUsefulImage(platform_logo)} : {})
-          }))
+          result.platforms = platforms.map(({ id, abbreviation, platform_logo, versions }) => {
+            const logos = versions.map(({ platform_logo }) => extractUsefulImage(platform_logo));
+            logos.push(extractUsefulImage(platform_logo));
+            return {
+              id,
+              abbreviation,
+              logos,
+            }
+          })
         }
         if (involved_companies) {
           result.involved_companies = involved_companies.map(({ id, company }) => ({
