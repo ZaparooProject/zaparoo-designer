@@ -75,9 +75,8 @@ export type templateTypeV2 = {
   label: string;
   /* a reference to the author data */
   author: Authors;
-  media: MediaDefinition;
+  media?: MediaDefinition;
+  compatibleMedia: MediaDefinition[]
   printableAreas?: PrintableArea[];
-  /* whether to stretch template non-proportionally to fill the media */
-  stretchToFit?: boolean;
   key: string;
 };

@@ -62,8 +62,8 @@ export const AppDataContextProvider: FC<AppDataContextProps> = ({
     _setMediaType(mediaType);
     setAvailableTemplates(
       Object.entries(templates)
-        .map(([key, value]) => ({ ...value, key }))
-        .filter((t) => t.media === mediaType),
+        .map(([key, value]) => ({ ...value, key, media : mediaType }))
+        .filter((t) => t.compatibleMedia.includes(mediaType)),
     );
   }, []);
 

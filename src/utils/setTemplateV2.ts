@@ -126,11 +126,11 @@ const reposition = (
   template: templateTypeV2,
 ): void => {
   if (template.layout === 'horizontal') {
-    fabricLayer.left = template.media.width / 2;
-    fabricLayer.top = template.media.height / 2;
+    fabricLayer.left = template.media!.width / 2;
+    fabricLayer.top = template.media!.height / 2;
   } else {
-    fabricLayer.left = template.media.height / 2;
-    fabricLayer.top = template.media.width / 2;
+    fabricLayer.left = template.media!.height / 2;
+    fabricLayer.top = template.media!.width / 2;
   }
   fabricLayer.setCoords();
 };
@@ -152,7 +152,7 @@ export const setTemplateV2OnCanvases = async (
   // fixme: avoid parsing colors more than once.
   const colors = extractUniqueColorsFromGroup(templateSource);
   const isHorizontal = layout === 'horizontal';
-  const { width, height } = media;
+  const { width, height } = media!;
   const finalWidth = isHorizontal ? width : height;
   const finalHeight = isHorizontal ? height : width;
 
@@ -193,20 +193,14 @@ export const setTemplateV2OnCanvases = async (
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
     const templateSize = fabricLayer._getTransformedDimensions();
-    if (template.stretchToFit) {
-      // Stretch the overlay asset to fill the designed media ( the card )
-      fabricLayer.scaleX = canvas.width / templateSize.x;
-      fabricLayer.scaleY = canvas.height / templateSize.y;
-    } else {
-      // scale the overlay asset to fit the designed media ( the card )
-      const templateScale = util.findScaleToFit({
-        width: templateSize.x,
-        height: templateSize.y,
-      }, canvas);
+    // scale the overlay asset to fit the designed media ( the card )
+    const templateScale = util.findScaleToFit({
+      width: templateSize.x,
+      height: templateSize.y,
+    }, canvas);
 
-      fabricLayer.scaleX = templateScale;
-      fabricLayer.scaleY = templateScale;
-    }
+    fabricLayer.scaleX = templateScale;
+    fabricLayer.scaleY = templateScale;
 
     // set the overlay of the template in the center of the card
     reposition(fabricLayer, template);
