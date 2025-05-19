@@ -14,7 +14,6 @@ export type PlatformResult = {
   platform_logo?: ResultImage;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SearchResult = {
   id: string;
   artworks: ResultImage[];
