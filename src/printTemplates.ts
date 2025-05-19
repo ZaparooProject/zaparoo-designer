@@ -9,6 +9,7 @@ export type PrintTemplate = {
   rightMargin?: number;
   bottomMargin?: number;
   paperSize: [number, number]; // in mm
+  suppressOutlines?: boolean;
 };
 
 export const printTemplates: Record<string, PrintTemplate> = {
@@ -33,6 +34,7 @@ export const printTemplates: Record<string, PrintTemplate> = {
     bottomMargin: 12,
     rightMargin: 7,
     paperSize: [210, 297],
+    suppressOutlines: true,
   },
   verticalLetter: {
     gridSize: [0, 0],

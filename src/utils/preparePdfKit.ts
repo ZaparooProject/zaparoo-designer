@@ -22,7 +22,8 @@ export const preparePdf = async (
     columns: _tmpColumns,
     rows: _tmpRows,
     rightMargin,
-    bottomMargin
+    bottomMargin,
+    suppressOutlines
   } = printerTemplate;
 
 
@@ -182,7 +183,8 @@ export const preparePdf = async (
         },
         needsRotation,
         template!,
-        printOptions.imageType !== 'vector' // print as raster?
+        printOptions.imageType !== 'vector', // print as raster?
+        !!suppressOutlines
       );
     }
   }
