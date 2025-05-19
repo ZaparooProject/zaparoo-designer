@@ -47,7 +47,7 @@ const SearchResultView = ({
     name: string,
   ) => void;
 }) => {
-  console.log(gameEntry);
+  // console.log(gameEntry);
   return (
     <div className="searchResult">
       <Button style={{ backgroundColor: 'transparent' }}>

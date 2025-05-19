@@ -118,7 +118,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks
     const body = `
-        fields id,artworks,cover,genres,name,platforms,screenshots,keywords,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.platform_logo, platforms.platform_logo.*, platforms.versions, platforms.versions.platform_logo, platforms.versions.platform_logo.*, platforms.abbreviation, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
+        fields id,artworks,cover,genres,name,platforms,screenshots,keywords,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.versions, platforms.versions.platform_logo, platforms.versions.platform_logo.*, platforms.abbreviation, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         ${termSearch}
         where version_parent = null & ${platformSearch} ${romHackFilter} (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`
@@ -165,7 +165,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
           }
         }
         if (platforms) {
-          result.platforms = platforms.map(({ id, abbreviation, platform_logo, versions }) => {
+          result.platforms = platforms.map(({ id, abbreviation, versions }) => {
             const logos: ResultImage[] = [];
             if (versions) {
               // filter all versions with logos and extra logos
@@ -175,9 +175,6 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
                   .map(({ platform_logo }) => extractUsefulImage(platform_logo))
                 )
               );
-            }
-            if (platform_logo) {
-              logos.push(extractUsefulImage(platform_logo));
             }
             return {
               id,
