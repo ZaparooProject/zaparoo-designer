@@ -14,7 +14,6 @@ export type PlatformResult = {
   platform_logo?: ResultImage;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SearchResult = {
   id: string;
   artworks: ResultImage[];
@@ -23,7 +22,7 @@ export type SearchResult = {
   summary: string;
   name: string;
   storyline: string;
-  platforms?: Pick<PlatformResult, 'id' | 'abbreviation'>[];
+  platforms?: (Pick<PlatformResult, 'id' | 'abbreviation'> & { logos: ResultImage[] })[];
   involved_companies: unknown[];
   extra_images: number;
 };
