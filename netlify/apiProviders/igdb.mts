@@ -51,6 +51,8 @@ type IGDBPlatformsResult = {
   alternative_name: string;
   name: string;
   platform_logo: IGDBImage;
+  main_manufacturer: IGDBInvolvedCompany;
+  companies: IGDBInvolvedCompany[];
   versions: IGDBPlatformsResult[];
 }
 
@@ -118,7 +120,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
     // parent = null excludes duplicates of versions
     // company involved != null probably excludes romhacks
     const body = `
-        fields id,artworks,cover,genres,name,platforms,screenshots,keywords,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.versions, platforms.versions.platform_logo, platforms.versions.platform_logo.*, platforms.abbreviation, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
+        fields id,artworks,cover,genres,name,platforms,screenshots,keywords,storyline,summary,artworks.*,cover.*,screenshots.*, platforms.id, platforms.versions, platforms.versions.platform_logo, platforms.versions.main_manufacturer.company.*, latforms.versions.main_manufacturer.company.logo.*, platform.versions.companies.company.*, platform.versions.companies.company.logo.*, platforms.versions.platform_logo.*, platforms.abbreviation, involved_companies, involved_companies.company, involved_companies.company.logo, involved_companies.company.logo.*;
         ${termSearch}
         where version_parent = null & ${platformSearch} ${romHackFilter} (cover != null | artworks != null);
         limit ${pageSize}; offset ${offSet};`
@@ -136,6 +138,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
       count,
       results: games.map(({ id, artworks, cover, name, platforms, screenshots, storyline, summary, involved_companies }) => {
         let extraImages = 0;
+        const companyLogos = {};
         const result = {
           id,
           name,
@@ -175,6 +178,16 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
                   .map(({ platform_logo }) => extractUsefulImage(platform_logo))
                 )
               );
+              versions.forEach(({ main_manufacturer, companies }) => {
+                if (main_manufacturer?.company?.logo) {
+                  companyLogos[main_manufacturer.company.id] = extractUsefulImage(main_manufacturer.company.logo)
+                }
+                companies.forEach(({ company }) => {
+                  if (company?.logo) {
+                    companyLogos[company.id] = extractUsefulImage(company.logo)
+                  }
+                });
+              });
             }
             return {
               id,
@@ -192,6 +205,7 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
             }
           }));
         }
+        result.company_logos = Object.values(companyLogos);
         result.extra_images = extraImages;
         return result;
       }),
