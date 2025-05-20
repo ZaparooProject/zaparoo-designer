@@ -126,11 +126,11 @@ const reposition = (
   template: templateTypeV2,
 ): void => {
   if (template.layout === 'horizontal') {
-    fabricLayer.left = template.media!.width / 2;
-    fabricLayer.top = template.media!.height / 2;
+    fabricLayer.left = template.media.width / 2;
+    fabricLayer.top = template.media.height / 2;
   } else {
-    fabricLayer.left = template.media!.height / 2;
-    fabricLayer.top = template.media!.width / 2;
+    fabricLayer.left = template.media.height / 2;
+    fabricLayer.top = template.media.width / 2;
   }
   fabricLayer.setCoords();
 };
@@ -152,7 +152,7 @@ export const setTemplateV2OnCanvases = async (
   // fixme: avoid parsing colors more than once.
   const colors = extractUniqueColorsFromGroup(templateSource);
   const isHorizontal = layout === 'horizontal';
-  const { width, height } = media!;
+  const { width, height } = media;
   const finalWidth = isHorizontal ? width : height;
   const finalHeight = isHorizontal ? height : width;
 
