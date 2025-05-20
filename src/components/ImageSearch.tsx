@@ -26,37 +26,41 @@ import './imageSearch.css';
 import { fetchGameList, getImage } from '../utils/search';
 import { PlatformResult } from '../../netlify/apiProviders/types.mts';
 import { PlatformDropdown } from './PlatformDropdown';
-import { SearchResult } from '../../netlify/apiProviders/types.mts';
+import type { SearchResult } from '../../netlify/apiProviders/types.mts';
 import { Snackbar } from '@mui/material';
 
 const SearchResultView = ({
-  thumb,
-  url,
-  name,
+  gameEntry,
+  imgSource,
   children,
   addImage,
 }: {
-  thumb: string;
-  url: string;
-  name: string;
+  gameEntry: SearchResult;
+  imgSource: {
+    thumb: string;
+    url: string;
+  };
   children?: JSX.Element;
   addImage: (
     e: MouseEvent<HTMLImageElement>,
     url: string,
     name: string,
   ) => void;
-}) => (
-  <div className="searchResult">
-    <Button style={{ backgroundColor: 'transparent' }}>
-      <img
-        src={thumb}
-        onClick={(e) => addImage(e, url, name)}
-        style={{ cursor: 'pointer' }}
-      />
-    </Button>
-    {children}
-  </div>
-);
+}) => {
+  // console.log(gameEntry);
+  return (
+    <div className="searchResult">
+      <Button style={{ backgroundColor: 'transparent' }}>
+        <img
+          src={imgSource.thumb}
+          onClick={(e) => addImage(e, imgSource.url, gameEntry.name)}
+          style={{ cursor: 'pointer' }}
+        />
+      </Button>
+      {children}
+    </div>
+  );
+};
 
 export default function ImageSearch({
   open,
@@ -230,9 +234,8 @@ export default function ImageSearch({
                 <Fragment key={`game-${gameEntry.id}`}>
                   {gameEntry.id !== openGameId && (
                     <SearchResultView
-                      name={gameEntry.name}
-                      thumb={gameEntry.cover.thumb}
-                      url={gameEntry.cover.url}
+                      gameEntry={gameEntry}
+                      imgSource={gameEntry.cover}
                       addImage={addImage}
                     >
                       <Button
@@ -269,26 +272,24 @@ export default function ImageSearch({
                       </div>
                       <div className="horizontalStack searchResultsContainer">
                         <SearchResultView
-                          name={gameEntry.name}
-                          thumb={gameEntry.cover.thumb}
-                          url={gameEntry.cover.url}
+                          key="cover"
+                          gameEntry={gameEntry}
+                          imgSource={gameEntry.cover}
                           addImage={addImage}
                         />
                         {gameEntry.artworks?.map((art) => (
                           <SearchResultView
                             key={`art-${art.id}`}
-                            name={gameEntry.name}
-                            thumb={art.thumb}
-                            url={art.url}
+                            gameEntry={gameEntry}
+                            imgSource={art}
                             addImage={addImage}
                           />
                         ))}
                         {gameEntry.screenshots?.map((screenshot) => (
                           <SearchResultView
                             key={`screen-${screenshot.id}`}
-                            name={gameEntry.name}
-                            thumb={screenshot.thumb}
-                            url={screenshot.url}
+                            gameEntry={gameEntry}
+                            imgSource={screenshot}
                             addImage={addImage}
                           />
                         ))}
