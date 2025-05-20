@@ -52,8 +52,8 @@ export const preparePdf = async (
   // take first card and compare with paper size, then try to guess best way to fit
   const firstCard = cards[0];
   const firstCardTemplate = firstCard.template!;
-  let widthInPt = fromPixToPoint(firstCardTemplate.media!.width);
-  let heightInPt = fromPixToPoint(firstCardTemplate.media!.height);
+  let widthInPt = fromPixToPoint(firstCardTemplate.media.width);
+  let heightInPt = fromPixToPoint(firstCardTemplate.media.height);
   const availPaperWidth = paperWidthInPt - leftMarginInPt - rightMarginInPt;
   const availPaperHeight = paperHeightInPt - topMarginInPt - bottomMarginInPt;
 

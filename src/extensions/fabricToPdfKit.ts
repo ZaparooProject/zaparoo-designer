@@ -264,14 +264,14 @@ export const addCanvasToPdfPage = async (
   const { media: templateMedia } = template;
   if (!template.printableAreas) {
     // if there are no printable areas, draw the outline of the card
-    makeCardRegion(box, templateMedia!, pdfDoc);
-    pdfDoc.lineWidth(templateMedia!.strokeWidth / 10);
-    pdfDoc.stroke(templateMedia!.stroke);
+    makeCardRegion(box, templateMedia, pdfDoc);
+    pdfDoc.lineWidth(templateMedia.strokeWidth / 10);
+    pdfDoc.stroke(templateMedia.stroke);
   }
 
 
   pdfDoc.save();
-  makeCardRegion(box, templateMedia!, pdfDoc).clip();
+  makeCardRegion(box, templateMedia, pdfDoc).clip();
   // 0.24 is a scale factor between px and points to keep the 300dpi
   pdfDoc.transform(0.24, 0, 0, 0.24, box.x, box.y);
   if (needsRotation) {
