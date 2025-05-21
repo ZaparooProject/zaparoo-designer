@@ -13,7 +13,7 @@ export const preparePdf = async (
   printOptions: PrintOptions,
   cards: CardData[],
 ) => {
-  const { printerTemplateKey, cutMarks } = printOptions;
+  const { printerTemplateKey, cutMarks, outlines: printOutlines } = printOptions;
   const printerTemplate = printTemplates[printerTemplateKey];
   const {
     gridSize: _tmpGridSize,
@@ -22,8 +22,7 @@ export const preparePdf = async (
     columns: _tmpColumns,
     rows: _tmpRows,
     rightMargin,
-    bottomMargin,
-    suppressOutlines
+    bottomMargin
   } = printerTemplate;
 
 
@@ -184,7 +183,7 @@ export const preparePdf = async (
         needsRotation,
         template!,
         printOptions.imageType !== 'vector', // print as raster?
-        !!suppressOutlines
+        printOutlines
       );
     }
   }

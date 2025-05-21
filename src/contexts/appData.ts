@@ -15,6 +15,7 @@ export type PrintOptions = {
   imageType: 'raster' | 'vector';
   printerTemplateKey: string;
   cutMarks: 'crop' | 'cut' | 'none',
+  outlines: boolean,
   fileType: 'pdf' | 'zip';
 };
 
@@ -52,6 +53,7 @@ export const defaultContextValue: contextType = {
     imageType: 'raster',
     fileType: 'pdf',
     cutMarks: 'none',
+    outlines: true,
     printerTemplateKey: defaultPrinterTemplateKey,
   },
   setPrintOptions: noop,
