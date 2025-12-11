@@ -1,5 +1,5 @@
 import Slider from '@mui/material/Slider';
-import type { Canvas, FabricImage } from 'fabric';
+import type { Canvas } from 'fabric';
 import { util } from 'fabric';
 import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { CardData } from '../contexts/fileDropper';
@@ -47,7 +47,7 @@ export const ImageAdjust = ({
     ({ target }: any) => {
       const { value } = target;
       const canvas = canvasRef.current!;
-      const image = canvas.getObjects('image')[0] as FabricImage;
+      const image =  getMainImage(canvas);
       image.scale(value);
       fixImageInsideCanvas(image);
       canvas.requestRenderAll();
