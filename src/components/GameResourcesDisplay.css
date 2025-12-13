@@ -9,6 +9,7 @@
 }
 
 .imageResourceDisplayContainer {
+    cursor: pointer;
     background-color: lightgrey;
     display: flex;
     align-items: center;

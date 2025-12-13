@@ -130,6 +130,7 @@ export const ModalInternalComponent = ({
       };
     }
   }, [cards, currentCardIndex, selectedCard.canvas]);
+
   const classNameExt =
     layout === 'vertical' ? 'horizontalStack' : 'verticalStack';
   const classNameInt =
@@ -157,7 +158,7 @@ export const ModalInternalComponent = ({
         </div>
       </div>
       <div className="tabbedResources">
-        <GameResourcesDisplay game={selectedCard.game} />
+        <GameResourcesDisplay game={selectedCard.game} canvasRef={editableCanvas} />
       </div>
       <div className="horizontalStack confirmButtons">
         <Button
