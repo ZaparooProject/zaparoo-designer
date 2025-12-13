@@ -9,6 +9,7 @@ import { ResourceDisplay } from './ResourceDisplay';
 import { ImageAdjust } from './ImageAdjust';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
 import { getMainImage } from '../utils/setTemplateV2';
+import { GameResourcesDisplay } from './GameResourcesDisplay';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
@@ -59,7 +60,6 @@ export const ModalInternalComponent = ({
   }, [onClose, selectedCard.canvas]);
 
   useEffect(() => {
-    console.log(selectedCard.game)
     // mount, we duplicate a card
     if (currentCardIndex > -1 && canvasElement.current) {
       const canvas = new Canvas(canvasElement.current, {
@@ -155,6 +155,9 @@ export const ModalInternalComponent = ({
         <div className="verticalStack editSpace" ref={padderRef}>
           <canvas key="doNotChangePlease" ref={canvasElement} />
         </div>
+      </div>
+      <div className="tabbedResources">
+        <GameResourcesDisplay />
       </div>
       <div className="horizontalStack confirmButtons">
         <Button
