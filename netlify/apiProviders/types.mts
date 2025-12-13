@@ -35,6 +35,7 @@ export type SearchResult = {
   platforms?: (Pick<PlatformResult, 'id' | 'abbreviation'> & { logos: ResultImage[] })[];
   involved_companies: InvolvedCompanies[];
   extra_images: number;
+  company_logos: ResultImage[];
 };
 
 export type SearchResults = {
