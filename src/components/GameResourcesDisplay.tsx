@@ -59,10 +59,10 @@ export function GameResourcesDisplay({ game, canvasRef }: GameResourcesDisplayPr
       </Box>
       <div className="resourceListArea" >
         {value === "covers" && game.cover && <ImageDrawerDisplay canvasRef={canvasRef} imageResult={game.cover} />}
-        {value === "art" && game.artworks && game.artworks.map((artwork) => <ImageDrawerDisplay canvasRef={canvasRef} imageResult={artwork} />)}
-        {value === "screens" && game.screenshots && game.screenshots.map((screen) => <ImageDrawerDisplay canvasRef={canvasRef} imageResult={screen} />)}
-        {value === "platforms" && game.platforms && game.platforms.map((platform) => platform.logos && platform.logos.map(logo => (<ImageDrawerDisplay canvasRef={canvasRef} imageResult={logo} />)))}
-        {value === "companies" && game.involved_companies && game.involved_companies.map((company) => company.company.logo && (<ImageDrawerDisplay canvasRef={canvasRef} imageResult={company.company.logo} />))}
+        {value === "art" && game.artworks && game.artworks.map((artwork) => <ImageDrawerDisplay key={artwork.id} canvasRef={canvasRef} imageResult={artwork} />)}
+        {value === "screens" && game.screenshots && game.screenshots.map((screen) => <ImageDrawerDisplay key={screen.id} canvasRef={canvasRef} imageResult={screen} />)}
+        {value === "platforms" && game.platforms && game.platforms.map((platform) => platform.logos && platform.logos.map(logo => (<ImageDrawerDisplay key={logo.id} canvasRef={canvasRef} imageResult={logo} />)))}
+        {value === "companies" && game.involved_companies && game.involved_companies.map((company) => company.company.logo && (<ImageDrawerDisplay key={company.id} canvasRef={canvasRef} imageResult={company.company.logo} />))}
         {value === "meta" && <div className='metaResources'>
           {game.name && [<Typography variant="h3">Name</Typography>, <Typography>{game.name}</Typography>]}
           {game.summary && [<Typography variant="h3">Summary</Typography>, <Typography>{game.summary}</Typography>]}
