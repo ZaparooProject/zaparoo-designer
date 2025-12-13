@@ -1,5 +1,5 @@
 import { type SyntheticEvent, useState } from 'react';
-import { Tabs, Tab, Box } from '@mui/material';
+import { Tabs, Tab, Box, Typography } from '@mui/material';
 import { type SearchResult, type ResultImage } from '../../netlify/apiProviders/types.mts';
 import { util } from 'fabric';
 import './GameResourcesDisplay.css';
@@ -53,6 +53,11 @@ export function GameResourcesDisplay({ game }: GameResourcesDisplayProps) {
         {value === "screens" && game.screenshots && game.screenshots.map((screen) => <ImageDrawerDisplay imageResult={screen} />)}
         {value === "platforms" && game.platforms && game.platforms.map((platform) => platform.logos && platform.logos.map(logo => (<ImageDrawerDisplay imageResult={logo} />)))}
         {value === "companies" && game.involved_companies && game.involved_companies.map((company) => company.company.logo && (<ImageDrawerDisplay imageResult={company.company.logo} />))}
+        {value === "meta" && <div className='metaResources'>
+          {game.name && [<Typography variant="h3">Name</Typography>, <Typography>{game.name}</Typography>]}
+          {game.summary && [<Typography variant="h3">Summary</Typography>, <Typography>{game.summary}</Typography>]}
+          {game.storyline && [<Typography variant="h3">Storyline</Typography>, <Typography>{game.storyline}</Typography>]}
+        </div>}
       </div>
     </Box>
   );
