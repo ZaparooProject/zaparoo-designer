@@ -13,8 +13,8 @@
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
-    "@mui/icons-material": "^6.5.0",
-    "@mui/material": "^6.5.0",
+    "@mui/icons-material": "7.x",
+    "@mui/material": "7.x",
     "@netlify/functions": "^2.6.0",
     "@types/blob-stream": "^0.1.33",
     "@types/pdfkit": "^0.13.3",

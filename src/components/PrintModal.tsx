@@ -1,12 +1,14 @@
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
+import {
+  Button,
+  Modal,
+  Typography,
+  Paper,
+  IconButton,
+} from '@mui/material';
 import './PrintModal.css';
 import { type CardData, useFileDropperContext } from '../contexts/fileDropper';
 import { type PrintOptions, useAppDataContext } from '../contexts/appData';
-import Paper from '@mui/material/Paper';
 import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
 import { printTemplates } from '../printTemplates';
 import { prepareZip } from '../utils/prepareZip';
 import { preparePdf as preparePdfVector } from '../utils/preparePdfKit';

@@ -1,10 +1,9 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import Rotate90DegreesCwIcon from '@mui/icons-material/Rotate90DegreesCw';
 import CancelIcon from '@mui/icons-material/Cancel';
-import IconButton from '@mui/material/IconButton';
+import { IconButton, Typography } from '@mui/material';
 import TemplateDropdown from './TemplateDropdown';
 import ColorChanger from './ColorChanger';
-import Typography from '@mui/material/Typography';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useAppDataContext } from '../contexts/appData';
 import {

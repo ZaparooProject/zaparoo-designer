@@ -1,5 +1,5 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import Typography from '@mui/material/Typography';
+import { Typography } from '@mui/material';
 import { useFileDropper } from '../hooks/useFileDropper';
 import { useFileAdder } from '../hooks/useFileAdder';
 

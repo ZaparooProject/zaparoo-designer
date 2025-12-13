@@ -1,6 +1,5 @@
-import Modal from '@mui/material/Modal';
+import { Modal, Button } from '@mui/material';
 import './SingleCardEditModal.css';
-import Button from '@mui/material/Button';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Canvas, FabricImage, type FabricObject } from 'fabric';

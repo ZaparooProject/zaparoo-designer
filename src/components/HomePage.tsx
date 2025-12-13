@@ -1,4 +1,4 @@
-import Typography from '@mui/material/Typography';
+import { Typography, Link } from '@mui/material';
 import bgUrl from '../img/homebg.jpg';
 import logoUrl from '../img/zaparoo.png';
 import examplesUrl from '../assets/tapto_cards.jpg';
@@ -6,7 +6,6 @@ import { templateAuthors } from '../templateAuthors';
 
 import './HomePage.css';
 import { Fragment, lazy } from 'react';
-import { Link } from '@mui/material';
 
 const Carousel = lazy(() => import('./Carousel'));
 

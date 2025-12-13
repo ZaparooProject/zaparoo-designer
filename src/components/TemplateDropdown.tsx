@@ -1,9 +1,12 @@
 import type { JSX } from 'react';
 import { useCallback } from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { type SelectChangeEvent } from '@mui/material/Select';
+import {
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  type SelectChangeEvent,
+} from '@mui/material';
 import { useAppDataContext } from '../contexts/appData';
 import type { templateTypeV2 } from '../resourcesTypedef';
 
