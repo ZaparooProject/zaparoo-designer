@@ -12,7 +12,7 @@ import logoUrl from '../img/zaparoo.png';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button } from './ResponsiveIconButton';
-import Typography from '@mui/material/Typography';
+import { Typography } from '@mui/material';
 import { useFileAdder } from '../hooks/useFileAdder';
 import PrintIcon from '@mui/icons-material/Print';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';

@@ -1,4 +1,4 @@
-import IconButton from '@mui/material/IconButton';
+import { IconButton } from '@mui/material';
 import { ColorButtons } from './ColorButton';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useCallback } from 'react';

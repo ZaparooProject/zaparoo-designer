@@ -1,8 +1,14 @@
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Checkbox from '@mui/material/Checkbox';
+import {
+  Button,
+  Modal,
+  TextField,
+  Typography,
+  Checkbox,
+  CircularProgress,
+  Tooltip,
+  Snackbar,
+  IconButton,
+} from '@mui/material';
 
 import {
   useState,
@@ -14,14 +20,9 @@ import {
   useCallback,
 } from 'react';
 import { useFileDropperContext } from '../contexts/fileDropper';
-import CircularProgress from '@mui/material/CircularProgress';
-import Tooltip from '@mui/material/Tooltip';
-import Snackbar from '@mui/material/Snackbar';
 
 import { boxShadow } from '../constants';
 import CloseIcon from '@mui/icons-material/Close';
-
-import IconButton from '@mui/material/IconButton';
 import { useInView } from 'react-intersection-observer';
 
 import './imageSearch.css';

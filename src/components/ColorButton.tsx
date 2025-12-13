@@ -8,8 +8,7 @@ import {
   forwardRef,
   type ForwardedRef,
 } from 'react';
-import ButtonBase from '@mui/material/ButtonBase';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { ButtonBase, ClickAwayListener } from '@mui/material';
 
 import './ColorButton.css';
 

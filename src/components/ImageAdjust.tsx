@@ -1,9 +1,8 @@
-import Slider from '@mui/material/Slider';
+import { Slider, Typography } from '@mui/material';
 import type { Canvas } from 'fabric';
 import { util } from 'fabric';
 import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { CardData } from '../contexts/fileDropper';
-import { Typography } from '@mui/material';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
 import { getMainImage, getPlaceholderMain } from '../utils/setTemplateV2';
 

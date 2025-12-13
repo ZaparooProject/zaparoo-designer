@@ -1,4 +1,4 @@
-import MUIButton, { ButtonProps } from '@mui/material/Button';
+import { Button as MUIButton, type ButtonProps } from '@mui/material';
 import { boxShadow } from '../constants';
 import { forwardRef } from 'react';
 
