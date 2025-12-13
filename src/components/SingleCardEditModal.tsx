@@ -96,7 +96,7 @@ export const ModalInternalComponent = ({
           // });
 
           canvas.on('selection:created', ({ selected }) => {
-            if (selected[0] instanceof FabricImage) {
+            if (selected[0] === mainImage) {
               setImageAdjust(true);
               setCurrentResource([undefined, undefined]);
             } else {
@@ -104,12 +104,12 @@ export const ModalInternalComponent = ({
             }
           });
           canvas.on('selection:cleared', ({ deselected }) => {
-            if (deselected[0] instanceof FabricImage) {
+            if (deselected[0] === mainImage) {
               setImageAdjust(false);
             }
           });
           canvas.on('selection:updated', ({ selected }) => {
-            if (selected[0] instanceof FabricImage) {
+            if (selected[0] === mainImage) {
               setImageAdjust(true);
               setCurrentResource([undefined, undefined]);
             } else {
@@ -117,8 +117,8 @@ export const ModalInternalComponent = ({
             }
           });
           canvas.on('object:moving', ({ target }) => {
-            if (target instanceof FabricImage) {
-              fixImageInsideCanvas(target);
+            if (target === mainImage) {
+              fixImageInsideCanvas(mainImage);
             }
           });
           setReady(true);
