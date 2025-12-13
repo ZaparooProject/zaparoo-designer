@@ -157,7 +157,7 @@ export const ModalInternalComponent = ({
         </div>
       </div>
       <div className="tabbedResources">
-        <GameResourcesDisplay />
+        <GameResourcesDisplay game={selectedCard.game} />
       </div>
       <div className="horizontalStack confirmButtons">
         <Button
