@@ -22,13 +22,13 @@ type IGDBImage = {
 };
 
 type IGDBCompany = {
-  id,
-  name,
-  logo: IGDBImage
+  id: number;
+  name: string;
+  logo: IGDBImage;
 }
 
 type IGDBInvolvedCompany = {
-  id,
+  id: number;
   company: IGDBCompany
 }
 
@@ -42,7 +42,7 @@ type IGDBGamesResult = {
   platforms: IGDBPlatformsResult[];
   involved_companies: IGDBInvolvedCompany[];
   keywords: { id: number, name: string }[];
-  storyline;
+  storyline: string;
 }
 
 type IGDBPlatformsResult = {
@@ -55,9 +55,9 @@ type IGDBPlatformsResult = {
 }
 
 type IGDBCompanyResult = {
-  id;
-  name;
-  description;
+  id: number;
+  name: string;
+  description: string;
   logo: IGDBImage;
 }
 
@@ -184,11 +184,11 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
           })
         }
         if (involved_companies) {
-          result.involved_companies = involved_companies.map(({ id, company }) => ({
+          result.involved_companies = involved_companies.map(({ id, company: { logo, ...restOfCompany } }) => ({
             id,
             company: {
-              ...company,
-              ...(company.logo ? { logo: extractUsefulImage(company.logo) } : {}),
+              ...restOfCompany,
+              ...(logo ? { logo: extractUsefulImage(logo) } : {}),
             }
           }));
         }

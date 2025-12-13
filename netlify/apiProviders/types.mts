@@ -16,7 +16,7 @@ export type PlatformResult = {
 
 export type CompanyResult = {
   id: number;
-  logo: ResultImage;
+  logo?: ResultImage;
 }
 
 export type InvolvedCompanies = {
