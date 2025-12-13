@@ -13,7 +13,7 @@ type ImageDrawerDisplayProps = {
   imageResult: ResultImage
 }
 
-const ImageDrawerDisplay = ({ onClick, imageResult }: ImageDrawerDisplayProps) => {
+const ImageDrawerDisplay = ({ imageResult }: ImageDrawerDisplayProps) => {
 
   const scale = util.findScaleToFit(imageResult, { width: 400, height: 250 });
 
@@ -31,7 +31,7 @@ const ImageDrawerDisplay = ({ onClick, imageResult }: ImageDrawerDisplayProps) =
 export function GameResourcesDisplay({ game }: GameResourcesDisplayProps) {
   const [value, setValue] = useState('covers');
 
-  const handleChange = (event: SyntheticEvent, newValue: string) => {
+  const handleChange = (_: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 

@@ -19,7 +19,7 @@ import {
   Fragment,
   useCallback,
 } from 'react';
-import { GameData, useFileDropperContext } from '../contexts/fileDropper';
+import { useFileDropperContext } from '../contexts/fileDropper';
 
 import { boxShadow } from '../constants';
 import CloseIcon from '@mui/icons-material/Close';
@@ -315,14 +315,14 @@ export default function ImageSearch({
                           ))
                         ))}
                         {gameEntry.involved_companies?.map(({ company, id }) => (
-                          company.logo && 
-                            <SearchResultView
-                              useFull
-                              key={`company-${id}`}
-                              gameEntry={gameEntry}
-                              imgSource={company.logo}
-                              addImage={addImage}
-                            />
+                          company.logo &&
+                          <SearchResultView
+                            useFull
+                            key={`company-${id}`}
+                            gameEntry={gameEntry}
+                            imgSource={company.logo}
+                            addImage={addImage}
+                          />
                         ))}
                       </div>
                     </div>
