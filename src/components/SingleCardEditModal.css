@@ -26,18 +26,26 @@
 }
 
 .topSpace {
+  flex-grow: 1;
   align-items: flex-start;
 }
 
+.tabbedResources {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  height: fit-content;
+}
+
 .topSpace.verticalStack {
-  height: calc(100vh - 110px);
+  /* height: calc(100vh - 110px); */
 }
 
 .verticalStack.resourceSpace {
   overflow-y: scroll;
   align-items: center;
   max-width: 30%;
-  height: calc(100vh - 110px);
+  /* height: calc(100vh - 110px); */
 }
 
 .horizontalStack.resourceSpace {

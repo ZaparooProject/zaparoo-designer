@@ -30,6 +30,8 @@ import { fetchGameList, getImage } from '../utils/search';
 import { PlatformResult } from '../../netlify/apiProviders/types.mts';
 import { PlatformDropdown } from './PlatformDropdown';
 import type { SearchResult } from '../../netlify/apiProviders/types.mts';
+
+
 const SearchResultView = ({
   gameEntry,
   imgSource,
@@ -49,7 +51,7 @@ const SearchResultView = ({
   addImage: (
     e: MouseEvent<HTMLImageElement>,
     url: string,
-    name: string,
+    game: SearchResult,
   ) => void;
 }) => {
   // console.log(gameEntry);
@@ -59,7 +61,7 @@ const SearchResultView = ({
         <Button style={{ backgroundColor: 'transparent' }}>
           <img
             src={useFull ? imgSource.url : imgSource.thumb}
-            onClick={(e) => addImage(e, imgSource.url, gameEntry.name)}
+            onClick={(e) => addImage(e, imgSource.url, gameEntry)}
             style={{ cursor: 'pointer' }}
           />
         </Button>
@@ -76,7 +78,7 @@ export default function ImageSearch({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
-  const { files, setFiles } = useFileDropperContext();
+  const { addFiles } = useFileDropperContext();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [gameEntries, setGameEntries] = useState<SearchResult[]>([]);
@@ -110,17 +112,17 @@ export default function ImageSearch({
   }, [platform, isRomHacks]);
 
   const addImage = useCallback(
-    (e: MouseEvent<HTMLImageElement>, url: string, name: string) => {
+    (e: MouseEvent<HTMLImageElement>, url: string, game: SearchResult,) => {
       const target = e.target as HTMLImageElement;
-      setOpenSnackbar(`Adding ${name}`);
+      setOpenSnackbar(`Adding ${game.name}`);
       getImage(url, target.src).then((file) => {
         startTransition(() => {
-          setFiles([...files, file]);
+          addFiles([file], [game]);
           setTimeout(() => setOpenSnackbar(''), 1000);
         });
       });
     },
-    [files, setFiles],
+    [addFiles],
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -313,14 +315,14 @@ export default function ImageSearch({
                           ))
                         ))}
                         {gameEntry.involved_companies?.map(({ company, id }) => (
-                          company.logo && 
-                            <SearchResultView
-                              useFull
-                              key={`company-${id}`}
-                              gameEntry={gameEntry}
-                              imgSource={company.logo}
-                              addImage={addImage}
-                            />
+                          company.logo &&
+                          <SearchResultView
+                            useFull
+                            key={`company-${id}`}
+                            gameEntry={gameEntry}
+                            imgSource={company.logo}
+                            addImage={addImage}
+                          />
                         ))}
                       </div>
                     </div>

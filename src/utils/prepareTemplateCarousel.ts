@@ -14,6 +14,7 @@ export const prepareTemplateCarousel = async (templates: (templateTypeV2)[], img
     canvas.add((new FabricImage(img, { resourceType: "main" })))
     const card: CardData = {
       file: img,
+      game: {},
       canvas,
       template,
       isSelected: false,

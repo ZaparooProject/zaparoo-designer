@@ -9,6 +9,7 @@ import { ResourceDisplay } from './ResourceDisplay';
 import { ImageAdjust } from './ImageAdjust';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
 import { getMainImage } from '../utils/setTemplateV2';
+import { GameResourcesDisplay } from './GameResourcesDisplay';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
@@ -154,6 +155,9 @@ export const ModalInternalComponent = ({
         <div className="verticalStack editSpace" ref={padderRef}>
           <canvas key="doNotChangePlease" ref={canvasElement} />
         </div>
+      </div>
+      <div className="tabbedResources">
+        <GameResourcesDisplay game={selectedCard.game} />
       </div>
       <div className="horizontalStack confirmButtons">
         <Button

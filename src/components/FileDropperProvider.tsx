@@ -17,16 +17,35 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
   const cards = useRef<CardData[]>([]);
   const [selectedCardsCount, setSelectedCardsCount] = useState<number>(0);
 
-  const addFiles = useCallback(
-    (totalFiles: (File | HTMLImageElement)[]) => {
+  const addFiles = useCallback((newFiles: (File | HTMLImageElement)[], games: CardData["game"][] = []) => {
+      setFilesImpl([...files, ...newFiles]);
+      cards.current.push(
+        ...newFiles.map<CardData>((file, index) => ({
+          file,
+          game: games[index] || {},
+          key: `${
+            (file as File).name || (file as HTMLImageElement).src
+          }-${Date.now()}`,
+          canvas: undefined,
+          template: undefined,
+          isSelected: false,
+          colors: [],
+          originalColors: [],
+        })),
+      );
+    }, [files, setFilesImpl])
+
+  const setFiles = useCallback(
+    (totalFiles: (File | HTMLImageElement)[], games: CardData["game"][] = []) => {
       let newFiles: (File | HTMLImageElement)[] = [];
       if (totalFiles.length > files.length) {
         newFiles = totalFiles.slice(files.length - totalFiles.length);
       }
       setFilesImpl(totalFiles);
       cards.current.push(
-        ...newFiles.map<CardData>((file) => ({
+        ...newFiles.map<CardData>((file, index) => ({
           file,
+          game: games[index] || {},
           key: `${
             (file as File).name || (file as HTMLImageElement).src
           }-${Date.now()}`,
@@ -61,13 +80,14 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
   const contextValue = useMemo<contextType>(
     () => ({
       files,
-      setFiles: addFiles,
+      addFiles,
+      setFiles: setFiles,
       cards,
       removeCards,
       selectedCardsCount,
       setSelectedCardsCount,
     }),
-    [files, addFiles, removeCards, selectedCardsCount],
+    [files, addFiles, setFiles, removeCards, selectedCardsCount],
   );
 
   return (
