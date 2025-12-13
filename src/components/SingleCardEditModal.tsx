@@ -59,6 +59,7 @@ export const ModalInternalComponent = ({
   }, [onClose, selectedCard.canvas]);
 
   useEffect(() => {
+    console.log(selectedCard.game)
     // mount, we duplicate a card
     if (currentCardIndex > -1 && canvasElement.current) {
       const canvas = new Canvas(canvasElement.current, {
