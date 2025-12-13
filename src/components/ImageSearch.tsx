@@ -144,7 +144,6 @@ export default function ImageSearch({
     timerRef.current = now;
     fetchGameList(searchQuery, platform, page.toString(), isRomHacks).then(
       ({ games, hasMore }) => {
-        console.log(games)
         if (queueResults) {
           setGameEntries([...gameEntries, ...games]);
         } else {
