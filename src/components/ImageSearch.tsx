@@ -16,6 +16,8 @@ import {
 import { useFileDropperContext } from '../contexts/fileDropper';
 import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
+import Snackbar from '@mui/material/Snackbar';
+
 import { boxShadow } from '../constants';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -27,19 +29,21 @@ import { fetchGameList, getImage } from '../utils/search';
 import { PlatformResult } from '../../netlify/apiProviders/types.mts';
 import { PlatformDropdown } from './PlatformDropdown';
 import type { SearchResult } from '../../netlify/apiProviders/types.mts';
-import { Snackbar } from '@mui/material';
-
 const SearchResultView = ({
   gameEntry,
   imgSource,
   children,
   addImage,
+  description,
+  useFull = false,
 }: {
+  useFull?: boolean;
   gameEntry: SearchResult;
   imgSource: {
     thumb: string;
     url: string;
   };
+  description?: string;
   children?: JSX.Element;
   addImage: (
     e: MouseEvent<HTMLImageElement>,
@@ -50,13 +54,15 @@ const SearchResultView = ({
   // console.log(gameEntry);
   return (
     <div className="searchResult">
-      <Button style={{ backgroundColor: 'transparent' }}>
-        <img
-          src={imgSource.thumb}
-          onClick={(e) => addImage(e, imgSource.url, gameEntry.name)}
-          style={{ cursor: 'pointer' }}
-        />
-      </Button>
+      <Tooltip title={description}>
+        <Button style={{ backgroundColor: 'transparent' }}>
+          <img
+            src={useFull ? imgSource.url : imgSource.thumb}
+            onClick={(e) => addImage(e, imgSource.url, gameEntry.name)}
+            style={{ cursor: 'pointer' }}
+          />
+        </Button>
+      </Tooltip>
       {children}
     </div>
   );
@@ -292,6 +298,28 @@ export default function ImageSearch({
                             imgSource={screenshot}
                             addImage={addImage}
                           />
+                        ))}
+                        {gameEntry.platforms?.map((platform) => (
+                          platform.logos.map((logo) => (
+                            <SearchResultView
+                              useFull
+                              description={platform.abbreviation}
+                              key={`logo-${logo.id}`}
+                              gameEntry={gameEntry}
+                              imgSource={logo}
+                              addImage={addImage}
+                            />
+                          ))
+                        ))}
+                        {gameEntry.involved_companies?.map(({ company, id }) => (
+                          company.logo && 
+                            <SearchResultView
+                              useFull
+                              key={`company-${id}`}
+                              gameEntry={gameEntry}
+                              imgSource={company.logo}
+                              addImage={addImage}
+                            />
                         ))}
                       </div>
                     </div>
