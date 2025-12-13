@@ -14,6 +14,16 @@ export type PlatformResult = {
   platform_logo?: ResultImage;
 }
 
+export type CompanyResult = {
+  id: number;
+  logo: ResultImage;
+}
+
+export type InvolvedCompanies = {
+  id: number;
+  company: CompanyResult;
+}
+
 export type SearchResult = {
   id: string;
   artworks: ResultImage[];
@@ -23,7 +33,7 @@ export type SearchResult = {
   name: string;
   storyline: string;
   platforms?: (Pick<PlatformResult, 'id' | 'abbreviation'> & { logos: ResultImage[] })[];
-  involved_companies: unknown[];
+  involved_companies: InvolvedCompanies[];
   extra_images: number;
 };
 
