@@ -30,6 +30,7 @@ export const NFCCCsizeSlimCard: MediaDefinition = {
   stroke: 'black',
   fill: 'white',
   label: 'Pre-cut 85x50mm stickers',
+  stretchTemplate: true,
 };
 
 // or a musicasset box inlay cover

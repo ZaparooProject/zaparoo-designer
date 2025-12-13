@@ -4,6 +4,7 @@ import { util, FabricImage, type StaticCanvas } from 'fabric';
 import { useAppDataContext } from '../contexts/appData';
 import { updateColors } from '../utils/updateColors';
 import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
+import { getMainImage } from '../utils/setTemplateV2';
 
 type useLabelEditorParams = {
   padderRef: MutableRefObject<HTMLDivElement | null>;
@@ -29,7 +30,7 @@ export const useLabelEditor = ({
           ? util.loadImage(URL.createObjectURL(file))
           : Promise.resolve(file);
       if (file) {
-        const currentImage = fabricCanvas.getObjects('image')[0];
+        const currentImage =  getMainImage(fabricCanvas);
         if (currentImage) {
           fabricCanvas.remove(currentImage);
         }

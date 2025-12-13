@@ -1,12 +1,14 @@
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
+import {
+  Button,
+  Modal,
+  Typography,
+  Paper,
+  IconButton,
+} from '@mui/material';
 import './PrintModal.css';
 import { type CardData, useFileDropperContext } from '../contexts/fileDropper';
 import { type PrintOptions, useAppDataContext } from '../contexts/appData';
-import Paper from '@mui/material/Paper';
 import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
 import { printTemplates } from '../printTemplates';
 import { prepareZip } from '../utils/prepareZip';
 import { preparePdf as preparePdfVector } from '../utils/preparePdfKit';
@@ -31,7 +33,7 @@ const createOutput = async (cards: CardData[], printOptions: PrintOptions) => {
 export const PrintModal = ({ open, onClose }: PrintModalProps) => {
   const { cards } = useFileDropperContext();
   const { printOptions, setPrintOptions } = useAppDataContext();
-  const { fileType, imageType, cutMarks, printerTemplateKey } = printOptions;
+  const { fileType, imageType, cutMarks, outlines, printerTemplateKey } = printOptions;
   const isZip = fileType === 'zip';
 
   const basicButtonProps = {
@@ -104,22 +106,35 @@ export const PrintModal = ({ open, onClose }: PrintModalProps) => {
           {/* CUTTING MARKS */}
           <Typography color={isZip ? 'dimgrey' : undefined}>
             Add some cut helper on the print. 'crop' will provide tiny black
-            lines near the labels to align a manual cutter. 'cut' will provide
-            an outline for the labels for automatic cutters. This option is only
-            for PDF output. WARNING: Cut shapes will trigger a double download
-            one for the PDF and one for the stencil. The stencil is reusable but
-            may change over time.
+            lines near the labels to align a manual cutter. 'outline' will print a 
+            thin black line around the labels to help you cut them with scissors or
+            exacto knife and could also be used for precise alignment with pre-cut
+            stock.
           </Typography>
           <div className="horizontalStack">
             <Typography color={isZip ? 'dimgrey' : undefined} flexGrow="1">
               Cutting marks:
             </Typography>
             <Button
-              onClick={() => setPrintOptions({ cutMarks: 'crop' })}
+              onClick={() => setPrintOptions({ cutMarks: 'crop', outlines: true })}
               {...basicButtonProps}
-              color={cutMarks === 'crop' ? 'primary' : 'secondary'}
+              color={(cutMarks === 'crop' && outlines) ? 'primary' : 'secondary'}
+            >
+              <Typography>Crop marks + Outline</Typography>
+            </Button>
+            <Button
+              onClick={() => setPrintOptions({ cutMarks: 'crop', outlines: false })}
+              {...basicButtonProps}
+              color={(cutMarks === 'crop' && !outlines) ? 'primary' : 'secondary'}
             >
               <Typography>Crop marks</Typography>
+            </Button>
+            <Button
+              onClick={() => setPrintOptions({ cutMarks: 'none', outlines: true })}
+              {...basicButtonProps}
+              color={(cutMarks === 'none' && outlines) ? 'primary' : 'secondary'}
+            >
+              <Typography>Outline</Typography>
             </Button>
             {/* <Button
               onClick={() => setPrintOptions({ cutMarks: 'cut' })}
@@ -129,9 +144,9 @@ export const PrintModal = ({ open, onClose }: PrintModalProps) => {
               <Typography>Cutting shape</Typography>
             </Button> */}
             <Button
-              onClick={() => setPrintOptions({ cutMarks: 'none' })}
+              onClick={() => setPrintOptions({ cutMarks: 'none', outlines: false })}
               {...basicButtonProps}
-              color={cutMarks === 'none' ? 'primary' : 'secondary'}
+              color={(cutMarks === 'none' && !outlines) ? 'primary' : 'secondary'}
             >
               <Typography>None</Typography>
             </Button>

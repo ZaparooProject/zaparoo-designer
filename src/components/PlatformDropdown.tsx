@@ -1,9 +1,12 @@
 import type { JSX } from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  type SelectChangeEvent,
+} from '@mui/material';
 import { type PlatformResult } from '../../netlify/apiProviders/types.mjs';
 import { platformPromise, platformsData } from '../utils/search';
 

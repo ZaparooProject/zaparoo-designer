@@ -2,8 +2,7 @@ import { useRef, type MouseEvent, useTransition } from 'react';
 import { FabricCanvasWrapper } from './FabricCanvasWrapper';
 import { useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
+import { Checkbox, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
 type LabelEditorProps = {

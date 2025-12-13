@@ -3,7 +3,7 @@ import App from './App.tsx';
 import { AppDataContextProvider } from './components/AppDataProvider.tsx';
 import { FileDropperContextProvider } from './components/FileDropperProvider';
 import './index.css';
-import createTheme from '@mui/material/styles/createTheme';
+import { createTheme } from '@mui/material/styles';
 
 import { ThemeProvider } from '@emotion/react';
 

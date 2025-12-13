@@ -57,6 +57,7 @@ export type MediaDefinition = {
   stroke: string;
   fill: string;
   label: string;
+  stretchTemplate?: boolean;
 }
 
 export type PrintableArea = {

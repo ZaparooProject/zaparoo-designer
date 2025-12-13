@@ -13,8 +13,8 @@
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
-    "@mui/icons-material": "6.1.10",
-    "@mui/material": "6.1.10",
+    "@mui/icons-material": "7.x",
+    "@mui/material": "7.x",
     "@netlify/functions": "^2.6.0",
     "@types/blob-stream": "^0.1.33",
     "@types/pdfkit": "^0.13.3",
@@ -22,7 +22,7 @@
     "@uiw/react-color-compact": "^2.0.5",
     "blob-stream": "^0.1.3",
     "client-zip": "^2.4.4",
-    "fabric": "^6.4.3",
+    "fabric": "^6.9.0",
     "pdfkit": "0.17.x",
     "react": "^19.x",
     "react-dom": "^19.x",
@@ -33,12 +33,12 @@
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "5.x",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "prettier": "3.1.1",
     "typescript": "^5.5.4",
-    "vite": "6.x"
+    "vite": "7.x"
   }
 }

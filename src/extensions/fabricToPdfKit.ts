@@ -257,12 +257,13 @@ export const addCanvasToPdfPage = async (
   box: box,
   needsRotation: boolean,
   template: templateTypeV2,
-  asRaster: boolean
+  asRaster: boolean,
+  printOutlines: boolean
 ) => {
   // translate to position.
   // skip background color, but draw the clip region
   const { media: templateMedia } = template;
-  if (!template.printableAreas) {
+  if (!template.printableAreas && printOutlines) {
     // if there are no printable areas, draw the outline of the card
     makeCardRegion(box, templateMedia, pdfDoc);
     pdfDoc.lineWidth(templateMedia.strokeWidth / 10);
