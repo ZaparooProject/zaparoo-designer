@@ -1,0 +1,23 @@
+.resourceListArea {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    max-height: 350px;
+    height: fit-content;
+    padding: 8px;
+    gap: 8px;
+}
+
+.imageResourceDisplayContainer {
+    background-color: lightgrey;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 8px;
+    max-width: 400px;
+    height: 250px;
+}
+
+.imageResourceDisplay {
+    object-fit: contain;
+}

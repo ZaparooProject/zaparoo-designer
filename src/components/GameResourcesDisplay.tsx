@@ -1,6 +1,8 @@
 import { type SyntheticEvent, useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import { type SearchResult, type ResultImage } from '../../netlify/apiProviders/types.mts';
+import { util } from 'fabric';
+import './GameResourcesDisplay.css';
 
 type GameResourcesDisplayProps = {
   game: Partial<SearchResult>;
@@ -11,21 +13,23 @@ type ImageDrawerDisplayProps = {
   imageResult: ResultImage
 }
 
-const rowHeight = 250;
-
 const ImageDrawerDisplay = ({ onClick, imageResult }: ImageDrawerDisplayProps) => {
-  
-  return (<img
-    src={imageResult.thumb}
-    height={rowHeight}
-    width={Math.round(imageResult.width * rowHeight / imageResult.height)}
-    />)
+
+  const scale = util.findScaleToFit(imageResult, { width: 400, height: 250 });
+
+  return (<div className='imageResourceDisplayContainer'>
+    <img
+      width={imageResult.width * scale}
+      height={imageResult.height * scale}
+      className='imageResourceDisplay'
+      src={imageResult.url}
+      loading='lazy'
+    />
+  </div>);
 }
 
 export function GameResourcesDisplay({ game }: GameResourcesDisplayProps) {
   const [value, setValue] = useState('covers');
-
-  console.log(game)
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -35,16 +39,21 @@ export function GameResourcesDisplay({ game }: GameResourcesDisplayProps) {
     <Box sx={{ width: '100%', height: '400px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          {game.cover && <Tab label="Covers" value="covers"/>}
-          <Tab label="Logos" value="logos" />
-          <Tab label="Screenshots" value="screens" />
-          <Tab label="Art" value="art" />
+          {game.cover && <Tab label="Covers" value="covers" />}
+          {game.platforms && <Tab label="Platforms" value="platforms" />}
+          {game.involved_companies && <Tab label="Companies" value="companies" />}
+          {game.screenshots && <Tab label="Screenshots" value="screens" />}
+          {game.artworks && <Tab label="Art" value="art" />}
           <Tab label="Game meta" value="meta" />
         </Tabs>
       </Box>
-      <Box display="flex" flexWrap="wrap" gap="8px" padding="8px" >
+      <div className="resourceListArea" >
         {value === "covers" && game.cover && <ImageDrawerDisplay imageResult={game.cover} />}
-      </Box>
+        {value === "art" && game.artworks && game.artworks.map((artwork) => <ImageDrawerDisplay imageResult={artwork} />)}
+        {value === "screens" && game.screenshots && game.screenshots.map((screen) => <ImageDrawerDisplay imageResult={screen} />)}
+        {value === "platforms" && game.platforms && game.platforms.map((platform) => platform.logos && platform.logos.map(logo => (<ImageDrawerDisplay imageResult={logo} />)))}
+        {value === "companies" && game.involved_companies && game.involved_companies.map((company) => company.company.logo && (<ImageDrawerDisplay imageResult={company.company.logo} />))}
+      </div>
     </Box>
   );
 }
