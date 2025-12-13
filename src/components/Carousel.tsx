@@ -32,7 +32,6 @@ const TemplatesCarousel = memo(() => {
     setToLoad(0);
   }, [availableTemplates]);
 
-  
   useEffect(() => {
     util.loadImage(sob3).then((img) => setImg(img));
   }, []);
