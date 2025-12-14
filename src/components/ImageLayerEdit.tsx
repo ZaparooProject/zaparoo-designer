@@ -13,24 +13,44 @@ type ImageLayerEditProps = {
 };
 
 export const ImageLayerEdit = ({ canvasRef, card }: ImageLayerEditProps) => {
-    const placeholderHandler = useCallback(
-        (action: string) => () => {
-            if (!canvasRef.current) {
-                return;
-            }
-            // Placeholder logic to be implemented with real layer manipulation.
-            console.info(`Image layer action pending: ${action}`, {
-                card,
-                canvasObjectCount: canvasRef.current.getObjects().length,
-            });
-        },
-        [canvasRef, card],
-    );
 
-    const rotateClockwise = placeholderHandler('rotateClockwise');
-    const moveUp = placeholderHandler('moveUp');
-    const moveDown = placeholderHandler('moveDown');
-    const deleteLayer = placeholderHandler('delete');
+    const rotateClockwise = useCallback(() => {
+        const canvas = canvasRef.current;
+        const layer = canvas && canvas.getActiveObject();
+        if (layer) {
+            const angleRemainder = layer.angle % 90;
+            layer.set('angle', layer.angle + 90 - angleRemainder);
+            layer.setCoords();
+            canvas.requestRenderAll();
+        }
+    }, [canvasRef]);
+
+    const moveUp = useCallback(() => {
+        const canvas = canvasRef.current;
+        const layer = canvas && canvas.getActiveObject();
+        if (layer) {
+            canvas.bringObjectForward(layer);
+            canvas.requestRenderAll();
+        }
+    }, [canvasRef]);
+
+    const moveDown = useCallback(() => {
+        const canvas = canvasRef.current;
+        const layer = canvas && canvas.getActiveObject();
+        if (layer) {
+            canvas.sendObjectBackwards(layer);
+            canvas.requestRenderAll();
+        }
+    }, [canvasRef]);
+
+    const deleteLayer = useCallback(() => {
+        const canvas = canvasRef.current;
+        const layer = canvas && canvas.getActiveObject();
+        if (layer) {
+            canvas.remove(layer);
+            canvas.requestRenderAll();
+        }
+    }, [canvasRef]);
 
     return (
         <div
@@ -42,7 +62,7 @@ export const ImageLayerEdit = ({ canvasRef, card }: ImageLayerEditProps) => {
             }}
         >
             <Button
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 startIcon={<RotateRightIcon />}
                 onClick={rotateClockwise}
@@ -51,7 +71,7 @@ export const ImageLayerEdit = ({ canvasRef, card }: ImageLayerEditProps) => {
                 Rotate 90° Clockwise
             </Button>
             <Button
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 startIcon={<ArrowUpwardIcon />}
                 onClick={moveUp}
@@ -60,7 +80,7 @@ export const ImageLayerEdit = ({ canvasRef, card }: ImageLayerEditProps) => {
                 Move Layer Up
             </Button>
             <Button
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 startIcon={<ArrowDownwardIcon />}
                 onClick={moveDown}
@@ -69,7 +89,7 @@ export const ImageLayerEdit = ({ canvasRef, card }: ImageLayerEditProps) => {
                 Move Layer Down
             </Button>
             <Button
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 startIcon={<DeleteOutlineIcon />}
                 onClick={deleteLayer}
