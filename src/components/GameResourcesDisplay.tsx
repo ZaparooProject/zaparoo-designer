@@ -20,12 +20,16 @@ const ImageDrawerDisplay = ({ imageResult, canvasRef }: ImageDrawerDisplayProps)
 
   const scale = util.findScaleToFit(imageResult, { width: 400, height: 250 });
   const onClick = () => {
-    if (!canvasRef.current) {
-      return;
-    }
     util.loadImage(imageResult.url).then((img) => {
+      if (!canvasRef.current) {
+        return;
+      }
       const image = new FabricImage(img);
-      canvasRef.current && canvasRef.current.add(image);
+      const scale = util.findScaleToFit(image, canvasRef.current);
+      image.scale(scale);
+      console.log(scale, canvasRef.current.width, canvasRef.current.height)
+      canvasRef.current.add(image);
+      canvasRef.current.centerObject(image);
     });
   }
 
