@@ -7,6 +7,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import './GameResourcesDisplay.css';
 
 type GameResourcesDisplayProps = {
+  drawerState: boolean;
+  setDrawerState: React.Dispatch<boolean>;
   game: Partial<SearchResult>;
   canvasRef: MutableRefObject<Canvas | null>;
 }
@@ -52,7 +54,7 @@ export function GameResourcesDisplay({ game, canvasRef, drawerState, setDrawerSt
   return (
     // The modal has zindex 1300;
     <Drawer anchor="bottom" open={drawerState} style={{ zIndex: 1500 }}>
-      <div className='horizontalStack'>
+      <div className='horizontalStack tabs'>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           {game.cover && <Tab label="Covers" value="covers" />}
           {game.platforms && <Tab label="Platforms" value="platforms" />}

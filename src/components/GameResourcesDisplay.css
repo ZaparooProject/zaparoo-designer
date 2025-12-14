@@ -8,6 +8,10 @@
     gap: 10px;
 }
 
+.horizontalStack.tabs {
+  justify-content: space-between;
+}
+
 .imageResourceDisplayContainer {
     cursor: pointer;
     background-color: lightgrey;
