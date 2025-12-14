@@ -1,20 +1,9 @@
-.verticalStack.drawer {
-    height: 50px;
-    overflow: hidden;
-}
-
-input[type="checkbox"]:checked~.verticalStack.drawer {
-    /* styles to apply when checkbox is checked */
-    height: 350px;
-    overflow: unset;
-}
-
 .resourceListArea {
     align-content: start;
     flex-wrap: wrap;
     overflow-y: scroll;
-    max-height: 350px;
-    height: fit-content;
+    height: 300px;
+    max-height: 300px;
     padding: 8px;
     gap: 10px;
 }

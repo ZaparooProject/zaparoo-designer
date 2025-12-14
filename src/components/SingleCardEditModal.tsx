@@ -26,6 +26,7 @@ export const ModalInternalComponent = ({
 }: SingleCardEditSpaceProps) => {
   const { cards } = useFileDropperContext();
   const [ready, setReady] = useState(false);
+  const [drawerState, setDrawerState] = useState(false);
   const editableCanvas = useRef<Canvas | null>(null);
   const canvasElement = useRef<HTMLCanvasElement>(null);
   const selectedCard = cards.current[currentCardIndex];
@@ -158,7 +159,7 @@ export const ModalInternalComponent = ({
         </div>
       </div>
       <div className="tabbedResources">
-        <GameResourcesDisplay game={selectedCard.game} canvasRef={editableCanvas} />
+        <GameResourcesDisplay game={selectedCard.game} canvasRef={editableCanvas} drawerState={drawerState} setDrawerState={setDrawerState} />
       </div>
       <div className="horizontalStack confirmButtons">
         <Button
@@ -168,6 +169,14 @@ export const ModalInternalComponent = ({
           onClick={onClose}
         >
           Cancel
+        </Button>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          onClick={() => setDrawerState(true)}
+        >
+          Resources
         </Button>
         <Button
           variant="contained"
