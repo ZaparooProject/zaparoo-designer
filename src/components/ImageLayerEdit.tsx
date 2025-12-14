@@ -12,7 +12,7 @@ type ImageLayerEditProps = {
     card: CardData;
 };
 
-export const ImageLayerEdit = ({ canvasRef, card }: ImageLayerEditProps) => {
+export const ImageLayerEdit = ({ canvasRef }: ImageLayerEditProps) => {
 
     const rotateClockwise = useCallback(() => {
         const canvas = canvasRef.current;
