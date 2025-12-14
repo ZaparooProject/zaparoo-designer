@@ -5,7 +5,8 @@ import { type FabricObject } from 'fabric';
 import { useRealTimeResize } from '../hooks/useRealtimeResize';
 import { type TemplateEdit } from '../resourcesTypedef';
 import { ResourceDisplay } from './ResourceDisplay';
-import { ImageAdjust } from './ImageAdjust'
+import { ImageAdjust } from './ImageAdjust';
+import { ImageLayerEdit } from './ImageLayerEdit';
 import { GameResourcesDisplay } from './GameResourcesDisplay';
 import { useEditableCanvas } from '../hooks/useEditableCanvas';
 
@@ -28,7 +29,7 @@ export const ModalInternalComponent = ({
   const [currentResource, setCurrentResource] =
     useState<[TemplateEdit | undefined, FabricObject | undefined]>();
 
-  const { selectedCard, isImageAdjust, editableCanvas, confirmAndSave, canvasElement } = useEditableCanvas({ currentCardIndex, setReady, setCurrentResource })
+  const { selectedCard, isImageAdjust, isObjectEdit, editableCanvas, confirmAndSave, canvasElement } = useEditableCanvas({ currentCardIndex, setReady, setCurrentResource })
   const layout = selectedCard.template?.layout;
 
   useRealTimeResize({
@@ -65,6 +66,9 @@ export const ModalInternalComponent = ({
               canvasRef={editableCanvas}
               className={`${classNameInt}`}
             />
+          )}
+          {isObjectEdit && (
+            <ImageLayerEdit card={selectedCard} canvasRef={editableCanvas} />
           )}
         </div>
         <div className="verticalStack editSpace" ref={padderRef}>
