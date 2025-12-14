@@ -27,7 +27,6 @@ const ImageDrawerDisplay = ({ imageResult, canvasRef }: ImageDrawerDisplayProps)
       const image = new FabricImage(img);
       const scale = util.findScaleToFit(image, canvasRef.current);
       image.scale(scale);
-      console.log(scale, canvasRef.current.width, canvasRef.current.height)
       canvasRef.current.add(image);
       canvasRef.current.centerObject(image);
     });
