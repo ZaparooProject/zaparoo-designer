@@ -29,7 +29,7 @@ export const ModalInternalComponent = ({
   const [currentResource, setCurrentResource] =
     useState<[TemplateEdit | undefined, FabricObject | undefined]>();
 
-  const { selectedCard, isImageAdjust, isObjectEdit, editableCanvas, confirmAndSave, canvasElement } = useEditableCanvas({ currentCardIndex, setReady, setCurrentResource })
+  const { selectedCard, isImageAdjust, isObjectAdjust, editableCanvas, confirmAndSave, canvasElement } = useEditableCanvas({ currentCardIndex, setReady, setCurrentResource })
   const layout = selectedCard.template?.layout;
 
   useRealTimeResize({
@@ -67,7 +67,7 @@ export const ModalInternalComponent = ({
               className={`${classNameInt}`}
             />
           )}
-          {isObjectEdit && (
+          {isObjectAdjust && (
             <ImageLayerEdit card={selectedCard} canvasRef={editableCanvas} />
           )}
         </div>

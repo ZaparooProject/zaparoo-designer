@@ -14,6 +14,7 @@ type useEditableCanvasArgs = {
 type useEditableCanvasReturnType = {
     confirmAndSave: () => void;
     isImageAdjust: boolean;
+    isObjectAdjust: boolean;
     editableCanvas: MutableRefObject<Canvas | null>;
     selectedCard: CardData;
     canvasElement: MutableRefObject<HTMLCanvasElement | null>;
@@ -24,6 +25,7 @@ export const useEditableCanvas = ({ currentCardIndex, setReady, setCurrentResour
     const editableCanvas = useRef<Canvas | null>(null);
     const canvasElement = useRef<HTMLCanvasElement>(null);
     const [isImageAdjust, setImageAdjust] = useState<boolean>(false);
+    const [isObjectAdjust, setIsObjectAdjust] = useState<boolean>(false);
 
     const selectedCard = cards.current[currentCardIndex];
 
@@ -80,22 +82,28 @@ export const useEditableCanvas = ({ currentCardIndex, setReady, setCurrentResour
                     canvas.on('selection:created', ({ selected }) => {
                         if (selected[0] === mainImage) {
                             setImageAdjust(true);
+                            setIsObjectAdjust(false);
                             setCurrentResource([undefined, undefined]);
                         } else {
+                            setIsObjectAdjust(true);
                             setImageAdjust(false);
                         }
                     });
                     canvas.on('selection:cleared', ({ deselected }) => {
-                        if (deselected[0] === mainImage) {
+                        if (deselected.length) {
                             setImageAdjust(false);
+                            setIsObjectAdjust(false);
                         }
                     });
                     canvas.on('selection:updated', ({ selected }) => {
                         if (selected[0] === mainImage) {
                             setImageAdjust(true);
+                            setIsObjectAdjust(false);
                             setCurrentResource([undefined, undefined]);
                         } else {
                             setImageAdjust(false);
+                            setIsObjectAdjust(true);
+
                         }
                     });
                     canvas.on('object:moving', ({ target }) => {
@@ -116,6 +124,7 @@ export const useEditableCanvas = ({ currentCardIndex, setReady, setCurrentResour
     return {
         confirmAndSave,
         isImageAdjust,
+        isObjectAdjust,
         editableCanvas,
         selectedCard,
         canvasElement,
