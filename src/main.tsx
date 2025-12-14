@@ -6,6 +6,7 @@ import './index.css';
 import { createTheme } from '@mui/material/styles';
 
 import { ThemeProvider } from '@emotion/react';
+import { setupFabricJSCustomConfiguration } from './extensions/setupFabricJSCustomConfiguration.ts';
 
 window.global = window;
 
@@ -43,6 +44,8 @@ const theme = createTheme({
     },
   },
 });
+
+setupFabricJSCustomConfiguration();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider theme={theme}>

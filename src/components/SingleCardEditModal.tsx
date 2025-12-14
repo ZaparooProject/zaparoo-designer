@@ -1,15 +1,14 @@
 import { Modal, Button } from '@mui/material';
 import './SingleCardEditModal.css';
-import { useFileDropperContext } from '../contexts/fileDropper';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Canvas, type FabricObject } from 'fabric';
+import { useCallback, useRef, useState } from 'react';
+import { type FabricObject } from 'fabric';
 import { useRealTimeResize } from '../hooks/useRealtimeResize';
 import { type TemplateEdit } from '../resourcesTypedef';
 import { ResourceDisplay } from './ResourceDisplay';
 import { ImageAdjust } from './ImageAdjust';
-import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
-import { getMainImage } from '../utils/setTemplateV2';
+import { ImageLayerEdit } from './ImageLayerEdit';
 import { GameResourcesDisplay } from './GameResourcesDisplay';
+import { useEditableCanvas } from '../hooks/useEditableCanvas';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
@@ -24,17 +23,14 @@ export const ModalInternalComponent = ({
   onClose,
   currentCardIndex,
 }: SingleCardEditSpaceProps) => {
-  const { cards } = useFileDropperContext();
   const [ready, setReady] = useState(false);
   const [drawerState, setDrawerState] = useState(false);
-  const editableCanvas = useRef<Canvas | null>(null);
-  const canvasElement = useRef<HTMLCanvasElement>(null);
-  const selectedCard = cards.current[currentCardIndex];
-  const layout = selectedCard.template?.layout;
   const padderRef = useRef<HTMLDivElement>(null);
   const [currentResource, setCurrentResource] =
     useState<[TemplateEdit | undefined, FabricObject | undefined]>();
-  const [isImageAdjust, setImageAdjust] = useState<boolean>(false);
+
+  const { selectedCard, isImageAdjust, isObjectAdjust, editableCanvas, confirmAndSave, canvasElement } = useEditableCanvas({ currentCardIndex, setReady, setCurrentResource })
+  const layout = selectedCard.template?.layout;
 
   useRealTimeResize({
     fabricCanvas: editableCanvas.current,
@@ -45,92 +41,10 @@ export const ModalInternalComponent = ({
     throttleMs: 100,
   });
 
-  const confirmAndClose = useCallback(async () => {
-    const canvas = editableCanvas.current!;
-    const data = canvas.toObject([
-      'resourceFor',
-      'id',
-      'original_fill',
-      'original_stroke',
-    ]);
-    const targetCanvas = selectedCard.canvas!;
-    targetCanvas.clear();
-    await targetCanvas.loadFromJSON(data);
-    targetCanvas.requestRenderAll();
+  const confirmAndClose = useCallback(() => {
+    confirmAndSave();
     onClose();
-  }, [onClose, selectedCard.canvas]);
-
-  useEffect(() => {
-    // mount, we duplicate a card
-    if (currentCardIndex > -1 && canvasElement.current) {
-      const canvas = new Canvas(canvasElement.current, {
-        preserveObjectStacking: true,
-      });
-      // this is not great but we do not care for now
-      editableCanvas.current = canvas;
-      if (selectedCard.canvas) {
-        const jsonData = selectedCard.canvas.toObject([
-          'resourceFor',
-          'id',
-          'original_fill',
-          'original_stroke',
-        ]);
-        canvas.loadFromJSON(jsonData).then(() => {
-          const mainImage = getMainImage(canvas);
-          if (mainImage) {
-            mainImage.hasControls = false;
-            mainImage.hasBorders = false;
-            mainImage.strokeWidth = 0;
-            mainImage.imageSmoothing = false;
-          }
-          // canvas.on('mouse:down', (opt) => {
-          // const resource = opt.subTargets?.[0];
-          // if (resource && resource.resourceFor) {
-          //   const edit = selectedCard.template?.edits?.find(
-          //     // @ts-expect-error not sure what to do here
-          //     (edit) => edit.id === resource.resourceFor,
-          //   );
-          //   if (edit) {
-          //     setCurrentResource([edit, resource]);
-          //   }
-          // }
-          // });
-
-          canvas.on('selection:created', ({ selected }) => {
-            if (selected[0] === mainImage) {
-              setImageAdjust(true);
-              setCurrentResource([undefined, undefined]);
-            } else {
-              setImageAdjust(false);
-            }
-          });
-          canvas.on('selection:cleared', ({ deselected }) => {
-            if (deselected[0] === mainImage) {
-              setImageAdjust(false);
-            }
-          });
-          canvas.on('selection:updated', ({ selected }) => {
-            if (selected[0] === mainImage) {
-              setImageAdjust(true);
-              setCurrentResource([undefined, undefined]);
-            } else {
-              setImageAdjust(false);
-            }
-          });
-          canvas.on('object:moving', ({ target }) => {
-            if (target === mainImage) {
-              fixImageInsideCanvas(mainImage);
-            }
-          });
-          setReady(true);
-        });
-      }
-      return () => {
-        // console.log('disposing');
-        canvas && canvas.dispose();
-      };
-    }
-  }, [cards, currentCardIndex, selectedCard.canvas]);
+  }, [confirmAndSave, onClose]);
 
   const classNameExt =
     layout === 'vertical' ? 'horizontalStack' : 'verticalStack';
@@ -152,6 +66,9 @@ export const ModalInternalComponent = ({
               canvasRef={editableCanvas}
               className={`${classNameInt}`}
             />
+          )}
+          {isObjectAdjust && (
+            <ImageLayerEdit card={selectedCard} canvasRef={editableCanvas} />
           )}
         </div>
         <div className="verticalStack editSpace" ref={padderRef}>

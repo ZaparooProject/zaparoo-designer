@@ -6,59 +6,19 @@ import {
   FabricObject,
   type Canvas,
   Rect,
-  Path,
   type StaticCanvas,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
 import type { templateTypeV2 } from '../resourcesTypedef';
 import { extractUniqueColorsFromGroup } from './templateHandling';
 
-FabricObject.ownDefaults.originX = 'center';
-FabricObject.ownDefaults.originY = 'center';
-FabricObject.ownDefaults.objectCaching = false;
-/* add the ability to parse 'id' and zaparoo attributes to shapes */
-Rect.ATTRIBUTE_NAMES = [...Rect.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy', 'zaparoo-no-print'];
-Path.ATTRIBUTE_NAMES = [...Path.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy', 'zaparoo-no-print'];
-FabricImage.ATTRIBUTE_NAMES = [...FabricImage.ATTRIBUTE_NAMES, 'id', 'zaparoo-no-print'];
-FabricObject.customProperties = [
-  'zaparoo-placeholder',
-  'id',
-  'zaparoo-fill-strategy',
-  'original_stroke',
-  'original_fill',
-  'zaparoo-no-print'
-];
-
-FabricImage.customProperties = [
-  'resourceType',
-  'original_stroke',
-  'original_fill',
-  'zaparoo-no-print'
-];
-
-// declare the methods for typescript
-declare module "fabric" {
-  // to have the properties recognized on the instance and in the constructor
-  interface FabricObject {
-    "original_fill": string;
-    "original_stroke": string;
-    "zaparoo-placeholder"?: "main";
-    "zaparoo-no-print"?: "true";
-    "zaparoo-fill-strategy"?: "fit" | "cover";
-  }
-
-  interface FabricImage {
-    "resourceType"?: "main" | "screenshot" | "logo";
-  }
-}
-
 export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) => canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main")
 
 export const getMainImage = (canvas: Canvas | Group | StaticCanvas) => canvas.getObjects('image')
-.find(
-  (fabricImage) =>
-    (fabricImage as FabricImage).resourceType === 'main',
-) as FabricImage;
+  .find(
+    (fabricImage) =>
+      (fabricImage as FabricImage).resourceType === 'main',
+  ) as FabricImage;
 
 export const scaleImageToOverlayArea = async (
   placeholder: FabricObject,
@@ -68,7 +28,7 @@ export const scaleImageToOverlayArea = async (
   // scale the art to the designed area in the template. to fit
   // TODO: add option later for fit or cover
   const isRotated = mainImage.angle % 180 !== 0;
-  const isCover =  placeholder["zaparoo-fill-strategy"] === "cover";
+  const isCover = placeholder["zaparoo-fill-strategy"] === "cover";
   const scaler = isCover ? util.findScaleToCover : util.findScaleToFit;
   const scaledOverlay = placeholder._getTransformedDimensions();
 
@@ -144,10 +104,10 @@ export const setTemplateV2OnCanvases = async (
   const templateSource = await (parsed ?? (template.parsed = parseSvg(url)));
   const placeholder = getPlaceholderMain(templateSource);
   if (placeholder) {
-      // remove strokewidth so the placeholder can clip the image
-      placeholder.strokeWidth = 0;
-      // the placeholder stays with us but we don't want to see it
-      placeholder.visible = false;
+    // remove strokewidth so the placeholder can clip the image
+    placeholder.strokeWidth = 0;
+    // the placeholder stays with us but we don't want to see it
+    placeholder.visible = false;
   }
   // fixme: avoid parsing colors more than once.
   const colors = extractUniqueColorsFromGroup(templateSource);
@@ -193,7 +153,7 @@ export const setTemplateV2OnCanvases = async (
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
     const templateSize = fabricLayer._getTransformedDimensions();
-    
+
     if (media?.stretchTemplate) {
       // Stretch the overlay asset to fill the designed media ( the card )
       fabricLayer.scaleX = canvas.width / templateSize.x;
@@ -227,7 +187,7 @@ export const setTemplateV2OnCanvases = async (
         await scaleImageToOverlayArea(placeholder, mainImage);
       }
     }
-  
+
     const { clipPath } = canvas;
     if (clipPath) {
       if (template.layout === 'horizontal') {
