@@ -2,13 +2,14 @@ import { Modal, Button } from '@mui/material';
 import './SingleCardEditModal.css';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Canvas, FabricImage, type FabricObject } from 'fabric';
+import { Canvas, type FabricObject } from 'fabric';
 import { useRealTimeResize } from '../hooks/useRealtimeResize';
 import { type TemplateEdit } from '../resourcesTypedef';
 import { ResourceDisplay } from './ResourceDisplay';
 import { ImageAdjust } from './ImageAdjust';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
 import { getMainImage } from '../utils/setTemplateV2';
+import { GameResourcesDisplay } from './GameResourcesDisplay';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
@@ -25,6 +26,7 @@ export const ModalInternalComponent = ({
 }: SingleCardEditSpaceProps) => {
   const { cards } = useFileDropperContext();
   const [ready, setReady] = useState(false);
+  const [drawerState, setDrawerState] = useState(false);
   const editableCanvas = useRef<Canvas | null>(null);
   const canvasElement = useRef<HTMLCanvasElement>(null);
   const selectedCard = cards.current[currentCardIndex];
@@ -95,7 +97,7 @@ export const ModalInternalComponent = ({
           // });
 
           canvas.on('selection:created', ({ selected }) => {
-            if (selected[0] instanceof FabricImage) {
+            if (selected[0] === mainImage) {
               setImageAdjust(true);
               setCurrentResource([undefined, undefined]);
             } else {
@@ -103,12 +105,12 @@ export const ModalInternalComponent = ({
             }
           });
           canvas.on('selection:cleared', ({ deselected }) => {
-            if (deselected[0] instanceof FabricImage) {
+            if (deselected[0] === mainImage) {
               setImageAdjust(false);
             }
           });
           canvas.on('selection:updated', ({ selected }) => {
-            if (selected[0] instanceof FabricImage) {
+            if (selected[0] === mainImage) {
               setImageAdjust(true);
               setCurrentResource([undefined, undefined]);
             } else {
@@ -116,8 +118,8 @@ export const ModalInternalComponent = ({
             }
           });
           canvas.on('object:moving', ({ target }) => {
-            if (target instanceof FabricImage) {
-              fixImageInsideCanvas(target);
+            if (target === mainImage) {
+              fixImageInsideCanvas(mainImage);
             }
           });
           setReady(true);
@@ -129,6 +131,7 @@ export const ModalInternalComponent = ({
       };
     }
   }, [cards, currentCardIndex, selectedCard.canvas]);
+
   const classNameExt =
     layout === 'vertical' ? 'horizontalStack' : 'verticalStack';
   const classNameInt =
@@ -155,6 +158,9 @@ export const ModalInternalComponent = ({
           <canvas key="doNotChangePlease" ref={canvasElement} />
         </div>
       </div>
+      <div className="tabbedResources">
+        <GameResourcesDisplay game={selectedCard.game} canvasRef={editableCanvas} drawerState={drawerState} setDrawerState={setDrawerState} />
+      </div>
       <div className="horizontalStack confirmButtons">
         <Button
           variant="contained"
@@ -163,6 +169,14 @@ export const ModalInternalComponent = ({
           onClick={onClose}
         >
           Cancel
+        </Button>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          onClick={() => setDrawerState(true)}
+        >
+          Resources
         </Button>
         <Button
           variant="contained"
