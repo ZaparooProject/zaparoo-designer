@@ -2,7 +2,7 @@ import { Modal, Button } from '@mui/material';
 import './SingleCardEditModal.css';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Canvas, FabricImage, type FabricObject } from 'fabric';
+import { Canvas, type FabricObject } from 'fabric';
 import { useRealTimeResize } from '../hooks/useRealtimeResize';
 import { type TemplateEdit } from '../resourcesTypedef';
 import { ResourceDisplay } from './ResourceDisplay';
