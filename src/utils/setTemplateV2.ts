@@ -12,7 +12,9 @@ import { CardData } from '../contexts/fileDropper';
 import type { templateTypeV2 } from '../resourcesTypedef';
 import { extractUniqueColorsFromGroup } from './templateHandling';
 
-export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) => canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main")
+const getNamedPlaceholder = (canvas: Canvas | Group | StaticCanvas, name: string) => canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === name)
+export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) => getNamedPlaceholder(canvas, 'main')
+export const getPlaceholderPlatformLogo = (canvas: Canvas | Group | StaticCanvas) => getNamedPlaceholder(canvas, 'platform_logo')
 
 export const getMainImage = (canvas: Canvas | Group | StaticCanvas) => canvas.getObjects('image')
   .find(
@@ -103,6 +105,7 @@ export const setTemplateV2OnCanvases = async (
 
   const templateSource = await (parsed ?? (template.parsed = parseSvg(url)));
   const placeholder = getPlaceholderMain(templateSource);
+  const platformLogoPlaceHolder = getPlaceholderPlatformLogo(templateSource);
   if (placeholder) {
     // remove strokewidth so the placeholder can clip the image
     placeholder.strokeWidth = 0;
