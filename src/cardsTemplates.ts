@@ -26,6 +26,7 @@ import blankCoverV from './assets/blank_cover_v.svg';
 import blankFitH from './assets/blank_fit_h.svg';
 import blankFitV from './assets/blank_fit_v.svg';
 import cassetteTapeEmpty from './assets/cassette_tape_empty.svg';
+import foldableSleeveSvg from './assets/foldable_sleeve.svg';
 
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
@@ -40,6 +41,7 @@ import {
   tapToPrePrinted,
   miniNfcCard,
   r2Pcb1_0,
+  foldableSleeve,
 } from './printMediaTypes';
 
 export const templates: Record<string, templateTypeV2> = {
@@ -338,6 +340,16 @@ export const templates: Record<string, templateTypeV2> = {
     key: 'blankVF',
     url: blankFitV,
   },
+  foldableSleeve: {
+    version: 2,
+    layout: 'vertical',
+    label: 'Paper sleeve',
+    author: Authors.andrea,
+    media: foldableSleeve,
+    compatibleMedia: [foldableSleeve],
+    url: foldableSleeveSvg,
+    key: 'foldable1',
+  }
 } as const;
 
 export const defaultTemplateKey = 'hucard';

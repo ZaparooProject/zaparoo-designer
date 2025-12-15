@@ -1,0 +1,13 @@
+<svg width="1220" height="980" viewBox="0 0 1220 980" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/">
+  <path
+    d="M 0 0 H 1120 A 100 100 0 0 1 1220 100 V 760 A 100 100 0 0 1 1120 860 H 540 V 880 A 100 100 0 0 1 440 980 H 100 A 100 100 0 0 1 0 880 V 0 Z"
+    fill="none"
+    stroke="black"
+    stroke-width="2"
+  />
+  <rect id="placeholder" zaparoo-placeholder="main" x="0" y="0" width="540" height="860" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="cover" />
+  <path id="bend_lines" d="M 540 0 V 860 M 560 0 V 860 M 1100 0 V 860 1120 0 V 860 M 0 860 H 540 M 0 880 H 540"
+    stroke-dasharray="5 5" stroke-width="1" stroke="black"
+  />
+</svg>
