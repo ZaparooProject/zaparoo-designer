@@ -342,6 +342,7 @@ export const templates: Record<string, templateTypeV2> = {
   },
   foldableSleeve: {
     version: 2,
+    canEdit: true,
     layout: 'horizontal',
     label: 'Paper sleeve',
     author: Authors.andrea,
