@@ -112,6 +112,12 @@ export const setTemplateV2OnCanvases = async (
     // the placeholder stays with us but we don't want to see it
     placeholder.visible = false;
   }
+  if (platformLogoPlaceHolder) {
+    // remove strokewidth so the placeholder can clip the image
+    platformLogoPlaceHolder.strokeWidth = 0;
+    // the placeholder stays with us but we don't want to see it
+    platformLogoPlaceHolder.visible = false;
+  }
   // fixme: avoid parsing colors more than once.
   const colors = extractUniqueColorsFromGroup(templateSource);
   const isHorizontal = layout === 'horizontal';
@@ -120,7 +126,7 @@ export const setTemplateV2OnCanvases = async (
   const finalHeight = isHorizontal ? height : width;
 
   for (const card of cards) {
-    const { canvas } = card;
+    const { canvas, game } = card;
     if (!canvas) {
       continue;
     }
@@ -190,7 +196,12 @@ export const setTemplateV2OnCanvases = async (
         await scaleImageToOverlayArea(placeholder, mainImage);
       }
     }
-
+    const placeholderLogo = getPlaceholderPlatformLogo(canvas);
+    if (placeholderLogo) {
+      if (game.involved_companies?.[0]?.company?.logo) {
+        
+      }
+    }
     const { clipPath } = canvas;
     if (clipPath) {
       if (template.layout === 'horizontal') {

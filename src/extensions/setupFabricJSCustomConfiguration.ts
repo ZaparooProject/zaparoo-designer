@@ -12,7 +12,7 @@ declare module "fabric" {
     }
 
     interface FabricImage {
-        "resourceType"?: "main" | "screenshot" | "logo";
+        "resourceType"?: "main" | "screenshot" | "platform_logo";
     }
 }
 

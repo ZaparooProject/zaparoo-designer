@@ -5,6 +5,7 @@ import { useAppDataContext } from '../contexts/appData';
 import { updateColors } from '../utils/updateColors';
 import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
 import { getMainImage } from '../utils/setTemplateV2';
+import { findScreenshotUrl } from '../utils/gameDataUtils';
 
 type useLabelEditorParams = {
   padderRef: MutableRefObject<HTMLDivElement | null>;
@@ -24,18 +25,20 @@ export const useLabelEditor = ({
 
   useEffect(() => {
     if (fabricCanvas) {
-      const { file } = card;
+      const { file, game } = card;
+      const screenshotUrl = findScreenshotUrl(game);
       const imagePromise =
         file instanceof Blob
           ? util.loadImage(URL.createObjectURL(file))
           : Promise.resolve(file);
+      const screenshotPromise = screenshotUrl ? util.loadImage(screenshotUrl) : Promise.resolve(null);
       if (file) {
         const currentImage =  getMainImage(fabricCanvas);
         if (currentImage) {
           fabricCanvas.remove(currentImage);
         }
         setImageReady(false);
-        imagePromise.then((image) => {
+        Promise.allSettled([imagePromise, screenshotPromise]).then([image, ]) => {
           const fabricImage = new FabricImage(image, { resourceType: "main" });
           // @ts-expect-error no originalFile
           fabricImage.originalFile = file;
