@@ -38,15 +38,28 @@ export const useLabelEditor = ({
           fabricCanvas.remove(currentImage);
         }
         setImageReady(false);
-        Promise.allSettled([imagePromise, screenshotPromise]).then([image, ]) => {
-          const fabricImage = new FabricImage(image, { resourceType: "main" });
-          // @ts-expect-error no originalFile
-          fabricImage.originalFile = file;
-          const scale = util.findScaleToCover(fabricImage, fabricCanvas);
-          fabricImage.scaleX = scale;
-          fabricImage.scaleY = scale;
-          fabricCanvas.add(fabricImage);
-          fabricCanvas.centerObject(fabricImage);
+        Promise.allSettled([imagePromise, screenshotPromise]).then(([imageResult, screenshotImgResult]) => {
+          const image = imageResult.status === 'fulfilled' ? imageResult.value : null;
+          const screenshotImg = screenshotImgResult.status === 'fulfilled' ? screenshotImgResult.value : null;
+          if (image) {
+            const fabricImage = new FabricImage(image, { resourceType: "main" });
+            // @ts-expect-error no originalFile
+            fabricImage.originalFile = file;
+            const scale = util.findScaleToCover(fabricImage, fabricCanvas);
+            fabricImage.scaleX = scale;
+            fabricImage.scaleY = scale;
+            fabricCanvas.add(fabricImage);
+            fabricCanvas.centerObject(fabricImage);
+          }
+          
+          if (screenshotImg) {
+            const screenshot = new FabricImage(screenshotImg, { resourceType: "screenshot" });
+            const scale = util.findScaleToFit(screenshot, fabricCanvas);
+            screenshot.scaleX = scale;
+            screenshot.scaleY = scale;
+            fabricCanvas.add(screenshot);
+            fabricCanvas.centerObject(screenshot);
+          }
           setImageReady(true);
         });
       }

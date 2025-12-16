@@ -15,6 +15,7 @@ import { extractUniqueColorsFromGroup } from './templateHandling';
 const getNamedPlaceholder = (canvas: Canvas | Group | StaticCanvas, name: string) => canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === name)
 export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) => getNamedPlaceholder(canvas, 'main')
 export const getPlaceholderPlatformLogo = (canvas: Canvas | Group | StaticCanvas) => getNamedPlaceholder(canvas, 'platform_logo')
+export const getPlaceholderScreenshot = (canvas: Canvas | Group | StaticCanvas) => getNamedPlaceholder(canvas, 'screenshot')
 
 export const getMainImage = (canvas: Canvas | Group | StaticCanvas) => canvas.getObjects('image')
   .find(
@@ -105,7 +106,8 @@ export const setTemplateV2OnCanvases = async (
 
   const templateSource = await (parsed ?? (template.parsed = parseSvg(url)));
   const placeholder = getPlaceholderMain(templateSource);
-  const platformLogoPlaceHolder = getPlaceholderPlatformLogo(templateSource);
+  const platformLogoPlaceHolder = getPlaceholderScreenshot(templateSource);
+  const screenshotPlaceholder = getPlaceholderPlatformLogo(templateSource);
   if (placeholder) {
     // remove strokewidth so the placeholder can clip the image
     placeholder.strokeWidth = 0;
@@ -117,6 +119,12 @@ export const setTemplateV2OnCanvases = async (
     platformLogoPlaceHolder.strokeWidth = 0;
     // the placeholder stays with us but we don't want to see it
     platformLogoPlaceHolder.visible = false;
+  }
+  if (screenshotPlaceholder) {
+    // remove strokewidth so the placeholder can clip the image
+    screenshotPlaceholder.strokeWidth = 0;
+    // the placeholder stays with us but we don't want to see it
+    screenshotPlaceholder.visible = false;
   }
   // fixme: avoid parsing colors more than once.
   const colors = extractUniqueColorsFromGroup(templateSource);
@@ -157,7 +165,9 @@ export const setTemplateV2OnCanvases = async (
     const mainImage = canvas.getObjects('image').find(
       (fabricImage) => (fabricImage as FabricImage).resourceType === 'main'
     ) as FabricImage;
-
+    const mainScreensthot = canvas.getObjects('image').find(
+      (fabricImage) => (fabricImage as FabricImage).resourceType === 'screenshot'
+    ) as FabricImage;
     // copy the template for this card
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
@@ -196,10 +206,12 @@ export const setTemplateV2OnCanvases = async (
         await scaleImageToOverlayArea(placeholder, mainImage);
       }
     }
-    const placeholderLogo = getPlaceholderPlatformLogo(canvas);
-    if (placeholderLogo) {
-      if (game.involved_companies?.[0]?.company?.logo) {
-        
+    const placeholderScreenshot = getPlaceholderScreenshot(canvas);
+    if (placeholderScreenshot) {
+      if (mainScreensthot) {
+        const index = canvas.getObjects().indexOf(placeholderScreenshot);
+        canvas.insertAt(index, mainScreensthot);
+        await scaleImageToOverlayArea(placeholderScreenshot, mainScreensthot);
       }
     }
     const { clipPath } = canvas;
