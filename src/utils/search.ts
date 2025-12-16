@@ -77,10 +77,14 @@ const getGoodUrl = (relativeUrl: string): URL => {
   return url;
 }
 
-export async function getImage(cdnUrl: string, previousUrl: string): Promise<File> {
+export const createProxyUrl = (cdnUrl: string): URL => {
   const url = getGoodUrl('/imageProxy/');
   url.searchParams.append('imageUrl', `${cdnUrl}`);
-  return fetch(url)
+  return url;
+}
+
+export async function getImage(cdnUrl: string, previousUrl: string): Promise<File> {
+  return fetch(createProxyUrl(cdnUrl))
     .then((r) => r.blob())
     .then((blob) => new File([blob], previousUrl, { type: blob.type }));
 }

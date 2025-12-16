@@ -106,20 +106,20 @@ export const setTemplateV2OnCanvases = async (
 
   const templateSource = await (parsed ?? (template.parsed = parseSvg(url)));
   const placeholder = getPlaceholderMain(templateSource);
-  const platformLogoPlaceHolder = getPlaceholderScreenshot(templateSource);
-  const screenshotPlaceholder = getPlaceholderPlatformLogo(templateSource);
   if (placeholder) {
     // remove strokewidth so the placeholder can clip the image
     placeholder.strokeWidth = 0;
     // the placeholder stays with us but we don't want to see it
     placeholder.visible = false;
   }
+  const platformLogoPlaceHolder = getPlaceholderScreenshot(templateSource);
   if (platformLogoPlaceHolder) {
     // remove strokewidth so the placeholder can clip the image
     platformLogoPlaceHolder.strokeWidth = 0;
     // the placeholder stays with us but we don't want to see it
     platformLogoPlaceHolder.visible = false;
   }
+  const screenshotPlaceholder = getPlaceholderPlatformLogo(templateSource);
   if (screenshotPlaceholder) {
     // remove strokewidth so the placeholder can clip the image
     screenshotPlaceholder.strokeWidth = 0;
@@ -134,7 +134,7 @@ export const setTemplateV2OnCanvases = async (
   const finalHeight = isHorizontal ? height : width;
 
   for (const card of cards) {
-    const { canvas, game } = card;
+    const { canvas } = card;
     if (!canvas) {
       continue;
     }
@@ -168,6 +168,9 @@ export const setTemplateV2OnCanvases = async (
     const mainScreensthot = canvas.getObjects('image').find(
       (fabricImage) => (fabricImage as FabricImage).resourceType === 'screenshot'
     ) as FabricImage;
+    const platformLogo = canvas.getObjects('image').find(
+      (fabricImage) => (fabricImage as FabricImage).resourceType === 'platform_logo'
+    ) as FabricImage;
     // copy the template for this card
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
@@ -197,7 +200,6 @@ export const setTemplateV2OnCanvases = async (
     // add the template to the canvas
     canvas.add(...fabricLayer.removeAll());
     // find the layer that olds the image.
-    const placeholder = getPlaceholderMain(canvas);
     if (placeholder) {
       // add the image on the placeholder
       if (mainImage) {
@@ -206,12 +208,18 @@ export const setTemplateV2OnCanvases = async (
         await scaleImageToOverlayArea(placeholder, mainImage);
       }
     }
-    const placeholderScreenshot = getPlaceholderScreenshot(canvas);
-    if (placeholderScreenshot) {
+    if (screenshotPlaceholder) {
       if (mainScreensthot) {
-        const index = canvas.getObjects().indexOf(placeholderScreenshot);
+        const index = canvas.getObjects().indexOf(screenshotPlaceholder);
         canvas.insertAt(index, mainScreensthot);
-        await scaleImageToOverlayArea(placeholderScreenshot, mainScreensthot);
+        await scaleImageToOverlayArea(screenshotPlaceholder, mainScreensthot);
+      }
+    }
+    if (platformLogoPlaceHolder) {
+      if (platformLogo) {
+        const index = canvas.getObjects().indexOf(platformLogoPlaceHolder);
+        canvas.insertAt(index, platformLogo);
+        await scaleImageToOverlayArea(platformLogoPlaceHolder, platformLogo);
       }
     }
     const { clipPath } = canvas;
