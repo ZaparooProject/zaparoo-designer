@@ -4,6 +4,7 @@ import { useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
 import { Checkbox, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 type LabelEditorProps = {
   index: number;
@@ -27,7 +28,7 @@ export const LabelEditor = ({
   const { selectedCardsCount, setSelectedCardsCount } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
-  const { setFabricCanvas } = useLabelEditor({
+  const { setFabricCanvas, runAutoFill } = useLabelEditor({
     card,
     index,
     padderRef,
@@ -42,7 +43,7 @@ export const LabelEditor = ({
     >
       <label htmlFor={card.key}>
         <FabricCanvasWrapper setFabricCanvas={setFabricCanvas} />
-        <div className="floating-checkbox right">
+        <div className="floating-checkbox right button-look">
           <Checkbox
             color="secondary"
             id={card.key}
@@ -62,9 +63,10 @@ export const LabelEditor = ({
           />
         </div>
       </label>
-      {card.template?.canEdit && (
-        <div className="floating-checkbox left">
+      <div className="floating-container left">
+        {card.template?.canEdit && (
           <IconButton
+            className='button-look'
             color="secondary"
             id={card.key}
             onClick={(e: MouseEvent<HTMLButtonElement>) => {
@@ -75,8 +77,22 @@ export const LabelEditor = ({
           >
             <EditIcon />
           </IconButton>
-        </div>
-      )}
+        )}
+        {card.template?.canFill && (
+          <IconButton
+          className='button-look'
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                runAutoFill(index);
+              }}
+            color="secondary"
+            id={`${card.key}-magic`}
+          >
+            <AutoFixHighIcon />
+          </IconButton>
+        )}
+      </div>
     </div>
   );
 };
