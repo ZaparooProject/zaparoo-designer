@@ -67,7 +67,7 @@ export const LabelEditor = ({
       <div className="floating-container left">
         {card.template?.canEdit && (
           <IconButton
-            className='button-look'
+            className="button-look"
             color="secondary"
             id={card.key}
             onClick={(e: MouseEvent<HTMLButtonElement>) => {
@@ -79,14 +79,14 @@ export const LabelEditor = ({
             <EditIcon />
           </IconButton>
         )}
-        {card.template?.canFill && (
+        {card.template?.canFill && card.game && (
           <IconButton
-          className='button-look'
+            className="button-look"
             onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                e.stopPropagation();
-                e.preventDefault();
-                autoFillTemplate();
-              }}
+              e.stopPropagation();
+              e.preventDefault();
+              autoFillTemplate({ card });
+            }}
             color="secondary"
             id={`${card.key}-magic`}
           >

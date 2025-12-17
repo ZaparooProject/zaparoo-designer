@@ -1,5 +1,5 @@
-import { Point, type TOriginX, type TOriginY, type FabricImage } from "fabric";
-import { getPlaceholderMain } from "./setTemplateV2";
+import { Point, type TOriginX, type TOriginY, type FabricImage } from 'fabric';
+import { getPlaceholderMain } from './templateHandling';
 
 /**\
  * This function is meant to run in a context in which the canvas is zoomed and larger to fit the entire modal
@@ -28,11 +28,7 @@ export const fixImageInsideCanvas = (target: FabricImage) => {
     maxY = br.y;
   }
   // top left corner
-  const topLeft = target.translateToOriginPoint(
-    center,
-    'left',
-    'top',
-  );
+  const topLeft = target.translateToOriginPoint(center, 'left', 'top');
   if (topLeft.x > minX) {
     fixXPos = minX;
     fixOriginX = 'left';
@@ -45,11 +41,7 @@ export const fixImageInsideCanvas = (target: FabricImage) => {
   // bottom left corner
   // max y and max x depends on currenct canvas size and zoom
 
-  const bottomRight = target.translateToOriginPoint(
-    center,
-    'right',
-    'bottom',
-  );
+  const bottomRight = target.translateToOriginPoint(center, 'right', 'bottom');
   if (bottomRight.x < maxX) {
     fixXPos = maxX;
     fixOriginX = 'right';
@@ -63,4 +55,4 @@ export const fixImageInsideCanvas = (target: FabricImage) => {
     fixOriginX,
     fixOriginY,
   );
-}
+};

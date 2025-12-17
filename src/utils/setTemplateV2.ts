@@ -5,7 +5,7 @@ import {
   FabricObject,
   type Canvas,
   Rect,
-  type StaticCanvas,
+  type FabricImage,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
 import type { templateTypeV2 } from '../resourcesTypedef';
