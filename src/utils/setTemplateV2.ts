@@ -12,26 +12,34 @@ import { CardData } from '../contexts/fileDropper';
 import type { templateTypeV2 } from '../resourcesTypedef';
 import { extractUniqueColorsFromGroup } from './templateHandling';
 
-const getNamedPlaceholder = (canvas: Canvas | Group | StaticCanvas, name: string) => canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === name)
-export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) => getNamedPlaceholder(canvas, 'main')
-export const getPlaceholderPlatformLogo = (canvas: Canvas | Group | StaticCanvas) => getNamedPlaceholder(canvas, 'platform_logo')
-export const getPlaceholderScreenshot = (canvas: Canvas | Group | StaticCanvas) => getNamedPlaceholder(canvas, 'screenshot')
+const getNamedPlaceholder = (
+  canvas: Canvas | Group | StaticCanvas,
+  name: string,
+) => canvas.getObjects().find((obj) => obj['zaparoo-placeholder'] === name);
+export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) =>
+  getNamedPlaceholder(canvas, 'main');
+export const getPlaceholderPlatformLogo = (
+  canvas: Canvas | Group | StaticCanvas,
+) => getNamedPlaceholder(canvas, 'platform_logo');
+export const getPlaceholderScreenshot = (
+  canvas: Canvas | Group | StaticCanvas,
+) => getNamedPlaceholder(canvas, 'screenshot');
 
-export const getMainImage = (canvas: Canvas | Group | StaticCanvas) => canvas.getObjects('image')
-  .find(
-    (fabricImage) =>
-      (fabricImage as FabricImage).resourceType === 'main',
-  ) as FabricImage;
+export const getMainImage = (canvas: Canvas | Group | StaticCanvas) =>
+  canvas
+    .getObjects('image')
+    .find(
+      (fabricImage) => (fabricImage as FabricImage).resourceType === 'main',
+    ) as FabricImage;
 
 export const scaleImageToOverlayArea = async (
   placeholder: FabricObject,
   mainImage: FabricImage,
 ) => {
-
   // scale the art to the designed area in the template. to fit
   // TODO: add option later for fit or cover
   const isRotated = mainImage.angle % 180 !== 0;
-  const isCover = placeholder["zaparoo-fill-strategy"] === "cover";
+  const isCover = placeholder['zaparoo-fill-strategy'] === 'cover';
   const scaler = isCover ? util.findScaleToCover : util.findScaleToFit;
   const scaledOverlay = placeholder._getTransformedDimensions();
 
@@ -52,7 +60,7 @@ export const scaleImageToOverlayArea = async (
     clipPath.absolutePositioned = true;
     mainImage.clipPath = clipPath;
   } else {
-    mainImage.clipPath = undefined
+    mainImage.clipPath = undefined;
   }
 
   mainImage.set({
@@ -69,8 +77,6 @@ export const scaleImageToOverlayArea = async (
   }
   mainImage.setCoords();
 };
-
-
 
 const parseSvg = (url: string): Promise<Group> =>
   loadSVGFromURL(url).then(({ objects }) => {
@@ -112,20 +118,6 @@ export const setTemplateV2OnCanvases = async (
     // the placeholder stays with us but we don't want to see it
     placeholder.visible = false;
   }
-  const platformLogoPlaceHolder = getPlaceholderScreenshot(templateSource);
-  if (platformLogoPlaceHolder) {
-    // remove strokewidth so the placeholder can clip the image
-    platformLogoPlaceHolder.strokeWidth = 0;
-    // the placeholder stays with us but we don't want to see it
-    platformLogoPlaceHolder.visible = false;
-  }
-  const screenshotPlaceholder = getPlaceholderPlatformLogo(templateSource);
-  if (screenshotPlaceholder) {
-    // remove strokewidth so the placeholder can clip the image
-    screenshotPlaceholder.strokeWidth = 0;
-    // the placeholder stays with us but we don't want to see it
-    screenshotPlaceholder.visible = false;
-  }
   // fixme: avoid parsing colors more than once.
   const colors = extractUniqueColorsFromGroup(templateSource);
   const isHorizontal = layout === 'horizontal';
@@ -162,15 +154,11 @@ export const setTemplateV2OnCanvases = async (
       );
     }
     // save a reference to the original image
-    const mainImage = canvas.getObjects('image').find(
-      (fabricImage) => (fabricImage as FabricImage).resourceType === 'main'
-    ) as FabricImage;
-    const mainScreensthot = canvas.getObjects('image').find(
-      (fabricImage) => (fabricImage as FabricImage).resourceType === 'screenshot'
-    ) as FabricImage;
-    const platformLogo = canvas.getObjects('image').find(
-      (fabricImage) => (fabricImage as FabricImage).resourceType === 'platform_logo'
-    ) as FabricImage;
+    const mainImage = canvas
+      .getObjects('image')
+      .find(
+        (fabricImage) => (fabricImage as FabricImage).resourceType === 'main',
+      ) as FabricImage;
     // copy the template for this card
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
@@ -182,10 +170,13 @@ export const setTemplateV2OnCanvases = async (
       fabricLayer.scaleY = canvas.height / templateSize.y;
     } else {
       // scale the overlay asset to fit the designed media ( the card )
-      const templateScale = util.findScaleToFit({
-        width: templateSize.x,
-        height: templateSize.y,
-      }, canvas);
+      const templateScale = util.findScaleToFit(
+        {
+          width: templateSize.x,
+          height: templateSize.y,
+        },
+        canvas,
+      );
 
       fabricLayer.scaleX = templateScale;
       fabricLayer.scaleY = templateScale;
@@ -200,7 +191,7 @@ export const setTemplateV2OnCanvases = async (
     // add the template to the canvas
     canvas.add(...fabricLayer.removeAll());
     // find the layer that olds the image.
-    if (placeholder) {
+    if (placeholder && mainImage) {
       // add the image on the placeholder
       if (mainImage) {
         const index = canvas.getObjects().indexOf(placeholder);
@@ -208,20 +199,7 @@ export const setTemplateV2OnCanvases = async (
         await scaleImageToOverlayArea(placeholder, mainImage);
       }
     }
-    if (screenshotPlaceholder) {
-      if (mainScreensthot) {
-        const index = canvas.getObjects().indexOf(screenshotPlaceholder);
-        canvas.insertAt(index, mainScreensthot);
-        await scaleImageToOverlayArea(screenshotPlaceholder, mainScreensthot);
-      }
-    }
-    if (platformLogoPlaceHolder) {
-      if (platformLogo) {
-        const index = canvas.getObjects().indexOf(platformLogoPlaceHolder);
-        canvas.insertAt(index, platformLogo);
-        await scaleImageToOverlayArea(platformLogoPlaceHolder, platformLogo);
-      }
-    }
+
     const { clipPath } = canvas;
     if (clipPath) {
       if (template.layout === 'horizontal') {

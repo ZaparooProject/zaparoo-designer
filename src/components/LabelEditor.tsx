@@ -5,6 +5,7 @@ import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
 import { Checkbox, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import { autoFillTemplate } from '../utils/autoFillTemplate';
 
 type LabelEditorProps = {
   index: number;
@@ -28,7 +29,7 @@ export const LabelEditor = ({
   const { selectedCardsCount, setSelectedCardsCount } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
-  const { setFabricCanvas, runAutoFill } = useLabelEditor({
+  const { setFabricCanvas } = useLabelEditor({
     card,
     index,
     padderRef,
@@ -84,7 +85,7 @@ export const LabelEditor = ({
             onClick={(e: MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 e.preventDefault();
-                runAutoFill(index);
+                autoFillTemplate();
               }}
             color="secondary"
             id={`${card.key}-magic`}

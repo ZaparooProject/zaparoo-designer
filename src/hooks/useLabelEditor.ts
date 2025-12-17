@@ -14,39 +14,31 @@ type useLabelEditorParams = {
   card: CardData;
 };
 
-export const useLabelEditor = ({
-  card,
-  padderRef,
-}: useLabelEditorParams) => {
-  const { template, customColors, originalColors } =
-    useAppDataContext();
+export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
+  const { template, customColors, originalColors } = useAppDataContext();
   const [fabricCanvas, setFabricCanvas] = useState<StaticCanvas | null>(null);
   // local ready state, when template is loaded
   const [isImageReady, setImageReady] = useState<boolean>(false);
 
   useEffect(() => {
     if (fabricCanvas) {
-      const { file, game } = card;
-      const screenshotUrl = findScreenshotUrl(game);
-      const platformLogoUrl = findPlatformLogoUrl(game);
+      const { file } = card;
       const imagePromise =
         file instanceof Blob
           ? util.loadImage(URL.createObjectURL(file))
           : Promise.resolve(file);
-      const platformLogoPromise = platformLogoUrl ? util.loadImage(createProxyUrl(platformLogoUrl).toString(), { crossOrigin: 'anonymous' }) : Promise.resolve(null);
-      const screenshotPromise = screenshotUrl ? util.loadImage(createProxyUrl(screenshotUrl).toString(), { crossOrigin: 'anonymous' }) : Promise.resolve(null);
+
       if (file) {
-        const currentImage =  getMainImage(fabricCanvas);
+        const currentImage = getMainImage(fabricCanvas);
         if (currentImage) {
           fabricCanvas.remove(currentImage);
         }
         setImageReady(false);
-        Promise.allSettled([imagePromise, screenshotPromise, platformLogoPromise]).then(([imageResult, screenshotImgResult, platformLogoResult]) => {
-          const image = imageResult.status === 'fulfilled' ? imageResult.value : null;
-          const screenshotImg = screenshotImgResult.status === 'fulfilled' ? screenshotImgResult.value : null;
-          const platformLogoImg = platformLogoResult.status === 'fulfilled' ? platformLogoResult.value : null;
+        imagePromise.then((image) => {
           if (image) {
-            const fabricImage = new FabricImage(image, { resourceType: "main" });
+            const fabricImage = new FabricImage(image, {
+              resourceType: 'main',
+            });
             // @ts-expect-error no originalFile
             fabricImage.originalFile = file;
             const scale = util.findScaleToCover(fabricImage, fabricCanvas);
@@ -54,22 +46,6 @@ export const useLabelEditor = ({
             fabricImage.scaleY = scale;
             fabricCanvas.add(fabricImage);
             fabricCanvas.centerObject(fabricImage);
-          }
-          if (platformLogoImg) {
-            const platformLogo = new FabricImage(platformLogoImg, { resourceType: "platform_logo" });
-            const scale = util.findScaleToFit(platformLogo, fabricCanvas);
-            platformLogo.scaleX = scale;
-            platformLogo.scaleY = scale;
-            fabricCanvas.add(platformLogo);
-            fabricCanvas.centerObject(platformLogo);
-          }
-          if (screenshotImg) {
-            const screenshot = new FabricImage(screenshotImg, { resourceType: "screenshot" });
-            const scale = util.findScaleToFit(screenshot, fabricCanvas);
-            screenshot.scaleX = scale;
-            screenshot.scaleY = scale;
-            fabricCanvas.add(screenshot);
-            fabricCanvas.centerObject(screenshot);
           }
           setImageReady(true);
         });
@@ -101,7 +77,6 @@ export const useLabelEditor = ({
     // the data reconciler does that
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card, fabricCanvas, isImageReady]);
-
 
   return {
     fabricCanvas,
