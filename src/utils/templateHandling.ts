@@ -2,7 +2,36 @@ import {
   Group,
   Color,
   Gradient,
+  type Canvas,
+  type StaticCanvas,
+  FabricImage,
 } from 'fabric';
+
+/**
+ * Search in the canvas objects particular ones marked as placeholders
+ * @param canvas
+ * @param name
+ * @returns
+ */
+const getNamedPlaceholder = (
+  canvas: Canvas | Group | StaticCanvas,
+  name: string,
+) => canvas.getObjects().find((obj) => obj['zaparoo-placeholder'] === name);
+export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) =>
+  getNamedPlaceholder(canvas, 'main');
+export const getPlaceholderPlatformLogo = (
+  canvas: Canvas | Group | StaticCanvas,
+) => getNamedPlaceholder(canvas, 'platform_logo');
+export const getPlaceholderScreenshot = (
+  canvas: Canvas | Group | StaticCanvas,
+) => getNamedPlaceholder(canvas, 'screenshot');
+
+export const getMainImage = (canvas: Canvas | Group | StaticCanvas) =>
+  canvas
+    .getObjects('image')
+    .find(
+      (fabricImage) => (fabricImage as FabricImage).resourceType === 'main',
+    ) as FabricImage;
 
 /**
  * extract and normalizes to hex format colors in the objects

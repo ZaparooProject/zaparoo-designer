@@ -1,5 +1,4 @@
 import {
-  FabricImage,
   util,
   loadSVGFromURL,
   Group,
@@ -10,27 +9,11 @@ import {
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
 import type { templateTypeV2 } from '../resourcesTypedef';
-import { extractUniqueColorsFromGroup } from './templateHandling';
-
-const getNamedPlaceholder = (
-  canvas: Canvas | Group | StaticCanvas,
-  name: string,
-) => canvas.getObjects().find((obj) => obj['zaparoo-placeholder'] === name);
-export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) =>
-  getNamedPlaceholder(canvas, 'main');
-export const getPlaceholderPlatformLogo = (
-  canvas: Canvas | Group | StaticCanvas,
-) => getNamedPlaceholder(canvas, 'platform_logo');
-export const getPlaceholderScreenshot = (
-  canvas: Canvas | Group | StaticCanvas,
-) => getNamedPlaceholder(canvas, 'screenshot');
-
-export const getMainImage = (canvas: Canvas | Group | StaticCanvas) =>
-  canvas
-    .getObjects('image')
-    .find(
-      (fabricImage) => (fabricImage as FabricImage).resourceType === 'main',
-    ) as FabricImage;
+import {
+  extractUniqueColorsFromGroup,
+  getPlaceholderMain,
+  getMainImage,
+} from './templateHandling';
 
 export const scaleImageToOverlayArea = async (
   placeholder: FabricObject,
@@ -154,11 +137,7 @@ export const setTemplateV2OnCanvases = async (
       );
     }
     // save a reference to the original image
-    const mainImage = canvas
-      .getObjects('image')
-      .find(
-        (fabricImage) => (fabricImage as FabricImage).resourceType === 'main',
-      ) as FabricImage;
+    const mainImage = getMainImage(canvas);
     // copy the template for this card
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
@@ -191,6 +170,7 @@ export const setTemplateV2OnCanvases = async (
     // add the template to the canvas
     canvas.add(...fabricLayer.removeAll());
     // find the layer that olds the image.
+    const placeholder = getPlaceholderMain(canvas);
     if (placeholder && mainImage) {
       // add the image on the placeholder
       if (mainImage) {

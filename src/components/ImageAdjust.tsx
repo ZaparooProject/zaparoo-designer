@@ -4,7 +4,7 @@ import { util } from 'fabric';
 import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { CardData } from '../contexts/fileDropper';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
-import { getMainImage, getPlaceholderMain } from '../utils/setTemplateV2';
+import { getMainImage, getPlaceholderMain } from '../utils/templateHandling';
 
 type ImageAdjustProps = {
   canvasRef: RefObject<Canvas>;
@@ -46,7 +46,7 @@ export const ImageAdjust = ({
     ({ target }: any) => {
       const { value } = target;
       const canvas = canvasRef.current!;
-      const image =  getMainImage(canvas);
+      const image = getMainImage(canvas);
       image.scale(value);
       fixImageInsideCanvas(image);
       canvas.requestRenderAll();

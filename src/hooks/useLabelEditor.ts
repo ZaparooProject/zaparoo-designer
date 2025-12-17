@@ -4,9 +4,7 @@ import { util, FabricImage, type StaticCanvas } from 'fabric';
 import { useAppDataContext } from '../contexts/appData';
 import { updateColors } from '../utils/updateColors';
 import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
-import { getMainImage } from '../utils/setTemplateV2';
-import { findPlatformLogoUrl, findScreenshotUrl } from '../utils/gameDataUtils';
-import { createProxyUrl } from '../utils/search';
+import { getMainImage } from '../utils/templateHandling';
 
 type useLabelEditorParams = {
   padderRef: MutableRefObject<HTMLDivElement | null>;

@@ -1,3 +1,6 @@
+import { findPlatformLogoUrl, findScreenshotUrl } from '../utils/gameDataUtils';
+import { createProxyUrl } from '../utils/search';
+
 export const autoFillTemplate = () => {
   // const screenshotUrl = findScreenshotUrl(game);
   // const platformLogoUrl = findPlatformLogoUrl(game);
