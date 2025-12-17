@@ -46,8 +46,8 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
             fabricImage.scaleY = scale;
             fabricCanvas.add(fabricImage);
             fabricCanvas.centerObject(fabricImage);
+            setImageReady(true);
           }
-          setImageReady(true);
         });
       }
     }
