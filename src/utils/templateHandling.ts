@@ -25,7 +25,11 @@ export const getPlaceholderPlatformLogo = (
 export const getPlaceholderScreenshot = (
   canvas: Canvas | Group | StaticCanvas,
 ) => getNamedPlaceholder(canvas, 'screenshot');
-
+export const getPlaceholderDescription = (
+  canvas: Canvas | Group | StaticCanvas,
+) => getNamedPlaceholder(canvas, 'description');
+export const getPlaceholderTitle = (canvas: Canvas | Group | StaticCanvas) =>
+  getNamedPlaceholder(canvas, 'title');
 export const getMainImage = (canvas: Canvas | Group | StaticCanvas) =>
   canvas
     .getObjects('image')
