@@ -81,10 +81,11 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       summaryPlaceHolder.strokeWidth = 0;
       // the placeholder stays with us but we don't want to see it
       summaryPlaceHolder.visible = false;
+      const { x } = summaryPlaceHolder._getTransformedDimensions();
       const index = fabricCanvas.getObjects().indexOf(summaryPlaceHolder);
       const gameDescription = new Textbox(game.summary, {
-        fontSize: 18,
-        width: summaryPlaceHolder.width,
+        fontSize: 24,
+        width: x,
       });
       const topLeftCorner = summaryPlaceHolder.getPointByOrigin('left', 'top');
       gameDescription.setPositionByOrigin(topLeftCorner, 'left', 'top');
@@ -93,18 +94,19 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
     }
   }
   if (game.name) {
-    const summaryPlaceHolder = getPlaceholderTitle(fabricCanvas);
-    if (summaryPlaceHolder) {
+    const titlePlaceholder = getPlaceholderTitle(fabricCanvas);
+    if (titlePlaceholder) {
       // remove strokewidth so the placeholder can clip the image
-      summaryPlaceHolder.strokeWidth = 0;
+      titlePlaceholder.strokeWidth = 0;
       // the placeholder stays with us but we don't want to see it
-      summaryPlaceHolder.visible = false;
-      const index = fabricCanvas.getObjects().indexOf(summaryPlaceHolder);
+      titlePlaceholder.visible = false;
+      const { x } = titlePlaceholder._getTransformedDimensions();
+      const index = fabricCanvas.getObjects().indexOf(titlePlaceholder);
       const gameDescription = new Textbox(game.name, {
-        fontSize: 36,
-        width: summaryPlaceHolder.width,
+        fontSize: 40,
+        width: x,
       });
-      const topLeftCorner = summaryPlaceHolder.getPointByOrigin('left', 'top');
+      const topLeftCorner = titlePlaceholder.getPointByOrigin('left', 'top');
       gameDescription.setPositionByOrigin(topLeftCorner, 'left', 'top');
 
       fabricCanvas.insertAt(index, gameDescription);
