@@ -14,6 +14,7 @@ import {
   type TMat2D,
   iMatrix,
   FabricText,
+  GraphemeBBox,
 } from 'fabric';
 import type { MediaDefinition, templateTypeV2 } from '../resourcesTypedef';
 import { getFontKey, registerFont } from './pdfFontCache';
@@ -132,10 +133,24 @@ const addFabricTextToPdf = async (text: FabricText, pdfDoc: any) => {
   if (text.opacity !== undefined && text.opacity < 1) {
     pdfDoc.fillOpacity(text.opacity);
   }
-
   // Draw the text
-  // Position at top-left corner relative to object center
-  pdfDoc.text(text.text || '', -textWidth / 2, -textHeight / 2, textOptions);
+  // Replicate fabricJS internal renderTextCommon loop
+
+  let lineHeights = 0;
+  const left = text._getLeftOffset(),
+    top = text._getTopOffset();
+  for (let i = 0, len = text._textLines.length; i < len; i++) {
+    renderTextLine({
+      text,
+      line: text._textLines[i],
+      left: left + text._getLineLeftOffset(i),
+      top: top + lineHeights + text.getHeightOfLineImpl(i),
+      lineIndex: i,
+      pdfDoc,
+      textOptions,
+    });
+    lineHeights += text.getHeightOfLine(i);
+  }
 
   // Handle stroke (outline) if present
   if (text.stroke && text.stroke !== 'transparent' && text.strokeWidth) {
@@ -149,6 +164,77 @@ const addFabricTextToPdf = async (text: FabricText, pdfDoc: any) => {
   }
 
   pdfDoc.restore();
+};
+
+const renderTextLine = ({
+  text,
+  line,
+  left,
+  top,
+  lineIndex,
+  pdfDoc,
+}: {
+  text: FabricText;
+  line: string[];
+  left: number;
+  top: number;
+  lineIndex: number;
+  pdfDoc: any;
+  textOptions: any;
+}) => {
+  const isJustify = text.textAlign.includes('justify'),
+    shortCut =
+      !isJustify && text.charSpacing === 0 && text.isEmptyStyles(lineIndex),
+    isLtr = text.direction === 'ltr',
+    sign = isLtr ? 1 : -1;
+
+  let actualStyle,
+    nextStyle,
+    charsToRender = '',
+    charBox,
+    boxWidth = 0,
+    timeToRender,
+    drawingLeft,
+    textOptions;
+
+  top -= text.getHeightOfLineImpl(lineIndex) * text._fontSizeFraction;
+  if (shortCut) {
+    // render all the line in one pass without checking
+    // drawingLeft = isLtr ? left : left - this.getLineWidth(lineIndex);
+    pdfDoc.text(line.join(''), left, top, textOptions);
+    return;
+  }
+  for (let i = 0, len = line.length - 1; i <= len; i++) {
+    timeToRender = i === len || text.charSpacing;
+    charsToRender += line[i];
+    charBox = text.__charBounds[lineIndex][i] as Required<GraphemeBBox>;
+    if (boxWidth === 0) {
+      left += sign * (charBox.kernedWidth - charBox.width);
+      boxWidth += charBox.width;
+    } else {
+      boxWidth += charBox.kernedWidth;
+    }
+    if (isJustify && !timeToRender) {
+      if (text._reSpaceAndTab.test(line[i])) {
+        timeToRender = true;
+      }
+    }
+    if (!timeToRender) {
+      // if we have charSpacing, we render char by char
+      // actualStyle =
+      //   actualStyle || text.getCompleteStyleDeclaration(lineIndex, i);
+      // nextStyle = text.getCompleteStyleDeclaration(lineIndex, i + 1);
+      // timeToRender = hasStyleChanged(actualStyle, nextStyle, false);
+    }
+    if (timeToRender) {
+      drawingLeft = left;
+      pdfDoc.text(charsToRender, drawingLeft, top, textOptions);
+    }
+    charsToRender = '';
+    // actualStyle = nextStyle;
+    left += sign * boxWidth;
+    boxWidth = 0;
+  }
 };
 
 const addRectToPdf = (rect: Rect, pdfDoc: any) => {
