@@ -29,7 +29,14 @@ export const ModalInternalComponent = ({
   const [currentResource, setCurrentResource] =
     useState<[TemplateEdit | undefined, FabricObject | undefined]>();
 
-  const { selectedCard, isImageAdjust, isObjectAdjust, editableCanvas, confirmAndSave, canvasElement } = useEditableCanvas({ currentCardIndex, setReady, setCurrentResource })
+  const {
+    selectedCard,
+    isImageAdjust,
+    isObjectAdjust,
+    editableCanvas,
+    confirmAndSave,
+    canvasElement,
+  } = useEditableCanvas({ currentCardIndex, setReady, setCurrentResource });
   const layout = selectedCard.template?.layout;
 
   useRealTimeResize({
@@ -76,7 +83,12 @@ export const ModalInternalComponent = ({
         </div>
       </div>
       <div className="tabbedResources">
-        <GameResourcesDisplay game={selectedCard.game} canvasRef={editableCanvas} drawerState={drawerState} setDrawerState={setDrawerState} />
+        <GameResourcesDisplay
+          game={selectedCard.game}
+          canvasRef={editableCanvas}
+          drawerState={drawerState}
+          setDrawerState={setDrawerState}
+        />
       </div>
       <div className="horizontalStack confirmButtons">
         <Button
@@ -114,7 +126,7 @@ export const SingleCardEditModal = ({
   currentCardIndex,
 }: SingleCardEditModalProps) => {
   return (
-    <Modal open={isOpen} onClose={onClose}>
+    <Modal open={isOpen} onClose={onClose} disableEnforceFocus disableAutoFocus>
       <div className="cardEditModal verticalStack">
         {isOpen && (
           <ModalInternalComponent

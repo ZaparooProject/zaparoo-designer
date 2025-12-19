@@ -168,7 +168,12 @@ export const setTemplateV2OnCanvases = async (
     canvas.backgroundImage = undefined;
     canvas.overlayImage = undefined;
     // add the template to the canvas
-    canvas.add(...fabricLayer.removeAll());
+    const objectsToAdd = fabricLayer.removeAll();
+    objectsToAdd.forEach((obj) => {
+      obj.selectable = false;
+      obj.evented = false;
+    });
+    canvas.add(...objectsToAdd);
     // find the layer that olds the image.
     const placeholder = getPlaceholderMain(canvas);
     if (placeholder && mainImage) {

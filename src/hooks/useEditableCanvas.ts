@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Canvas, type FabricObject } from 'fabric';
+import { Canvas, FabricObject } from 'fabric';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
 import { getMainImage } from '../utils/templateHandling';
 import { type TemplateEdit } from '../resourcesTypedef';
@@ -44,6 +44,8 @@ export const useEditableCanvas = ({
   const confirmAndSave = useCallback(async () => {
     const canvas = editableCanvas.current!;
     const data = canvas.toObject([
+      'selectable',
+      'evented',
       'resourceFor',
       'id',
       'original_fill',
@@ -59,12 +61,15 @@ export const useEditableCanvas = ({
     // mount, we duplicate a card
     if (currentCardIndex > -1 && canvasElement.current) {
       const canvas = new Canvas(canvasElement.current, {
+        selection: false,
         preserveObjectStacking: true,
       });
       // this is not great but we do not care for now
       editableCanvas.current = canvas;
       if (selectedCard.canvas) {
         const jsonData = selectedCard.canvas.toObject([
+          'selectable',
+          'evented',
           'resourceFor',
           'id',
           'original_fill',
