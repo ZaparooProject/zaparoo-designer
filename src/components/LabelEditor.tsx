@@ -66,32 +66,35 @@ export const LabelEditor = ({
       </label>
       <div className="floating-container left">
         {card.template?.canEdit && (
-          <IconButton
-            className="button-look"
-            color="secondary"
-            id={card.key}
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              e.preventDefault();
-              setCardToEdit(index);
-            }}
-          >
-            <EditIcon />
-          </IconButton>
+          <div className="button-look">
+            <IconButton
+              className="button-look"
+              color="secondary"
+              id={card.key}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setCardToEdit(index);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+          </div>
         )}
-        {card.template?.canFill && card.game && (
-          <IconButton
-            className="button-look"
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              e.preventDefault();
-              autoFillTemplate({ card });
-            }}
-            color="secondary"
-            id={`${card.key}-magic`}
-          >
-            <AutoFixHighIcon />
-          </IconButton>
+        {card.template?.canFill && Object.keys(card.game).length > 0 && (
+          <div className="button-look">
+            <IconButton
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                autoFillTemplate({ card });
+              }}
+              color="secondary"
+              id={`${card.key}-magic`}
+            >
+              <AutoFixHighIcon />
+            </IconButton>
+          </div>
         )}
       </div>
     </div>

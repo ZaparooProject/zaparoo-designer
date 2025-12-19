@@ -32,16 +32,16 @@
 }
 
 .button-look {
-  background-color: #5361D9;
+  background-color: #5361d9;
   transition: opacity 400ms;
   border-radius: 8px;
+  opacity: 1;
 }
 
 .labelContainer .floating-checkbox {
   opacity: 0;
   top: 0;
   position: absolute;
-
 }
 
 .labelContainer .floating-container {
@@ -55,19 +55,23 @@
   flex-direction: column;
 }
 
-.labelContainer .floating-checkbox.left, .labelContainer .floating-container.left {
+.labelContainer .floating-checkbox.left,
+.labelContainer .floating-container.left {
   left: 0;
 }
 
-.labelContainer .floating-checkbox.right, .labelContainer .floating-container.right {
+.labelContainer .floating-checkbox.right,
+.labelContainer .floating-container.right {
   right: 0;
 }
 
-.labelContainer.card-selected .floating-checkbox, .labelContainer.card-selected .floating-container {
+.labelContainer.card-selected .floating-checkbox,
+.labelContainer.card-selected .floating-container {
   opacity: 1;
 }
 
-.labelContainer:hover .floating-checkbox, labelContainer:hover .floating-container {
+.labelContainer:hover .floating-checkbox,
+.labelContainer:hover .floating-container {
   opacity: 1;
 }
 
