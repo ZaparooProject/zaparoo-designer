@@ -84,6 +84,7 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       const { x } = summaryPlaceHolder._getTransformedDimensions();
       const index = fabricCanvas.getObjects().indexOf(summaryPlaceHolder);
       const gameDescription = new Textbox(game.summary, {
+        fontFamily: 'Noto Sans',
         fontSize: 24,
         width: x,
       });
@@ -103,6 +104,7 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       const { x } = titlePlaceholder._getTransformedDimensions();
       const index = fabricCanvas.getObjects().indexOf(titlePlaceholder);
       const gameDescription = new Textbox(game.name, {
+        fontFamily: 'Noto Sans',
         fontSize: 40,
         width: x,
       });

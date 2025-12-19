@@ -111,23 +111,22 @@ const addFabricTextToPdf = async (text: FabricText, pdfDoc: any) => {
   // Calculate text position
   // FabricJS text is centered by default at (0,0) after transform
   // We need to position from top-left of the text bounding box
-  const textWidth = text.width || 0;
-  const textHeight = text.height || 0;
+  // const textWidth = text.width || 0;
 
   // Text rendering options for PDFKit
-  const textOptions: any = {
-    width: textWidth,
-    align: text.textAlign || 'left',
-    lineGap: text.lineHeight
-      ? (text.lineHeight - 1) * (text.fontSize || 16)
-      : 0,
-  };
+  // const textOptions: any = {
+  //   width: textWidth,
+
+  //   lineGap: text.lineHeight
+  //     ? (text.lineHeight - 1) * (text.fontSize || 16)
+  //     : 0,
+  // };
 
   // Handle character spacing
-  if (text.charSpacing) {
-    textOptions.characterSpacing =
-      (text.charSpacing / 1000) * (text.fontSize || 16);
-  }
+  // if (text.charSpacing) {
+  //   textOptions.characterSpacing =
+  //     (text.charSpacing / 1000) * (text.fontSize || 16);
+  // }
 
   // Set opacity if needed
   if (text.opacity !== undefined && text.opacity < 1) {
@@ -147,7 +146,7 @@ const addFabricTextToPdf = async (text: FabricText, pdfDoc: any) => {
       top: top + lineHeights + text.getHeightOfLineImpl(i),
       lineIndex: i,
       pdfDoc,
-      textOptions,
+      textOptions: {},
     });
     lineHeights += text.getHeightOfLine(i);
   }
@@ -173,6 +172,7 @@ const renderTextLine = ({
   top,
   lineIndex,
   pdfDoc,
+  textOptions,
 }: {
   text: FabricText;
   line: string[];
@@ -188,14 +188,11 @@ const renderTextLine = ({
     isLtr = text.direction === 'ltr',
     sign = isLtr ? 1 : -1;
 
-  let actualStyle,
-    nextStyle,
-    charsToRender = '',
+  let charsToRender = '',
     charBox,
     boxWidth = 0,
     timeToRender,
-    drawingLeft,
-    textOptions;
+    drawingLeft;
 
   top -= text.getHeightOfLineImpl(lineIndex) * text._fontSizeFraction;
   if (shortCut) {
