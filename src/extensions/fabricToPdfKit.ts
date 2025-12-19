@@ -134,6 +134,7 @@ const addFabricTextToPdf = async (text: FabricText, pdfDoc: any) => {
   }
   // Draw the text
   // Replicate fabricJS internal renderTextCommon loop
+  // supports single color single style for now
 
   let lineHeights = 0;
   const left = text._getLeftOffset(),
@@ -143,23 +144,15 @@ const addFabricTextToPdf = async (text: FabricText, pdfDoc: any) => {
       text,
       line: text._textLines[i],
       left: left + text._getLineLeftOffset(i),
+      // @ts-expect-error ok is private, i need it
       top: top + lineHeights + text.getHeightOfLineImpl(i),
       lineIndex: i,
       pdfDoc,
-      textOptions: {},
+      textOptions: {
+        baseline: 'alphabetic',
+      },
     });
     lineHeights += text.getHeightOfLine(i);
-  }
-
-  // Handle stroke (outline) if present
-  if (text.stroke && text.stroke !== 'transparent' && text.strokeWidth) {
-    const strokeColor = toPdfColor(text.stroke, pdfDoc, text);
-    pdfDoc.strokeColor(strokeColor);
-    pdfDoc.lineWidth(text.strokeWidth);
-
-    // Re-render with stroke
-    // Note: PDFKit doesn't natively support text stroke like canvas
-    // This is a simplified approach - for true stroked text you'd need paths
   }
 
   pdfDoc.restore();
@@ -193,7 +186,7 @@ const renderTextLine = ({
     boxWidth = 0,
     timeToRender,
     drawingLeft;
-
+  // @ts-expect-error ok is private, i need it
   top -= text.getHeightOfLineImpl(lineIndex) * text._fontSizeFraction;
   if (shortCut) {
     // render all the line in one pass without checking
