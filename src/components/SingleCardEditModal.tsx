@@ -126,8 +126,14 @@ export const SingleCardEditModal = ({
   currentCardIndex,
 }: SingleCardEditModalProps) => {
   return (
-    <Modal open={isOpen} onClose={onClose} disableEnforceFocus disableAutoFocus>
-      <div className="cardEditModal verticalStack">
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      disableEnforceFocus
+      disableAutoFocus
+      disableRestoreFocus
+    >
+      <div className="cardEditModal verticalStack" tabIndex={-1}>
         {isOpen && (
           <ModalInternalComponent
             onClose={onClose}
