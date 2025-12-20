@@ -31,28 +31,47 @@
   max-height: var(--cell-width);
 }
 
-.labelContainer .floating-checkbox {
-  opacity: 0;
-  background-color: #5361D9;
-  position: absolute;
-  top: 0;
+.button-look {
+  background-color: #5361d9;
   transition: opacity 400ms;
   border-radius: 8px;
-}
-
-.labelContainer .floating-checkbox.left {
-  left: 0;
-}
-
-.labelContainer .floating-checkbox.right {
-  right: 0;
-}
-
-.labelContainer.card-selected .floating-checkbox {
   opacity: 1;
 }
 
-.labelContainer:hover .floating-checkbox {
+.labelContainer .floating-checkbox {
+  opacity: 0;
+  top: 0;
+  position: absolute;
+}
+
+.labelContainer .floating-container {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: opacity 400ms;
+  width: 40px;
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.labelContainer .floating-checkbox.left,
+.labelContainer .floating-container.left {
+  left: 0;
+}
+
+.labelContainer .floating-checkbox.right,
+.labelContainer .floating-container.right {
+  right: 0;
+}
+
+.labelContainer.card-selected .floating-checkbox,
+.labelContainer.card-selected .floating-container {
+  opacity: 1;
+}
+
+.labelContainer:hover .floating-checkbox,
+.labelContainer:hover .floating-container {
   opacity: 1;
 }
 

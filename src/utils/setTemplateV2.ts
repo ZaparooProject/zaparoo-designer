@@ -1,34 +1,28 @@
 import {
-  FabricImage,
   util,
   loadSVGFromURL,
   Group,
   FabricObject,
   type Canvas,
   Rect,
-  type StaticCanvas,
+  type FabricImage,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
 import type { templateTypeV2 } from '../resourcesTypedef';
-import { extractUniqueColorsFromGroup } from './templateHandling';
-
-export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) => canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main")
-
-export const getMainImage = (canvas: Canvas | Group | StaticCanvas) => canvas.getObjects('image')
-  .find(
-    (fabricImage) =>
-      (fabricImage as FabricImage).resourceType === 'main',
-  ) as FabricImage;
+import {
+  extractUniqueColorsFromGroup,
+  getPlaceholderMain,
+  getMainImage,
+} from './templateHandling';
 
 export const scaleImageToOverlayArea = async (
   placeholder: FabricObject,
   mainImage: FabricImage,
 ) => {
-
   // scale the art to the designed area in the template. to fit
   // TODO: add option later for fit or cover
   const isRotated = mainImage.angle % 180 !== 0;
-  const isCover = placeholder["zaparoo-fill-strategy"] === "cover";
+  const isCover = placeholder['zaparoo-fill-strategy'] === 'cover';
   const scaler = isCover ? util.findScaleToCover : util.findScaleToFit;
   const scaledOverlay = placeholder._getTransformedDimensions();
 
@@ -49,7 +43,7 @@ export const scaleImageToOverlayArea = async (
     clipPath.absolutePositioned = true;
     mainImage.clipPath = clipPath;
   } else {
-    mainImage.clipPath = undefined
+    mainImage.clipPath = undefined;
   }
 
   mainImage.set({
@@ -66,8 +60,6 @@ export const scaleImageToOverlayArea = async (
   }
   mainImage.setCoords();
 };
-
-
 
 const parseSvg = (url: string): Promise<Group> =>
   loadSVGFromURL(url).then(({ objects }) => {
@@ -145,10 +137,7 @@ export const setTemplateV2OnCanvases = async (
       );
     }
     // save a reference to the original image
-    const mainImage = canvas.getObjects('image').find(
-      (fabricImage) => (fabricImage as FabricImage).resourceType === 'main'
-    ) as FabricImage;
-
+    const mainImage = getMainImage(canvas);
     // copy the template for this card
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
@@ -160,10 +149,13 @@ export const setTemplateV2OnCanvases = async (
       fabricLayer.scaleY = canvas.height / templateSize.y;
     } else {
       // scale the overlay asset to fit the designed media ( the card )
-      const templateScale = util.findScaleToFit({
-        width: templateSize.x,
-        height: templateSize.y,
-      }, canvas);
+      const templateScale = util.findScaleToFit(
+        {
+          width: templateSize.x,
+          height: templateSize.y,
+        },
+        canvas,
+      );
 
       fabricLayer.scaleX = templateScale;
       fabricLayer.scaleY = templateScale;
@@ -176,10 +168,15 @@ export const setTemplateV2OnCanvases = async (
     canvas.backgroundImage = undefined;
     canvas.overlayImage = undefined;
     // add the template to the canvas
-    canvas.add(...fabricLayer.removeAll());
+    const objectsToAdd = fabricLayer.removeAll();
+    objectsToAdd.forEach((obj) => {
+      obj.selectable = false;
+      obj.evented = false;
+    });
+    canvas.add(...objectsToAdd);
     // find the layer that olds the image.
     const placeholder = getPlaceholderMain(canvas);
-    if (placeholder) {
+    if (placeholder && mainImage) {
       // add the image on the placeholder
       if (mainImage) {
         const index = canvas.getObjects().indexOf(placeholder);

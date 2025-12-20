@@ -4,6 +4,8 @@ import { useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
 import { Checkbox, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import { autoFillTemplate } from '../utils/autoFillTemplate';
 
 type LabelEditorProps = {
   index: number;
@@ -42,7 +44,7 @@ export const LabelEditor = ({
     >
       <label htmlFor={card.key}>
         <FabricCanvasWrapper setFabricCanvas={setFabricCanvas} />
-        <div className="floating-checkbox right">
+        <div className="floating-checkbox right button-look">
           <Checkbox
             color="secondary"
             id={card.key}
@@ -62,21 +64,39 @@ export const LabelEditor = ({
           />
         </div>
       </label>
-      {card.template?.canEdit && (
-        <div className="floating-checkbox left">
-          <IconButton
-            color="secondary"
-            id={card.key}
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              e.preventDefault();
-              setCardToEdit(index);
-            }}
-          >
-            <EditIcon />
-          </IconButton>
-        </div>
-      )}
+      <div className="floating-container left">
+        {card.template?.canEdit && (
+          <div className="button-look">
+            <IconButton
+              className="button-look"
+              color="secondary"
+              id={card.key}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setCardToEdit(index);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+          </div>
+        )}
+        {card.template?.canFill && Object.keys(card.game).length > 0 && (
+          <div className="button-look">
+            <IconButton
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                autoFillTemplate({ card });
+              }}
+              color="secondary"
+              id={`${card.key}-magic`}
+            >
+              <AutoFixHighIcon />
+            </IconButton>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

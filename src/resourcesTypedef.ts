@@ -68,6 +68,7 @@ export type PrintableArea = {
 }
 
 export type templateTypeV2 = {
+  canFill?: boolean;
   canEdit?: boolean;
   parsed?: Promise<Group>;
   version: number;

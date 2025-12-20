@@ -6,11 +6,8 @@ import TemplateDropdown from './TemplateDropdown';
 import ColorChanger from './ColorChanger';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useAppDataContext } from '../contexts/appData';
-import {
-  getMainImage,
-  getPlaceholderMain,
-  scaleImageToOverlayArea,
-} from '../utils/setTemplateV2';
+import { getMainImage, getPlaceholderMain } from '../utils/templateHandling';
+import { scaleImageToOverlayArea } from '../utils/setTemplateV2';
 import { useCallback, useEffect } from 'react';
 import { colorsDiffer } from '../utils/utils';
 

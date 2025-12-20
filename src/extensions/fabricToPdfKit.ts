@@ -12,9 +12,12 @@ import {
   type TFiller,
   type Gradient,
   type TMat2D,
-  iMatrix
+  iMatrix,
+  FabricText,
+  GraphemeBBox,
 } from 'fabric';
 import type { MediaDefinition, templateTypeV2 } from '../resourcesTypedef';
+import { getFontKey, registerFont } from './pdfFontCache';
 
 export const createDownloadStream = async (pdfDoc: any): Promise<Blob> => {
   // @ts-expect-error yeah no definitions
@@ -43,7 +46,11 @@ type box = {
 //   pdfDoc.fill(grad);
 // }
 
-const toPdfColor = (color: string | TFiller, pdfDoc: any, object: FabricObject): any => {
+const toPdfColor = (
+  color: string | TFiller,
+  pdfDoc: any,
+  object: FabricObject,
+): any => {
   if (!pdfDoc) {
     return;
   }
@@ -52,12 +59,23 @@ const toPdfColor = (color: string | TFiller, pdfDoc: any, object: FabricObject):
     (color as Gradient<'linear'>).type === 'linear'
   ) {
     const fabricGrad = color as Gradient<'linear'>;
-    const { coords, gradientTransform, offsetX, offsetY, colorStops } = fabricGrad;
+    const { coords, gradientTransform, offsetX, offsetY, colorStops } =
+      fabricGrad;
     const { x1, y1, x2, y2 } = coords;
     const sortedStops = [...colorStops].sort((a, b) => a.offset - b.offset);
     const grad = pdfDoc.linearGradient(x1, y1, x2, y2);
-    const matOffset = [1, 0, 0, 1, offsetX - object.width / 2, offsetY - object.height / 2] as TMat2D;
-    grad.transform = util.multiplyTransformMatrixArray([matOffset, gradientTransform ?? iMatrix]);
+    const matOffset = [
+      1,
+      0,
+      0,
+      1,
+      offsetX - object.width / 2,
+      offsetY - object.height / 2,
+    ] as TMat2D;
+    grad.transform = util.multiplyTransformMatrixArray([
+      matOffset,
+      gradientTransform ?? iMatrix,
+    ]);
     sortedStops.forEach(({ color, offset }) => {
       const col = new Color(color as unknown as string);
       grad.stop(offset, col.getSource().slice(0, 3));
@@ -69,10 +87,147 @@ const toPdfColor = (color: string | TFiller, pdfDoc: any, object: FabricObject):
   }
 };
 
-const addRectToPdf = (
-  rect: Rect,
-  pdfDoc: any,
-) => {
+const addFabricTextToPdf = async (text: FabricText, pdfDoc: any) => {
+  pdfDoc.save();
+
+  transformPdf(text, pdfDoc);
+
+  // Get font key and register font if needed
+  const fontKey = getFontKey(text);
+  const registeredFontKey = await registerFont(fontKey, pdfDoc);
+
+  // Set font
+  pdfDoc.font(registeredFontKey);
+
+  // Set font size
+  pdfDoc.fontSize(text.fontSize || 16);
+
+  // Handle fill color
+  if (text.fill && text.fill !== 'transparent') {
+    const fillColor = toPdfColor(text.fill, pdfDoc, text);
+    pdfDoc.fillColor(fillColor);
+  }
+
+  // Calculate text position
+  // FabricJS text is centered by default at (0,0) after transform
+  // We need to position from top-left of the text bounding box
+  // const textWidth = text.width || 0;
+
+  // Text rendering options for PDFKit
+  // const textOptions: any = {
+  //   width: textWidth,
+
+  //   lineGap: text.lineHeight
+  //     ? (text.lineHeight - 1) * (text.fontSize || 16)
+  //     : 0,
+  // };
+
+  // Handle character spacing
+  // if (text.charSpacing) {
+  //   textOptions.characterSpacing =
+  //     (text.charSpacing / 1000) * (text.fontSize || 16);
+  // }
+
+  // Set opacity if needed
+  if (text.opacity !== undefined && text.opacity < 1) {
+    pdfDoc.fillOpacity(text.opacity);
+  }
+  // Draw the text
+  // Replicate fabricJS internal renderTextCommon loop
+  // supports single color single style for now
+
+  let lineHeights = 0;
+  const left = text._getLeftOffset(),
+    top = text._getTopOffset();
+  for (let i = 0, len = text._textLines.length; i < len; i++) {
+    renderTextLine({
+      text,
+      line: text._textLines[i],
+      left: left + text._getLineLeftOffset(i),
+      // @ts-expect-error ok is private, i need it
+      top: top + lineHeights + text.getHeightOfLineImpl(i),
+      lineIndex: i,
+      pdfDoc,
+      textOptions: {
+        baseline: 'alphabetic',
+      },
+    });
+    lineHeights += text.getHeightOfLine(i);
+  }
+
+  pdfDoc.restore();
+};
+
+const renderTextLine = ({
+  text,
+  line,
+  left,
+  top,
+  lineIndex,
+  pdfDoc,
+  textOptions,
+}: {
+  text: FabricText;
+  line: string[];
+  left: number;
+  top: number;
+  lineIndex: number;
+  pdfDoc: any;
+  textOptions: any;
+}) => {
+  const isJustify = text.textAlign.includes('justify'),
+    shortCut =
+      !isJustify && text.charSpacing === 0 && text.isEmptyStyles(lineIndex),
+    isLtr = text.direction === 'ltr',
+    sign = isLtr ? 1 : -1;
+
+  let charsToRender = '',
+    charBox,
+    boxWidth = 0,
+    timeToRender,
+    drawingLeft;
+  // @ts-expect-error ok is private, i need it
+  top -= text.getHeightOfLineImpl(lineIndex) * text._fontSizeFraction;
+  if (shortCut) {
+    // render all the line in one pass without checking
+    // drawingLeft = isLtr ? left : left - this.getLineWidth(lineIndex);
+    pdfDoc.text(line.join(''), left, top, textOptions);
+    return;
+  }
+  for (let i = 0, len = line.length - 1; i <= len; i++) {
+    timeToRender = i === len || text.charSpacing;
+    charsToRender += line[i];
+    charBox = text.__charBounds[lineIndex][i] as Required<GraphemeBBox>;
+    if (boxWidth === 0) {
+      left += sign * (charBox.kernedWidth - charBox.width);
+      boxWidth += charBox.width;
+    } else {
+      boxWidth += charBox.kernedWidth;
+    }
+    if (isJustify && !timeToRender) {
+      if (text._reSpaceAndTab.test(line[i])) {
+        timeToRender = true;
+      }
+    }
+    if (!timeToRender) {
+      // if we have charSpacing, we render char by char
+      // actualStyle =
+      //   actualStyle || text.getCompleteStyleDeclaration(lineIndex, i);
+      // nextStyle = text.getCompleteStyleDeclaration(lineIndex, i + 1);
+      // timeToRender = hasStyleChanged(actualStyle, nextStyle, false);
+    }
+    if (timeToRender) {
+      drawingLeft = left;
+      pdfDoc.text(charsToRender, drawingLeft, top, textOptions);
+    }
+    charsToRender = '';
+    // actualStyle = nextStyle;
+    left += sign * boxWidth;
+    boxWidth = 0;
+  }
+};
+
+const addRectToPdf = (rect: Rect, pdfDoc: any) => {
   pdfDoc.save();
 
   transformPdf(rect, pdfDoc);
@@ -82,9 +237,15 @@ const addRectToPdf = (
       const stroke = toPdfColor(rect.stroke, pdfDoc, rect);
       pdfDoc.lineWidth(rect.strokeWidth);
       if (hasRounds) {
-        pdfDoc.roundedRect(-rect.width / 2, -rect.height / 2, rect.width, rect.height, rect.rx)
+        pdfDoc.roundedRect(
+          -rect.width / 2,
+          -rect.height / 2,
+          rect.width,
+          rect.height,
+          rect.rx,
+        );
       } else {
-        pdfDoc.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height,);
+        pdfDoc.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height);
       }
       // pdfDoc.strokeOpacity(this.opacity);
       if (
@@ -105,9 +266,15 @@ const addRectToPdf = (
       const fill = toPdfColor(rect.fill, pdfDoc, rect);
       // pdfDoc.fillOpacity(this.opacity);
       if (hasRounds) {
-        pdfDoc.roundedRect(-rect.width / 2, -rect.height / 2, rect.width, rect.height, rect.rx)
+        pdfDoc.roundedRect(
+          -rect.width / 2,
+          -rect.height / 2,
+          rect.width,
+          rect.height,
+          rect.rx,
+        );
       } else {
-        pdfDoc.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height,);
+        pdfDoc.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height);
       }
       pdfDoc.fill(fill);
     }
@@ -123,19 +290,16 @@ const addRectToPdf = (
   pdfDoc.restore();
 };
 
-const addPathToPdf = (
-  path: Path,
-  pdfDoc: any,
-) => {
+const addPathToPdf = (path: Path, pdfDoc: any) => {
   pdfDoc.save();
   transformPdf(path, pdfDoc);
 
   const pathString = util
-   .transformPath(path.path, iMatrix, path.pathOffset).map((c) => c.join(' '))
-   .join(' ');
+    .transformPath(path.path, iMatrix, path.pathOffset)
+    .map((c) => c.join(' '))
+    .join(' ');
 
   // const pathString = path.path.map((c) => c.join(' ')).join(' ');
-    
 
   if (path.stroke && path.stroke !== 'transparent') {
     const stroke = new Color(path.stroke as string);
@@ -168,17 +332,26 @@ const transformPdf = (fabricObject: FabricObject, pdfDoc: any) => {
 const handleAbsoluteClipPath = (clipPath: FabricObject, pdfDoc: any) => {
   transformPdf(clipPath as FabricObject, pdfDoc);
   if (clipPath instanceof Rect) {
-    pdfDoc.roundedRect(-clipPath.width / 2, -clipPath.height / 2, clipPath.width, clipPath.height, clipPath.rx).clip();
+    pdfDoc
+      .roundedRect(
+        -clipPath.width / 2,
+        -clipPath.height / 2,
+        clipPath.width,
+        clipPath.height,
+        clipPath.rx,
+      )
+      .clip();
   }
   if (clipPath instanceof Path) {
     const pathString = util
-      .transformPath(clipPath.path, iMatrix, clipPath.pathOffset).map((c) => c.join(' '))
+      .transformPath(clipPath.path, iMatrix, clipPath.pathOffset)
+      .map((c) => c.join(' '))
       .join(' ');
     pdfDoc.path(pathString).clip();
   }
   const matrix = clipPath.calcOwnMatrix();
   pdfDoc.transform(...util.invertTransform(matrix));
-}
+};
 
 const addImageToPdf = async (
   fabricImage: FabricImage<ImageProps>,
@@ -191,7 +364,7 @@ const addImageToPdf = async (
   }
   transformPdf(fabricImage, pdfDoc);
   if (clipPath && !clipPath.absolutePositioned) {
-    console.warn('Missing code for standard clipPath')
+    console.warn('Missing code for standard clipPath');
   }
   const originalSize = fabricImage.getOriginalSize();
   // @ts-expect-error this isn't typed
@@ -222,8 +395,8 @@ const addImageToPdf = async (
 };
 
 const addObjectsToPdf = async (objs: FabricObject[], pdfDoc: any) => {
-  for ( const object of objs) {
-    if (!object.visible || object["zaparoo-no-print"]) {
+  for (const object of objs) {
+    if (!object.visible || object['zaparoo-no-print']) {
       continue;
     }
     if (object instanceof Path) {
@@ -232,11 +405,14 @@ const addObjectsToPdf = async (objs: FabricObject[], pdfDoc: any) => {
     if (object instanceof Rect) {
       addRectToPdf(object, pdfDoc);
     }
+    if (object instanceof FabricText) {
+      await addFabricTextToPdf(object, pdfDoc);
+    }
     if (object instanceof FabricImage) {
       await addImageToPdf(object, pdfDoc);
     }
   }
-}
+};
 
 // const addGroupToPdf = async (
 //   group: Group,
@@ -249,7 +425,12 @@ const addObjectsToPdf = async (objs: FabricObject[], pdfDoc: any) => {
 //   pdfDoc.restore();
 // };
 
-const makeCardRegion = (box: box, templateMedia: MediaDefinition, pdfDoc: any): any => pdfDoc.roundedRect(box.x, box.y, box.width, box.height, templateMedia.rx / 4)
+const makeCardRegion = (
+  box: box,
+  templateMedia: MediaDefinition,
+  pdfDoc: any,
+): any =>
+  pdfDoc.roundedRect(box.x, box.y, box.width, box.height, templateMedia.rx / 4);
 
 export const addCanvasToPdfPage = async (
   canvas: StaticCanvas,
@@ -258,7 +439,7 @@ export const addCanvasToPdfPage = async (
   needsRotation: boolean,
   template: templateTypeV2,
   asRaster: boolean,
-  printOutlines: boolean
+  printOutlines: boolean,
 ) => {
   // translate to position.
   // skip background color, but draw the clip region
@@ -269,7 +450,6 @@ export const addCanvasToPdfPage = async (
     pdfDoc.lineWidth(templateMedia.strokeWidth / 10);
     pdfDoc.stroke(templateMedia.stroke);
   }
-
 
   pdfDoc.save();
   makeCardRegion(box, templateMedia, pdfDoc).clip();
@@ -288,7 +468,9 @@ export const addCanvasToPdfPage = async (
         object.visible = false;
       }
     });
-    const imageFetch = await (await fetch(canvasClone.toDataURL())).arrayBuffer();
+    const imageFetch = await (
+      await fetch(canvasClone.toDataURL())
+    ).arrayBuffer();
     pdfDoc.image(imageFetch, 0, 0, {
       width: (needsRotation ? box.height : box.width) / 0.24,
       height: (needsRotation ? box.width : box.height) / 0.24,

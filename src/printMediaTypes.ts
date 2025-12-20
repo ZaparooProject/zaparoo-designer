@@ -56,7 +56,7 @@ export const tapToPrePrinted: MediaDefinition = {
   label: 'Zap Trading Card',
 };
 
-// or a musicasset box inlay cover
+// a smaller nfc card
 export const miniNfcCard: MediaDefinition = {
   width: 591, //5cm * 300dpi
   height: 354, // 63mm * 300dpi
@@ -66,6 +66,18 @@ export const miniNfcCard: MediaDefinition = {
   stroke: 'black',
   fill: 'white',
   label: 'Mini NFC card',
+};
+
+// a smaller nfc card
+export const foldableSleeve: MediaDefinition = {
+  width: 1441, //12.2cm * 300dpi
+  height: 1157, // 9.8cm * 300dpi
+  rx: 0,
+  ry: 0,
+  strokeWidth: 0,
+  stroke: 'transparent',
+  fill: 'white',
+  label: 'Foldable sleeve',
 };
 
 // retro remake pcb cards
@@ -88,5 +100,6 @@ export const mediaTargetList = [
   miniNfcCard,
   r2Pcb1_0,
   TapeBoxCover,
+  foldableSleeve,
   // taptoPrePrintedFullHeight,
 ];

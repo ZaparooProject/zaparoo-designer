@@ -4,7 +4,7 @@ import { util, FabricImage, type StaticCanvas } from 'fabric';
 import { useAppDataContext } from '../contexts/appData';
 import { updateColors } from '../utils/updateColors';
 import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
-import { getMainImage } from '../utils/setTemplateV2';
+import { getMainImage } from '../utils/templateHandling';
 
 type useLabelEditorParams = {
   padderRef: MutableRefObject<HTMLDivElement | null>;
@@ -12,12 +12,8 @@ type useLabelEditorParams = {
   card: CardData;
 };
 
-export const useLabelEditor = ({
-  card,
-  padderRef,
-}: useLabelEditorParams) => {
-  const { template, customColors, originalColors } =
-    useAppDataContext();
+export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
+  const { template, customColors, originalColors } = useAppDataContext();
   const [fabricCanvas, setFabricCanvas] = useState<StaticCanvas | null>(null);
   // local ready state, when template is loaded
   const [isImageReady, setImageReady] = useState<boolean>(false);
@@ -29,22 +25,27 @@ export const useLabelEditor = ({
         file instanceof Blob
           ? util.loadImage(URL.createObjectURL(file))
           : Promise.resolve(file);
+
       if (file) {
-        const currentImage =  getMainImage(fabricCanvas);
+        const currentImage = getMainImage(fabricCanvas);
         if (currentImage) {
           fabricCanvas.remove(currentImage);
         }
         setImageReady(false);
         imagePromise.then((image) => {
-          const fabricImage = new FabricImage(image, { resourceType: "main" });
-          // @ts-expect-error no originalFile
-          fabricImage.originalFile = file;
-          const scale = util.findScaleToCover(fabricImage, fabricCanvas);
-          fabricImage.scaleX = scale;
-          fabricImage.scaleY = scale;
-          fabricCanvas.add(fabricImage);
-          fabricCanvas.centerObject(fabricImage);
-          setImageReady(true);
+          if (image) {
+            const fabricImage = new FabricImage(image, {
+              resourceType: 'main',
+            });
+            // @ts-expect-error no originalFile
+            fabricImage.originalFile = file;
+            const scale = util.findScaleToCover(fabricImage, fabricCanvas);
+            fabricImage.scaleX = scale;
+            fabricImage.scaleY = scale;
+            fabricCanvas.add(fabricImage);
+            fabricCanvas.centerObject(fabricImage);
+            setImageReady(true);
+          }
         });
       }
     }
@@ -74,7 +75,6 @@ export const useLabelEditor = ({
     // the data reconciler does that
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card, fabricCanvas, isImageReady]);
-
 
   return {
     fabricCanvas,
