@@ -143,6 +143,52 @@ export const useEditableCanvas = ({
     setReady,
   ]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const canvas = editableCanvas.current;
+      if (!canvas) return;
+
+      const activeObject = canvas.getActiveObject();
+      if (!activeObject) return;
+      const mainImage = getMainImage(canvas);
+
+      let moved = false;
+      switch (e.key) {
+        case 'ArrowUp':
+          activeObject.top = (activeObject.top ?? 0) - 1;
+          moved = true;
+          break;
+        case 'ArrowDown':
+          activeObject.top = (activeObject.top ?? 0) + 1;
+          moved = true;
+          break;
+        case 'ArrowLeft':
+          activeObject.left = (activeObject.left ?? 0) - 1;
+          moved = true;
+          break;
+        case 'ArrowRight':
+          activeObject.left = (activeObject.left ?? 0) + 1;
+          moved = true;
+          break;
+      }
+
+      if (activeObject === mainImage) {
+        fixImageInsideCanvas(mainImage);
+      }
+
+      if (moved) {
+        e.preventDefault();
+        activeObject.setCoords();
+        canvas.requestRenderAll();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return {
     confirmAndSave,
     isImageAdjust,
