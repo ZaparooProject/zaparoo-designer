@@ -27,6 +27,7 @@ import blankFitH from './assets/blank_fit_h.svg';
 import blankFitV from './assets/blank_fit_v.svg';
 import cassetteTapeEmpty from './assets/cassette_tape_empty.svg';
 import foldableSleeveSvg from './assets/foldable_sleeve.svg';
+import labelWithName from './assets/labelWithName.svg';
 
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
@@ -45,6 +46,16 @@ import {
 } from './printMediaTypes';
 
 export const templates: Record<string, templateTypeV2> = {
+  labelWithName: {
+    version: 2,
+    layout: 'vertical',
+    url: labelWithName,
+    label: 'Square game card',
+    author: Authors.unnamed1,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'labelWithName',
+  },
   gameCardV: {
     version: 2,
     layout: 'vertical',

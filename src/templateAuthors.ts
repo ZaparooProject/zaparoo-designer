@@ -12,6 +12,7 @@ export const enum Authors {
   ewrt,
   alice,
   wizzo,
+  unnamed1,
 }
 
 export const templateAuthors: Record<Authors, TemplateAuthors> = {
@@ -46,5 +47,9 @@ export const templateAuthors: Record<Authors, TemplateAuthors> = {
   [Authors.wizzo]: {
     name: 'wizzo',
     href: 'https://github.com/wizzomafizzo',
+  },
+  [Authors.unnamed1]: {
+    name: '强哥',
+    href: '',
   },
 } as const;
