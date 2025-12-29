@@ -3,6 +3,7 @@ import { Tabs, Tab, Typography, IconButton, Drawer } from '@mui/material';
 import { type SearchResult, type ResultImage } from '../../netlify/apiProviders/types.mts';
 import { util, type Canvas, FabricImage } from 'fabric';
 import CloseIcon from '@mui/icons-material/Close';
+import controllers from '../controllers';
 
 import './GameResourcesDisplay.css';
 
@@ -15,7 +16,7 @@ type GameResourcesDisplayProps = {
 
 type ImageDrawerDisplayProps = {
   canvasRef: MutableRefObject<Canvas | null>;
-  imageResult: ResultImage
+  imageResult: Pick<ResultImage, 'url' | 'width' | 'height'>;
 }
 
 const ImageDrawerDisplay = ({ imageResult, canvasRef }: ImageDrawerDisplayProps) => {
@@ -62,6 +63,7 @@ export function GameResourcesDisplay({ game, canvasRef, drawerState, setDrawerSt
           {game.screenshots && <Tab label="Screenshots" value="screens" />}
           {game.artworks && <Tab label="Art" value="art" />}
           <Tab label="Game meta" value="meta" />
+          <Tab label="Controllers" value="controllers" />
         </Tabs>
         <IconButton onClick={() => setDrawerState(false)}>
           <CloseIcon />
@@ -78,6 +80,7 @@ export function GameResourcesDisplay({ game, canvasRef, drawerState, setDrawerSt
           {game.summary && [<Typography variant="h3">Summary</Typography>, <Typography>{game.summary}</Typography>]}
           {game.storyline && [<Typography variant="h3">Storyline</Typography>, <Typography>{game.storyline}</Typography>]}
         </div>}
+        {value === "controllers" && controllers.map((controller) => <ImageDrawerDisplay key={controller.name} canvasRef={canvasRef} imageResult={{ url: controller.url, width: 400, height: 400 }} />)}
       </div>
     </Drawer>
   );

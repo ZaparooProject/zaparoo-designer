@@ -46,16 +46,6 @@ import {
 } from './printMediaTypes';
 
 export const templates: Record<string, templateTypeV2> = {
-  labelWithName: {
-    version: 2,
-    layout: 'vertical',
-    url: labelWithName,
-    label: 'Square game card',
-    author: Authors.unnamed1,
-    media: NFCCCsizeCard,
-    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
-    key: 'labelWithName',
-  },
   gameCardV: {
     version: 2,
     layout: 'vertical',
@@ -95,6 +85,17 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucard',
+  },
+  labelWithName: {
+    version: 2,
+    canEdit: true,
+    layout: 'vertical',
+    url: labelWithName,
+    label: 'Square game card',
+    author: Authors.unnamed1,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'labelWithName',
   },
   hucardsteam: {
     version: 2,
