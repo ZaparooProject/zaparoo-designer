@@ -11,9 +11,9 @@ import {
 } from './templateHandling';
 import { scaleImageToOverlayArea } from './setTemplateV2';
 
-const fromResultToValue = <T>(
-  result: PromiseSettledResult<T | null>,
-): T | null => (result.status === 'fulfilled' ? result.value : null);
+// const fromResultToValue = <T>(
+//   result: PromiseSettledResult<T | null>,
+// ): T | null => (result.status === 'fulfilled' ? result.value : null);
 
 /**
  * Function that given a card and a canvas, can read from the game property
@@ -70,6 +70,7 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
   }
 
   const companyLogoUrl = findCompanyLogoUrl(game);
+  const companyLogoPlaceHolder = getPlaceholderCompanyLogo(fabricCanvas);
 
   if (game.summary) {
     const summaryPlaceHolder = getPlaceholderDescription(fabricCanvas);
