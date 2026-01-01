@@ -1,6 +1,10 @@
 import { util, FabricImage, Textbox, FabricText } from 'fabric';
 import { type CardData } from '../contexts/fileDropper';
-import { findPlatformLogoUrl, findScreenshotUrl } from '../utils/gameDataUtils';
+import {
+  findPlatformLogoUrl,
+  findScreenshotUrl,
+  findCompanyLogoUrl,
+} from '../utils/gameDataUtils';
 import { createProxyUrl } from '../utils/search';
 import {
   getPlaceholderDescription,
@@ -29,10 +33,10 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
   const platformLogoPlaceHolder = getPlaceholderPlatformLogo(fabricCanvas);
   if (platformLogoPlaceHolder) {
     const platformLogoImg = await (platformLogoUrl
-    ? util.loadImage(createProxyUrl(platformLogoUrl).toString(), {
-        crossOrigin: 'anonymous',
-      })
-    : Promise.resolve(null));
+      ? util.loadImage(createProxyUrl(platformLogoUrl).toString(), {
+          crossOrigin: 'anonymous',
+        })
+      : Promise.resolve(null));
     if (platformLogoImg) {
       const platformLogo = new FabricImage(platformLogoImg, {
         resourceType: 'platform_logo',
@@ -51,10 +55,10 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
   const screenshotPlaceholder = getPlaceholderScreenshot(fabricCanvas);
   if (screenshotPlaceholder) {
     const screenshotImg = await (screenshotUrl
-    ? util.loadImage(createProxyUrl(screenshotUrl).toString(), {
-        crossOrigin: 'anonymous',
-      })
-    : Promise.resolve(null));
+      ? util.loadImage(createProxyUrl(screenshotUrl).toString(), {
+          crossOrigin: 'anonymous',
+        })
+      : Promise.resolve(null));
     if (screenshotImg) {
       const screenshot = new FabricImage(screenshotImg, {
         resourceType: 'screenshot',
@@ -66,11 +70,30 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       const index = fabricCanvas.getObjects().indexOf(screenshotPlaceholder);
       fabricCanvas.insertAt(index, screenshot);
       await scaleImageToOverlayArea(screenshotPlaceholder, screenshot);
-    } 
+    }
   }
 
   const companyLogoUrl = findCompanyLogoUrl(game);
   const companyLogoPlaceHolder = getPlaceholderCompanyLogo(fabricCanvas);
+  if (companyLogoPlaceHolder) {
+    const companyLogoImg = await (companyLogoUrl
+      ? util.loadImage(createProxyUrl(companyLogoUrl).toString(), {
+          crossOrigin: 'anonymous',
+        })
+      : Promise.resolve(null));
+    if (companyLogoImg) {
+      const companyLogo = new FabricImage(companyLogoImg, {
+        resourceType: 'screenshot',
+      });
+      // remove strokewidth so the placeholder can clip the image
+      companyLogoPlaceHolder.strokeWidth = 0;
+      // the placeholder stays with us but we don't want to see it
+      companyLogoPlaceHolder.visible = false;
+      const index = fabricCanvas.getObjects().indexOf(companyLogoPlaceHolder);
+      fabricCanvas.insertAt(index, companyLogo);
+      await scaleImageToOverlayArea(companyLogoPlaceHolder, companyLogo);
+    }
+  }
 
   if (game.summary) {
     const summaryPlaceHolder = getPlaceholderDescription(fabricCanvas);
@@ -103,9 +126,17 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       const index = fabricCanvas.getObjects().indexOf(titlePlaceholder);
       const gameDescription = new Textbox(game.name, {
         fontFamily: 'Noto Sans',
-        textAlign: titlePlaceholder['zaparoo-align-strategy']?.includes('left') ? 'left' : 'center',
-        fill: (titlePlaceholder instanceof FabricText) ? titlePlaceholder.fill : 'black',
-        fontSize: (titlePlaceholder instanceof FabricText) ? titlePlaceholder.fontSize : 40,
+        textAlign: titlePlaceholder['zaparoo-align-strategy']?.includes('left')
+          ? 'left'
+          : 'center',
+        fill:
+          titlePlaceholder instanceof FabricText
+            ? titlePlaceholder.fill
+            : 'black',
+        fontSize:
+          titlePlaceholder instanceof FabricText
+            ? titlePlaceholder.fontSize
+            : 40,
         width: x,
       });
       const topLeftCorner = titlePlaceholder.getPointByOrigin('left', 'top');
