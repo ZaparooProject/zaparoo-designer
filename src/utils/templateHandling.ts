@@ -30,6 +30,8 @@ export const getPlaceholderDescription = (
 ) => getNamedPlaceholder(canvas, 'description');
 export const getPlaceholderTitle = (canvas: Canvas | Group | StaticCanvas) =>
   getNamedPlaceholder(canvas, 'title');
+export const getPlaceholderCompanyLogo = (canvas: Canvas | Group | StaticCanvas) =>
+  getNamedPlaceholder(canvas, 'company_logo');
 export const getMainImage = (canvas: Canvas | Group | StaticCanvas) =>
   canvas
     .getObjects('image')

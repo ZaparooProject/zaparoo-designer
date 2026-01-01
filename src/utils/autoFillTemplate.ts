@@ -1,18 +1,23 @@
-import { util, FabricImage, Textbox } from 'fabric';
+import { util, FabricImage, Textbox, FabricText } from 'fabric';
 import { type CardData } from '../contexts/fileDropper';
-import { findPlatformLogoUrl, findScreenshotUrl } from '../utils/gameDataUtils';
+import {
+  findPlatformLogoUrl,
+  findScreenshotUrl,
+  findCompanyLogoUrl,
+} from '../utils/gameDataUtils';
 import { createProxyUrl } from '../utils/search';
 import {
   getPlaceholderDescription,
   getPlaceholderPlatformLogo,
+  getPlaceholderCompanyLogo,
   getPlaceholderScreenshot,
   getPlaceholderTitle,
 } from './templateHandling';
 import { scaleImageToOverlayArea } from './setTemplateV2';
 
-const fromResultToValue = <T>(
-  result: PromiseSettledResult<T | null>,
-): T | null => (result.status === 'fulfilled' ? result.value : null);
+// const fromResultToValue = <T>(
+//   result: PromiseSettledResult<T | null>,
+// ): T | null => (result.status === 'fulfilled' ? result.value : null);
 
 /**
  * Function that given a card and a canvas, can read from the game property
@@ -23,32 +28,19 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
   if (!game || !fabricCanvas || !template) {
     return;
   }
-  const screenshotUrl = findScreenshotUrl(game);
+
   const platformLogoUrl = findPlatformLogoUrl(game);
-  const platformLogoPromise = platformLogoUrl
-    ? util.loadImage(createProxyUrl(platformLogoUrl).toString(), {
-        crossOrigin: 'anonymous',
-      })
-    : Promise.resolve(null);
-  const screenshotPromise = screenshotUrl
-    ? util.loadImage(createProxyUrl(screenshotUrl).toString(), {
-        crossOrigin: 'anonymous',
-      })
-    : Promise.resolve(null);
-  const [platformLogoImg, screenshotImg] = await Promise.allSettled([
-    platformLogoPromise,
-    screenshotPromise,
-  ]).then((results) =>
-    results.map((result) => fromResultToValue<HTMLImageElement>(result)),
-  );
-
-  if (platformLogoImg) {
-    const platformLogo = new FabricImage(platformLogoImg, {
-      resourceType: 'platform_logo',
-    });
-
-    const platformLogoPlaceHolder = getPlaceholderPlatformLogo(fabricCanvas);
-    if (platformLogoPlaceHolder) {
+  const platformLogoPlaceHolder = getPlaceholderPlatformLogo(fabricCanvas);
+  if (platformLogoPlaceHolder) {
+    const platformLogoImg = await (platformLogoUrl
+      ? util.loadImage(createProxyUrl(platformLogoUrl).toString(), {
+          crossOrigin: 'anonymous',
+        })
+      : Promise.resolve(null));
+    if (platformLogoImg) {
+      const platformLogo = new FabricImage(platformLogoImg, {
+        resourceType: 'platform_logo',
+      });
       // remove strokewidth so the placeholder can clip the image
       platformLogoPlaceHolder.strokeWidth = 0;
       // the placeholder stays with us but we don't want to see it
@@ -58,13 +50,19 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       await scaleImageToOverlayArea(platformLogoPlaceHolder, platformLogo);
     }
   }
-  if (screenshotImg) {
-    const screenshot = new FabricImage(screenshotImg, {
-      resourceType: 'screenshot',
-    });
 
-    const screenshotPlaceholder = getPlaceholderScreenshot(fabricCanvas);
-    if (screenshotPlaceholder) {
+  const screenshotUrl = findScreenshotUrl(game);
+  const screenshotPlaceholder = getPlaceholderScreenshot(fabricCanvas);
+  if (screenshotPlaceholder) {
+    const screenshotImg = await (screenshotUrl
+      ? util.loadImage(createProxyUrl(screenshotUrl).toString(), {
+          crossOrigin: 'anonymous',
+        })
+      : Promise.resolve(null));
+    if (screenshotImg) {
+      const screenshot = new FabricImage(screenshotImg, {
+        resourceType: 'screenshot',
+      });
       // remove strokewidth so the placeholder can clip the image
       screenshotPlaceholder.strokeWidth = 0;
       // the placeholder stays with us but we don't want to see it
@@ -74,6 +72,29 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       await scaleImageToOverlayArea(screenshotPlaceholder, screenshot);
     }
   }
+
+  const companyLogoUrl = findCompanyLogoUrl(game);
+  const companyLogoPlaceHolder = getPlaceholderCompanyLogo(fabricCanvas);
+  if (companyLogoPlaceHolder) {
+    const companyLogoImg = await (companyLogoUrl
+      ? util.loadImage(createProxyUrl(companyLogoUrl).toString(), {
+          crossOrigin: 'anonymous',
+        })
+      : Promise.resolve(null));
+    if (companyLogoImg) {
+      const companyLogo = new FabricImage(companyLogoImg, {
+        resourceType: 'screenshot',
+      });
+      // remove strokewidth so the placeholder can clip the image
+      companyLogoPlaceHolder.strokeWidth = 0;
+      // the placeholder stays with us but we don't want to see it
+      companyLogoPlaceHolder.visible = false;
+      const index = fabricCanvas.getObjects().indexOf(companyLogoPlaceHolder);
+      fabricCanvas.insertAt(index, companyLogo);
+      await scaleImageToOverlayArea(companyLogoPlaceHolder, companyLogo);
+    }
+  }
+
   if (game.summary) {
     const summaryPlaceHolder = getPlaceholderDescription(fabricCanvas);
     if (summaryPlaceHolder) {
@@ -105,7 +126,17 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       const index = fabricCanvas.getObjects().indexOf(titlePlaceholder);
       const gameDescription = new Textbox(game.name, {
         fontFamily: 'Noto Sans',
-        fontSize: 40,
+        textAlign: titlePlaceholder['zaparoo-align-strategy']?.includes('left')
+          ? 'left'
+          : 'center',
+        fill:
+          titlePlaceholder instanceof FabricText
+            ? titlePlaceholder.fill
+            : 'black',
+        fontSize:
+          titlePlaceholder instanceof FabricText
+            ? titlePlaceholder.fontSize
+            : 40,
         width: x,
       });
       const topLeftCorner = titlePlaceholder.getPointByOrigin('left', 'top');
