@@ -29,8 +29,11 @@
   <path id="name background"
     d="M27.416,839.6L591.484,839.6C601.441,839.6 609.525,847.684 609.525,857.642L609.525,966.122C609.525,976.08 601.441,984.164 591.484,984.164L27.416,984.164C17.459,984.164 9.375,976.08 9.375,966.122L9.375,857.642C9.375,847.684 17.459,839.6 27.416,839.6Z"
     style="fill:rgb(60,41,123);" />
-  <rect id="game_name" zaparoo-placeholder="title" x="21" y="870" width="576" height="80" fill="none" stroke="red"
-    stroke-dasharray="5 5" stroke-width="2" zaparoo-align-strategy="left-top" />
+  <rect id="logo1" zaparoo-placeholder="platform_logo" x="25" y="60" width="310" height="150" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="fit" />
+  <rect id="logo2" zaparoo-placeholder="company_logo" x="345" y="60" width="250" height="70" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="fit" />
+  <text id="game_name" zaparoo-placeholder="title" font-size="50" x="299" y="925" text-anchor="middle" fill="white" zaparoo-fill-strategy="fit" >GAME NAME</text>
   <defs>
     <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
       gradientTransform="matrix(-441.145,5.40247e-14,-5.40247e-14,-441.145,563.077,50.0471)">
