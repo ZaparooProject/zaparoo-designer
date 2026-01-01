@@ -33,7 +33,7 @@
     stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="fit" />
   <rect id="logo2" zaparoo-placeholder="company_logo" x="345" y="60" width="250" height="70" fill="none" stroke="red"
     stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="fit" />
-  <text id="game_name" zaparoo-placeholder="title" font-size="50" x="299" y="925" text-anchor="middle" fill="white" zaparoo-fill-strategy="fit" >GAME NAME</text>
+  <text id="game_name" zaparoo-placeholder="title" font-size="50" x="299" y="925" text-anchor="middle" font-family="Noto Sans" fill="white" zaparoo-fill-strategy="fit" zaparoo-align-strategy="center-top" >GAME NAME</text>
   <defs>
     <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
       gradientTransform="matrix(-441.145,5.40247e-14,-5.40247e-14,-441.145,563.077,50.0471)">

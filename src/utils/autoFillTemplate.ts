@@ -1,4 +1,4 @@
-import { util, FabricImage, Textbox } from 'fabric';
+import { util, FabricImage, Textbox, FabricText } from 'fabric';
 import { type CardData } from '../contexts/fileDropper';
 import { findPlatformLogoUrl, findScreenshotUrl } from '../utils/gameDataUtils';
 import { createProxyUrl } from '../utils/search';
@@ -105,7 +105,9 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       const index = fabricCanvas.getObjects().indexOf(titlePlaceholder);
       const gameDescription = new Textbox(game.name, {
         fontFamily: 'Noto Sans',
-        fontSize: 40,
+        textAlign: titlePlaceholder['zaparoo-align-strategy']?.includes('left') ? 'left' : 'center',
+        fill: (titlePlaceholder instanceof FabricText) ? titlePlaceholder.fill : 'black',
+        fontSize: (titlePlaceholder instanceof FabricText) ? titlePlaceholder.fontSize : 40,
         width: x,
       });
       const topLeftCorner = titlePlaceholder.getPointByOrigin('left', 'top');
