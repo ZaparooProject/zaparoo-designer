@@ -19,3 +19,13 @@ export const findPlatformLogoUrl = (game: Partial<SearchResult>) => {
     return '';
   }
 }
+
+export const findCompanyLogoUrl = (game: Partial<SearchResult>) => {
+  const { involved_companies } = game;
+  if (involved_companies && involved_companies[0]?.company?.logo) {
+    return involved_companies[0]?.company?.logo.url;
+  }
+  else {
+    return '';
+  }
+}

@@ -50,10 +50,7 @@ export const setupFabricJSCustomConfiguration = () => {
         'zaparoo-align-strategy',
     ];
 
-    FabricImage.customProperties = [
+    FabricImage.customProperties = [...FabricObject.customProperties,
         'resourceType',
-        'original_stroke',
-        'original_fill',
-        'zaparoo-no-print',
     ];
 }

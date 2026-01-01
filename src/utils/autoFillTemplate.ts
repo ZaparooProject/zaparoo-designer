@@ -5,6 +5,7 @@ import { createProxyUrl } from '../utils/search';
 import {
   getPlaceholderDescription,
   getPlaceholderPlatformLogo,
+  getPlaceholderCompanyLogo,
   getPlaceholderScreenshot,
   getPlaceholderTitle,
 } from './templateHandling';
@@ -23,32 +24,19 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
   if (!game || !fabricCanvas || !template) {
     return;
   }
-  const screenshotUrl = findScreenshotUrl(game);
+
   const platformLogoUrl = findPlatformLogoUrl(game);
-  const platformLogoPromise = platformLogoUrl
+  const platformLogoPlaceHolder = getPlaceholderPlatformLogo(fabricCanvas);
+  if (platformLogoPlaceHolder) {
+    const platformLogoImg = await (platformLogoUrl
     ? util.loadImage(createProxyUrl(platformLogoUrl).toString(), {
         crossOrigin: 'anonymous',
       })
-    : Promise.resolve(null);
-  const screenshotPromise = screenshotUrl
-    ? util.loadImage(createProxyUrl(screenshotUrl).toString(), {
-        crossOrigin: 'anonymous',
-      })
-    : Promise.resolve(null);
-  const [platformLogoImg, screenshotImg] = await Promise.allSettled([
-    platformLogoPromise,
-    screenshotPromise,
-  ]).then((results) =>
-    results.map((result) => fromResultToValue<HTMLImageElement>(result)),
-  );
-
-  if (platformLogoImg) {
-    const platformLogo = new FabricImage(platformLogoImg, {
-      resourceType: 'platform_logo',
-    });
-
-    const platformLogoPlaceHolder = getPlaceholderPlatformLogo(fabricCanvas);
-    if (platformLogoPlaceHolder) {
+    : Promise.resolve(null));
+    if (platformLogoImg) {
+      const platformLogo = new FabricImage(platformLogoImg, {
+        resourceType: 'platform_logo',
+      });
       // remove strokewidth so the placeholder can clip the image
       platformLogoPlaceHolder.strokeWidth = 0;
       // the placeholder stays with us but we don't want to see it
@@ -58,13 +46,19 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       await scaleImageToOverlayArea(platformLogoPlaceHolder, platformLogo);
     }
   }
-  if (screenshotImg) {
-    const screenshot = new FabricImage(screenshotImg, {
-      resourceType: 'screenshot',
-    });
 
-    const screenshotPlaceholder = getPlaceholderScreenshot(fabricCanvas);
-    if (screenshotPlaceholder) {
+  const screenshotUrl = findScreenshotUrl(game);
+  const screenshotPlaceholder = getPlaceholderScreenshot(fabricCanvas);
+  if (screenshotPlaceholder) {
+    const screenshotImg = await (screenshotUrl
+    ? util.loadImage(createProxyUrl(screenshotUrl).toString(), {
+        crossOrigin: 'anonymous',
+      })
+    : Promise.resolve(null));
+    if (screenshotImg) {
+      const screenshot = new FabricImage(screenshotImg, {
+        resourceType: 'screenshot',
+      });
       // remove strokewidth so the placeholder can clip the image
       screenshotPlaceholder.strokeWidth = 0;
       // the placeholder stays with us but we don't want to see it
@@ -72,8 +66,11 @@ export const autoFillTemplate = async ({ card }: { card: CardData }) => {
       const index = fabricCanvas.getObjects().indexOf(screenshotPlaceholder);
       fabricCanvas.insertAt(index, screenshot);
       await scaleImageToOverlayArea(screenshotPlaceholder, screenshot);
-    }
+    } 
   }
+
+  const companyLogoUrl = findCompanyLogoUrl(game);
+
   if (game.summary) {
     const summaryPlaceHolder = getPlaceholderDescription(fabricCanvas);
     if (summaryPlaceHolder) {
