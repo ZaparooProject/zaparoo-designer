@@ -43,7 +43,7 @@ export function GameResourcesDisplay({
           )}
           {game.screenshots && <Tab label="Screenshots" value="screens" />}
           {game.artworks && <Tab label="Art" value="art" />}
-          <Tab label="Game meta" value="meta" />
+          {game.name && <Tab label="Game meta" value="meta" />}
           <Tab label="Controllers" value="controllers" />
         </Tabs>
         <IconButton onClick={() => setDrawerState(false)}>
