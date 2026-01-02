@@ -16,11 +16,12 @@ logoDir.entries().forEach(([, value]) => {
   }
   const parts = value.split('/');
   const filename = parts[parts.length - 1];
-  const importname = filename
+  const importname = value
     .split('.')[0]
     .replaceAll(' ', '')
     .replaceAll('-', '')
     .replaceAll(')', '')
+    .replaceAll('&', '')
     .replaceAll('(', '_');
   imports.push(`import ${importname} from './assets/logos/${value}';`);
   data.push(
