@@ -1,5 +1,8 @@
 import { PlatformResult } from '../../netlify/apiProviders/types.mts';
-import type { SearchResults, SearchResult } from '../../netlify/apiProviders/types.mjs';
+import type {
+  SearchResults,
+  SearchResult,
+} from '../../netlify/apiProviders/types.mjs';
 import { SEARCH_PAGESIZE } from '../../netlify/apiProviders/constants.mts';
 
 const SEARCH_ENDPOINT = '/api/search';
@@ -10,12 +13,14 @@ export type ResultsForSearchUI = {
   games: SearchResult[];
   hasMore: boolean;
   count: number;
-}
+};
 
-export const platformPromise = import('../../netlify/data/IGDBPlatforms.mts').then((data) => {
+export const platformPromise = import(
+  '../../netlify/data/IGDBPlatforms.mts'
+).then((data) => {
   const allPlatform = { id: 0, name: 'All', abbreviation: 'all', versions: [] };
   const platforms = data.platforms.results.filter((p) => p.popular === true);
-  platforms.unshift(allPlatform)
+  platforms.unshift(allPlatform);
   platformsData = platforms;
   return {
     count: data.platforms.count,
@@ -36,7 +41,7 @@ export async function fetchGameList(
     url.searchParams.append('platformId', `${platform.id}`);
   }
   if (romHacks) {
-    url.searchParams.append('romHacks', '1')
+    url.searchParams.append('romHacks', '1');
   }
   return (
     fetch(url, {
@@ -45,12 +50,12 @@ export async function fetchGameList(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((res) => res.json() as Promise<SearchResults>)
       .then(async ({ results, count }) => {
-          await platformPromise;
-          return {
-            count,
-            hasMore: (count / SEARCH_PAGESIZE) > parseInt(page, 10) ? true : false,
-            games: results,
-          };
+        await platformPromise;
+        return {
+          count,
+          hasMore: count / SEARCH_PAGESIZE > parseInt(page, 10) ? true : false,
+          games: results,
+        };
       })
       .catch((err) => {
         console.error(err);
@@ -65,25 +70,25 @@ export async function fetchGameList(
 
 const getGoodUrl = (relativeUrl: string): URL => {
   const host = window.location.hostname;
-  let fqdn = 'https://design.zaparoo.org';
-  // let fqdn = 'https://deploy-preview-75--zaparoo-designer.netlify.app/';
+  // let fqdn = 'https://design.zaparoo.org';
+  let fqdn = 'https://deploy-preview-118--zaparoo-designer.netlify.app/';
   if (host.includes('netlify') || host.includes('design.zaparoo.org')) {
     fqdn = `${window.location.protocol}//${window.location.hostname}`;
-  } 
-  const url = new URL(
-    relativeUrl,
-    fqdn,
-  );
+  }
+  const url = new URL(relativeUrl, fqdn);
   return url;
-}
+};
 
 export const createProxyUrl = (cdnUrl: string): URL => {
   const url = getGoodUrl('/imageProxy/');
   url.searchParams.append('imageUrl', `${cdnUrl}`);
   return url;
-}
+};
 
-export async function getImage(cdnUrl: string, previousUrl: string): Promise<File> {
+export async function getImage(
+  cdnUrl: string,
+  previousUrl: string,
+): Promise<File> {
   return fetch(createProxyUrl(cdnUrl))
     .then((r) => r.blob())
     .then((blob) => new File([blob], previousUrl, { type: blob.type }));

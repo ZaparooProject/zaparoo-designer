@@ -204,7 +204,9 @@ export class IGBDProvider extends BaseProvider<IGDBGamesResult[]> {
                   id,
                   abbreviation,
                   name,
-                  logos: [extractUsefulImage(platform_logo)],
+                  logos: platform_logo
+                    ? [extractUsefulImage(platform_logo)]
+                    : [],
                 };
               },
             );
