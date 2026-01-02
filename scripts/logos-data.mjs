@@ -27,15 +27,15 @@ logoDir.entries().forEach(([, value]) => {
     .replaceAll('(', '_');
   imports.push(`import ${importname} from './assets/logos/${value}';`);
   data.push(
-    `  { url: ${importname}, name: '${filename.split('.')[0]}', style: '${
-      parts[0]
-    }', category: '${parts[1]}' },`,
+    `  {\n    url: ${importname},\n    name: '${
+      filename.split('.')[0]
+    }',\n    style: '${parts[0]}',\n    category: '${parts[1]}',\n  },`,
   );
 });
 
 const fileData = `
 ${imports.join('\n')}
-export const logos = [
+export const staticLogos = [
 ${data.join('\n')}
 ];
 `;

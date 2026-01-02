@@ -13733,4 +13733,4 @@ export const staticLogos = [
     style: 'Thin Outlines',
     category: 'Handhelds',
   },
-] as const;
+];

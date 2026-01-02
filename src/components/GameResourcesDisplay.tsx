@@ -1,14 +1,11 @@
 import { type MutableRefObject, type SyntheticEvent, useState } from 'react';
 import { Tabs, Tab, Typography, IconButton, Drawer } from '@mui/material';
-import {
-  type SearchResult,
-  type ResultImage,
-} from '../../netlify/apiProviders/types.mts';
-import { util, type Canvas, FabricImage } from 'fabric';
+import { type SearchResult } from '../../netlify/apiProviders/types.mts';
+import { type Canvas } from 'fabric';
 import CloseIcon from '@mui/icons-material/Close';
 import controllers from '../controllers';
-import { staticLogos } from '../logos';
-
+import { LogoTabs } from './LogosTabs';
+import { ImageDrawerDisplay } from './ImageDrawerDisplay';
 import './GameResourcesDisplay.css';
 
 type GameResourcesDisplayProps = {
@@ -18,49 +15,13 @@ type GameResourcesDisplayProps = {
   canvasRef: MutableRefObject<Canvas | null>;
 };
 
-type ImageDrawerDisplayProps = {
-  canvasRef: MutableRefObject<Canvas | null>;
-  imageResult: Pick<ResultImage, 'url' | 'width' | 'height'>;
-};
-
-const ImageDrawerDisplay = ({
-  imageResult,
-  canvasRef,
-}: ImageDrawerDisplayProps) => {
-  const scale = util.findScaleToFit(imageResult, { width: 400, height: 250 });
-  const onClick = () => {
-    util.loadImage(imageResult.url).then((img) => {
-      if (!canvasRef.current) {
-        return;
-      }
-      const image = new FabricImage(img);
-      const scale = util.findScaleToFit(image, canvasRef.current);
-      image.scale(scale);
-      canvasRef.current.add(image);
-      canvasRef.current.centerObject(image);
-    });
-  };
-
-  return (
-    <div onClick={onClick} className="imageResourceDisplayContainer">
-      <img
-        width={imageResult.width * scale}
-        height={imageResult.height * scale}
-        className="imageResourceDisplay"
-        src={imageResult.url}
-        loading="lazy"
-      />
-    </div>
-  );
-};
-
 export function GameResourcesDisplay({
   game,
   canvasRef,
   drawerState,
   setDrawerState,
 }: GameResourcesDisplayProps) {
-  const [value, setValue] = useState('covers');
+  const [value, setValue] = useState(game.cover ? 'cover' : 'logos');
   const handleChange = (_: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -160,14 +121,7 @@ export function GameResourcesDisplay({
               imageResult={{ url: controller.url, width: 400, height: 400 }}
             />
           ))}
-        {value === 'logos' &&
-          staticLogos.map((logo) => (
-            <ImageDrawerDisplay
-              key={logo.name}
-              canvasRef={canvasRef}
-              imageResult={{ url: logo.url, width: 400, height: 400 }}
-            />
-          ))}
+        {value === 'logos' && <LogoTabs canvasRef={canvasRef} />}
       </div>
     </Drawer>
   );
