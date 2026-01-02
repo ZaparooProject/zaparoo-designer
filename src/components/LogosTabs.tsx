@@ -21,7 +21,7 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
 
   const searchHandler = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setKeyword(evt.target.value);
+      setKeyword(evt.target.value.toLocaleLowerCase());
     },
     [setKeyword],
   );
@@ -60,7 +60,7 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
       <div className="horizontalStack resourceListAreaLogos">
         {logoStyles[value].map(
           (logo) =>
-            logo.name.includes(keyword) && (
+            logo.name.toLowerCase().includes(keyword) && (
               <ImageDrawerDisplay
                 key={logo.name}
                 canvasRef={canvasRef}
