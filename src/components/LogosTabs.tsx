@@ -6,7 +6,7 @@ import {
   TextField,
 } from '@mui/material';
 import { logoStyles } from '../filteredLogos';
-import { type MutableRefObject, useState } from 'react';
+import { type MutableRefObject, useCallback, useState } from 'react';
 import { type Canvas } from 'fabric';
 import { ImageDrawerDisplay } from './ImageDrawerDisplay';
 import './LogosTabs.css';
@@ -17,15 +17,25 @@ type LogoTabsProps = {
 
 export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
   const [value, setValue] = useState(0);
+  const [keyword, setKeyword] = useState('');
+
+  const searchHandler = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setKeyword(evt.target.value);
+    },
+    [setKeyword],
+  );
+
   return (
     <>
       <div className="logoTools">
         <TextField
           id="filled-search"
-          label="Search field"
+          label="Search"
           type="search"
           variant="outlined"
           size="small"
+          onChange={searchHandler}
         />
         <FormControl variant="standard">
           <InputLabel variant="outlined" size="small" id="logo-style-label">
@@ -48,13 +58,16 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
         </FormControl>
       </div>
       <div className="horizontalStack resourceListAreaLogos">
-        {logoStyles[value].map((logo) => (
-          <ImageDrawerDisplay
-            key={logo.name}
-            canvasRef={canvasRef}
-            imageResult={{ url: logo.url, width: 400, height: 400 }}
-          />
-        ))}
+        {logoStyles[value].map(
+          (logo) =>
+            logo.name.includes(keyword) && (
+              <ImageDrawerDisplay
+                key={logo.name}
+                canvasRef={canvasRef}
+                imageResult={{ url: logo.url, width: 400, height: 400 }}
+              />
+            ),
+        )}
       </div>
     </>
   );
