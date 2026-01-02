@@ -37,14 +37,10 @@ export const scaleImageToOverlayArea = async (
     },
   );
 
-  if (isCover) {
-    const clipPath = await placeholder.clone();
-    clipPath.visible = true;
-    clipPath.absolutePositioned = true;
-    mainImage.clipPath = clipPath;
-  } else {
-    mainImage.clipPath = undefined;
-  }
+  const clipPath = await placeholder.clone();
+  clipPath.visible = true;
+  clipPath.absolutePositioned = true;
+  mainImage.clipPath = clipPath;
 
   mainImage.set({
     scaleX: scale,
