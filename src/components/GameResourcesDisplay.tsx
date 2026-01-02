@@ -3,8 +3,8 @@ import { Tabs, Tab, Typography, IconButton, Drawer } from '@mui/material';
 import { type SearchResult } from '../../netlify/apiProviders/types.mts';
 import { type Canvas } from 'fabric';
 import CloseIcon from '@mui/icons-material/Close';
-import controllers from '../controllers';
 import { LogoTabs } from './LogosTabs';
+import { ControllerDisplay } from './ControllerDisplay';
 import { ImageDrawerDisplay } from './ImageDrawerDisplay';
 import './GameResourcesDisplay.css';
 
@@ -50,7 +50,7 @@ export function GameResourcesDisplay({
           <CloseIcon />
         </IconButton>
       </div>
-      {value !== 'logos' && (
+      {value !== 'logos' && value !== 'controllers' && (
         <div className="horizontalStack resourceListArea">
           {value === 'covers' && game.cover && (
             <ImageDrawerDisplay
@@ -117,16 +117,9 @@ export function GameResourcesDisplay({
               ]}
             </div>
           )}
-          {value === 'controllers' &&
-            controllers.map((controller) => (
-              <ImageDrawerDisplay
-                key={controller.name}
-                canvasRef={canvasRef}
-                imageResult={{ url: controller.url, width: 400, height: 400 }}
-              />
-            ))}
         </div>
       )}
+      {value === 'controllers' && <ControllerDisplay canvasRef={canvasRef} />}
       {value === 'logos' && <LogoTabs canvasRef={canvasRef} />}
     </Drawer>
   );
