@@ -50,79 +50,84 @@ export function GameResourcesDisplay({
           <CloseIcon />
         </IconButton>
       </div>
-      <div className="horizontalStack resourceListArea">
-        {value === 'covers' && game.cover && (
-          <ImageDrawerDisplay canvasRef={canvasRef} imageResult={game.cover} />
-        )}
-        {value === 'art' &&
-          game.artworks &&
-          game.artworks.map((artwork) => (
+      {value !== 'logos' && (
+        <div className="horizontalStack resourceListArea">
+          {value === 'covers' && game.cover && (
             <ImageDrawerDisplay
-              key={artwork.id}
               canvasRef={canvasRef}
-              imageResult={artwork}
+              imageResult={game.cover}
             />
-          ))}
-        {value === 'screens' &&
-          game.screenshots &&
-          game.screenshots.map((screen) => (
-            <ImageDrawerDisplay
-              key={screen.id}
-              canvasRef={canvasRef}
-              imageResult={screen}
-            />
-          ))}
-        {value === 'platforms' &&
-          game.platforms &&
-          game.platforms.map(
-            (platform) =>
-              platform.logos &&
-              platform.logos.map((logo) => (
-                <ImageDrawerDisplay
-                  key={logo.id}
-                  canvasRef={canvasRef}
-                  imageResult={logo}
-                />
-              )),
           )}
-        {value === 'companies' &&
-          game.involved_companies &&
-          game.involved_companies.map(
-            (company) =>
-              company.company.logo && (
-                <ImageDrawerDisplay
-                  key={company.id}
-                  canvasRef={canvasRef}
-                  imageResult={company.company.logo}
-                />
-              ),
+          {value === 'art' &&
+            game.artworks &&
+            game.artworks.map((artwork) => (
+              <ImageDrawerDisplay
+                key={artwork.id}
+                canvasRef={canvasRef}
+                imageResult={artwork}
+              />
+            ))}
+          {value === 'screens' &&
+            game.screenshots &&
+            game.screenshots.map((screen) => (
+              <ImageDrawerDisplay
+                key={screen.id}
+                canvasRef={canvasRef}
+                imageResult={screen}
+              />
+            ))}
+          {value === 'platforms' &&
+            game.platforms &&
+            game.platforms.map(
+              (platform) =>
+                platform.logos &&
+                platform.logos.map((logo) => (
+                  <ImageDrawerDisplay
+                    key={logo.id}
+                    canvasRef={canvasRef}
+                    imageResult={logo}
+                  />
+                )),
+            )}
+          {value === 'companies' &&
+            game.involved_companies &&
+            game.involved_companies.map(
+              (company) =>
+                company.company.logo && (
+                  <ImageDrawerDisplay
+                    key={company.id}
+                    canvasRef={canvasRef}
+                    imageResult={company.company.logo}
+                  />
+                ),
+            )}
+          {value === 'meta' && (
+            <div className="metaResources">
+              {game.name && [
+                <Typography variant="h3">Name</Typography>,
+                <Typography>{game.name}</Typography>,
+              ]}
+              {game.summary && [
+                <Typography variant="h3">Summary</Typography>,
+                <Typography>{game.summary}</Typography>,
+              ]}
+              {game.storyline && [
+                <Typography variant="h3">Storyline</Typography>,
+                <Typography>{game.storyline}</Typography>,
+              ]}
+            </div>
           )}
-        {value === 'meta' && (
-          <div className="metaResources">
-            {game.name && [
-              <Typography variant="h3">Name</Typography>,
-              <Typography>{game.name}</Typography>,
-            ]}
-            {game.summary && [
-              <Typography variant="h3">Summary</Typography>,
-              <Typography>{game.summary}</Typography>,
-            ]}
-            {game.storyline && [
-              <Typography variant="h3">Storyline</Typography>,
-              <Typography>{game.storyline}</Typography>,
-            ]}
-          </div>
-        )}
-        {value === 'controllers' &&
-          controllers.map((controller) => (
-            <ImageDrawerDisplay
-              key={controller.name}
-              canvasRef={canvasRef}
-              imageResult={{ url: controller.url, width: 400, height: 400 }}
-            />
-          ))}
-        {value === 'logos' && <LogoTabs canvasRef={canvasRef} />}
-      </div>
+          {value === 'controllers' &&
+            controllers.map((controller) => (
+              <ImageDrawerDisplay
+                key={controller.name}
+                canvasRef={canvasRef}
+                imageResult={{ url: controller.url, width: 400, height: 400 }}
+              />
+            ))}
+        </div>
+      )}
+      {value === 'logos' && <LogoTabs canvasRef={canvasRef} />}
     </Drawer>
   );
 }

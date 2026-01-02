@@ -22,7 +22,7 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
           ))}
         </Tabs>
       </div>
-      <div className="horizontalStack resourceListArea">
+      <div className="horizontalStack resourceListAreaLogos">
         {logoStyles[value].map((logo) => (
           <ImageDrawerDisplay
             key={logo.name}
