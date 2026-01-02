@@ -1,5 +1,4 @@
 import fs from 'node:fs';
-import path from 'node:path';
 
 const logoDir = fs.readdirSync(`${import.meta.dirname}/../src/assets/logos`, {
   recursive: true,
