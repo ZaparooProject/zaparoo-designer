@@ -8,7 +8,12 @@ const logoDir = fs.readdirSync(`${import.meta.dirname}/../src/assets/logos`, {
 const data = [];
 const imports = [];
 logoDir.entries().forEach(([, value]) => {
-  if (value.includes(''))
+  const stats = fs.statSync(
+    `${import.meta.dirname}/../src/assets/logos/${value}`,
+  );
+  if (stats.isDirectory()) {
+    return;
+  }
   const parts = value.split('/');
   const filename = parts[parts.length - 1];
   const importname = filename

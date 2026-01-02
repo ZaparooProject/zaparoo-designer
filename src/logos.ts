@@ -1,45 +1,5 @@
 
-import DarkBlack&White from './assets/logos/Dark - Black & White';
-import DarkColor from './assets/logos/Dark - Color';
-import DarkJustBlack from './assets/logos/Dark - Just Black';
-import LightBlack&White from './assets/logos/Light - Black & White';
-import LightColor from './assets/logos/Light - Color';
-import LightJustWhite from './assets/logos/Light - Just White';
-import ThickOutlines from './assets/logos/Thick Outlines';
-import ThinOutlines from './assets/logos/Thin Outlines';
-import Arcade from './assets/logos/Dark - Black & White/Arcade';
-import Computers from './assets/logos/Dark - Black & White/Computers';
-import Consoles from './assets/logos/Dark - Black & White/Consoles';
-import Handhelds from './assets/logos/Dark - Black & White/Handhelds';
-import Arcade from './assets/logos/Dark - Color/Arcade';
-import Computers from './assets/logos/Dark - Color/Computers';
-import Consoles from './assets/logos/Dark - Color/Consoles';
-import Handhelds from './assets/logos/Dark - Color/Handhelds';
-import Arcade from './assets/logos/Dark - Just Black/Arcade';
-import Computers from './assets/logos/Dark - Just Black/Computers';
-import Consoles from './assets/logos/Dark - Just Black/Consoles';
-import Handhelds from './assets/logos/Dark - Just Black/Handhelds';
-import Arcade from './assets/logos/Light - Black & White/Arcade';
-import Computers from './assets/logos/Light - Black & White/Computers';
-import Consoles from './assets/logos/Light - Black & White/Consoles';
-import Handhelds from './assets/logos/Light - Black & White/Handhelds';
-import Arcade from './assets/logos/Light - Color/Arcade';
-import Computers from './assets/logos/Light - Color/Computers';
-import Consoles from './assets/logos/Light - Color/Consoles';
-import Handhelds from './assets/logos/Light - Color/Handhelds';
 import  from './assets/logos/Light - Just White/.DS_Store';
-import Arcade from './assets/logos/Light - Just White/Arcade';
-import Computers from './assets/logos/Light - Just White/Computers';
-import Consoles from './assets/logos/Light - Just White/Consoles';
-import Handhelds from './assets/logos/Light - Just White/Handhelds';
-import Arcade from './assets/logos/Thick Outlines/Arcade';
-import Computers from './assets/logos/Thick Outlines/Computers';
-import Consoles from './assets/logos/Thick Outlines/Consoles';
-import Handhelds from './assets/logos/Thick Outlines/Handhelds';
-import Arcade from './assets/logos/Thin Outlines/Arcade';
-import Computers from './assets/logos/Thin Outlines/Computers';
-import Consoles from './assets/logos/Thin Outlines/Consoles';
-import Handhelds from './assets/logos/Thin Outlines/Handhelds';
 import AmericanLaserGames from './assets/logos/Dark - Black & White/Arcade/American Laser Games.png';
 import ArcadeClassics from './assets/logos/Dark - Black & White/Arcade/Arcade Classics.png';
 import AtariClassics from './assets/logos/Dark - Black & White/Arcade/Atari Classics.png';
@@ -2003,47 +1963,7 @@ import WataraSupervision from './assets/logos/Thin Outlines/Handhelds/Watara Sup
 import WonderSwanColor from './assets/logos/Thin Outlines/Handhelds/WonderSwan Color.png';
 import WonderSwan from './assets/logos/Thin Outlines/Handhelds/WonderSwan.png';
 export const logos = [
-{ url: 'DarkBlack&White', name: 'Dark - Black & White', style: 'Dark - Black & White', category: 'undefined' },
-{ url: 'DarkColor', name: 'Dark - Color', style: 'Dark - Color', category: 'undefined' },
-{ url: 'DarkJustBlack', name: 'Dark - Just Black', style: 'Dark - Just Black', category: 'undefined' },
-{ url: 'LightBlack&White', name: 'Light - Black & White', style: 'Light - Black & White', category: 'undefined' },
-{ url: 'LightColor', name: 'Light - Color', style: 'Light - Color', category: 'undefined' },
-{ url: 'LightJustWhite', name: 'Light - Just White', style: 'Light - Just White', category: 'undefined' },
-{ url: 'ThickOutlines', name: 'Thick Outlines', style: 'Thick Outlines', category: 'undefined' },
-{ url: 'ThinOutlines', name: 'Thin Outlines', style: 'Thin Outlines', category: 'undefined' },
-{ url: 'Arcade', name: 'Arcade', style: 'Dark - Black & White', category: 'Arcade' },
-{ url: 'Computers', name: 'Computers', style: 'Dark - Black & White', category: 'Computers' },
-{ url: 'Consoles', name: 'Consoles', style: 'Dark - Black & White', category: 'Consoles' },
-{ url: 'Handhelds', name: 'Handhelds', style: 'Dark - Black & White', category: 'Handhelds' },
-{ url: 'Arcade', name: 'Arcade', style: 'Dark - Color', category: 'Arcade' },
-{ url: 'Computers', name: 'Computers', style: 'Dark - Color', category: 'Computers' },
-{ url: 'Consoles', name: 'Consoles', style: 'Dark - Color', category: 'Consoles' },
-{ url: 'Handhelds', name: 'Handhelds', style: 'Dark - Color', category: 'Handhelds' },
-{ url: 'Arcade', name: 'Arcade', style: 'Dark - Just Black', category: 'Arcade' },
-{ url: 'Computers', name: 'Computers', style: 'Dark - Just Black', category: 'Computers' },
-{ url: 'Consoles', name: 'Consoles', style: 'Dark - Just Black', category: 'Consoles' },
-{ url: 'Handhelds', name: 'Handhelds', style: 'Dark - Just Black', category: 'Handhelds' },
-{ url: 'Arcade', name: 'Arcade', style: 'Light - Black & White', category: 'Arcade' },
-{ url: 'Computers', name: 'Computers', style: 'Light - Black & White', category: 'Computers' },
-{ url: 'Consoles', name: 'Consoles', style: 'Light - Black & White', category: 'Consoles' },
-{ url: 'Handhelds', name: 'Handhelds', style: 'Light - Black & White', category: 'Handhelds' },
-{ url: 'Arcade', name: 'Arcade', style: 'Light - Color', category: 'Arcade' },
-{ url: 'Computers', name: 'Computers', style: 'Light - Color', category: 'Computers' },
-{ url: 'Consoles', name: 'Consoles', style: 'Light - Color', category: 'Consoles' },
-{ url: 'Handhelds', name: 'Handhelds', style: 'Light - Color', category: 'Handhelds' },
 { url: '', name: '', style: 'Light - Just White', category: '.DS_Store' },
-{ url: 'Arcade', name: 'Arcade', style: 'Light - Just White', category: 'Arcade' },
-{ url: 'Computers', name: 'Computers', style: 'Light - Just White', category: 'Computers' },
-{ url: 'Consoles', name: 'Consoles', style: 'Light - Just White', category: 'Consoles' },
-{ url: 'Handhelds', name: 'Handhelds', style: 'Light - Just White', category: 'Handhelds' },
-{ url: 'Arcade', name: 'Arcade', style: 'Thick Outlines', category: 'Arcade' },
-{ url: 'Computers', name: 'Computers', style: 'Thick Outlines', category: 'Computers' },
-{ url: 'Consoles', name: 'Consoles', style: 'Thick Outlines', category: 'Consoles' },
-{ url: 'Handhelds', name: 'Handhelds', style: 'Thick Outlines', category: 'Handhelds' },
-{ url: 'Arcade', name: 'Arcade', style: 'Thin Outlines', category: 'Arcade' },
-{ url: 'Computers', name: 'Computers', style: 'Thin Outlines', category: 'Computers' },
-{ url: 'Consoles', name: 'Consoles', style: 'Thin Outlines', category: 'Consoles' },
-{ url: 'Handhelds', name: 'Handhelds', style: 'Thin Outlines', category: 'Handhelds' },
 { url: 'AmericanLaserGames', name: 'American Laser Games', style: 'Dark - Black & White', category: 'Arcade' },
 { url: 'ArcadeClassics', name: 'Arcade Classics', style: 'Dark - Black & White', category: 'Arcade' },
 { url: 'AtariClassics', name: 'Atari Classics', style: 'Dark - Black & White', category: 'Arcade' },
