@@ -11,21 +11,24 @@ logoDir.entries().forEach(([, value]) => {
   const stats = fs.statSync(
     `${import.meta.dirname}/../src/assets/logos/${value}`,
   );
-  if (stats.isDirectory()) {
+  if (stats.isDirectory() || value.includes('.DS_Store')) {
     return;
   }
   const parts = value.split('/');
   const filename = parts[parts.length - 1];
   const importname = value
     .split('.')[0]
-    .replaceAll(' ', '')
-    .replaceAll('-', '')
-    .replaceAll(')', '')
-    .replaceAll('&', '')
+    .replaceAll(/[\s)&/-]/g, '')
+    // .replaceAll(' ', '')
+    // .replaceAll('-', '')
+    // .replaceAll(')', '')
+    // .replaceAll('&', '')
+    // .replaceAll('/', '')
+    .replaceAll('+', 'plus')
     .replaceAll('(', '_');
   imports.push(`import ${importname} from './assets/logos/${value}';`);
   data.push(
-    `{ url: '${importname}', name: '${filename.split('.')[0]}', style: '${
+    `  { url: ${importname}, name: '${filename.split('.')[0]}', style: '${
       parts[0]
     }', category: '${parts[1]}' },`,
   );
