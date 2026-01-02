@@ -1,8 +1,15 @@
-import { Tab, Tabs } from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from '@mui/material';
 import { logoStyles } from '../filteredLogos';
-import { type MutableRefObject, type SyntheticEvent, useState } from 'react';
+import { type MutableRefObject, useState } from 'react';
 import { type Canvas } from 'fabric';
 import { ImageDrawerDisplay } from './ImageDrawerDisplay';
+import './LogosTabs.css';
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -10,17 +17,35 @@ type LogoTabsProps = {
 
 export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
   const [value, setValue] = useState(0);
-  const handleChange = (_: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
   return (
     <>
-      <div className="horizontalStack tabs">
-        <Tabs value={value} onChange={handleChange} aria-label="logo style tab">
-          {logoStyles.map((logos, index) => (
-            <Tab label={logos[index].style} value={index} />
-          ))}
-        </Tabs>
+      <div className="logoTools">
+        <TextField
+          id="filled-search"
+          label="Search field"
+          type="search"
+          variant="outlined"
+          size="small"
+        />
+        <FormControl variant="standard">
+          <InputLabel variant="outlined" size="small" id="logo-style-label">
+            Style
+          </InputLabel>
+          <Select
+            variant="outlined"
+            size="small"
+            labelId="logo-style-label"
+            value={value}
+            label="Style"
+            onChange={(event) => {
+              setValue(event.target.value);
+            }}
+          >
+            {logoStyles.map((logos, index) => (
+              <MenuItem value={index}>{logos[index].style}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
       <div className="horizontalStack resourceListAreaLogos">
         {logoStyles[value].map((logo) => (

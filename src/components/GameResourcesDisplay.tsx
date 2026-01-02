@@ -28,7 +28,7 @@ export function GameResourcesDisplay({
 
   return (
     // The modal has zindex 1300;
-    <Drawer anchor="bottom" open={drawerState} style={{ zIndex: 1500 }}>
+    <Drawer anchor="bottom" open={drawerState} style={{ zIndex: 1300 }}>
       <div className="horizontalStack tabs">
         <Tabs
           value={value}
