@@ -5,6 +5,7 @@ A companion app to the Zaparoo project. The Designer allows you to easily genera
 Zaparoo Designer is officially hosted at: [design.zaparoo.org](https://design.zaparoo.org/)
 
 # Usage
+
 This app is deployed at [https://design.zaparoo.org](https://design.zaparoo.org/) and you can just use it, providing your own images or using the embedded search functionality.
 It has no server, no login, no way to save progress.
 Is meant for producing labels and download the result right away.
@@ -21,3 +22,9 @@ Everything runs locally, your images aren't unploaded to any server.
 ## Trademarks
 
 This repository contains Zaparoo trademark assets which are explicitly licensed to this project in this location by the trademark owner. These trademarks must be removed from the project or replaced if you intend to redistribute or adapt the project in any form. See the Zaparoo [Terms of Use](https://zaparoo.org/terms/) for further details.
+
+## Asset files
+
+All the assets image files located under src/assets/consoles and src/assets/controllers and src/assets/logos and subdirecotries have been retrieved on websites and permission for usage has been asked to their authors.
+Those files may represents content related ot the software industry and are not covered by this project license.
+You shouldn't redistribute those files or use them outside this project unless permission is granted by their authors.

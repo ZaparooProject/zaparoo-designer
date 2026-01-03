@@ -1,3 +1,31 @@
+
+import mixed751pxNintendo_DS_Logo1 from './assets/logos/mixed/751px-Nintendo_DS_Logo1.png';
+import mixed800pxPlayStation_Vita_logo2 from './assets/logos/mixed/800px-PlayStation_Vita_logo2.png';
+import mixedGBA_Logo from './assets/logos/mixed/GBA_Logo.png';
+import mixedNeo_Geo_Pocket_Color_logo from './assets/logos/mixed/Neo_Geo_Pocket_Color_logo.png';
+import mixedNintendo64 from './assets/logos/mixed/Nintendo 64.png';
+import mixedNintendoEntertainmentSystem from './assets/logos/mixed/Nintendo Entertainment System.png';
+import mixedNintendoGameCube from './assets/logos/mixed/Nintendo GameCube.png';
+import mixedNintendoWiiU from './assets/logos/mixed/Nintendo Wii U.png';
+import mixedNintendoSwitchLogoPNGIsolatedHD from './assets/logos/mixed/Nintendo-Switch-Logo-PNG-Isolated-HD.png';
+import mixedNintendo_3DS_Logo2 from './assets/logos/mixed/Nintendo_3DS_Logo2.png';
+import mixedNintendo_Game_Boy_Logo from './assets/logos/mixed/Nintendo_Game_Boy_Logo.svg.png';
+import mixedPlayStation_2_logo from './assets/logos/mixed/PlayStation_2_logo.svg.png';
+import mixedPlayStation_3_logo_on_white__20093 from './assets/logos/mixed/PlayStation_3_logo_on_white_(2009)3.png';
+import mixedPlayStation_4_logo_and_wordmark2 from './assets/logos/mixed/PlayStation_4_logo_and_wordmark2.png';
+import mixedSega32X from './assets/logos/mixed/Sega 32X.png';
+import mixedSegaCD from './assets/logos/mixed/Sega CD.png';
+import mixedSegaDreamcast1 from './assets/logos/mixed/Sega Dreamcast-1.png';
+import mixedSegaGenesis from './assets/logos/mixed/Sega Genesis.png';
+import mixedSonyPlaystation from './assets/logos/mixed/Sony Playstation.png';
+import mixedSuperNintendoEntertainmentSystem from './assets/logos/mixed/Super Nintendo Entertainment System.png';
+import mixedXboxLogo20012048x1152 from './assets/logos/mixed/Xbox-Logo-2001-2048x1152.png';
+import mixedXbox_360_logo_1 from './assets/logos/mixed/Xbox_360_logo (1).png';
+import mixednintendogameboycolor from './assets/logos/mixed/nintendo gameboy color.png';
+import mixednintendowii from './assets/logos/mixed/nintendo wii.png';
+import mixedplaystation5 from './assets/logos/mixed/playstation 5.png';
+import mixedpsp_logo2 from './assets/logos/mixed/psp_logo2.png';
+import mixedsegamastersystem from './assets/logos/mixed/sega master system.png';
 import DarkBlackWhiteArcadeAmericanLaserGames from './assets/logos/Dark - Black & White/Arcade/American Laser Games.png';
 import DarkBlackWhiteArcadeArcadeClassics from './assets/logos/Dark - Black & White/Arcade/Arcade Classics.png';
 import DarkBlackWhiteArcadeAtariClassics from './assets/logos/Dark - Black & White/Arcade/Atari Classics.png';
@@ -1961,6 +1989,168 @@ import ThinOutlinesHandheldsWataraSupervision from './assets/logos/Thin Outlines
 import ThinOutlinesHandheldsWonderSwanColor from './assets/logos/Thin Outlines/Handhelds/WonderSwan Color.png';
 import ThinOutlinesHandheldsWonderSwan from './assets/logos/Thin Outlines/Handhelds/WonderSwan.png';
 export const staticLogos = [
+  {
+    url: mixed751pxNintendo_DS_Logo1,
+    name: '751px-Nintendo_DS_Logo1',
+    style: 'mixed',
+    category: '751px-Nintendo_DS_Logo1.png',
+  },
+  {
+    url: mixed800pxPlayStation_Vita_logo2,
+    name: '800px-PlayStation_Vita_logo2',
+    style: 'mixed',
+    category: '800px-PlayStation_Vita_logo2.png',
+  },
+  {
+    url: mixedGBA_Logo,
+    name: 'GBA_Logo',
+    style: 'mixed',
+    category: 'GBA_Logo.png',
+  },
+  {
+    url: mixedNeo_Geo_Pocket_Color_logo,
+    name: 'Neo_Geo_Pocket_Color_logo',
+    style: 'mixed',
+    category: 'Neo_Geo_Pocket_Color_logo.png',
+  },
+  {
+    url: mixedNintendo64,
+    name: 'Nintendo 64',
+    style: 'mixed',
+    category: 'Nintendo 64.png',
+  },
+  {
+    url: mixedNintendoEntertainmentSystem,
+    name: 'Nintendo Entertainment System',
+    style: 'mixed',
+    category: 'Nintendo Entertainment System.png',
+  },
+  {
+    url: mixedNintendoGameCube,
+    name: 'Nintendo GameCube',
+    style: 'mixed',
+    category: 'Nintendo GameCube.png',
+  },
+  {
+    url: mixedNintendoWiiU,
+    name: 'Nintendo Wii U',
+    style: 'mixed',
+    category: 'Nintendo Wii U.png',
+  },
+  {
+    url: mixedNintendoSwitchLogoPNGIsolatedHD,
+    name: 'Nintendo-Switch-Logo-PNG-Isolated-HD',
+    style: 'mixed',
+    category: 'Nintendo-Switch-Logo-PNG-Isolated-HD.png',
+  },
+  {
+    url: mixedNintendo_3DS_Logo2,
+    name: 'Nintendo_3DS_Logo2',
+    style: 'mixed',
+    category: 'Nintendo_3DS_Logo2.png',
+  },
+  {
+    url: mixedNintendo_Game_Boy_Logo,
+    name: 'Nintendo_Game_Boy_Logo',
+    style: 'mixed',
+    category: 'Nintendo_Game_Boy_Logo.svg.png',
+  },
+  {
+    url: mixedPlayStation_2_logo,
+    name: 'PlayStation_2_logo',
+    style: 'mixed',
+    category: 'PlayStation_2_logo.svg.png',
+  },
+  {
+    url: mixedPlayStation_3_logo_on_white__20093,
+    name: 'PlayStation_3_logo_on_white_(2009)3',
+    style: 'mixed',
+    category: 'PlayStation_3_logo_on_white_(2009)3.png',
+  },
+  {
+    url: mixedPlayStation_4_logo_and_wordmark2,
+    name: 'PlayStation_4_logo_and_wordmark2',
+    style: 'mixed',
+    category: 'PlayStation_4_logo_and_wordmark2.png',
+  },
+  {
+    url: mixedSega32X,
+    name: 'Sega 32X',
+    style: 'mixed',
+    category: 'Sega 32X.png',
+  },
+  {
+    url: mixedSegaCD,
+    name: 'Sega CD',
+    style: 'mixed',
+    category: 'Sega CD.png',
+  },
+  {
+    url: mixedSegaDreamcast1,
+    name: 'Sega Dreamcast-1',
+    style: 'mixed',
+    category: 'Sega Dreamcast-1.png',
+  },
+  {
+    url: mixedSegaGenesis,
+    name: 'Sega Genesis',
+    style: 'mixed',
+    category: 'Sega Genesis.png',
+  },
+  {
+    url: mixedSonyPlaystation,
+    name: 'Sony Playstation',
+    style: 'mixed',
+    category: 'Sony Playstation.png',
+  },
+  {
+    url: mixedSuperNintendoEntertainmentSystem,
+    name: 'Super Nintendo Entertainment System',
+    style: 'mixed',
+    category: 'Super Nintendo Entertainment System.png',
+  },
+  {
+    url: mixedXboxLogo20012048x1152,
+    name: 'Xbox-Logo-2001-2048x1152',
+    style: 'mixed',
+    category: 'Xbox-Logo-2001-2048x1152.png',
+  },
+  {
+    url: mixedXbox_360_logo_1,
+    name: 'Xbox_360_logo (1)',
+    style: 'mixed',
+    category: 'Xbox_360_logo (1).png',
+  },
+  {
+    url: mixednintendogameboycolor,
+    name: 'nintendo gameboy color',
+    style: 'mixed',
+    category: 'nintendo gameboy color.png',
+  },
+  {
+    url: mixednintendowii,
+    name: 'nintendo wii',
+    style: 'mixed',
+    category: 'nintendo wii.png',
+  },
+  {
+    url: mixedplaystation5,
+    name: 'playstation 5',
+    style: 'mixed',
+    category: 'playstation 5.png',
+  },
+  {
+    url: mixedpsp_logo2,
+    name: 'psp_logo2',
+    style: 'mixed',
+    category: 'psp_logo2.png',
+  },
+  {
+    url: mixedsegamastersystem,
+    name: 'sega master system',
+    style: 'mixed',
+    category: 'sega master system.png',
+  },
   {
     url: DarkBlackWhiteArcadeAmericanLaserGames,
     name: 'American Laser Games',

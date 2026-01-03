@@ -5,6 +5,7 @@ import { type Canvas } from 'fabric';
 import CloseIcon from '@mui/icons-material/Close';
 import { LogoTabs } from './LogosTabs';
 import { ControllerDisplay } from './ControllerDisplay';
+import { ConsoleDisplay } from './ConsoleDisplay';
 import { ImageDrawerDisplay } from './ImageDrawerDisplay';
 import './GameResourcesDisplay.css';
 
@@ -45,12 +46,13 @@ export function GameResourcesDisplay({
           {game.artworks && <Tab label="Art" value="art" />}
           {game.name && <Tab label="Game meta" value="meta" />}
           <Tab label="Controllers" value="controllers" />
+          <Tab label="Consoles" value="consoles" />
         </Tabs>
         <IconButton onClick={() => setDrawerState(false)}>
           <CloseIcon />
         </IconButton>
       </div>
-      {value !== 'logos' && value !== 'controllers' && (
+      {value !== 'logos' && value !== 'controllers' && value !== 'consoles' && (
         <div className="horizontalStack resourceListArea">
           {value === 'covers' && game.cover && (
             <ImageDrawerDisplay
@@ -120,6 +122,7 @@ export function GameResourcesDisplay({
         </div>
       )}
       {value === 'controllers' && <ControllerDisplay canvasRef={canvasRef} />}
+      {value === 'consoles' && <ConsoleDisplay canvasRef={canvasRef} />}
       {value === 'logos' && <LogoTabs canvasRef={canvasRef} />}
     </Drawer>
   );
