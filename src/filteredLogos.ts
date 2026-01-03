@@ -25,4 +25,7 @@ export const logoStyles = [
   staticLogos
     .filter((logo) => logo.style === 'Light - Just White')
     .sort((a: any, b: any) => a.category - b.category),
+  staticLogos
+    .filter((logo) => logo.style === 'mixed')
+    .sort((a: any, b: any) => a.category - b.category),
 ] as const;
