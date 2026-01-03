@@ -20,6 +20,7 @@ export const fixImageInsideCanvas = (target: FabricImage) => {
   let minY = 0;
   let maxX = canvas.width / zoom;
   let maxY = canvas.height / zoom;
+
   if (placeholder) {
     const [tl, , br] = placeholder.getCoords();
     minX = tl.x;
@@ -27,29 +28,42 @@ export const fixImageInsideCanvas = (target: FabricImage) => {
     maxX = br.x;
     maxY = br.y;
   }
+
   // top left corner
   const topLeft = target.translateToOriginPoint(center, 'left', 'top');
-  if (topLeft.x > minX) {
-    fixXPos = minX;
-    fixOriginX = 'left';
-  }
-  if (topLeft.y > minY) {
-    fixYPos = minY;
-    fixOriginY = 'top';
-  }
-
-  // bottom left corner
-  // max y and max x depends on currenct canvas size and zoom
-
   const bottomRight = target.translateToOriginPoint(center, 'right', 'bottom');
-  if (bottomRight.x < maxX) {
-    fixXPos = maxX;
-    fixOriginX = 'right';
+
+  const { x, y } = target._getTransformedDimensions();
+  const { x: px, y: py } = placeholder?._getTransformedDimensions() ?? {
+    x: canvas.width,
+    y: canvas.height,
+  };
+
+  if (x < px) {
+    fixXPos = (minX + maxX) / 2;
+  } else {
+    if (topLeft.x > minX) {
+      fixXPos = minX;
+      fixOriginX = 'left';
+    }
+    if (bottomRight.x < maxX) {
+      fixXPos = maxX;
+      fixOriginX = 'right';
+    }
   }
-  if (bottomRight.y < maxY) {
-    fixYPos = maxY;
-    fixOriginY = 'bottom';
+  if (y < py) {
+    fixYPos = (minY + maxY) / 2;
+  } else {
+    if (topLeft.y > minY) {
+      fixYPos = minY;
+      fixOriginY = 'top';
+    }
+    if (bottomRight.y < maxY) {
+      fixYPos = maxY;
+      fixOriginY = 'bottom';
+    }
   }
+
   target.setPositionByOrigin(
     new Point(fixXPos, fixYPos),
     fixOriginX,

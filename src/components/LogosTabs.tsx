@@ -1,8 +1,15 @@
-import { Tab, Tabs } from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from '@mui/material';
 import { logoStyles } from '../filteredLogos';
-import { type MutableRefObject, type SyntheticEvent, useState } from 'react';
+import { type MutableRefObject, useCallback, useState } from 'react';
 import { type Canvas } from 'fabric';
 import { ImageDrawerDisplay } from './ImageDrawerDisplay';
+import './LogosTabs.css';
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -10,26 +17,57 @@ type LogoTabsProps = {
 
 export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
   const [value, setValue] = useState(0);
-  const handleChange = (_: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const [keyword, setKeyword] = useState('');
+
+  const searchHandler = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setKeyword(evt.target.value.toLocaleLowerCase());
+    },
+    [setKeyword],
+  );
+
   return (
     <>
-      <div className="horizontalStack tabs">
-        <Tabs value={value} onChange={handleChange} aria-label="logo style tab">
-          {logoStyles.map((logos, index) => (
-            <Tab label={logos[index].style} value={index} />
-          ))}
-        </Tabs>
+      <div className="logoTools">
+        <TextField
+          id="filled-search"
+          label="Search"
+          type="search"
+          variant="outlined"
+          size="small"
+          onChange={searchHandler}
+        />
+        <FormControl variant="standard">
+          <InputLabel variant="outlined" size="small" id="logo-style-label">
+            Style
+          </InputLabel>
+          <Select
+            variant="outlined"
+            size="small"
+            labelId="logo-style-label"
+            value={value}
+            label="Style"
+            onChange={(event) => {
+              setValue(event.target.value);
+            }}
+          >
+            {logoStyles.map((logos, index) => (
+              <MenuItem value={index}>{logos[index].style}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
       <div className="horizontalStack resourceListAreaLogos">
-        {logoStyles[value].map((logo) => (
-          <ImageDrawerDisplay
-            key={logo.name}
-            canvasRef={canvasRef}
-            imageResult={{ url: logo.url, width: 400, height: 400 }}
-          />
-        ))}
+        {logoStyles[value].map(
+          (logo) =>
+            logo.name.toLowerCase().includes(keyword) && (
+              <ImageDrawerDisplay
+                key={logo.name}
+                canvasRef={canvasRef}
+                imageResult={{ url: logo.url, width: 400, height: 400 }}
+              />
+            ),
+        )}
       </div>
     </>
   );

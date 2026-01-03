@@ -12,8 +12,8 @@
   align-content: start;
   flex-wrap: wrap;
   overflow-y: scroll;
-  height: 300px;
-  max-height: 300px;
+  height: 307px;
+  max-height: 307px;
   padding: 8px;
   gap: 10px;
 }

@@ -29,10 +29,16 @@ export const ImageAdjust = ({
     const placeholderMain = getPlaceholderMain(canvas);
     if (placeholderMain) {
       const dims = placeholderMain._getTransformedDimensions();
-      const coverScale = util.findScaleToCover(image, {
-        width: dims.x,
-        height: dims.y,
-      });
+      const coverScale =
+        image['zaparoo-fill-strategy'] === 'cover'
+          ? util.findScaleToCover(image, {
+              width: dims.x,
+              height: dims.y,
+            })
+          : util.findScaleToFit(image, {
+              width: dims.x,
+              height: dims.y,
+            });
       setPrintsizeX(dims.x);
       setPrintsizeY(dims.y);
       setMinScale(coverScale);
