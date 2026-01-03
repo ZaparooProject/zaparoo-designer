@@ -69,20 +69,6 @@ const parseSvg = (url: string): Promise<Group> =>
     return group;
   });
 
-const reposition = (
-  fabricLayer: FabricObject,
-  template: templateTypeV2,
-): void => {
-  if (template.layout === 'horizontal') {
-    fabricLayer.left = template.media.width / 2;
-    fabricLayer.top = template.media.height / 2;
-  } else {
-    fabricLayer.left = template.media.height / 2;
-    fabricLayer.top = template.media.width / 2;
-  }
-  fabricLayer.setCoords();
-};
-
 export const setTemplateV2OnCanvases = async (
   cards: CardData[],
   template: templateTypeV2,
@@ -101,8 +87,13 @@ export const setTemplateV2OnCanvases = async (
   const colors = extractUniqueColorsFromGroup(templateSource);
   const isHorizontal = layout === 'horizontal';
   const { width, height } = media;
-  const finalWidth = isHorizontal ? width : height;
-  const finalHeight = isHorizontal ? height : width;
+  const maximumBox = {
+    width: 900, // use --cell-width css var value
+    height: 900,
+  };
+  const scale = util.findScaleToFit(media, maximumBox);
+  const finalWidth = isHorizontal ? scale * width : scale * height;
+  const finalHeight = isHorizontal ? scale * height : scale * width;
 
   for (const card of cards) {
     const { canvas } = card;
@@ -112,6 +103,7 @@ export const setTemplateV2OnCanvases = async (
     card.template = template;
     // resize only if necessary
     if (finalHeight !== canvas.height || finalWidth !== canvas.width) {
+      canvas.enableRetinaScaling = false;
       canvas.setDimensions(
         {
           width: finalWidth,
@@ -119,11 +111,11 @@ export const setTemplateV2OnCanvases = async (
         },
         { backstoreOnly: true },
       );
+      canvas.setZoom(scale);
       const clipPath = new Rect(template.media);
       clipPath.canvas = canvas as Canvas;
       canvas.centerObject(clipPath);
       canvas.clipPath = clipPath;
-
       canvas.setDimensions(
         {
           width: isHorizontal ? 'var(--cell-width)' : 'auto',
@@ -153,11 +145,12 @@ export const setTemplateV2OnCanvases = async (
         canvas,
       );
 
-      fabricLayer.scaleX = templateScale;
-      fabricLayer.scaleY = templateScale;
+      fabricLayer.scaleX = templateScale / scale;
+      fabricLayer.scaleY = templateScale / scale;
     }
+
     // set the overlay of the template in the center of the card
-    reposition(fabricLayer, template);
+    canvas.viewportCenterObject(fabricLayer);
 
     // remove the previous template from the canvas if any.
     canvas.remove(...canvas.getObjects());
@@ -188,7 +181,7 @@ export const setTemplateV2OnCanvases = async (
       } else {
         clipPath.angle = 90;
       }
-      reposition(clipPath, template);
+      canvas.viewportCenterObject(clipPath);
     }
 
     canvas.requestRenderAll();
