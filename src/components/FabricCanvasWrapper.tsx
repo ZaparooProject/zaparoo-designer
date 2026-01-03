@@ -1,5 +1,5 @@
 import { useRef, useEffect, useTransition } from 'react';
-import { StaticCanvas, FabricObject } from 'fabric';
+import { StaticCanvas } from 'fabric';
 
 type WrapperProp = {
   setFabricCanvas: (canvas: StaticCanvas | null) => void;
@@ -11,11 +11,10 @@ export const FabricCanvasWrapper = ({ setFabricCanvas }: WrapperProp) => {
 
   useEffect(() => {
     if (canvasRef.current) {
-      FabricObject.ownDefaults.originX = 'center';
-      FabricObject.ownDefaults.originY = 'center';
       const fabricCanvas = new StaticCanvas(canvasRef.current!, {
         renderOnAddRemove: false,
         backgroundColor: 'white',
+        enableRetinaScaling: false,
       });
       startTransition(() => {
         setFabricCanvas(fabricCanvas);
