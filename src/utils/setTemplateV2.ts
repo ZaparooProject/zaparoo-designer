@@ -1,11 +1,11 @@
 import {
+  FabricImage,
   util,
   loadSVGFromURL,
   Group,
   FabricObject,
   type Canvas,
   Rect,
-  type FabricImage,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
 import type { templateTypeV2 } from '../resourcesTypedef';
@@ -37,10 +37,12 @@ export const scaleImageToOverlayArea = async (
     },
   );
 
-  const clipPath = await placeholder.clone();
-  clipPath.visible = true;
-  clipPath.absolutePositioned = true;
-  mainImage.clipPath = clipPath;
+  if (!(placeholder instanceof FabricImage)) {
+    const clipPath = await placeholder.clone();
+    clipPath.visible = true;
+    clipPath.absolutePositioned = true;
+    mainImage.clipPath = clipPath;
+  }
 
   mainImage.set({
     scaleX: scale,
