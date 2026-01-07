@@ -65,22 +65,20 @@ export const LabelEditor = ({
         </div>
       </label>
       <div className="floating-container left">
-        {card.template?.canEdit && (
-          <div className="button-look">
-            <IconButton
-              className="button-look"
-              color="secondary"
-              id={card.key}
-              onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                e.stopPropagation();
-                e.preventDefault();
-                setCardToEdit(index);
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-          </div>
-        )}
+        <div className="button-look">
+          <IconButton
+            className="button-look"
+            color="secondary"
+            id={card.key}
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setCardToEdit(index);
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+        </div>
         {card.template?.canFill && Object.keys(card.game).length > 0 && (
           <div className="button-look">
             <IconButton

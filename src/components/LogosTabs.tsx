@@ -6,10 +6,17 @@ import {
   TextField,
 } from '@mui/material';
 import { logoStyles } from '../filteredLogos';
-import { type MutableRefObject, useCallback, useState } from 'react';
+import { type MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { type Canvas } from 'fabric';
 import { ImageDrawerDisplay } from './ImageDrawerDisplay';
 import './LogosTabs.css';
+
+type StaticLogo = {
+  url: string;
+  name: string;
+  style: string;
+  category: string;
+};
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -18,6 +25,11 @@ type LogoTabsProps = {
 export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
   const [value, setValue] = useState(0);
   const [keyword, setKeyword] = useState('');
+  const [logos, setLogos] = useState<StaticLogo[]>([]);
+
+  useEffect(() => {
+    logoStyles[0].getter().then((data) => setLogos(data));
+  }, [setLogos]);
 
   const searchHandler = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -47,22 +59,26 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
             labelId="logo-style-label"
             value={value}
             label="Style"
-            onChange={(event) => {
-              setValue(event.target.value);
+            onChange={async (event) => {
+              const val = event.target.value;
+              setValue(val);
+              setLogos(await logoStyles[val].getter());
             }}
           >
-            {logoStyles.map((logos, index) => (
-              <MenuItem value={index}>{logos[index].style}</MenuItem>
+            {logoStyles.map((_, index) => (
+              <MenuItem key={logoStyles[index].style} value={index}>
+                {logoStyles[index].style}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
       </div>
       <div className="horizontalStack resourceListAreaLogos">
-        {logoStyles[value].map(
+        {logos.map(
           (logo) =>
             logo.name.toLowerCase().includes(keyword) && (
               <ImageDrawerDisplay
-                key={logo.name}
+                key={logo.url}
                 canvasRef={canvasRef}
                 imageResult={{ url: logo.url, width: 400, height: 400 }}
               />
