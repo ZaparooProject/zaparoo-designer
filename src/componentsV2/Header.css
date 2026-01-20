@@ -1,0 +1,127 @@
+:root {
+  --header-height: 60px;
+}
+
+.topHeader {
+  background: #2a2a3e;
+  z-index: 10;
+  position: fixed;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  width: calc(100vw - 36px);
+  backdrop-filter: blur(50px);
+  padding-right: 18px;
+  padding-left: 18px;
+  border-bottom: 1px solid #3a3a4e;
+}
+
+.topHeader .spacedContent {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.topHeader .content {
+  align-items: center;
+  height: var(--header-height);
+  display: flex;
+  flex-direction: row;
+}
+
+#logo {
+  height: auto;
+  width: 127px;
+  display: flex;
+}
+
+.spacer {
+  height: 42px;
+  width: 1px;
+  background-color: #fff;
+  margin: 2px;
+}
+
+@media (max-width: 1200px) {
+  .fullHeader .hiddenText p {
+    display: none;
+  }
+}
+
+@media (max-width: 920px) {
+  .fullHeader .hiddenText p {
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .fullHeader .hiddenText p {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .fullHeader button.hiddenText {
+    min-width: 40px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .emptyHeader .hiddenText p {
+    display: none;
+  }
+  .emptyHeader button.hiddenText {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+/* iphones */
+@media (max-width: 430px) {
+  .fullHeader.topHeader {
+    width: calc(100vw - 16px);
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+  #logo {
+    width: 110px;
+    display: flex;
+  }
+  .fullHeader button.hiddenText {
+    min-width: 40px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .fullHeader .printerDropdown {
+    width: 130px;
+  }
+}
+
+@media (max-width: 390px) {
+  .fullHeader .printerDropdown {
+    width: 100px;
+  }
+}
+
+/* small iphones */
+@media (max-width: 375px) {
+  .fullHeader.topHeader {
+    width: calc(100vw - 16px);
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+  #logo {
+    width: 80px;
+    display: flex;
+  }
+  .fullHeader button.hiddenText {
+    min-width: 40px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .fullHeader .printerDropdown {
+    width: 70px;
+  }
+}

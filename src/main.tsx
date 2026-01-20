@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import { AppDataContextProvider } from './components/AppDataProvider.tsx';
 import { FileDropperContextProvider } from './components/FileDropperProvider';
@@ -48,11 +49,13 @@ const theme = createTheme({
 setupFabricJSCustomConfiguration();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <ThemeProvider theme={theme}>
-    <AppDataContextProvider>
-      <FileDropperContextProvider>
-        <App />
-      </FileDropperContextProvider>
-    </AppDataContextProvider>
-  </ThemeProvider>,
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <AppDataContextProvider>
+        <FileDropperContextProvider>
+          <App />
+        </FileDropperContextProvider>
+      </AppDataContextProvider>
+    </ThemeProvider>
+  </BrowserRouter>,
 );
