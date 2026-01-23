@@ -6,15 +6,24 @@
   max-height: calc(100vh - 60px);
 }
 
+.actionBar {
+  background: #2a2a3e;
+  display: flex;
+  width: var(--action-bar-width);
+  border-right: 1px solid var(--ui-color-3);
+}
+
 .leftPanel {
   background: #2a2a3e;
-  border-right: 1px solid #3a3a4e;
+  border-right: 1px solid var(--ui-color-3);
   flex-direction: column;
-  width: 320px;
+  width: var(--left-panel-width);
+  min-width: var(--left-panel-width);
   display: flex;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
+  padding: 0;
 }
 
 .verticalStack.leftPanel {
@@ -50,88 +59,4 @@
   max-width: var(--cell-width);
   width: calc(49.9% - 20px);
   max-height: var(--cell-width);
-}
-
-.button-look {
-  background-color: #5361d9;
-  transition: opacity 400ms;
-  border-radius: 8px;
-  opacity: 1;
-}
-
-.labelContainer .floating-checkbox {
-  opacity: 0;
-  top: 0;
-  position: absolute;
-}
-
-.labelContainer .floating-container {
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  transition: opacity 400ms;
-  width: 40px;
-  display: flex;
-  gap: 8px;
-  flex-direction: column;
-}
-
-.labelContainer .floating-checkbox.left,
-.labelContainer .floating-container.left {
-  left: 0;
-}
-
-.labelContainer .floating-checkbox.right,
-.labelContainer .floating-container.right {
-  right: 0;
-}
-
-.labelContainer.card-selected .floating-checkbox,
-.labelContainer.card-selected .floating-container {
-  opacity: 1;
-}
-
-.labelContainer:hover .floating-checkbox,
-.labelContainer:hover .floating-container {
-  opacity: 1;
-}
-
-.labelContainer.vertical {
-  max-width: 370px;
-  width: calc(33.2% - 20px);
-  max-height: 1029px;
-}
-
-@media (max-width: 920px) {
-  .labelsView {
-    padding-top: 170px;
-  }
-}
-
-@media (max-width: 768px) {
-  .labelContainer.horizontal {
-    max-width: 768px;
-    width: 98%;
-    max-height: 768px;
-  }
-
-  .labelContainer.vertical {
-    max-width: 657px;
-    width: calc(49.9% - 20px);
-    max-height: 1029px;
-  }
-
-  .labelContainer.dropzone.vertical {
-    flex-grow: 1;
-    /* max width twice as a card */
-    max-width: calc(100% - 20px);
-  }
-}
-
-@media (max-width: 414px) {
-  .labelContainer.vertical.dropzone {
-    max-width: 657px;
-    width: calc(100% - 20px);
-    max-height: 1029px;
-  }
 }

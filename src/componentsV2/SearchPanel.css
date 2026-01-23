@@ -1,0 +1,53 @@
+.searchPanel {
+  display: flex;
+  max-height: calc(100vh - var(--header-height));
+}
+
+.searchHeader {
+  justify-content: center;
+}
+
+.searchHeader .textField {
+  flex-grow: 1;
+}
+
+.gameEntry {
+  display: flex;
+  width: 70%;
+  max-width: 100%;
+}
+
+.searchResultsContainer {
+  flex-grow: 1;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  column-gap: 8px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.searchResultsContainer.horizontalStack {
+  width: calc(100% - 10px);
+}
+
+.searchResult {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 36px;
+}
+
+.searchResult img {
+  width: 100%;
+}
+
+.disclaimer {
+  justify-content: space-around;
+}

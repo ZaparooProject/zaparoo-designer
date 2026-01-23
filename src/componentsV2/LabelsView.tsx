@@ -3,7 +3,13 @@ import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
 import { PanelSection } from './PanelSection';
-import { TextField, Typography } from '@mui/material';
+import { IconButton, TextField, Typography, Button } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import PaletteIcon from '@mui/icons-material/Palette';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import BackupTableIcon from '@mui/icons-material/BackupTable';
+import { ActionBarButton } from './ActionBarButton';
+import ImageSearchPanel from './SearchPanel';
 
 const loadFontsForCanvas = async () => {
   const fontsToLoad = [
@@ -41,26 +47,26 @@ export const LabelsView = () => {
 
   return (
     <div className="editorContainer">
-      <aside className="leftPanel">
-        <PanelSection title="Search a game">
-          <TextField
-            fullWidth
-            className="textField"
-            size="small"
-            autoComplete="off"
-            label="Game name"
-            style={{ fontWeight: 400, fontSize: 14 }}
-            onKeyDown={(e: any) => {
-              e.key === 'Enter' && 1;
-            }}
-          />
-        </PanelSection>
-        <PanelSection>
-          <Typography variant="body1" color="secondary">
-            Search for game covers or drop your own images
-          </Typography>
-        </PanelSection>
+      <aside className="actionBar verticalStack">
+        <ActionBarButton>
+          <SearchIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton>
+          <BackupTableIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton>
+          <AddPhotoAlternateIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton>
+          <PaletteIcon width="24" height="24" />
+        </ActionBarButton>
       </aside>
+      <div className="leftPanel">
+        <ImageSearchPanel />
+        <Button variant="contained" color="secondary">
+          Add from Disk
+        </Button>
+      </div>
       <div className="labelsView">
         {cards.current.map((card, index) => (
           <LabelEditor
