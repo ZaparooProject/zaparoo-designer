@@ -1,0 +1,27 @@
+.labelControls {
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.labelContainer {
+  background-color: var(--ui-color-2);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: fit-content;
+  border: 2px solid transparent;
+  margin-bottom: 20px;
+}
+
+.labelContainer.horizontal {
+  max-width: var(--cell-width);
+}
+
+.canvasLabel {
+  max-width: var(--cell-width);
+  max-height: var(--cell-width);
+}
