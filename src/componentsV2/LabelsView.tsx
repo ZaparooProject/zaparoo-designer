@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react';
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
-import { PanelSection } from './PanelSection';
-import { IconButton, TextField, Typography, Button } from '@mui/material';
+import { Button } from '@mui/material';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import SearchIcon from '@mui/icons-material/Search';
 import PaletteIcon from '@mui/icons-material/Palette';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { ActionBarButton } from './ActionBarButton';
 import ImageSearchPanel from './SearchPanel';
-import { GameResourcesPanel } from './GameResourcesPanel';
-import { LogoTabs } from '../components/LogosTabs';
-import { ConsoleDisplay } from '../components/ConsoleDisplay';
-import { ControllerDisplay } from '../components/ControllerDisplay';
+import { HardwareResourcesPanel } from './HardwareResourcesPanel';
+import { LogoTabs } from './LogosTabs';
+import BusinessIcon from '@mui/icons-material/Business';
 
 const enum panels {
   'Search',
@@ -84,24 +83,17 @@ export const LabelsView = () => {
           />
         </ActionBarButton>
         <ActionBarButton>
-          <AddPhotoAlternateIcon
+          <BusinessIcon
             width="24"
             height="24"
             onClick={() => setPanel(panels.Logos)}
           />
         </ActionBarButton>
         <ActionBarButton>
-          <AddPhotoAlternateIcon
+          <SportsEsportsIcon
             width="24"
             height="24"
             onClick={() => setPanel(panels.Consoles)}
-          />
-        </ActionBarButton>
-        <ActionBarButton>
-          <AddPhotoAlternateIcon
-            width="24"
-            height="24"
-            onClick={() => setPanel(panels.Controllers)}
           />
         </ActionBarButton>
         <ActionBarButton>
@@ -110,12 +102,12 @@ export const LabelsView = () => {
       </aside>
       <div className="leftPanel">
         {panel === panels.Search && <ImageSearchPanel />}
-
-        {panel === panels.Resources && <GameResourcesPanel game={{}} />}
+        {/* 
+        {panel === panels.Resources && (
+          <GameResourcesPanel game={{}} canvasRef={{}} />
+        )} */}
         {panel === panels.Logos && <LogoTabs canvasRef={{}} />}
-        {panel === panels.Consoles && <ConsoleDisplay canvasRef={{}} />}
-        {panel === panels.Controllers && <ControllerDisplay canvasRef={{}} />}
-
+        {panel === panels.Consoles && <HardwareResourcesPanel canvasRef={{}} />}
         {panel === panels.FilesUtils && (
           <Button variant="contained" color="secondary">
             Add from Disk
