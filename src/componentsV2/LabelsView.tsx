@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
@@ -10,6 +10,20 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { ActionBarButton } from './ActionBarButton';
 import ImageSearchPanel from './SearchPanel';
+import { GameResourcesPanel } from './GameResourcesPanel';
+import { LogoTabs } from '../components/LogosTabs';
+import { ConsoleDisplay } from '../components/ConsoleDisplay';
+import { ControllerDisplay } from '../components/ControllerDisplay';
+
+const enum panels {
+  'Search',
+  'Resources',
+  'Logos',
+  'Templates',
+  'FilesUtils',
+  'Consoles',
+  'Controllers',
+}
 
 const loadFontsForCanvas = async () => {
   const fontsToLoad = [
@@ -40,7 +54,7 @@ const loadFontsForCanvas = async () => {
 
 export const LabelsView = () => {
   const { cards } = useFileDropperContext();
-
+  const [panel, setPanel] = useState<panels>(panels.Search);
   useEffect(() => {
     loadFontsForCanvas();
   }, []);
@@ -49,23 +63,64 @@ export const LabelsView = () => {
     <div className="editorContainer">
       <aside className="actionBar verticalStack">
         <ActionBarButton>
-          <SearchIcon width="24" height="24" />
+          <SearchIcon
+            width="24"
+            height="24"
+            onClick={() => setPanel(panels.Search)}
+          />
         </ActionBarButton>
         <ActionBarButton>
-          <BackupTableIcon width="24" height="24" />
+          <BackupTableIcon
+            width="24"
+            height="24"
+            onClick={() => setPanel(panels.Templates)}
+          />
         </ActionBarButton>
         <ActionBarButton>
-          <AddPhotoAlternateIcon width="24" height="24" />
+          <AddPhotoAlternateIcon
+            width="24"
+            height="24"
+            onClick={() => setPanel(panels.Resources)}
+          />
+        </ActionBarButton>
+        <ActionBarButton>
+          <AddPhotoAlternateIcon
+            width="24"
+            height="24"
+            onClick={() => setPanel(panels.Logos)}
+          />
+        </ActionBarButton>
+        <ActionBarButton>
+          <AddPhotoAlternateIcon
+            width="24"
+            height="24"
+            onClick={() => setPanel(panels.Consoles)}
+          />
+        </ActionBarButton>
+        <ActionBarButton>
+          <AddPhotoAlternateIcon
+            width="24"
+            height="24"
+            onClick={() => setPanel(panels.Controllers)}
+          />
         </ActionBarButton>
         <ActionBarButton>
           <PaletteIcon width="24" height="24" />
         </ActionBarButton>
       </aside>
       <div className="leftPanel">
-        <ImageSearchPanel />
-        <Button variant="contained" color="secondary">
-          Add from Disk
-        </Button>
+        {panel === panels.Search && <ImageSearchPanel />}
+
+        {panel === panels.Resources && <GameResourcesPanel game={{}} />}
+        {panel === panels.Logos && <LogoTabs canvasRef={{}} />}
+        {panel === panels.Consoles && <ConsoleDisplay canvasRef={{}} />}
+        {panel === panels.Controllers && <ControllerDisplay canvasRef={{}} />}
+
+        {panel === panels.FilesUtils && (
+          <Button variant="contained" color="secondary">
+            Add from Disk
+          </Button>
+        )}
       </div>
       <div className="labelsView">
         {cards.current.map((card, index) => (

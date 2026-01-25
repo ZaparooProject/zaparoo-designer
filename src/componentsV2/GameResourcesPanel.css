@@ -1,0 +1,34 @@
+.resourceListArea {
+  align-content: start;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  padding: 8px;
+  gap: 10px;
+}
+
+.resourceListAreaLogos {
+  align-content: start;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  padding: 8px;
+  gap: 10px;
+}
+
+.horizontalStack.tabs {
+  justify-content: space-between;
+}
+
+.imageResourceDisplayContainer {
+  cursor: pointer;
+  background-color: lightgrey;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 8px;
+  max-width: 400px;
+  height: 250px;
+}
+
+.imageResourceDisplay {
+  object-fit: contain;
+}
