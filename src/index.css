@@ -1,3 +1,7 @@
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   display: flex;
@@ -5,7 +9,8 @@ body {
   width: 100%;
   min-width: 320px;
   min-height: 100vh;
-  overflow-y: scroll;
+  overflow-y: hidden;
+  overflow-x: hidden;
   background-color: #292c34;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
@@ -14,10 +19,13 @@ body {
 }
 
 :root {
+  --ui-color-1: #1e1e2e;
+  --ui-color-2: #2a2a3e;
   --cell-width: 450px;
   --action-bar-width: 48px;
   --left-panel-width: 320px;
   --ui-color-3: #3a3a4e;
+  --header-height: 60px;
 }
 
 ::-webkit-scrollbar {

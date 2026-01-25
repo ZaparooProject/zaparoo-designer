@@ -11,14 +11,15 @@
   flex-direction: row;
   flex-wrap: wrap;
   flex-grow: 1;
-  width: calc(100vw - 36px);
+  width: 100%;
+  box-sizing: border-box;
   backdrop-filter: blur(50px);
   padding-right: 18px;
   padding-left: 18px;
 }
 
 .topHeader.purpleHeader {
-  background-color: #5361D9;
+  background-color: #5361d9;
   transition: top 250ms;
   top: calc(var(--header-height) * -1);
   justify-content: space-between;

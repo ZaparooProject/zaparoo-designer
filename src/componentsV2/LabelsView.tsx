@@ -116,12 +116,7 @@ export const LabelsView = () => {
       </div>
       <div className="labelsView">
         {cards.current.map((card, index) => (
-          <LabelEditor
-            className="labelContainer horizontal"
-            key={card.key}
-            index={index}
-            card={card}
-          />
+          <LabelEditor key={card.key} index={index} card={card} />
         ))}
       </div>
     </div>

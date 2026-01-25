@@ -2,8 +2,9 @@
   padding-top: 60px;
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 60px);
-  max-height: calc(100vh - 60px);
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
+  overflow: hidden;
 }
 
 .actionBar {
@@ -31,32 +32,17 @@
 }
 
 .labelsView {
+  background-color: var(--ui-color-1);
+  padding-top: 16px;
   overflow-x: hidden;
   overflow-y: scroll;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: fit-content;
   width: 100%;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
   column-gap: 20px;
-  overflow: hidden;
-}
-
-.labelContainer {
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: fit-content;
-  border: 2px solid transparent;
-  margin-bottom: 20px;
-}
-
-.labelContainer.horizontal {
-  max-width: var(--cell-width);
-  width: calc(49.9% - 20px);
-  max-height: var(--cell-width);
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
 }

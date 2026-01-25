@@ -5,7 +5,9 @@ import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
 import { Checkbox, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { autoFillTemplate } from '../utils/autoFillTemplate';
+import './labelEditor.css';
 
 type LabelEditorProps = {
   index: number;
@@ -22,7 +24,6 @@ export type MenuInfo = {
 
 export const LabelEditor = ({
   index,
-  className,
   card,
   setCardToEdit,
 }: LabelEditorProps) => {
@@ -39,12 +40,16 @@ export const LabelEditor = ({
 
   return (
     <div
-      className={`${className} ${isSelected ? 'card-selected' : ''}`}
+      className={`labelContainer horizontal ${
+        isSelected ? 'card-selected' : ''
+      }`}
       ref={padderRef}
     >
-      <label htmlFor={card.key}>
+      <label className="canvasLabel" htmlFor={card.key}>
         <FabricCanvasWrapper setFabricCanvas={setFabricCanvas} />
-        <div className="floating-checkbox right button-look">
+      </label>
+      <div className="horizontalStack labelControls">
+        <div className="button-look">
           <Checkbox
             color="secondary"
             id={card.key}
@@ -63,8 +68,7 @@ export const LabelEditor = ({
             }}
           />
         </div>
-      </label>
-      <div className="floating-container left">
+        <div style={{ flexGrow: 1 }}></div>
         <div className="button-look">
           <IconButton
             className="button-look"
@@ -79,9 +83,10 @@ export const LabelEditor = ({
             <EditIcon />
           </IconButton>
         </div>
-        {card.template?.canFill && Object.keys(card.game).length > 0 && (
+        {Object.keys(card.game).length > 0 && (
           <div className="button-look">
             <IconButton
+              disabled={!card.template?.canFill}
               onClick={(e: MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 e.preventDefault();
@@ -94,6 +99,20 @@ export const LabelEditor = ({
             </IconButton>
           </div>
         )}
+        <div className="button-look">
+          <IconButton
+            className="button-look"
+            color="secondary"
+            id={`${card.key}-delete`}
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+              e.preventDefault();
+              // TODO: implement delete logic
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </div>
       </div>
     </div>
   );
