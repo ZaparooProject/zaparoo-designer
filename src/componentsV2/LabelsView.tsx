@@ -13,6 +13,8 @@ import ImageSearchPanel from './SearchPanel';
 import { HardwareResourcesPanel } from './HardwareResourcesPanel';
 import { LogoTabs } from './LogosTabs';
 import BusinessIcon from '@mui/icons-material/Business';
+import BuildCircleIcon from '@mui/icons-material/BuildCircle';
+import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 
 const enum panels {
   'Search',
@@ -99,6 +101,13 @@ export const LabelsView = () => {
         <ActionBarButton>
           <PaletteIcon width="24" height="24" />
         </ActionBarButton>
+        <ActionBarButton>
+          <BuildCircleIcon
+            width="24"
+            height="24"
+            onClick={() => setPanel(panels.FilesUtils)}
+          />
+        </ActionBarButton>
       </aside>
       <div className="leftPanel">
         {panel === panels.Search && <ImageSearchPanel />}
@@ -109,9 +118,18 @@ export const LabelsView = () => {
         {panel === panels.Logos && <LogoTabs canvasRef={{}} />}
         {panel === panels.Consoles && <HardwareResourcesPanel canvasRef={{}} />}
         {panel === panels.FilesUtils && (
-          <Button variant="contained" color="secondary">
-            Add from Disk
-          </Button>
+          <>
+            <Button variant="contained" color="secondary">
+              Add from Disk
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => downloadTemplatesPreview()}
+            >
+              export templates
+            </Button>
+          </>
         )}
       </div>
       <div className="labelsView">
