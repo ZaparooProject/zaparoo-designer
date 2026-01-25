@@ -1,14 +1,18 @@
 import {
   FormControl,
   InputLabel,
+  MenuItem,
+  Select,
   //   Select,
   //   MenuItem,
   //   TextField,
 } from '@mui/material';
 import { templatesPreview } from '../templatesPreview';
-import { type MutableRefObject } from 'react';
+import { useState, type MutableRefObject } from 'react';
 import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
+import { printMediaTypes } from '../printMediaTypes';
+
 import './LogosTabs.css';
 
 type LogoTabsProps = {
@@ -16,6 +20,13 @@ type LogoTabsProps = {
 };
 
 export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
+  const [value, setValue] = useState(0);
+  const [templates, setTemplates] = useState<typeof templatesPreview>(() =>
+    templatesPreview.filter(
+      (template) => template.media === printMediaTypes.NFCCCsizeCard.label,
+    ),
+  );
+
   return (
     <>
       <div className="logoTools">
@@ -23,28 +34,33 @@ export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
           <InputLabel variant="outlined" size="small" id="logo-style-label">
             Media
           </InputLabel>
-          {/* <Select
+          <Select
             variant="outlined"
             size="small"
-            labelId="logo-style-label"
+            labelId="template-media"
             value={value}
             label="Style"
             onChange={async (event) => {
               const val = event.target.value;
               setValue(val);
-              setLogos(await logoStyles[val].getter());
+              setTemplates(
+                templatesPreview.filter(
+                  (template) =>
+                    template.media === printMediaTypes.NFCCCsizeCard.label,
+                ),
+              );
             }}
           >
-            {logoStyles.map((_, index) => (
-              <MenuItem key={logoStyles[index].style} value={index}>
-                {logoStyles[index].style}
+            {Object.entries(printMediaTypes).map(([key, media], index) => (
+              <MenuItem key={key} value={key}>
+                {media.label}
               </MenuItem>
             ))}
-          </Select> */}
+          </Select>
         </FormControl>
       </div>
       <div className="resourceListAreaLogos">
-        {templatesPreview.map((templatePreview) => (
+        {templates.map((templatePreview) => (
           <ImagePanelDisplay
             key={templatePreview.url}
             canvasRef={canvasRef}
