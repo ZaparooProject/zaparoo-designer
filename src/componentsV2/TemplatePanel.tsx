@@ -20,7 +20,7 @@ type LogoTabsProps = {
 };
 
 export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(printMediaTypes.NFCCCsizeCard.label);
   const [templates, setTemplates] = useState<typeof templatesPreview>(() =>
     templatesPreview.filter(
       (template) => template.media === printMediaTypes.NFCCCsizeCard.label,
@@ -44,15 +44,12 @@ export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
               const val = event.target.value;
               setValue(val);
               setTemplates(
-                templatesPreview.filter(
-                  (template) =>
-                    template.media === printMediaTypes.NFCCCsizeCard.label,
-                ),
+                templatesPreview.filter((template) => template.media === val),
               );
             }}
           >
             {Object.entries(printMediaTypes).map(([key, media], index) => (
-              <MenuItem key={key} value={key}>
+              <MenuItem key={key} value={media.label}>
                 {media.label}
               </MenuItem>
             ))}
