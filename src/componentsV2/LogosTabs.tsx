@@ -73,7 +73,7 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
           </Select>
         </FormControl>
       </div>
-      <div className="horizontalStack resourceListAreaLogos">
+      <div className="resourceListAreaLogos">
         {logos.map(
           (logo) =>
             logo.name.toLowerCase().includes(keyword) && (
