@@ -26,7 +26,7 @@ export const prepareTemplateCarousel = async (
       key: 'x',
     };
     await setTemplateV2OnCanvases([card], template);
-    canvas.renderAll();
+    // canvas.renderAll();
     canvases.push(canvas.lowerCanvasEl);
   }
   return canvases;
