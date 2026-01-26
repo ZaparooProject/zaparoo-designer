@@ -16,7 +16,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { TemplatePanel } from './TemplatePanel';
-import { GameResourcesDisplay } from '../components/GameResourcesDisplay';
+import { GameResourcesPanel } from './GameResourcesPanel';
 
 const enum panels {
   'Search',
@@ -115,7 +115,7 @@ export const LabelsView = () => {
         {panel === panels.Search && <ImageSearchPanel />}
         {panel === panels.Templates && <TemplatePanel canvasRef={{}} />}
         {panel === panels.Resources && (
-          <GameResourcesDisplay game={{}} canvasRef={{}} />
+          <GameResourcesPanel game={{}} canvasRef={{}} />
         )}
         {panel === panels.Logos && <LogoTabs canvasRef={{}} />}
         {panel === panels.Consoles && <HardwareResourcesPanel canvasRef={{}} />}
