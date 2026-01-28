@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
@@ -17,6 +17,8 @@ import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { TemplatePanel } from './TemplatePanel';
 import { GameResourcesPanel } from './GameResourcesPanel';
+import { Canvas } from 'fabric';
+import { noop } from '../utils/utils';
 
 const enum panels {
   'Search',
@@ -56,6 +58,7 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
+  const canvasRef = useRef<Canvas | null>(null);
   const { cards, selectedCardGame } = useFileDropperContext();
   const [panel, setPanel] = useState<panels>(panels.Search);
   useEffect(() => {
@@ -113,12 +116,14 @@ export const LabelsView = () => {
       </aside>
       <div className="leftPanel">
         {panel === panels.Search && <ImageSearchPanel />}
-        {panel === panels.Templates && <TemplatePanel canvasRef={{}} />}
+        {panel === panels.Templates && <TemplatePanel canvasRef={canvasRef} />}
         {panel === panels.Resources && (
-          <GameResourcesPanel game={selectedCardGame} canvasRef={{}} />
+          <GameResourcesPanel game={selectedCardGame} canvasRef={canvasRef} />
         )}
-        {panel === panels.Logos && <LogoTabs canvasRef={{}} />}
-        {panel === panels.Consoles && <HardwareResourcesPanel canvasRef={{}} />}
+        {panel === panels.Logos && <LogoTabs canvasRef={canvasRef} />}
+        {panel === panels.Consoles && (
+          <HardwareResourcesPanel canvasRef={canvasRef} />
+        )}
         {panel === panels.FilesUtils && (
           <>
             <Button variant="contained" color="secondary">
@@ -136,7 +141,12 @@ export const LabelsView = () => {
       </div>
       <div className="labelsView">
         {cards.current.map((card, index) => (
-          <LabelEditor key={card.key} index={index} card={card} />
+          <LabelEditor
+            key={card.key}
+            index={index}
+            card={card}
+            setCardToEdit={noop}
+          />
         ))}
       </div>
     </div>

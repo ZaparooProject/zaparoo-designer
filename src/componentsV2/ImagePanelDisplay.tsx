@@ -4,7 +4,7 @@ import { util, type Canvas, FabricImage } from 'fabric';
 import './ImagePanelDisplay.css';
 
 type ImageDrawerDisplayProps = {
-  canvasRef: MutableRefObject<Canvas | null>;
+  canvasRef?: MutableRefObject<Canvas | null>;
   imageResult: Pick<ResultImage, 'url' | 'width' | 'height'>;
 };
 
@@ -14,7 +14,7 @@ export const ImagePanelDisplay = ({
 }: ImageDrawerDisplayProps) => {
   const onClick = () => {
     util.loadImage(imageResult.url).then((img) => {
-      if (!canvasRef.current) {
+      if (!canvasRef?.current) {
         return;
       }
       const image = new FabricImage(img);

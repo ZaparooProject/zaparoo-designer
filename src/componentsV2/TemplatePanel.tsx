@@ -1,12 +1,4 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  //   Select,
-  //   MenuItem,
-  //   TextField,
-} from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { templatesPreview } from '../templatesPreview';
 import { useState, type MutableRefObject } from 'react';
 import { type Canvas } from 'fabric';
@@ -48,7 +40,7 @@ export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
               );
             }}
           >
-            {Object.entries(printMediaTypes).map(([key, media], index) => (
+            {Object.entries(printMediaTypes).map(([key, media]) => (
               <MenuItem key={key} value={media.label}>
                 {media.label}
               </MenuItem>

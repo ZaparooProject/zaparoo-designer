@@ -11,7 +11,6 @@ import './labelEditor.css';
 
 type LabelEditorProps = {
   index: number;
-  className: string;
   card: CardData;
   setCardToEdit: (arg: number) => void;
 };

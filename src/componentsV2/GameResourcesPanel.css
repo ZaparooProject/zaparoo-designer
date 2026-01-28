@@ -1,0 +1,9 @@
+.gameResourcesPanel {
+  height: fit-content;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.noPadding {
+  padding-inline: 0;
+}
