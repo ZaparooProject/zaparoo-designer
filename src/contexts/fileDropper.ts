@@ -6,7 +6,7 @@ import type { SearchResult } from '../../netlify/apiProviders/types.mts';
 
 export type CardData = {
   /* the source of the main image */
-  file: File | HTMLImageElement,
+  file: File | HTMLImageElement;
   game: Partial<SearchResult>;
   canvas?: StaticCanvas;
   template?: templateTypeV2;
@@ -14,7 +14,7 @@ export type CardData = {
   colors: string[];
   originalColors: string[];
   key: string;
-}
+};
 
 export type contextType = {
   files: (File | HTMLImageElement)[];
@@ -24,6 +24,8 @@ export type contextType = {
   removeCards: () => void;
   selectedCardsCount: number;
   setSelectedCardsCount: (qty: number) => void;
+  selectedCardGame: CardData['game'];
+  setSelectedCardGame: (g: CardData['game']) => void;
 };
 
 export const FileDropContext = createContext<contextType>({
@@ -36,6 +38,8 @@ export const FileDropContext = createContext<contextType>({
   removeCards: () => {},
   selectedCardsCount: 0,
   setSelectedCardsCount: () => {},
+  selectedCardGame: {},
+  setSelectedCardGame: () => {},
 });
 
 export const useFileDropperContext = () => useContext(FileDropContext);

@@ -28,7 +28,8 @@
     "react": "^19.x",
     "react-dom": "^19.x",
     "react-intersection-observer": "^9.16.0",
-    "react-router-dom": "^7.12.0"
+    "react-router-dom": "^7.12.0",
+    "zustand": "^5.0.10"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

@@ -4,6 +4,7 @@ import { type Canvas } from 'fabric';
 import { PanelSection } from './PanelSection';
 import { SearchResult } from '../../netlify/apiProviders/types.mts';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
+import './GameResourcesPanel.css';
 
 type GameResourcesDisplayProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -15,77 +16,100 @@ export function GameResourcesPanel({
   game,
 }: GameResourcesDisplayProps) {
   return (
-    <>
+    <div className="gameResourcesPanel">
       {game.cover && (
         <PanelSection title="Cover">
           <ImagePanelDisplay canvasRef={canvasRef} imageResult={game.cover} />
         </PanelSection>
       )}
       {game.artworks && (
-        <PanelSection title="Artwork">
-          {game.artworks.map((artwork) => (
-            <ImagePanelDisplay
-              key={artwork.id}
-              canvasRef={canvasRef}
-              imageResult={artwork}
-            />
-          ))}
+        <PanelSection title="Artwork" className="noPadding">
+          <div className="resourceListAreaLogos">
+            {game.artworks.map((artwork) => (
+              <ImagePanelDisplay
+                key={artwork.id}
+                canvasRef={canvasRef}
+                imageResult={artwork}
+              />
+            ))}
+          </div>
         </PanelSection>
       )}
       {game.screenshots && (
         <PanelSection title="Screenshots">
-          {game.screenshots.map((screen) => (
-            <ImagePanelDisplay
-              key={screen.id}
-              canvasRef={canvasRef}
-              imageResult={screen}
-            />
-          ))}
+          <div className="resourceListAreaLogos">
+            {game.screenshots.map((screen) => (
+              <ImagePanelDisplay
+                key={screen.id}
+                canvasRef={canvasRef}
+                imageResult={screen}
+              />
+            ))}
+          </div>
         </PanelSection>
       )}
       {game.platforms && (
         <PanelSection title="Platforms">
-          {game.platforms.map(
-            (platform) =>
-              platform.logos &&
-              platform.logos.map((logo) => (
-                <ImagePanelDisplay
-                  key={logo.id}
-                  canvasRef={canvasRef}
-                  imageResult={logo}
-                />
-              )),
-          )}
+          <div className="resourceListAreaLogos">
+            {game.platforms.map(
+              (platform) =>
+                platform.logos &&
+                platform.logos.map((logo) => (
+                  <ImagePanelDisplay
+                    key={logo.id}
+                    canvasRef={canvasRef}
+                    imageResult={logo}
+                  />
+                )),
+            )}
+          </div>
         </PanelSection>
       )}
       {game.involved_companies && (
-        <PanelSection title="Screenshots">
-          {game.involved_companies.map(
-            (company) =>
-              company.company.logo && (
-                <ImagePanelDisplay
-                  key={company.id}
-                  canvasRef={canvasRef}
-                  imageResult={company.company.logo}
-                />
-              ),
-          )}
+        <PanelSection title="Company logos">
+          <div className="resourceListAreaLogos">
+            {game.involved_companies.map(
+              (company) =>
+                company.company.logo && (
+                  <ImagePanelDisplay
+                    key={company.id}
+                    canvasRef={canvasRef}
+                    imageResult={company.company.logo}
+                  />
+                ),
+            )}
+          </div>
         </PanelSection>
       )}
-      <PanelSection title="Informations">
-        {game.name && [
-          <Typography variant="h3">Name</Typography>,
-          <Typography>{game.name}</Typography>,
-        ]}
-        {game.summary && [
-          <Typography variant="h3">Summary</Typography>,
-          <Typography>{game.summary}</Typography>,
-        ]}
-        {game.storyline && [
-          <Typography variant="h3">Storyline</Typography>,
-          <Typography>{game.storyline}</Typography>,
-        ]}
-      </PanelSection>
-    </>
+      {game.name && (
+        <PanelSection title="Informations">
+          {game.name && [
+            <Typography variant="h3" color="secondary">
+              Name
+            </Typography>,
+            <Typography color="secondary">{game.name}</Typography>,
+          ]}
+          {game.summary && [
+            <Typography variant="h3" color="secondary">
+              Summary
+            </Typography>,
+            <Typography color="secondary">{game.summary}</Typography>,
+          ]}
+          {game.storyline && [
+            <Typography variant="h3" color="secondary">
+              Storyline
+            </Typography>,
+            <Typography color="secondary">{game.storyline}</Typography>,
+          ]}
+        </PanelSection>
+      )}
+      {Object.keys(game).length === 0 && (
+        <PanelSection title="No card selected">
+          <Typography color="secondary">
+            Please select a single card to see the specific game resources
+          </Typography>
+        </PanelSection>
+      )}
+    </div>
   );
 }

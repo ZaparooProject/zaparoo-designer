@@ -56,7 +56,7 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
-  const { cards } = useFileDropperContext();
+  const { cards, selectedCardGame } = useFileDropperContext();
   const [panel, setPanel] = useState<panels>(panels.Search);
   useEffect(() => {
     loadFontsForCanvas();
@@ -115,7 +115,7 @@ export const LabelsView = () => {
         {panel === panels.Search && <ImageSearchPanel />}
         {panel === panels.Templates && <TemplatePanel canvasRef={{}} />}
         {panel === panels.Resources && (
-          <GameResourcesPanel game={{}} canvasRef={{}} />
+          <GameResourcesPanel game={selectedCardGame} canvasRef={{}} />
         )}
         {panel === panels.Logos && <LogoTabs canvasRef={{}} />}
         {panel === panels.Consoles && <HardwareResourcesPanel canvasRef={{}} />}

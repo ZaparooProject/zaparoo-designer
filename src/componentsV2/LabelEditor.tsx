@@ -27,7 +27,8 @@ export const LabelEditor = ({
   card,
   setCardToEdit,
 }: LabelEditorProps) => {
-  const { selectedCardsCount, setSelectedCardsCount } = useFileDropperContext();
+  const { selectedCardsCount, setSelectedCardsCount, setSelectedCardGame } =
+    useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
   const { setFabricCanvas } = useLabelEditor({
@@ -59,11 +60,15 @@ export const LabelEditor = ({
               const isSelectedCheckbox = (e.target as HTMLInputElement).checked;
               card.isSelected = isSelectedCheckbox;
               startTransition(() => {
-                setSelectedCardsCount(
-                  isSelectedCheckbox
-                    ? selectedCardsCount + 1
-                    : selectedCardsCount - 1,
-                );
+                const newCount = isSelectedCheckbox
+                  ? selectedCardsCount + 1
+                  : selectedCardsCount - 1;
+                setSelectedCardsCount(newCount);
+                if (newCount === 1) {
+                  setSelectedCardGame(card.game);
+                } else {
+                  setSelectedCardGame({});
+                }
               });
             }}
           />

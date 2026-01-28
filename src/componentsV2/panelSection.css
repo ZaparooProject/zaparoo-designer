@@ -1,5 +1,8 @@
 .panelSection {
+  width: 100%;
+  box-sizing: border-box;
   gap: 8px;
+  text-align: left;
   margin-block: 8px;
   padding: 8px;
   border-bottom: 1px solid var(--ui-color-3);
