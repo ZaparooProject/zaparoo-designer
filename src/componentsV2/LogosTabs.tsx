@@ -4,12 +4,14 @@ import {
   Select,
   MenuItem,
   TextField,
+  Typography,
 } from '@mui/material';
 import { logoStyles } from '../filteredLogos';
 import { type MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import './LogosTabs.css';
+import { PanelSection } from './PanelSection';
 
 type StaticLogo = {
   url: string;
@@ -39,7 +41,7 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
   );
 
   return (
-    <>
+    <PanelSection title="Search">
       <div className="logoTools">
         <TextField
           id="filled-search"
@@ -85,6 +87,6 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
             ),
         )}
       </div>
-    </>
+    </PanelSection>
   );
 };

@@ -26,10 +26,6 @@
   overflow-x: hidden;
 }
 
-.searchResultsContainer.horizontalStack {
-  width: calc(100% - 10px);
-}
-
 .searchResult {
   display: flex;
   flex-direction: column;

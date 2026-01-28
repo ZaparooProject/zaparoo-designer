@@ -68,50 +68,26 @@ export const LabelsView = () => {
   return (
     <div className="editorContainer">
       <aside className="actionBar verticalStack">
-        <ActionBarButton>
-          <SearchIcon
-            width="24"
-            height="24"
-            onClick={() => setPanel(panels.Search)}
-          />
+        <ActionBarButton onClick={() => setPanel(panels.Search)}>
+          <SearchIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton>
-          <BackupTableIcon
-            width="24"
-            height="24"
-            onClick={() => setPanel(panels.Templates)}
-          />
+        <ActionBarButton onClick={() => setPanel(panels.Templates)}>
+          <BackupTableIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton>
-          <AddPhotoAlternateIcon
-            width="24"
-            height="24"
-            onClick={() => setPanel(panels.Resources)}
-          />
+        <ActionBarButton onClick={() => setPanel(panels.Resources)}>
+          <AddPhotoAlternateIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton>
-          <BusinessIcon
-            width="24"
-            height="24"
-            onClick={() => setPanel(panels.Logos)}
-          />
+        <ActionBarButton onClick={() => setPanel(panels.Logos)}>
+          <BusinessIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton>
-          <SportsEsportsIcon
-            width="24"
-            height="24"
-            onClick={() => setPanel(panels.Consoles)}
-          />
+        <ActionBarButton onClick={() => setPanel(panels.Consoles)}>
+          <SportsEsportsIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton>
+        <ActionBarButton onClick={() => undefined}>
           <PaletteIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton>
-          <BuildCircleIcon
-            width="24"
-            height="24"
-            onClick={() => setPanel(panels.FilesUtils)}
-          />
+        <ActionBarButton onClick={() => setPanel(panels.FilesUtils)}>
+          <BuildCircleIcon width="24" height="24" />
         </ActionBarButton>
       </aside>
       <div className="leftPanel">

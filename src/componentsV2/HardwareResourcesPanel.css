@@ -3,7 +3,8 @@
   column-gap: 8px;
   overflow-y: scroll;
   padding: 8px;
-  box-sizing: content-box;
+  padding-right: 0px;
+  box-sizing: border-box;
   width: 100%;
 }
 

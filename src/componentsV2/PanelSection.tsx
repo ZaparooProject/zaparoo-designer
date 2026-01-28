@@ -14,7 +14,7 @@ export const PanelSection = ({
   return (
     <div className={`verticalStack panelSection ${className}`}>
       {title && (
-        <Typography variant="h1" color="secondary">
+        <Typography variant="h1" color="secondary" sx={{ paddingRight: '8px' }}>
           {title}
         </Typography>
       )}

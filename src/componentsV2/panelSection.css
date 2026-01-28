@@ -4,7 +4,7 @@
   gap: 8px;
   text-align: left;
   margin-block: 8px;
-  padding: 8px;
+  padding: 0;
   border-bottom: 1px solid var(--ui-color-3);
 }
 
