@@ -1,0 +1,15 @@
+.colorButton {
+  display: block;
+  border-radius: 4px;
+  margin: 10px 5px;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.smallSwatch {
+  display: block;
+  width: 24px;
+  height: 24px;
+}

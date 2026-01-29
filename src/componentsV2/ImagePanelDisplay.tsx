@@ -1,18 +1,20 @@
-import { type MutableRefObject } from 'react';
+import { type MouseEventHandler, type MutableRefObject } from 'react';
 import { type ResultImage } from '../../netlify/apiProviders/types.mts';
 import { util, type Canvas, FabricImage } from 'fabric';
 import './ImagePanelDisplay.css';
 
 type ImageDrawerDisplayProps = {
   canvasRef?: MutableRefObject<Canvas | null>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
   imageResult: Pick<ResultImage, 'url' | 'width' | 'height'>;
 };
 
 export const ImagePanelDisplay = ({
   imageResult,
+  onClick,
   canvasRef,
 }: ImageDrawerDisplayProps) => {
-  const onClick = () => {
+  const defaultOnClick = () => {
     util.loadImage(imageResult.url).then((img) => {
       if (!canvasRef?.current) {
         return;
@@ -26,7 +28,10 @@ export const ImagePanelDisplay = ({
   };
 
   return (
-    <div onClick={onClick} className="imageResourceDisplayContainer">
+    <div
+      onClick={onClick ?? defaultOnClick}
+      className="imageResourceDisplayContainer"
+    >
       <img
         width="100%"
         className="imageResourceDisplay"

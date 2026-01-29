@@ -19,6 +19,8 @@ import { TemplatePanel } from './TemplatePanel';
 import { GameResourcesPanel } from './GameResourcesPanel';
 import { Canvas } from 'fabric';
 import { noop } from '../utils/utils';
+import { ColorsPanel } from './ColorsPanel';
+import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
 
 const enum panels {
   'Search',
@@ -28,6 +30,7 @@ const enum panels {
   'FilesUtils',
   'Consoles',
   'Controllers',
+  'Colors',
 }
 
 const loadFontsForCanvas = async () => {
@@ -83,7 +86,7 @@ export const LabelsView = () => {
         <ActionBarButton onClick={() => setPanel(panels.Consoles)}>
           <SportsEsportsIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton onClick={() => undefined}>
+        <ActionBarButton onClick={() => setPanel(panels.Colors)}>
           <PaletteIcon width="24" height="24" />
         </ActionBarButton>
         <ActionBarButton onClick={() => setPanel(panels.FilesUtils)}>
@@ -100,6 +103,7 @@ export const LabelsView = () => {
         {panel === panels.Consoles && (
           <HardwareResourcesPanel canvasRef={canvasRef} />
         )}
+        {panel === panels.Colors && <ColorsPanel canvasRef={canvasRef} />}
         {panel === panels.FilesUtils && (
           <>
             <Button variant="contained" color="secondary">
@@ -125,6 +129,7 @@ export const LabelsView = () => {
           />
         ))}
       </div>
+      <DataToCanvasReconciler />
     </div>
   );
 };
