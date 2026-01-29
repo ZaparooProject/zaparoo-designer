@@ -1,0 +1,30 @@
+.cardEditModal {
+  display: flex;
+  position: absolute;
+  top: var(--header-height);
+  left: calc(var(--left-panel-width) + var(--action-bar-width));
+  width: calc(100vw - var(--left-panel-width) - var(--action-bar-width));
+  box-sizing: border-box;
+  background-color: var(--ui-color-1);
+  height: calc(100vh - var(--header-height));
+  color: white;
+  overflow-y: hidden;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.verticalStack > .editSpace {
+  position: relative;
+  flex-grow: 1;
+  height: 70%;
+}
+
+.horizontalStack > .editSpace {
+  position: relative;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.confirmButtons {
+  justify-content: space-between;
+}

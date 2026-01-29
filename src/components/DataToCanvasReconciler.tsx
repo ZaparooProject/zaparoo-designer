@@ -18,7 +18,6 @@ export const DataToCanvasReconciler = () => {
   // takes care of template change
   useEffect(() => {
     if (cards.current.length) {
-      console.log('running this');
       setIsIdle(false);
       const selectedCards = cards.current.filter((card) => card.isSelected);
       setTemplateV2OnCanvases(selectedCards, template).then((colors) => {

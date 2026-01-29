@@ -89,3 +89,5 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
     </PanelSection>
   );
 };
+
+export default LogoTabs;

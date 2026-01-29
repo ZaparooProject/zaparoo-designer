@@ -65,3 +65,5 @@ export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
     </PanelSection>
   );
 };
+
+export default TemplatePanel;

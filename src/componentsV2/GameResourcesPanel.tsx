@@ -113,3 +113,5 @@ export function GameResourcesPanel({
     </PanelSection>
   );
 }
+
+export default GameResourcesPanel;

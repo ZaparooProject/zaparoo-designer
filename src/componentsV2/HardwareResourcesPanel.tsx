@@ -31,3 +31,5 @@ export function HardwareResourcesPanel({
     </PanelSection>
   );
 }
+
+export default HardwareResourcesPanel;

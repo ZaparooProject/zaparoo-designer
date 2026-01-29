@@ -15,7 +15,7 @@ export const ColorsPanel = () => {
     setOriginalColors,
     setTemplate,
   } = useAppDataContext();
-  console.log(originalColors, customColors);
+
   useEffect(() => {
     if (selectedCardsCount === 1) {
       const selectedCard = cards.current.find((card) => card.isSelected)!;
