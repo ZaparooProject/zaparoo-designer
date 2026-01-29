@@ -16,15 +16,15 @@ export function GameResourcesPanel({
   game,
 }: GameResourcesDisplayProps) {
   return (
-    <div className="gameResourcesPanel">
+    <PanelSection title="Game resources" className="gameResourcesPanel">
       {game.cover && (
         <PanelSection title="Cover">
           <ImagePanelDisplay canvasRef={canvasRef} imageResult={game.cover} />
         </PanelSection>
       )}
       {game.artworks && (
-        <PanelSection title="Artwork" className="noPadding">
-          <div className="resourceListAreaLogos">
+        <PanelSection title="Artwork" className="sectionNoScroll">
+          <div className="resourceListAreaLogos noScroll">
             {game.artworks.map((artwork) => (
               <ImagePanelDisplay
                 key={artwork.id}
@@ -37,7 +37,7 @@ export function GameResourcesPanel({
       )}
       {game.screenshots && (
         <PanelSection title="Screenshots">
-          <div className="resourceListAreaLogos">
+          <div className="resourceListAreaLogos noScroll">
             {game.screenshots.map((screen) => (
               <ImagePanelDisplay
                 key={screen.id}
@@ -50,7 +50,7 @@ export function GameResourcesPanel({
       )}
       {game.platforms && (
         <PanelSection title="Platforms">
-          <div className="resourceListAreaLogos">
+          <div className="resourceListAreaLogos noScroll">
             {game.platforms.map(
               (platform) =>
                 platform.logos &&
@@ -67,7 +67,7 @@ export function GameResourcesPanel({
       )}
       {game.involved_companies && (
         <PanelSection title="Company logos">
-          <div className="resourceListAreaLogos">
+          <div className="resourceListAreaLogos noScroll">
             {game.involved_companies.map(
               (company) =>
                 company.company.logo && (
@@ -110,6 +110,6 @@ export function GameResourcesPanel({
           </Typography>
         </PanelSection>
       )}
-    </div>
+    </PanelSection>
   );
 }

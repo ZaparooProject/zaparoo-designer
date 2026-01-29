@@ -4,6 +4,7 @@ import { type Canvas } from 'fabric';
 import { ControllerDisplay } from './ControllerDisplay';
 import { ConsoleDisplay } from './ConsoleDisplay';
 import './HardwareResourcesPanel.css';
+import { PanelSection } from './PanelSection';
 
 type GameResourcesDisplayProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -18,7 +19,7 @@ export function HardwareResourcesPanel({
   };
 
   return (
-    <>
+    <PanelSection title="Hardware">
       <div className="horizontalStack tabs">
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Consoles" value="consoles" />
@@ -27,6 +28,6 @@ export function HardwareResourcesPanel({
       </div>
       {value === 'controllers' && <ControllerDisplay canvasRef={canvasRef} />}
       {value === 'consoles' && <ConsoleDisplay canvasRef={canvasRef} />}
-    </>
+    </PanelSection>
   );
 }

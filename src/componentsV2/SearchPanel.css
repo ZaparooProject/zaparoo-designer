@@ -4,7 +4,9 @@
 }
 
 .searchHeader {
+  box-sizing: border-box;
   justify-content: center;
+  padding-inline: 8px;
 }
 
 .searchHeader .textField {
@@ -45,5 +47,6 @@
 }
 
 .disclaimer {
+  padding-inline: 8px;
   justify-content: space-around;
 }

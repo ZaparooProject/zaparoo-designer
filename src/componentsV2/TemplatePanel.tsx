@@ -6,6 +6,7 @@ import { ImagePanelDisplay } from './ImagePanelDisplay';
 import { printMediaTypes } from '../printMediaTypes';
 
 import './LogosTabs.css';
+import { PanelSection } from './PanelSection';
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -20,7 +21,7 @@ export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
   );
 
   return (
-    <>
+    <PanelSection title="Templates">
       <div className="logoTools">
         <FormControl variant="standard">
           <InputLabel variant="outlined" size="small" id="logo-style-label">
@@ -57,6 +58,6 @@ export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
           />
         ))}
       </div>
-    </>
+    </PanelSection>
   );
 };

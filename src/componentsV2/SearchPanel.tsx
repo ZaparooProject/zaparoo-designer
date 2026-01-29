@@ -189,10 +189,8 @@ export default function ImageSearchPanel() {
           sx={{
             boxShadow,
             fontSize: '0.9375rem',
-            textTransform: 'none',
             height: '44px',
             minWidth: '44px',
-            marginRight: '10px',
           }}
           onClick={executeSearchWithReset}
         >

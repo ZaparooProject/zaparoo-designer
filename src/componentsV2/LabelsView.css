@@ -27,6 +27,20 @@
   padding: 0;
 }
 
+.resourceListAreaLogos {
+  column-count: 2;
+  column-gap: 8px;
+  overflow-y: scroll;
+  padding-left: 8px;
+  padding-right: 0px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.resourceListAreaLogos.noScroll {
+  overflow-y: hidden;
+}
+
 .verticalStack.leftPanel {
   align-items: start;
 }

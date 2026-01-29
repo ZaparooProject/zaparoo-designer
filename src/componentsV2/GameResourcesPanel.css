@@ -4,6 +4,11 @@
   overflow-y: scroll;
 }
 
+.sectionNoScroll {
+  overflow: hidden;
+  min-height: fit-content;
+}
+
 .noPadding {
   padding-inline: 0;
 }

@@ -41,7 +41,7 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
   );
 
   return (
-    <PanelSection title="Search">
+    <PanelSection title="Company logos">
       <div className="logoTools">
         <TextField
           id="filled-search"
