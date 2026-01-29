@@ -4,7 +4,6 @@ import {
   Select,
   MenuItem,
   TextField,
-  Typography,
 } from '@mui/material';
 import { logoStyles } from '../filteredLogos';
 import { type MutableRefObject, useCallback, useEffect, useState } from 'react';
