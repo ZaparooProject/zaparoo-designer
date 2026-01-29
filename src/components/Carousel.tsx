@@ -33,7 +33,9 @@ const TemplatesCarousel = memo(() => {
   }, [availableTemplates]);
 
   useEffect(() => {
-    util.loadImage(sob3).then((img) => setImg(img));
+    util
+      .loadImage(sob3, { crossOrigin: 'anonymous' })
+      .then((img) => setImg(img));
   }, []);
 
   useEffect(() => {

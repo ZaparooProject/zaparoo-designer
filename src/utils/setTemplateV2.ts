@@ -60,16 +60,18 @@ export const scaleImageToOverlayArea = async (
 };
 
 const parseSvg = (url: string): Promise<Group> =>
-  loadSVGFromURL(url).then(({ objects }) => {
-    const nonNullObjects = objects.filter(
-      (objects) => !!objects,
-    ) as FabricObject[];
-    const group = new Group(nonNullObjects);
-    extractUniqueColorsFromGroup(group);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return group;
-  });
+  loadSVGFromURL(url, undefined, { crossOrigin: 'anonymous' }).then(
+    ({ objects }) => {
+      const nonNullObjects = objects.filter(
+        (objects) => !!objects,
+      ) as FabricObject[];
+      const group = new Group(nonNullObjects);
+      extractUniqueColorsFromGroup(group);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return group;
+    },
+  );
 
 export const setTemplateV2OnCanvases = async (
   cards: CardData[],

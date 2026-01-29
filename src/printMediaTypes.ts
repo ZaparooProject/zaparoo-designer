@@ -93,6 +93,16 @@ export const r2Pcb1_0: MediaDefinition = {
   label: 'Retro Remake NFC PCB',
 };
 
+export const printMediaTypes = {
+  NFCCCsizeCard,
+  NFCCCsizeSlimCard,
+  tapToPrePrinted,
+  miniNfcCard,
+  r2Pcb1_0,
+  TapeBoxCover,
+  foldableSleeve,
+};
+
 export const mediaTargetList = [
   NFCCCsizeCard,
   NFCCCsizeSlimCard,

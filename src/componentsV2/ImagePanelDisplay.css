@@ -1,0 +1,13 @@
+.imageResourceDisplayContainer {
+  cursor: pointer;
+  background-color: lightgrey;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  margin-bottom: 8px;
+  break-inside: avoid;
+}
+
+.imageResourceDisplay {
+  object-fit: contain;
+}

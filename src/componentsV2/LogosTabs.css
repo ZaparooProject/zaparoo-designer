@@ -1,0 +1,6 @@
+.logoTools {
+  display: flex;
+  gap: 16px;
+  height: fit-content;
+  padding-inline: 8px;
+}

@@ -1,0 +1,15 @@
+.panelSection {
+  width: 100%;
+  box-sizing: border-box;
+  gap: 8px;
+  text-align: left;
+  margin-block: 8px;
+  padding: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ui-color-3);
+  max-height: calc(100vh - var(--header-height) - 8px);
+}
+
+.verticalStack.panelSection {
+  align-items: start;
+}

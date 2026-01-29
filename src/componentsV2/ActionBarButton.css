@@ -1,0 +1,9 @@
+.actionBarButton {
+  display: flex;
+  width: var(--action-bar-width);
+  min-width: var(--action-bar-width) !important;
+  max-width: var(--action-bar-width);
+  height: var(--action-bar-width);
+  max-height: var(--action-bar-width);
+  padding: 0;
+}

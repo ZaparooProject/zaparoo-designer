@@ -1,13 +1,13 @@
 :root {
-  --header-height: 80px;
+  --header-height: 60px;
 }
 
 .topHeader {
+  background: #2a2a3e;
   z-index: 10;
   position: fixed;
   display: flex;
   justify-content: flex-start;
-  background-color: rgba(15, 15, 15, 0.5);
   flex-direction: row;
   flex-wrap: wrap;
   flex-grow: 1;
@@ -16,18 +16,7 @@
   backdrop-filter: blur(50px);
   padding-right: 18px;
   padding-left: 18px;
-}
-
-.topHeader.purpleHeader {
-  background-color: #5361d9;
-  transition: top 250ms;
-  top: calc(var(--header-height) * -1);
-  justify-content: space-between;
-  flex-wrap: nowrap;
-}
-
-.topHeader.purpleHeader.show {
-  top: 0px;
+  border-bottom: 1px solid #3a3a4e;
 }
 
 .topHeader .spacedContent {
@@ -48,10 +37,6 @@
   height: auto;
   width: 127px;
   display: flex;
-}
-
-.dropdowns {
-  color: #fff;
 }
 
 .spacer {
@@ -97,7 +82,8 @@
 /* iphones */
 @media (max-width: 430px) {
   .fullHeader.topHeader {
-    width: calc(100vw - 16px);
+    width: 100%;
+    box-sizing: border-box;
     padding-right: 8px;
     padding-left: 8px;
   }
@@ -124,7 +110,8 @@
 /* small iphones */
 @media (max-width: 375px) {
   .fullHeader.topHeader {
-    width: calc(100vw - 16px);
+    width: 100%;
+    box-sizing: border-box;
     padding-right: 8px;
     padding-left: 8px;
   }
