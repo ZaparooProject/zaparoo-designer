@@ -1,6 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { templatesPreview } from '../templatesPreview';
-import { useCallback, useState, type MutableRefObject } from 'react';
+import { useCallback, type MutableRefObject } from 'react';
 import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import { printMediaTypes } from '../printMediaTypes';
@@ -8,31 +7,17 @@ import { printMediaTypes } from '../printMediaTypes';
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
 import { useAppDataContext } from '../contexts/appData';
+import { templateTypeV2 } from '../resourcesTypedef';
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
 };
 
+const mediaEntries = Object.entries(printMediaTypes);
+
 export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
-  const { setTemplate, availableTemplates } = useAppDataContext();
-
-  const setActiveTemplate = useCallback(
-    async (evt: any) => {
-      const value = evt.target.value;
-      const chosenTemplate = availableTemplates.find(
-        (template) => template.key === value,
-      );
-      setTemplate(chosenTemplate!);
-    },
-    [setTemplate, availableTemplates],
-  );
-
-  const [value, setValue] = useState(printMediaTypes.NFCCCsizeCard.label);
-  const [templates, setTemplates] = useState<typeof templatesPreview>(() =>
-    templatesPreview.filter(
-      (template) => template.media === printMediaTypes.NFCCCsizeCard.label,
-    ),
-  );
+  const { setTemplate, availableTemplates, setMediaType, mediaType } =
+    useAppDataContext();
 
   return (
     <PanelSection title="Templates">
@@ -45,17 +30,17 @@ export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
             variant="outlined"
             size="small"
             labelId="template-media"
-            value={value}
+            value={mediaType.label}
             label="Style"
             onChange={async (event) => {
               const val = event.target.value;
-              setValue(val);
-              setTemplates(
-                templatesPreview.filter((template) => template.media === val),
-              );
+              const [, value] =
+                mediaEntries.find(([, media]) => media.label === val) ??
+                mediaEntries[0];
+              setMediaType(value);
             }}
           >
-            {Object.entries(printMediaTypes).map(([key, media]) => (
+            {mediaEntries.map(([key, media]) => (
               <MenuItem key={key} value={media.label}>
                 {media.label}
               </MenuItem>
@@ -64,12 +49,16 @@ export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
         </FormControl>
       </div>
       <div className="resourceListAreaLogos">
-        {templates.map((templatePreview) => (
+        {availableTemplates.map((templateTypeV2) => (
           <ImagePanelDisplay
-            key={templatePreview.url}
+            key={templateTypeV2.key}
             canvasRef={canvasRef}
-            onClick={setActiveTemplate}
-            imageResult={{ url: templatePreview.url, width: 400, height: 400 }}
+            onClick={() => setTemplate(templateTypeV2)}
+            imageResult={{
+              url: templateTypeV2.preview,
+              width: 400,
+              height: 400,
+            }}
           />
         ))}
       </div>
