@@ -1,4 +1,11 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import {
+  lazy,
+  MutableRefObject,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
@@ -63,9 +70,10 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
-  const canvasRef = useRef<Canvas | null>(null);
   const { cards, selectedCardGame } = useFileDropperContext();
   const [panel, setPanel] = useState<panels>(panels.Search);
+  const [canvasRef, setCurrentEditingCanvas] =
+    useState<MutableRefObject<Canvas> | null>(null);
   useEffect(() => {
     loadFontsForCanvas();
   }, []);
@@ -166,6 +174,7 @@ export const LabelsView = () => {
           />
         ))}
         <SingleCardEditModal
+          setCurrentEditingCanvas={setCurrentEditingCanvas}
           isOpen={isOpen}
           onClose={onClose}
           currentCardIndex={currentCardIndex}

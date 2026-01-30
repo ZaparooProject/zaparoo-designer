@@ -17,6 +17,7 @@ type useEditableCanvasArgs = {
   setCurrentResource: React.Dispatch<
     [TemplateEdit | undefined, FabricObject | undefined]
   >;
+  setCurrentEditingCanvas?: React.Dispatch<MutableRefObject<Canvas>>;
 };
 
 type useEditableCanvasReturnType = {
@@ -32,6 +33,7 @@ export const useEditableCanvas = ({
   currentCardIndex,
   setReady,
   setCurrentResource,
+  setCurrentEditingCanvas,
 }: useEditableCanvasArgs): useEditableCanvasReturnType => {
   const { cards } = useFileDropperContext();
   const editableCanvas = useRef<Canvas | null>(null);
@@ -66,6 +68,7 @@ export const useEditableCanvas = ({
       });
       // this is not great but we do not care for now
       editableCanvas.current = canvas;
+      setCurrentEditingCanvas?.(editableCanvas as MutableRefObject<Canvas>);
       if (selectedCard.canvas) {
         const jsonData = selectedCard.canvas.toObject([
           'selectable',
@@ -188,6 +191,8 @@ export const useEditableCanvas = ({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  useEffect;
 
   return {
     confirmAndSave,

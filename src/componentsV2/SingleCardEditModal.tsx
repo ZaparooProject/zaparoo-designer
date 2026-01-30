@@ -1,13 +1,15 @@
 import { Modal, Button } from '@mui/material';
 import './SingleCardEditModal.css';
-import { useCallback, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useRef, useState } from 'react';
 import { useRealTimeResize } from '../hooks/useRealtimeResize';
 import { useEditableCanvas } from '../hooks/useEditableCanvas';
 import { noop } from '../utils/utils';
+import { type Canvas } from 'fabric';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
   currentCardIndex: number;
+  setCurrentEditingCanvas: (canvas: MutableRefObject<Canvas>) => void;
 };
 
 type SingleCardEditModalProps = SingleCardEditSpaceProps & {
@@ -17,12 +19,18 @@ type SingleCardEditModalProps = SingleCardEditSpaceProps & {
 export const ModalInternalComponent = ({
   onClose,
   currentCardIndex,
+  setCurrentEditingCanvas,
 }: SingleCardEditSpaceProps) => {
   const [ready, setReady] = useState(false);
   const padderRef = useRef<HTMLDivElement>(null);
 
   const { selectedCard, editableCanvas, confirmAndSave, canvasElement } =
-    useEditableCanvas({ currentCardIndex, setReady, setCurrentResource: noop });
+    useEditableCanvas({
+      currentCardIndex,
+      setReady,
+      setCurrentResource: noop,
+      setCurrentEditingCanvas,
+    });
 
   useRealTimeResize({
     fabricCanvas: editableCanvas.current,
@@ -70,6 +78,7 @@ export const SingleCardEditModal = ({
   isOpen,
   onClose,
   currentCardIndex,
+  setCurrentEditingCanvas,
 }: SingleCardEditModalProps) => {
   return (
     <Modal
@@ -92,6 +101,7 @@ export const SingleCardEditModal = ({
       <div className="cardEditModal verticalStack" tabIndex={-1}>
         {isOpen && (
           <ModalInternalComponent
+            setCurrentEditingCanvas={setCurrentEditingCanvas}
             onClose={onClose}
             currentCardIndex={currentCardIndex}
           />

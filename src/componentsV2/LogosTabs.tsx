@@ -20,7 +20,7 @@ type StaticLogo = {
 };
 
 type LogoTabsProps = {
-  canvasRef: MutableRefObject<Canvas | null>;
+  canvasRef: MutableRefObject<Canvas> | null;
 };
 
 export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
