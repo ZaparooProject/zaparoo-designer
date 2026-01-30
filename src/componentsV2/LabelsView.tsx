@@ -19,6 +19,7 @@ import { ColorsPanel } from './ColorsPanel';
 import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
 import { SingleCardEditModal } from './SingleCardEditModal';
 import { useSingleEditModal } from '../hooks/useSingleEditModal';
+import { LayersPanel } from './LayersPanel';
 
 const LogoTabs = lazy(() => import('./LogosTabs'));
 const HardwareResourcesPanel = lazy(() => import('./HardwareResourcesPanel'));
@@ -151,6 +152,7 @@ export const LabelsView = () => {
             <HardwareResourcesPanel canvasRef={canvasRef} />
           )}
           {panel === panels.Colors && <ColorsPanel />}
+          {panel === panels.Edit && <LayersPanel canvasRef={canvasRef} />}
           {panel === panels.FilesUtils && (
             <>
               <Button variant="contained" color="secondary">
