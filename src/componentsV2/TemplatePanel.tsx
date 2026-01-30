@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { useCallback, type MutableRefObject } from 'react';
+import { type MutableRefObject } from 'react';
 import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import { printMediaTypes } from '../printMediaTypes';
@@ -7,7 +7,6 @@ import { printMediaTypes } from '../printMediaTypes';
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
 import { useAppDataContext } from '../contexts/appData';
-import { templateTypeV2 } from '../resourcesTypedef';
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;

@@ -14,7 +14,6 @@ import BusinessIcon from '@mui/icons-material/Business';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
-import { noop } from '../utils/utils';
 import { ColorsPanel } from './ColorsPanel';
 import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
 import { SingleCardEditModal } from './SingleCardEditModal';
@@ -140,7 +139,7 @@ export const LabelsView = () => {
           {panel === panels.Consoles && (
             <HardwareResourcesPanel canvasRef={canvasRef} />
           )}
-          {panel === panels.Colors && <ColorsPanel canvasRef={canvasRef} />}
+          {panel === panels.Colors && <ColorsPanel />}
           {panel === panels.FilesUtils && (
             <>
               <Button variant="contained" color="secondary">
