@@ -1,11 +1,4 @@
-import {
-  lazy,
-  MutableRefObject,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { lazy, MutableRefObject, Suspense, useEffect, useState } from 'react';
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
@@ -18,6 +11,7 @@ import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { ActionBarButton } from './ActionBarButton';
 import ImageSearchPanel from './SearchPanel';
 import BusinessIcon from '@mui/icons-material/Business';
+import EditIcon from '@mui/icons-material/Edit';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
@@ -40,6 +34,7 @@ const enum panels {
   'Consoles',
   'Controllers',
   'Colors',
+  'Edit',
 }
 
 const loadFontsForCanvas = async () => {
@@ -72,8 +67,9 @@ const loadFontsForCanvas = async () => {
 export const LabelsView = () => {
   const { cards, selectedCardGame } = useFileDropperContext();
   const [panel, setPanel] = useState<panels>(panels.Search);
-  const [canvasRef, setCurrentEditingCanvas] =
-    useState<MutableRefObject<Canvas> | null>(null);
+  const [canvasRef, setCurrentEditingCanvas] = useState<
+    MutableRefObject<Canvas | null>
+  >({ current: null });
   useEffect(() => {
     loadFontsForCanvas();
   }, []);
@@ -125,6 +121,13 @@ export const LabelsView = () => {
           selected={panel === panels.Colors}
         >
           <PaletteIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton
+          label="EDIT"
+          onClick={() => setPanel(panels.Edit)}
+          selected={panel === panels.Edit}
+        >
+          <EditIcon width="24" height="24" />
         </ActionBarButton>
         <ActionBarButton
           label="UTILS"

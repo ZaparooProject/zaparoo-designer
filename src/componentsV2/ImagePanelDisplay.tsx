@@ -4,7 +4,7 @@ import { util, type Canvas, FabricImage } from 'fabric';
 import './ImagePanelDisplay.css';
 
 type ImageDrawerDisplayProps = {
-  canvasRef?: MutableRefObject<Canvas | null> | null;
+  canvasRef?: MutableRefObject<Canvas | null>;
   onClick?: MouseEventHandler<HTMLDivElement>;
   imageResult: Pick<ResultImage, 'url' | 'width' | 'height'>;
 };
