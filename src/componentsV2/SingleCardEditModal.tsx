@@ -76,8 +76,18 @@ export const SingleCardEditModal = ({
       open={isOpen}
       onClose={onClose}
       disableEnforceFocus
+      disableEscapeKeyDown
       disableAutoFocus
       disableRestoreFocus
+      hideBackdrop
+      slotProps={{
+        root: {
+          style: {
+            left: 'calc(var(--left-panel-width) + var(--action-bar-width))',
+            top: 'var(--header-height)',
+          },
+        },
+      }}
     >
       <div className="cardEditModal verticalStack" tabIndex={-1}>
         {isOpen && (

@@ -1,12 +1,12 @@
 .cardEditModal {
   display: flex;
   position: absolute;
-  top: var(--header-height);
-  left: calc(var(--left-panel-width) + var(--action-bar-width));
-  width: calc(100vw - var(--left-panel-width) - var(--action-bar-width));
+  top: 0;
+  left: 0;
+  width: 100%;
   box-sizing: border-box;
   background-color: var(--ui-color-1);
-  height: calc(100vh - var(--header-height));
+  height: 100%;
   color: white;
   overflow-y: hidden;
   border-radius: 10px;
