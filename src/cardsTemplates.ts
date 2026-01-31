@@ -28,6 +28,37 @@ import blankFitV from './assets/blank_fit_v.svg';
 import cassetteTapeEmpty from './assets/cassette_tape_empty.svg';
 import foldableSleeveSvg from './assets/foldable_sleeve.svg';
 import labelWithName from './assets/labelWithName.svg';
+// previews
+import template_StandardNFCCard_GameCardVertical_0 from './assets/templatesPreviews/template_Standard NFC card_Game card Vertical_0.png';
+import template_StandardNFCCard_SquareGameCard_1 from './assets/templatesPreviews/template_Standard NFC card_Square game card_1.png';
+import template_StandardNFCCard_TapToH_2 from './assets/templatesPreviews/template_Standard NFC card_Tap-to H_2.png';
+import template_StandardNFCCard_TapToV_3 from './assets/templatesPreviews/template_Standard NFC card_Tap-to V_3.png';
+import template_StandardNFCCard_HuCard_4 from './assets/templatesPreviews/template_Standard NFC card_HuCard_4.png';
+import template_StandardNFCCard_HuCardSteam_5 from './assets/templatesPreviews/template_Standard NFC card_HuCardSteam_5.png';
+import template_StandardNFCCard_HuCardSteamVR_6 from './assets/templatesPreviews/template_Standard NFC card_HuCardSteamVR_6.png';
+import template_StandardNFCCard_HuCardC64_7 from './assets/templatesPreviews/template_Standard NFC card_HuCard (C64)_7.png';
+import template_StandardNFCCard_TapToGameboy_8 from './assets/templatesPreviews/template_Standard NFC card_Tap-to Gameboy_8.png';
+import template_StandardNFCCard_Floppy35_9 from './assets/templatesPreviews/template_Standard NFC card_Floppy 3.5_9.png';
+import template_StandardNFCCard_Floppy525_10 from './assets/templatesPreviews/template_Standard NFC card_Floppy 5.25_10.png';
+import template_StandardNFCCard_Nes_11 from './assets/templatesPreviews/template_Standard NFC card_Nes_11.png';
+import template_StandardNFCCard_Genesis_12 from './assets/templatesPreviews/template_Standard NFC card_Genesis_12.png';
+import template_StandardNFCCard_PcEngineCD_13 from './assets/templatesPreviews/template_Standard NFC card_PcEngineCD_13.png';
+import template_StandardNFCCard_FullImageSystem_14 from './assets/templatesPreviews/template_Standard NFC card_full image + system_14.png';
+import template_CassetteTapeCase_CassetBoxPlaceholder_15 from './assets/templatesPreviews/template_Cassette tape case_Casset box placeholder_15.png';
+import template_CassetteTapeCase_CassetBoxCover_16 from './assets/templatesPreviews/template_Cassette tape case_Casset box cover_16.png';
+import template_MiniNFCCard_Steam3by5cm_17 from './assets/templatesPreviews/template_Mini NFC card_Steam 3by5cm_17.png';
+import template_RetroRemakeNFCPCB_NFCPCBFramed_18 from './assets/templatesPreviews/template_Retro Remake NFC PCB_NFC PCB 1.0 - Framed_18.png';
+import template_ZapTradingCard_SingleFull_19 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Full_19.png';
+import template_ZapTradingCard_SingleFrame_20 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Frame_20.png';
+import template_ZapTradingCard_SingleFrameRounded_21 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Frame Rounded_21.png';
+import template_ZapTradingCard_DoubleFull_22 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Double Full_22.png';
+import template_ZapTradingCard_DoubleFrame_23 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Double Frame_23.png';
+import template_ZapTradingCard_DoubleFrameRounded_24 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Double Frame Rounded_24.png';
+import template_StandardNFCCard_BlankHCover_25 from './assets/templatesPreviews/template_Standard NFC card_Blank H cover_25.png';
+import template_StandardNFCCard_BlankVCover_26 from './assets/templatesPreviews/template_Standard NFC card_Blank V cover_26.png';
+import template_StandardNFCCard_BlankHFit_27 from './assets/templatesPreviews/template_Standard NFC card_Blank H fit_27.png';
+import template_StandardNFCCard_BlankVFit_28 from './assets/templatesPreviews/template_Standard NFC card_Blank V fit_28.png';
+import template_FoldableSleeve_PaperSleeve_29 from './assets/templatesPreviews/template_Foldable sleeve_Paper sleeve_29.png';
 
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
@@ -55,6 +86,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'gameCardV',
+    preview: template_StandardNFCCard_GameCardVertical_0,
   },
   labelWithName: {
     version: 2,
@@ -67,6 +99,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'labelWithName',
+    preview: template_StandardNFCCard_SquareGameCard_1,
   },
   tapto2: {
     version: 2,
@@ -77,6 +110,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapto2',
+    preview: template_StandardNFCCard_TapToH_2,
   },
   tapto3: {
     version: 2,
@@ -87,6 +121,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapto3',
+    preview: template_StandardNFCCard_TapToV_3,
   },
   hucard: {
     version: 2,
@@ -97,6 +132,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucard',
+    preview: template_StandardNFCCard_HuCard_4,
   },
   hucardsteam: {
     version: 2,
@@ -107,6 +143,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucardsteam',
+    preview: template_StandardNFCCard_HuCardSteam_5,
   },
   hucardsteamVR: {
     version: 2,
@@ -117,6 +154,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucardsteamVR',
+    preview: template_StandardNFCCard_HuCardSteamVR_6,
   },
   hucardc64: {
     version: 2,
@@ -127,6 +165,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucardc64',
+    preview: template_StandardNFCCard_HuCardC64_7,
   },
   taptoGB: {
     version: 2,
@@ -137,6 +176,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'taptoGB',
+    preview: template_StandardNFCCard_TapToGameboy_8,
   },
   taptoFloppy: {
     version: 2,
@@ -147,6 +187,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'taptoFloppy',
+    preview: template_StandardNFCCard_Floppy35_9,
   },
   taptoFloppy525: {
     version: 2,
@@ -157,6 +198,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'taptoFloppy525',
+    preview: template_StandardNFCCard_Floppy525_10,
   },
   tapToNes: {
     layout: 'vertical',
@@ -167,6 +209,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapToNes',
+    preview: template_StandardNFCCard_Nes_11,
   },
   tapToGenesis: {
     version: 2,
@@ -177,6 +220,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapToGenesis',
+    preview: template_StandardNFCCard_Genesis_12,
   },
   tapToPcEngine: {
     version: 2,
@@ -187,6 +231,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapToPcEngine',
+    preview: template_StandardNFCCard_PcEngineCD_13,
   },
   anime0taku: {
     version: 2,
@@ -204,6 +249,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'anime0taku',
+    preview: template_StandardNFCCard_FullImageSystem_14,
   },
   cassetteBox: {
     version: 2,
@@ -214,6 +260,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: TapeBoxCover,
     compatibleMedia: [TapeBoxCover],
     key: 'cassetteBoxBlank',
+    preview: template_CassetteTapeCase_CassetBoxPlaceholder_15,
   },
   cassetteBoxV2: {
     layout: 'horizontal',
@@ -225,6 +272,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: TapeBoxCover,
     compatibleMedia: [TapeBoxCover],
     key: 'cassetteBoxV2',
+    preview: template_CassetteTapeCase_CassetBoxCover_16,
   },
   miniNfcAlice: {
     version: 2,
@@ -235,6 +283,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: miniNfcCard,
     compatibleMedia: [miniNfcCard],
     key: 'miniNfcAlice',
+    preview: template_MiniNFCCard_Steam3by5cm_17,
   },
   retroRemakePcb1: {
     canEdit: true,
@@ -246,6 +295,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: r2Pcb1_0,
     compatibleMedia: [r2Pcb1_0],
     key: 'retroRemakePcb1',
+    preview: template_RetroRemakeNFCPCB_NFCPCBFramed_18,
   },
   upgradeStickerT1: {
     canEdit: true,
@@ -257,6 +307,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: tapToPrePrinted,
     compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT1',
+    preview: template_ZapTradingCard_SingleFull_19,
   },
   upgradeStickerT2: {
     canEdit: true,
@@ -268,6 +319,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: tapToPrePrinted,
     compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT2',
+    preview: template_ZapTradingCard_SingleFrame_20,
   },
   upgradeStickerT6: {
     canEdit: true,
@@ -279,6 +331,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: tapToPrePrinted,
     compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT6',
+    preview: template_ZapTradingCard_SingleFrameRounded_21,
   },
   upgradeStickerT3: {
     canEdit: true,
@@ -290,6 +343,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: tapToPrePrinted,
     compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT3',
+    preview: template_ZapTradingCard_DoubleFull_22,
   },
   upgradeStickerT4: {
     canEdit: true,
@@ -301,6 +355,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: tapToPrePrinted,
     compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT4',
+    preview: template_ZapTradingCard_DoubleFrame_23,
   },
   upgradeStickerT5: {
     canEdit: true,
@@ -312,6 +367,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: tapToPrePrinted,
     compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT5',
+    preview: template_ZapTradingCard_DoubleFrameRounded_24,
   },
   blankH: {
     version: 2,
@@ -322,6 +378,7 @@ export const templates: Record<string, templateTypeV2> = {
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'blankH',
     url: blankCoverH,
+    preview: template_StandardNFCCard_BlankHCover_25,
   },
   blankV: {
     version: 2,
@@ -332,6 +389,7 @@ export const templates: Record<string, templateTypeV2> = {
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'blankV',
     url: blankCoverV,
+    preview: template_StandardNFCCard_BlankVCover_26,
   },
   blankHF: {
     version: 2,
@@ -342,6 +400,7 @@ export const templates: Record<string, templateTypeV2> = {
     media: NFCCCsizeCard,
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'blankHF',
+    preview: template_StandardNFCCard_BlankHFit_27,
   },
   blankVF: {
     version: 2,
@@ -352,6 +411,7 @@ export const templates: Record<string, templateTypeV2> = {
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'blankVF',
     url: blankFitV,
+    preview: template_StandardNFCCard_BlankVFit_28,
   },
   foldableSleeve: {
     version: 2,
@@ -364,7 +424,8 @@ export const templates: Record<string, templateTypeV2> = {
     compatibleMedia: [foldableSleeve],
     url: foldableSleeveSvg,
     key: 'foldable1',
-  }
+    preview: template_FoldableSleeve_PaperSleeve_29,
+  },
 } as const;
 
 export const defaultTemplateKey = 'hucard';

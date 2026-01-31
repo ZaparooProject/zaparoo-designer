@@ -5,18 +5,25 @@ import { PanelSection } from './PanelSection';
 import { SearchResult } from '../../netlify/apiProviders/types.mts';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import './GameResourcesPanel.css';
+import { RequireCards, RequireEditing } from './RequireEditing';
 
 type GameResourcesDisplayProps = {
   canvasRef: MutableRefObject<Canvas | null>;
   game: Partial<SearchResult>;
+  isEditing: boolean;
+  hasCards: boolean;
 };
 
 export function GameResourcesPanel({
   canvasRef,
   game,
+  isEditing,
+  hasCards,
 }: GameResourcesDisplayProps) {
   return (
     <PanelSection title="Game resources" className="gameResourcesPanel">
+      {isEditing || <RequireEditing />}
+      {hasCards || <RequireCards />}
       {game.cover && (
         <PanelSection title="Cover">
           <ImagePanelDisplay canvasRef={canvasRef} imageResult={game.cover} />
@@ -113,3 +120,5 @@ export function GameResourcesPanel({
     </PanelSection>
   );
 }
+
+export default GameResourcesPanel;

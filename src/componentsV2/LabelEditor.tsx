@@ -3,7 +3,7 @@ import { FabricCanvasWrapper } from '../components/FabricCanvasWrapper';
 import { useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
 import { Checkbox, IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+// import EditIcon from '@mui/icons-material/Edit';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { autoFillTemplate } from '../utils/autoFillTemplate';
@@ -13,6 +13,8 @@ type LabelEditorProps = {
   index: number;
   card: CardData;
   setCardToEdit: (arg: number) => void;
+  editingIsRequired: boolean;
+  selectionIsRequired: boolean;
 };
 
 export type MenuInfo = {
@@ -25,6 +27,8 @@ export const LabelEditor = ({
   index,
   card,
   setCardToEdit,
+  selectionIsRequired,
+  // editingIsRequired,
 }: LabelEditorProps) => {
   const { selectedCardsCount, setSelectedCardsCount, setSelectedCardGame } =
     useFileDropperContext();
@@ -45,35 +49,38 @@ export const LabelEditor = ({
       }`}
       ref={padderRef}
     >
-      <label className="canvasLabel" htmlFor={card.key}>
+      <label className="canvasLabel" onClick={() => setCardToEdit(index)}>
         <FabricCanvasWrapper setFabricCanvas={setFabricCanvas} />
       </label>
       <div className="horizontalStack labelControls">
-        <div className="button-look">
-          <Checkbox
-            color="secondary"
-            id={card.key}
-            checked={isSelected}
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              const isSelectedCheckbox = (e.target as HTMLInputElement).checked;
-              card.isSelected = isSelectedCheckbox;
-              startTransition(() => {
-                const newCount = isSelectedCheckbox
-                  ? selectedCardsCount + 1
-                  : selectedCardsCount - 1;
-                setSelectedCardsCount(newCount);
-                if (newCount === 1) {
-                  setSelectedCardGame(card.game);
-                } else {
-                  setSelectedCardGame({});
-                }
-              });
-            }}
-          />
-        </div>
+        {selectionIsRequired && (
+          <div className="button-look">
+            <Checkbox
+              color="secondary"
+              id={card.key}
+              checked={isSelected}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                const isSelectedCheckbox = (e.target as HTMLInputElement)
+                  .checked;
+                card.isSelected = isSelectedCheckbox;
+                startTransition(() => {
+                  const newCount = isSelectedCheckbox
+                    ? selectedCardsCount + 1
+                    : selectedCardsCount - 1;
+                  setSelectedCardsCount(newCount);
+                  if (newCount === 1) {
+                    setSelectedCardGame(card.game);
+                  } else {
+                    setSelectedCardGame({});
+                  }
+                });
+              }}
+            />
+          </div>
+        )}
         <div style={{ flexGrow: 1 }}></div>
-        <div className="button-look">
+        {/* <div className="button-look">
           <IconButton
             className="button-look"
             color="secondary"
@@ -86,7 +93,7 @@ export const LabelEditor = ({
           >
             <EditIcon />
           </IconButton>
-        </div>
+        </div> */}
         {Object.keys(card.game).length > 0 && (
           <div className="button-look">
             <IconButton

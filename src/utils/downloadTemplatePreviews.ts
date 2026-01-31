@@ -13,12 +13,10 @@ export const downloadTemplatesPreview = async () => {
     key,
     media: value.compatibleMedia[0],
   }));
-  console.log(templatesWithMedia);
   const img = await util.loadImage(sob3);
   const inputs = await Promise.all(
     templatesWithMedia.map<Promise<InputWithSizeMeta>>((template, index) => {
       return prepareTemplateCarousel([template], img).then(([htmlCanvas]) => {
-        console.log(htmlCanvas);
         return new Promise((resolve) => {
           htmlCanvas.toBlob((blob: Blob | null) => {
             blob &&

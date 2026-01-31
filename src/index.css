@@ -19,12 +19,14 @@ body {
 }
 
 :root {
+  --basic-gap: '8px';
   --ui-color-1: #1e1e2e;
   --ui-color-2: #2a2a3e;
   --cell-width: 450px;
   --action-bar-width: 48px;
   --left-panel-width: 320px;
   --ui-color-3: #3a3a4e;
+  --ui-color-primary: #5361d9;
   --header-height: 60px;
 }
 

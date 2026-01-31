@@ -46,6 +46,7 @@
 }
 
 .labelsView {
+  position: relative;
   background-color: var(--ui-color-1);
   padding-top: 16px;
   overflow-x: hidden;

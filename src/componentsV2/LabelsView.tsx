@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, MutableRefObject, Suspense, useEffect, useState } from 'react';
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
@@ -10,15 +10,21 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { ActionBarButton } from './ActionBarButton';
 import ImageSearchPanel from './SearchPanel';
-import { HardwareResourcesPanel } from './HardwareResourcesPanel';
-import { LogoTabs } from './LogosTabs';
 import BusinessIcon from '@mui/icons-material/Business';
+import EditIcon from '@mui/icons-material/Edit';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
-import { TemplatePanel } from './TemplatePanel';
-import { GameResourcesPanel } from './GameResourcesPanel';
 import { Canvas } from 'fabric';
-import { noop } from '../utils/utils';
+import { ColorsPanel } from './ColorsPanel';
+import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
+import { SingleCardEditModal } from './SingleCardEditModal';
+import { useSingleEditModal } from '../hooks/useSingleEditModal';
+import { LayersPanel } from './LayersPanel';
+
+const LogoTabs = lazy(() => import('./LogosTabs'));
+const HardwareResourcesPanel = lazy(() => import('./HardwareResourcesPanel'));
+const TemplatePanel = lazy(() => import('./TemplatePanel'));
+const GameResourcesPanel = lazy(() => import('./GameResourcesPanel'));
 
 const enum panels {
   'Search',
@@ -28,7 +34,20 @@ const enum panels {
   'FilesUtils',
   'Consoles',
   'Controllers',
+  'Colors',
+  'Edit',
 }
+
+const requireSelectionPanel = [panels.Templates, panels.Colors];
+const requireEditingPanel = [
+  panels.Templates,
+  panels.Colors,
+  panels.Resources,
+  panels.Logos,
+  panels.Consoles,
+  panels.Controllers,
+  panels.Edit,
+];
 
 const loadFontsForCanvas = async () => {
   const fontsToLoad = [
@@ -58,62 +77,147 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
-  const canvasRef = useRef<Canvas | null>(null);
-  const { cards, selectedCardGame } = useFileDropperContext();
+  const { cards, selectedCardGame, selectedCardsCount } =
+    useFileDropperContext();
   const [panel, setPanel] = useState<panels>(panels.Search);
+  const [canvasRef, setCurrentEditingCanvas] = useState<
+    MutableRefObject<Canvas | null>
+  >({ current: null });
   useEffect(() => {
     loadFontsForCanvas();
   }, []);
 
+  const { isOpen, onClose, setCardToEdit, currentCardIndex } =
+    useSingleEditModal();
+
+  const editingIsRequired = requireEditingPanel.includes(panel);
+  const selectionIsRequired = requireSelectionPanel.includes(panel);
+
+  const isEditing = canvasRef.current !== null;
+  const hasSelection = selectedCardsCount > 0 || isEditing;
+  const hasCards = cards.current.length > 0;
   return (
     <div className="editorContainer">
       <aside className="actionBar verticalStack">
-        <ActionBarButton onClick={() => setPanel(panels.Search)}>
+        <ActionBarButton
+          label="SEARCH"
+          onClick={() => setPanel(panels.Search)}
+          selected={panel === panels.Search}
+        >
           <SearchIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton onClick={() => setPanel(panels.Templates)}>
+        <ActionBarButton
+          label="TEMPLATES"
+          onClick={() => setPanel(panels.Templates)}
+          selected={panel === panels.Templates}
+        >
           <BackupTableIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton onClick={() => setPanel(panels.Resources)}>
+        <ActionBarButton
+          label="GAME"
+          onClick={() => setPanel(panels.Resources)}
+          selected={panel === panels.Resources}
+        >
           <AddPhotoAlternateIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton onClick={() => setPanel(panels.Logos)}>
+        <ActionBarButton
+          label="LOGOS"
+          onClick={() => setPanel(panels.Logos)}
+          selected={panel === panels.Logos}
+        >
           <BusinessIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton onClick={() => setPanel(panels.Consoles)}>
+        <ActionBarButton
+          label="CONSOLES"
+          onClick={() => setPanel(panels.Consoles)}
+          selected={panel === panels.Consoles}
+        >
           <SportsEsportsIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton onClick={() => undefined}>
+        <ActionBarButton
+          label="COLORS"
+          onClick={() => setPanel(panels.Colors)}
+          selected={panel === panels.Colors}
+        >
           <PaletteIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton onClick={() => setPanel(panels.FilesUtils)}>
+        <ActionBarButton
+          label="EDIT"
+          onClick={() => setPanel(panels.Edit)}
+          selected={panel === panels.Edit}
+        >
+          <EditIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton
+          label="UTILS"
+          onClick={() => setPanel(panels.FilesUtils)}
+          selected={panel === panels.FilesUtils}
+        >
           <BuildCircleIcon width="24" height="24" />
         </ActionBarButton>
       </aside>
       <div className="leftPanel">
-        {panel === panels.Search && <ImageSearchPanel />}
-        {panel === panels.Templates && <TemplatePanel canvasRef={canvasRef} />}
-        {panel === panels.Resources && (
-          <GameResourcesPanel game={selectedCardGame} canvasRef={canvasRef} />
-        )}
-        {panel === panels.Logos && <LogoTabs canvasRef={canvasRef} />}
-        {panel === panels.Consoles && (
-          <HardwareResourcesPanel canvasRef={canvasRef} />
-        )}
-        {panel === panels.FilesUtils && (
-          <>
-            <Button variant="contained" color="secondary">
-              Add from Disk
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => downloadTemplatesPreview()}
-            >
-              export templates
-            </Button>
-          </>
-        )}
+        <Suspense fallback={null}>
+          {panel === panels.Search && <ImageSearchPanel />}
+          {panel === panels.Templates && (
+            <TemplatePanel
+              isEditing={isEditing}
+              canvasRef={canvasRef}
+              hasSelection={hasSelection}
+              hasCards={hasCards}
+            />
+          )}
+          {panel === panels.Resources && (
+            <GameResourcesPanel
+              game={selectedCardGame}
+              canvasRef={canvasRef}
+              isEditing={isEditing}
+              hasCards={hasCards}
+            />
+          )}
+          {panel === panels.Logos && (
+            <LogoTabs
+              canvasRef={canvasRef}
+              isEditing={isEditing}
+              hasCards={hasCards}
+            />
+          )}
+          {panel === panels.Consoles && (
+            <HardwareResourcesPanel
+              canvasRef={canvasRef}
+              isEditing={isEditing}
+              hasCards={hasCards}
+            />
+          )}
+          {panel === panels.Colors && (
+            <ColorsPanel
+              isEditing={isEditing}
+              hasSelection={hasSelection}
+              hasCards={hasCards}
+            />
+          )}
+          {panel === panels.Edit && (
+            <LayersPanel
+              canvasRef={canvasRef}
+              isEditing={isEditing}
+              hasCards={hasCards}
+            />
+          )}
+          {panel === panels.FilesUtils && (
+            <>
+              <Button variant="contained" color="secondary">
+                Add from Disk
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => downloadTemplatesPreview()}
+              >
+                export templates
+              </Button>
+            </>
+          )}
+        </Suspense>
       </div>
       <div className="labelsView">
         {cards.current.map((card, index) => (
@@ -121,10 +225,19 @@ export const LabelsView = () => {
             key={card.key}
             index={index}
             card={card}
-            setCardToEdit={noop}
+            setCardToEdit={setCardToEdit}
+            editingIsRequired={editingIsRequired}
+            selectionIsRequired={selectionIsRequired}
           />
         ))}
+        <SingleCardEditModal
+          setCurrentEditingCanvas={setCurrentEditingCanvas}
+          isOpen={isOpen}
+          onClose={onClose}
+          currentCardIndex={currentCardIndex}
+        />
       </div>
+      <DataToCanvasReconciler />
     </div>
   );
 };
