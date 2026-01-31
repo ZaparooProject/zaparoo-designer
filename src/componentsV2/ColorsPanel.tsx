@@ -4,8 +4,17 @@ import { useFileDropperContext } from '../contexts/fileDropper';
 import { useAppDataContext } from '../contexts/appData';
 import { useEffect } from 'react';
 import { colorsDiffer } from '../utils/utils';
+import { RequireEditing, RequireSelection } from './RequireEditing';
 
-export const ColorsPanel = () => {
+export const ColorsPanel = ({
+  isEditing,
+  hasSelection,
+  hasCards,
+}: {
+  isEditing: boolean;
+  hasCards: boolean;
+  hasSelection: boolean;
+}) => {
   const { selectedCardsCount, cards } = useFileDropperContext();
   const {
     originalColors,
@@ -38,6 +47,9 @@ export const ColorsPanel = () => {
 
   return (
     <PanelSection title="Color selection">
+      {isEditing || <RequireEditing />}
+      {hasSelection || <RequireSelection />}
+      {hasCards || <RequireSelection />}
       <div className="resourceListAreaLogos">
         <ColorChanger
           setCustomColors={setCustomColors}

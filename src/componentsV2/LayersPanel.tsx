@@ -4,17 +4,26 @@ import { ImageLayerEdit } from './ImageLayerEdit';
 import './LayersPanel.css';
 import { MutableRefObject } from 'react';
 import { type Canvas } from 'fabric';
+import { RequireCards, RequireEditing } from './RequireEditing';
 
 type LayersPanelProps = {
   canvasRef: MutableRefObject<Canvas | null>;
+  isEditing: boolean;
+  hasCards: boolean;
 };
 
-export const LayersPanel = ({ canvasRef }: LayersPanelProps) => {
+export const LayersPanel = ({
+  canvasRef,
+  isEditing,
+  hasCards,
+}: LayersPanelProps) => {
   return (
     <PanelSection
       title="Layers"
       helpText="This panel requires a card in edit mode to work."
     >
+      {isEditing || <RequireEditing />}
+      {hasCards || <RequireCards />}
       <div className="tools">
         <ImageLayerEdit canvasRef={canvasRef} />
         <Typography color="secondary">

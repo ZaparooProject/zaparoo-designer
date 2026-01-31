@@ -11,6 +11,7 @@ import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
+import { RequireEditing, RequireCards } from './RequireEditing';
 
 type StaticLogo = {
   url: string;
@@ -21,9 +22,11 @@ type StaticLogo = {
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
+  isEditing: boolean;
+  hasCards: boolean;
 };
 
-export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
+export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
   const [value, setValue] = useState(0);
   const [keyword, setKeyword] = useState('');
   const [logos, setLogos] = useState<StaticLogo[]>([]);
@@ -41,6 +44,8 @@ export const LogoTabs = ({ canvasRef }: LogoTabsProps) => {
 
   return (
     <PanelSection title="Company logos">
+      {isEditing || <RequireEditing />}
+      {hasCards || <RequireCards />}
       <div className="logoTools">
         <TextField
           id="filled-search"

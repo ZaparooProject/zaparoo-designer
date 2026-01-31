@@ -10,6 +10,9 @@ import { useAppDataContext } from '../contexts/appData';
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
+  isEditing: boolean;
+  hasCards: boolean;
+  hasSelection: boolean;
 };
 
 const mediaEntries = Object.entries(printMediaTypes);

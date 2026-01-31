@@ -38,6 +38,17 @@ const enum panels {
   'Edit',
 }
 
+const requireSelectionPanel = [panels.Templates, panels.Colors];
+const requireEditingPanel = [
+  panels.Templates,
+  panels.Colors,
+  panels.Resources,
+  panels.Logos,
+  panels.Consoles,
+  panels.Controllers,
+  panels.Edit,
+];
+
 const loadFontsForCanvas = async () => {
   const fontsToLoad = [
     { family: 'Noto Sans', weight: '400', style: 'normal' },
@@ -66,7 +77,8 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
-  const { cards, selectedCardGame } = useFileDropperContext();
+  const { cards, selectedCardGame, selectedCardsCount } =
+    useFileDropperContext();
   const [panel, setPanel] = useState<panels>(panels.Search);
   const [canvasRef, setCurrentEditingCanvas] = useState<
     MutableRefObject<Canvas | null>
@@ -78,6 +90,12 @@ export const LabelsView = () => {
   const { isOpen, onClose, setCardToEdit, currentCardIndex } =
     useSingleEditModal();
 
+  const editingIsRequired = requireEditingPanel.includes(panel);
+  const selectionIsRequired = requireSelectionPanel.includes(panel);
+
+  const isEditing = canvasRef.current !== null;
+  const hasSelection = selectedCardsCount > 0 || isEditing;
+  const hasCards = cards.current.length > 0;
   return (
     <div className="editorContainer">
       <aside className="actionBar verticalStack">
@@ -142,17 +160,49 @@ export const LabelsView = () => {
         <Suspense fallback={null}>
           {panel === panels.Search && <ImageSearchPanel />}
           {panel === panels.Templates && (
-            <TemplatePanel canvasRef={canvasRef} />
+            <TemplatePanel
+              isEditing={isEditing}
+              canvasRef={canvasRef}
+              hasSelection={hasSelection}
+              hasCards={hasCards}
+            />
           )}
           {panel === panels.Resources && (
-            <GameResourcesPanel game={selectedCardGame} canvasRef={canvasRef} />
+            <GameResourcesPanel
+              game={selectedCardGame}
+              canvasRef={canvasRef}
+              isEditing={isEditing}
+              hasCards={hasCards}
+            />
           )}
-          {panel === panels.Logos && <LogoTabs canvasRef={canvasRef} />}
+          {panel === panels.Logos && (
+            <LogoTabs
+              canvasRef={canvasRef}
+              isEditing={isEditing}
+              hasCards={hasCards}
+            />
+          )}
           {panel === panels.Consoles && (
-            <HardwareResourcesPanel canvasRef={canvasRef} />
+            <HardwareResourcesPanel
+              canvasRef={canvasRef}
+              isEditing={isEditing}
+              hasCards={hasCards}
+            />
           )}
-          {panel === panels.Colors && <ColorsPanel />}
-          {panel === panels.Edit && <LayersPanel canvasRef={canvasRef} />}
+          {panel === panels.Colors && (
+            <ColorsPanel
+              isEditing={isEditing}
+              hasSelection={hasSelection}
+              hasCards={hasCards}
+            />
+          )}
+          {panel === panels.Edit && (
+            <LayersPanel
+              canvasRef={canvasRef}
+              isEditing={isEditing}
+              hasCards={hasCards}
+            />
+          )}
           {panel === panels.FilesUtils && (
             <>
               <Button variant="contained" color="secondary">
@@ -176,6 +226,8 @@ export const LabelsView = () => {
             index={index}
             card={card}
             setCardToEdit={setCardToEdit}
+            editingIsRequired={editingIsRequired}
+            selectionIsRequired={selectionIsRequired}
           />
         ))}
         <SingleCardEditModal

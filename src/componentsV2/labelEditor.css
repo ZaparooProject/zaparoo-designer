@@ -13,8 +13,12 @@
   flex-direction: column;
   align-items: center;
   height: fit-content;
-  border: 2px solid transparent;
+  border: 4px solid transparent;
   margin-bottom: 20px;
+}
+
+.card-selected {
+  border: 4px solid var(--ui-color-primary);
 }
 
 .labelContainer.horizontal {
