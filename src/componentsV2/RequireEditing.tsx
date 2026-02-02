@@ -3,7 +3,7 @@ import { Alert } from '@mui/material';
 export const RequireEditing = () => {
   return (
     <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="error">
-      This panel requires you to edit a card.
+      This panel requires you to edit a card. (Click a card to edit it)
     </Alert>
   );
 };

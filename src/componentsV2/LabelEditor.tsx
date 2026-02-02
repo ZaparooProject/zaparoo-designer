@@ -31,8 +31,7 @@ export const LabelEditor = ({
   selectionIsRequired,
   hasSelection,
 }: LabelEditorProps) => {
-  const { selectedCardsCount, setSelectedCardsCount, setSelectedCardGame } =
-    useFileDropperContext();
+  const { selectedCardsCount, setSelectedCardsCount } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
   const { setFabricCanvas } = useLabelEditor({
@@ -72,11 +71,6 @@ export const LabelEditor = ({
                     ? selectedCardsCount + 1
                     : selectedCardsCount - 1;
                   setSelectedCardsCount(newCount);
-                  if (newCount === 1) {
-                    setSelectedCardGame(card.game);
-                  } else {
-                    setSelectedCardGame({});
-                  }
                 });
               }}
             />

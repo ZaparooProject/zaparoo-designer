@@ -24,8 +24,8 @@ export type contextType = {
   removeCards: () => void;
   selectedCardsCount: number;
   setSelectedCardsCount: (qty: number) => void;
-  selectedCardGame: CardData['game'];
-  setSelectedCardGame: (g: CardData['game']) => void;
+  editingCard: CardData | null;
+  setEditingCard: (index: number) => void;
 };
 
 export const FileDropContext = createContext<contextType>({
@@ -38,8 +38,8 @@ export const FileDropContext = createContext<contextType>({
   removeCards: () => {},
   selectedCardsCount: 0,
   setSelectedCardsCount: () => {},
-  selectedCardGame: {},
-  setSelectedCardGame: () => {},
+  editingCard: null,
+  setEditingCard: () => {},
 });
 
 export const useFileDropperContext = () => useContext(FileDropContext);

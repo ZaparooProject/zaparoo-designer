@@ -30,7 +30,9 @@ export const ImagePanelDisplay = ({
   return (
     <div
       onClick={onClick ?? defaultOnClick}
-      className="imageResourceDisplayContainer"
+      className={`imageResourceDisplayContainer ${
+        canvasRef?.current ? '' : 'notActive'
+      }`}
     >
       <img
         width="100%"

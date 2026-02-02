@@ -1,4 +1,11 @@
-import { lazy, MutableRefObject, Suspense, useEffect, useState } from 'react';
+import {
+  lazy,
+  MutableRefObject,
+  Suspense,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
@@ -18,7 +25,6 @@ import { Canvas } from 'fabric';
 import { ColorsPanel } from './ColorsPanel';
 import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
 import { SingleCardEditModal } from './SingleCardEditModal';
-import { useSingleEditModal } from '../hooks/useSingleEditModal';
 import { LayersPanel } from './LayersPanel';
 import { TemplatePreview } from './TemplatePreview';
 
@@ -78,7 +84,7 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
-  const { cards, selectedCardGame, selectedCardsCount } =
+  const { cards, selectedCardsCount, editingCard, setEditingCard } =
     useFileDropperContext();
   const [panel, setPanel] = useState<panels>(panels.Search);
   const [canvasRef, setCurrentEditingCanvas] = useState<
@@ -88,8 +94,10 @@ export const LabelsView = () => {
     loadFontsForCanvas();
   }, []);
 
-  const { isOpen, onClose, setCardToEdit, currentCardIndex } =
-    useSingleEditModal();
+  const onClose = useCallback(() => {
+    setEditingCard(-1);
+    setCurrentEditingCanvas({ current: null });
+  }, [setEditingCard]);
 
   const editingIsRequired = requireEditingPanel.includes(panel);
   const selectionIsRequired = requireSelectionPanel.includes(panel);
@@ -171,7 +179,7 @@ export const LabelsView = () => {
           )}
           {panel === panels.Resources && (
             <GameResourcesPanel
-              game={selectedCardGame}
+              game={editingCard?.game}
               canvasRef={canvasRef}
               isEditing={isEditing}
               hasCards={hasCards}
@@ -227,7 +235,7 @@ export const LabelsView = () => {
             key={card.key}
             index={index}
             card={card}
-            setCardToEdit={setCardToEdit}
+            setCardToEdit={setEditingCard}
             editingIsRequired={editingIsRequired}
             selectionIsRequired={selectionIsRequired}
             hasSelection={hasSelection}
@@ -236,9 +244,8 @@ export const LabelsView = () => {
         <TemplatePreview />
         <SingleCardEditModal
           setCurrentEditingCanvas={setCurrentEditingCanvas}
-          isOpen={isOpen}
+          isOpen={!!editingCard}
           onClose={onClose}
-          currentCardIndex={currentCardIndex}
         />
       </div>
       <DataToCanvasReconciler />

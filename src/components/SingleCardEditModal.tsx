@@ -12,7 +12,6 @@ import { useEditableCanvas } from '../hooks/useEditableCanvas';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
-  currentCardIndex: number;
 };
 
 type SingleCardEditModalProps = SingleCardEditSpaceProps & {
@@ -21,7 +20,6 @@ type SingleCardEditModalProps = SingleCardEditSpaceProps & {
 
 export const ModalInternalComponent = ({
   onClose,
-  currentCardIndex,
 }: SingleCardEditSpaceProps) => {
   const [ready, setReady] = useState(false);
   const [drawerState, setDrawerState] = useState(false);
@@ -36,13 +34,13 @@ export const ModalInternalComponent = ({
     editableCanvas,
     confirmAndSave,
     canvasElement,
-  } = useEditableCanvas({ currentCardIndex, setReady, setCurrentResource });
-  const layout = selectedCard.template?.layout;
+  } = useEditableCanvas({ setReady, setCurrentResource });
+  const layout = selectedCard!.template?.layout;
 
   useRealTimeResize({
     fabricCanvas: editableCanvas.current,
-    layout: selectedCard.template!.layout,
-    media: selectedCard.template!.media,
+    layout: selectedCard!.template!.layout,
+    media: selectedCard!.template!.media,
     ready,
     padderRef,
     throttleMs: 100,
@@ -69,13 +67,13 @@ export const ModalInternalComponent = ({
           />
           {isImageAdjust && (
             <ImageAdjust
-              card={selectedCard}
+              card={selectedCard!}
               canvasRef={editableCanvas}
               className={`${classNameInt}`}
             />
           )}
           {isObjectAdjust && (
-            <ImageLayerEdit card={selectedCard} canvasRef={editableCanvas} />
+            <ImageLayerEdit card={selectedCard!} canvasRef={editableCanvas} />
           )}
         </div>
         <div className="verticalStack editSpace" ref={padderRef}>
@@ -84,7 +82,7 @@ export const ModalInternalComponent = ({
       </div>
       <div className="tabbedResources">
         <GameResourcesDisplay
-          game={selectedCard.game}
+          game={selectedCard!.game}
           canvasRef={editableCanvas}
           drawerState={drawerState}
           setDrawerState={setDrawerState}
@@ -123,7 +121,6 @@ export const ModalInternalComponent = ({
 export const SingleCardEditModal = ({
   isOpen,
   onClose,
-  currentCardIndex,
 }: SingleCardEditModalProps) => {
   return (
     <Modal
@@ -134,12 +131,7 @@ export const SingleCardEditModal = ({
       disableRestoreFocus
     >
       <div className="cardEditModal verticalStack" tabIndex={-1}>
-        {isOpen && (
-          <ModalInternalComponent
-            onClose={onClose}
-            currentCardIndex={currentCardIndex}
-          />
-        )}
+        {isOpen && <ModalInternalComponent onClose={onClose} />}
       </div>
     </Modal>
   );
