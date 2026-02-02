@@ -1,5 +1,5 @@
 import './labelEditor.css';
-import './TemplatePreview.css';
+import './templatePreview.css';
 import { useAppDataContext } from '../contexts/appData';
 import { Typography } from '@mui/material';
 import { useFileAdder } from '../hooks/useFileAdder';
