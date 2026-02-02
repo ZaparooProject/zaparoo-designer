@@ -20,6 +20,7 @@ import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
 import { SingleCardEditModal } from './SingleCardEditModal';
 import { useSingleEditModal } from '../hooks/useSingleEditModal';
 import { LayersPanel } from './LayersPanel';
+import { TemplatePreview } from './TemplatePreview';
 
 const LogoTabs = lazy(() => import('./LogosTabs'));
 const HardwareResourcesPanel = lazy(() => import('./HardwareResourcesPanel'));
@@ -230,6 +231,7 @@ export const LabelsView = () => {
             selectionIsRequired={selectionIsRequired}
           />
         ))}
+        <TemplatePreview />
         <SingleCardEditModal
           setCurrentEditingCanvas={setCurrentEditingCanvas}
           isOpen={isOpen}

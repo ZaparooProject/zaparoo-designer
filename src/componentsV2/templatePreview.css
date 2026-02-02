@@ -1,0 +1,15 @@
+.horizontal .canvasLabel img {
+  width: var(--cell-width);
+  height: auto;
+}
+
+.vertical .canvasLabel img {
+  height: var(--cell-width);
+  width: auto;
+}
+
+.previewFooter {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+}

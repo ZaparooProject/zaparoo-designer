@@ -7,7 +7,6 @@
   background-color: var(--ui-color-2);
   padding: 8px;
   border-radius: 8px;
-  cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17,7 +16,12 @@
   margin-bottom: 20px;
 }
 
-.card-selected {
+label.canvasLabel {
+  cursor: pointer;
+}
+
+.card-selected,
+.labelContainer:has(label.canvasLabel:hover) {
   border: 4px solid var(--ui-color-primary);
 }
 
