@@ -1,9 +1,9 @@
 import { PanelSection } from './PanelSection';
 import { ColorChanger } from './ColorChanger';
-import { useFileDropperContext } from '../contexts/fileDropper';
-import { useAppDataContext } from '../contexts/appData';
+import { useFileDropperContext } from '../../contexts/fileDropper';
+import { useAppDataContext } from '../../contexts/appData';
 import { useEffect } from 'react';
-import { colorsDiffer } from '../utils/utils';
+import { colorsDiffer } from '../../utils/utils';
 import { RequireEditing, RequireSelection } from './RequireEditing';
 
 export const ColorsPanel = ({

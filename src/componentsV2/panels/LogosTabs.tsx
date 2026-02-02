@@ -5,7 +5,7 @@ import {
   MenuItem,
   TextField,
 } from '@mui/material';
-import { logoStyles } from '../filteredLogos';
+import { logoStyles } from '../../filteredLogos';
 import { type MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
@@ -84,6 +84,7 @@ export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
           (logo) =>
             logo.name.toLowerCase().includes(keyword) && (
               <ImagePanelDisplay
+                blocked={!isEditing || !hasCards}
                 key={logo.url}
                 canvasRef={canvasRef}
                 imageResult={{ url: logo.url, width: 400, height: 400 }}

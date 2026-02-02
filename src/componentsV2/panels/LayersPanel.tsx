@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { PanelSection } from './PanelSection';
-import { ImageLayerEdit } from './ImageLayerEdit';
+import { ImageLayerEdit } from '../ImageLayerEdit';
 import './LayersPanel.css';
 import { MutableRefObject } from 'react';
 import { type Canvas } from 'fabric';

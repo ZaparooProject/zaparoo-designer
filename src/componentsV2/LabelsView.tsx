@@ -16,22 +16,24 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { ActionBarButton } from './ActionBarButton';
-import ImageSearchPanel from './SearchPanel';
+import ImageSearchPanel from './panels/SearchPanel';
 import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
-import { ColorsPanel } from './ColorsPanel';
+import { ColorsPanel } from './panels/ColorsPanel';
 import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
 import { SingleCardEditModal } from './SingleCardEditModal';
-import { LayersPanel } from './LayersPanel';
+import { LayersPanel } from './panels/LayersPanel';
 import { TemplatePreview } from './TemplatePreview';
 
-const LogoTabs = lazy(() => import('./LogosTabs'));
-const HardwareResourcesPanel = lazy(() => import('./HardwareResourcesPanel'));
-const TemplatePanel = lazy(() => import('./TemplatePanel'));
-const GameResourcesPanel = lazy(() => import('./GameResourcesPanel'));
+const LogoTabs = lazy(() => import('./panels/LogosTabs'));
+const HardwareResourcesPanel = lazy(
+  () => import('./panels/HardwareResourcesPanel'),
+);
+const TemplatePanel = lazy(() => import('./panels/TemplatePanel'));
+const GameResourcesPanel = lazy(() => import('./panels/GameResourcesPanel'));
 
 const enum panels {
   'Search',
@@ -168,7 +170,9 @@ export const LabelsView = () => {
       </aside>
       <div className="leftPanel">
         <Suspense fallback={null}>
-          {panel === panels.Search && <ImageSearchPanel />}
+          {panel === panels.Search && (
+            <ImageSearchPanel isEditing={isEditing} />
+          )}
           {panel === panels.Templates && (
             <TemplatePanel
               isEditing={isEditing}

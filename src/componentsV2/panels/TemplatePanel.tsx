@@ -2,12 +2,12 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { type MutableRefObject } from 'react';
 import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
-import { printMediaTypes } from '../printMediaTypes';
+import { printMediaTypes } from '../../printMediaTypes';
 
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
-import { useAppDataContext } from '../contexts/appData';
-import { SuggestSelecting } from './RequireEditing';
+import { useAppDataContext } from '../../contexts/appData';
+import { NotWhileEditing, SuggestSelecting } from './RequireEditing';
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -22,13 +22,17 @@ export const TemplatePanel = ({
   canvasRef,
   hasSelection,
   hasCards,
+  isEditing,
 }: LogoTabsProps) => {
   const { setTemplate, availableTemplates, setMediaType, mediaType } =
     useAppDataContext();
 
+  const blocked = isEditing;
+
   return (
     <PanelSection title="Templates">
       {hasCards && !hasSelection && <SuggestSelecting />}
+      {blocked && <NotWhileEditing />}
       <div className="logoTools">
         <FormControl variant="standard">
           <InputLabel variant="outlined" size="small" id="logo-style-label">
@@ -59,6 +63,7 @@ export const TemplatePanel = ({
       <div className="resourceListAreaLogos">
         {availableTemplates.map((templateTypeV2) => (
           <ImagePanelDisplay
+            blocked={blocked}
             key={templateTypeV2.key}
             canvasRef={canvasRef}
             onClick={() => setTemplate(templateTypeV2)}

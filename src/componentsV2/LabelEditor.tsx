@@ -46,7 +46,7 @@ export const LabelEditor = ({
   return (
     <div
       className={`labelContainer horizontal ${
-        isSelected ? 'card-selected' : ''
+        isSelected && selectionIsRequired ? 'card-selected' : ''
       }`}
       ref={padderRef}
     >
