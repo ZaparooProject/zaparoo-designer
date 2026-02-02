@@ -7,6 +7,7 @@ import { printMediaTypes } from '../printMediaTypes';
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
 import { useAppDataContext } from '../contexts/appData';
+import { SuggestSelecting } from './RequireEditing';
 
 type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -17,12 +18,17 @@ type LogoTabsProps = {
 
 const mediaEntries = Object.entries(printMediaTypes);
 
-export const TemplatePanel = ({ canvasRef }: LogoTabsProps) => {
+export const TemplatePanel = ({
+  canvasRef,
+  hasSelection,
+  hasCards,
+}: LogoTabsProps) => {
   const { setTemplate, availableTemplates, setMediaType, mediaType } =
     useAppDataContext();
 
   return (
     <PanelSection title="Templates">
+      {hasCards && !hasSelection && <SuggestSelecting />}
       <div className="logoTools">
         <FormControl variant="standard">
           <InputLabel variant="outlined" size="small" id="logo-style-label">

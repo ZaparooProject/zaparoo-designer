@@ -15,6 +15,7 @@ type LabelEditorProps = {
   setCardToEdit: (arg: number) => void;
   editingIsRequired: boolean;
   selectionIsRequired: boolean;
+  hasSelection: boolean;
 };
 
 export type MenuInfo = {
@@ -28,7 +29,7 @@ export const LabelEditor = ({
   card,
   setCardToEdit,
   selectionIsRequired,
-  // editingIsRequired,
+  hasSelection,
 }: LabelEditorProps) => {
   const { selectedCardsCount, setSelectedCardsCount, setSelectedCardGame } =
     useFileDropperContext();
@@ -41,6 +42,7 @@ export const LabelEditor = ({
   });
 
   const isSelected = card.isSelected;
+  const flashSelection = selectionIsRequired && !hasSelection;
 
   return (
     <div
@@ -56,6 +58,7 @@ export const LabelEditor = ({
         {selectionIsRequired && (
           <div className="button-look">
             <Checkbox
+              className={flashSelection ? 'flash-checkbox' : ''}
               color="secondary"
               id={card.key}
               checked={isSelected}

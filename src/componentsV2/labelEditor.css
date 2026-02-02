@@ -33,3 +33,17 @@ label.canvasLabel {
   max-width: var(--cell-width);
   max-height: var(--cell-width);
 }
+
+@keyframes flash-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.flash-checkbox {
+  animation: flash-blink 0.8s ease-in-out infinite;
+}

@@ -97,6 +97,7 @@ export const LabelsView = () => {
   const isEditing = canvasRef.current !== null;
   const hasSelection = selectedCardsCount > 0 || isEditing;
   const hasCards = cards.current.length > 0;
+
   return (
     <div className="editorContainer">
       <aside className="actionBar verticalStack">
@@ -229,6 +230,7 @@ export const LabelsView = () => {
             setCardToEdit={setCardToEdit}
             editingIsRequired={editingIsRequired}
             selectionIsRequired={selectionIsRequired}
+            hasSelection={hasSelection}
           />
         ))}
         <TemplatePreview />
