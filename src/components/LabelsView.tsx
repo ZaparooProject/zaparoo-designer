@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { LabelEditor } from './LabelEditor';
 import { DataToCanvasReconciler } from './DataToCanvasReconciler';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
 import { SmallDropZone } from './SmallDropZone';
 import { SingleCardEditModal } from './SingleCardEditModal';
-import { useSingleEditModal } from '../hooks/useSingleEditModal';
 
 const loadFontsForCanvas = async () => {
   const fontsToLoad = [
@@ -35,18 +34,18 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
-  const { cards } = useFileDropperContext();
+  const { cards, editingCard, setEditingCard } = useFileDropperContext();
+
+  const onClose = useCallback(() => setEditingCard(-1), [setEditingCard]);
 
   useEffect(() => {
     loadFontsForCanvas();
   }, []);
-  const { isOpen, onClose, setCardToEdit, currentCardIndex } =
-    useSingleEditModal();
   return (
     <div className="labelsView">
       {cards.current.map((card, index) => (
         <LabelEditor
-          setCardToEdit={setCardToEdit}
+          setCardToEdit={setEditingCard}
           className="labelContainer horizontal"
           key={card.key}
           index={index}
@@ -55,11 +54,7 @@ export const LabelsView = () => {
       ))}
       <SmallDropZone className="labelContainer horizontal" />
       <DataToCanvasReconciler />
-      <SingleCardEditModal
-        isOpen={isOpen}
-        onClose={onClose}
-        currentCardIndex={currentCardIndex}
-      />
+      <SingleCardEditModal isOpen={!!editingCard} onClose={onClose} />
     </div>
   );
 };

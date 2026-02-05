@@ -2,14 +2,15 @@ import { TextField } from '@mui/material';
 import { type MutableRefObject, useCallback, useState } from 'react';
 import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
-import consoles from '../consoles';
+import controllers from '../../controllers';
 import './LogosTabs.css';
 
-type ConsoleDisplayProps = {
+type LogoTabsProps = {
   canvasRef: MutableRefObject<Canvas | null>;
+  blocked?: boolean;
 };
 
-export const ConsoleDisplay = ({ canvasRef }: ConsoleDisplayProps) => {
+export const ControllerDisplay = ({ canvasRef, blocked }: LogoTabsProps) => {
   const [keyword, setKeyword] = useState('');
 
   const searchHandler = useCallback(
@@ -32,13 +33,14 @@ export const ConsoleDisplay = ({ canvasRef }: ConsoleDisplayProps) => {
         />
       </div>
       <div className="resourceListAreaLogos">
-        {consoles.map(
-          (console, index) =>
-            console.name.toLowerCase().includes(keyword) && (
+        {controllers.map(
+          (controller) =>
+            controller.name.toLowerCase().includes(keyword) && (
               <ImagePanelDisplay
-                key={`${console.name}-${index}`}
+                blocked={blocked}
+                key={controller.name}
                 canvasRef={canvasRef}
-                imageResult={{ url: console.url, width: 400, height: 400 }}
+                imageResult={{ url: controller.url, width: 400, height: 400 }}
               />
             ),
         )}

@@ -428,5 +428,5 @@ export const templates: Record<string, templateTypeV2> = {
   },
 } as const;
 
-export const defaultTemplateKey = 'hucard';
+export const defaultTemplateKey = 'gameCardV';
 export const defaultTemplate = templates[defaultTemplateKey];

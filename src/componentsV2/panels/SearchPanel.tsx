@@ -16,18 +16,19 @@ import {
   Fragment,
   useCallback,
 } from 'react';
-import { useFileDropperContext } from '../contexts/fileDropper';
+import { useFileDropperContext } from '../../contexts/fileDropper';
 
-import { boxShadow } from '../constants';
+import { boxShadow } from '../../constants';
 import { useInView } from 'react-intersection-observer';
 
 import './SearchPanel.css';
-import { fetchGameList, getImage } from '../utils/search';
-import { PlatformResult } from '../../netlify/apiProviders/types.mts';
+import { fetchGameList, getImage } from '../../utils/search';
+import { PlatformResult } from '../../../netlify/apiProviders/types.mts';
 // import { PlatformDropdown } from './PlatformDropdown';
-import type { SearchResult } from '../../netlify/apiProviders/types.mts';
+import type { SearchResult } from '../../../netlify/apiProviders/types.mts';
 import { PanelSection } from './PanelSection';
 import SearchIcon from '@mui/icons-material/Search';
+import { BehindEditor } from './RequireEditing';
 
 const SearchResultView = ({
   gameEntry,
@@ -68,7 +69,11 @@ const SearchResultView = ({
   );
 };
 
-export default function ImageSearchPanel() {
+export default function ImageSearchPanel({
+  isEditing = false,
+}: {
+  isEditing: boolean;
+}) {
   const { addFiles } = useFileDropperContext();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -169,6 +174,7 @@ export default function ImageSearchPanel() {
 
   return (
     <PanelSection title="Search" className="searchPanel">
+      {isEditing && <BehindEditor />}
       <div className="horizontalStack searchHeader" key="search-header">
         <TextField
           color="primary"

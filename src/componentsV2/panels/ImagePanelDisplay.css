@@ -8,6 +8,10 @@
   break-inside: avoid;
 }
 
+.imageResourceDisplayContainer.notActive {
+  cursor: not-allowed;
+}
+
 .imageResourceDisplay {
   object-fit: contain;
 }

@@ -7,7 +7,6 @@
   background-color: var(--ui-color-2);
   padding: 8px;
   border-radius: 8px;
-  cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17,7 +16,12 @@
   margin-bottom: 20px;
 }
 
-.card-selected {
+label.canvasLabel {
+  cursor: pointer;
+}
+
+.card-selected,
+.labelContainer:has(label.canvasLabel:hover) {
   border: 4px solid var(--ui-color-primary);
 }
 
@@ -28,4 +32,18 @@
 .canvasLabel {
   max-width: var(--cell-width);
   max-height: var(--cell-width);
+}
+
+@keyframes flash-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.flash-checkbox {
+  animation: flash-blink 0.8s ease-in-out infinite;
 }

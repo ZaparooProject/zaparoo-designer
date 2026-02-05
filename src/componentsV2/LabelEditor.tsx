@@ -15,6 +15,7 @@ type LabelEditorProps = {
   setCardToEdit: (arg: number) => void;
   editingIsRequired: boolean;
   selectionIsRequired: boolean;
+  hasSelection: boolean;
 };
 
 export type MenuInfo = {
@@ -28,10 +29,13 @@ export const LabelEditor = ({
   card,
   setCardToEdit,
   selectionIsRequired,
-  // editingIsRequired,
+  hasSelection,
 }: LabelEditorProps) => {
-  const { selectedCardsCount, setSelectedCardsCount, setSelectedCardGame } =
-    useFileDropperContext();
+  const {
+    deleteCardByIndex,
+    selectedCardsCount,
+    setSelectedCardsCount,
+  } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
   const { setFabricCanvas } = useLabelEditor({
@@ -41,11 +45,12 @@ export const LabelEditor = ({
   });
 
   const isSelected = card.isSelected;
+  const flashSelection = selectionIsRequired && !hasSelection;
 
   return (
     <div
       className={`labelContainer horizontal ${
-        isSelected ? 'card-selected' : ''
+        isSelected && selectionIsRequired ? 'card-selected' : ''
       }`}
       ref={padderRef}
     >
@@ -56,6 +61,7 @@ export const LabelEditor = ({
         {selectionIsRequired && (
           <div className="button-look">
             <Checkbox
+              className={flashSelection ? 'flash-checkbox' : ''}
               color="secondary"
               id={card.key}
               checked={isSelected}
@@ -69,11 +75,6 @@ export const LabelEditor = ({
                     ? selectedCardsCount + 1
                     : selectedCardsCount - 1;
                   setSelectedCardsCount(newCount);
-                  if (newCount === 1) {
-                    setSelectedCardGame(card.game);
-                  } else {
-                    setSelectedCardGame({});
-                  }
                 });
               }}
             />
@@ -118,7 +119,7 @@ export const LabelEditor = ({
             onClick={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation();
               e.preventDefault();
-              // TODO: implement delete logic
+              deleteCardByIndex(index);
             }}
           >
             <DeleteIcon />

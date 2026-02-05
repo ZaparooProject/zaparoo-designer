@@ -12,7 +12,6 @@ import { getMainImage } from '../utils/templateHandling';
 import { type TemplateEdit } from '../resourcesTypedef';
 
 type useEditableCanvasArgs = {
-  currentCardIndex: number;
   setReady: React.Dispatch<boolean>;
   setCurrentResource: React.Dispatch<
     [TemplateEdit | undefined, FabricObject | undefined]
@@ -25,25 +24,25 @@ type useEditableCanvasReturnType = {
   isImageAdjust: boolean;
   isObjectAdjust: boolean;
   editableCanvas: MutableRefObject<Canvas | null>;
-  selectedCard: CardData;
+  selectedCard: CardData | null;
   canvasElement: MutableRefObject<HTMLCanvasElement | null>;
 };
 
 export const useEditableCanvas = ({
-  currentCardIndex,
   setReady,
   setCurrentResource,
   setCurrentEditingCanvas,
 }: useEditableCanvasArgs): useEditableCanvasReturnType => {
-  const { cards } = useFileDropperContext();
+  const { cards, editingCard } = useFileDropperContext();
   const editableCanvas = useRef<Canvas | null>(null);
   const canvasElement = useRef<HTMLCanvasElement>(null);
   const [isImageAdjust, setImageAdjust] = useState<boolean>(false);
   const [isObjectAdjust, setIsObjectAdjust] = useState<boolean>(false);
 
-  const selectedCard = cards.current[currentCardIndex];
+  const selectedCard = editingCard;
 
   const confirmAndSave = useCallback(async () => {
+    if (!selectedCard) return;
     const canvas = editableCanvas.current!;
     const data = canvas.toObject([
       'selectable',
@@ -57,11 +56,11 @@ export const useEditableCanvas = ({
     targetCanvas.clear();
     await targetCanvas.loadFromJSON(data);
     targetCanvas.requestRenderAll();
-  }, [editableCanvas, selectedCard.canvas]);
+  }, [editableCanvas, selectedCard]);
 
   useEffect(() => {
     // mount, we duplicate a card
-    if (currentCardIndex > -1 && canvasElement.current) {
+    if (!!selectedCard && canvasElement.current) {
       const canvas = new Canvas(canvasElement.current, {
         selection: false,
         preserveObjectStacking: true,
@@ -140,8 +139,8 @@ export const useEditableCanvas = ({
     }
   }, [
     cards,
-    currentCardIndex,
-    selectedCard.canvas,
+    selectedCard,
+    setCurrentEditingCanvas,
     setCurrentResource,
     setReady,
   ]);
