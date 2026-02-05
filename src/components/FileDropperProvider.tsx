@@ -3,6 +3,7 @@ import type { FC, JSX } from 'react';
 import {
   type CardData,
   FileDropContext,
+  type PossibleFile,
   type contextType,
 } from '../contexts/fileDropper';
 
@@ -13,21 +14,21 @@ type FileDropperProps = {
 export const FileDropperContextProvider: FC<FileDropperProps> = ({
   children,
 }) => {
-  const [files, setFilesImpl] = useState<(File | HTMLImageElement)[]>([]);
+  const [files, setFilesImpl] = useState<PossibleFile[]>([]);
   const cards = useRef<CardData[]>([]);
   // the selection state needs to be refactored.
   const [selectedCardsCount, setSelectedCardsCount] = useState<number>(0);
   const [editingCard, setEditingCardImpl] = useState<CardData | null>(null);
 
   const addFiles = useCallback(
-    (newFiles: (File | HTMLImageElement)[], games: CardData['game'][] = []) => {
+    (newFiles: PossibleFile[], games: CardData['game'][] = []) => {
       setFilesImpl([...files, ...newFiles]);
       cards.current.push(
         ...newFiles.map<CardData>((file, index) => ({
           file,
           game: games[index] || {},
           key: `${
-            (file as File).name || (file as HTMLImageElement).src
+            (file as File)?.name || (file as HTMLImageElement)?.src || 'empty'
           }-${Date.now()}`,
           canvas: undefined,
           template: undefined,
@@ -48,11 +49,8 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
   );
 
   const setFiles = useCallback(
-    (
-      totalFiles: (File | HTMLImageElement)[],
-      games: CardData['game'][] = [],
-    ) => {
-      let newFiles: (File | HTMLImageElement)[] = [];
+    (totalFiles: PossibleFile[], games: CardData['game'][] = []) => {
+      let newFiles: PossibleFile[] = [];
       if (totalFiles.length > files.length) {
         newFiles = totalFiles.slice(files.length - totalFiles.length);
       }
@@ -62,7 +60,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
           file,
           game: games[index] || {},
           key: `${
-            (file as File).name || (file as HTMLImageElement).src
+            (file as File)?.name || (file as HTMLImageElement)?.src || 'empty'
           }-${Date.now()}`,
           canvas: undefined,
           template: undefined,
@@ -96,7 +94,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     () => ({
       files,
       addFiles,
-      setFiles: setFiles,
+      setFiles,
       cards,
       removeCards,
       selectedCardsCount,

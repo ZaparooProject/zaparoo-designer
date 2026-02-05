@@ -1,8 +1,11 @@
 import './labelEditor.css';
 import './templatePreview.css';
 import { useAppDataContext } from '../contexts/appData';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useFileAdder } from '../hooks/useFileAdder';
+import { useFileDropperContext } from '../contexts/fileDropper';
+import { useCallback } from 'react';
 
 export const TemplatePreview = ({
   hasCards,
@@ -12,6 +15,12 @@ export const TemplatePreview = ({
   editingIsRequired: boolean;
 }) => {
   const { template } = useAppDataContext();
+  const { addFiles } = useFileDropperContext();
+
+  const addEmptyCard = useCallback(() => {
+    addFiles([null], []);
+  }, [addFiles]);
+
   const { inputElement, openInputFile } = useFileAdder();
 
   const className =
@@ -24,6 +33,14 @@ export const TemplatePreview = ({
           <img src={template.preview} />
         </label>
         <div className="previewFooter">
+          <IconButton
+            aria-label="Add file"
+            color="secondary"
+            onClick={addEmptyCard}
+            size="small"
+          >
+            <AddCircleOutlineIcon />
+          </IconButton>
           <Typography color="secondary">
             Click here to add a new file
           </Typography>

@@ -4,9 +4,11 @@ import type { StaticCanvas } from 'fabric';
 import type { templateTypeV2 } from '../resourcesTypedef';
 import type { SearchResult } from '../../netlify/apiProviders/types.mts';
 
+export type PossibleFile = File | HTMLImageElement | null;
+
 export type CardData = {
   /* the source of the main image */
-  file: File | HTMLImageElement;
+  file: PossibleFile;
   game: Partial<SearchResult>;
   canvas?: StaticCanvas;
   template?: templateTypeV2;
@@ -17,9 +19,9 @@ export type CardData = {
 };
 
 export type contextType = {
-  files: (File | HTMLImageElement)[];
-  addFiles: (files: (File | HTMLImageElement)[], games: SearchResult[]) => void;
-  setFiles: (files: (File | HTMLImageElement)[]) => void;
+  files: PossibleFile[];
+  addFiles: (files: PossibleFile[], games?: SearchResult[]) => void;
+  setFiles: (files: PossibleFile[]) => void;
   cards: MutableRefObject<CardData[]>;
   removeCards: () => void;
   selectedCardsCount: number;
