@@ -31,7 +31,11 @@ export const LabelEditor = ({
   selectionIsRequired,
   hasSelection,
 }: LabelEditorProps) => {
-  const { selectedCardsCount, setSelectedCardsCount } = useFileDropperContext();
+  const {
+    deleteCardByIndex,
+    selectedCardsCount,
+    setSelectedCardsCount,
+  } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
   const { setFabricCanvas } = useLabelEditor({
@@ -115,7 +119,7 @@ export const LabelEditor = ({
             onClick={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation();
               e.preventDefault();
-              // TODO: implement delete logic
+              deleteCardByIndex(index);
             }}
           >
             <DeleteIcon />

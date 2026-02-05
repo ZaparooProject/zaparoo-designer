@@ -1,8 +1,10 @@
 import './labelEditor.css';
 import './templatePreview.css';
 import { useAppDataContext } from '../contexts/appData';
-import { IconButton, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+
 import { useFileAdder } from '../hooks/useFileAdder';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useCallback } from 'react';
@@ -33,17 +35,24 @@ export const TemplatePreview = ({
           <img src={template.preview} />
         </label>
         <div className="previewFooter">
-          <IconButton
+          <Button
             aria-label="Add file"
             color="secondary"
             onClick={addEmptyCard}
             size="small"
           >
             <AddCircleOutlineIcon />
-          </IconButton>
-          <Typography color="secondary">
-            Click here to add a new file
-          </Typography>
+            Add empty card
+          </Button>
+          <Button
+            aria-label="Add file"
+            color="secondary"
+            onClick={openInputFile}
+            size="small"
+          >
+            <UploadFileIcon />
+            Upload a file
+          </Button>
         </div>
       </div>
       {inputElement}

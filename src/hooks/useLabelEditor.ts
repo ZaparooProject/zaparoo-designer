@@ -26,28 +26,26 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
           ? util.loadImage(URL.createObjectURL(file))
           : Promise.resolve(file);
 
-      if (file) {
-        const currentImage = getMainImage(fabricCanvas);
-        if (currentImage) {
-          fabricCanvas.remove(currentImage);
-        }
-        setImageReady(false);
-        imagePromise.then((image) => {
-          if (image) {
-            const fabricImage = new FabricImage(image, {
-              resourceType: 'main',
-            });
-            // @ts-expect-error no originalFile
-            fabricImage.originalFile = file;
-            const scale = util.findScaleToCover(fabricImage, fabricCanvas);
-            fabricImage.scaleX = scale;
-            fabricImage.scaleY = scale;
-            fabricCanvas.add(fabricImage);
-            fabricCanvas.centerObject(fabricImage);
-            setImageReady(true);
-          }
-        });
+      const currentImage = getMainImage(fabricCanvas);
+      if (currentImage) {
+        fabricCanvas.remove(currentImage);
       }
+      setImageReady(false);
+      imagePromise.then((image) => {
+        if (image) {
+          const fabricImage = new FabricImage(image, {
+            resourceType: 'main',
+          });
+          // @ts-expect-error no originalFile
+          fabricImage.originalFile = file;
+          const scale = util.findScaleToCover(fabricImage, fabricCanvas);
+          fabricImage.scaleX = scale;
+          fabricImage.scaleY = scale;
+          fabricCanvas.add(fabricImage);
+          fabricCanvas.centerObject(fabricImage);
+        }
+        setImageReady(true);
+      });
     }
   }, [card, fabricCanvas]);
 
