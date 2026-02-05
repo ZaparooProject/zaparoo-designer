@@ -4,10 +4,9 @@ import { useFileDropperContext } from '../../contexts/fileDropper';
 import { useAppDataContext } from '../../contexts/appData';
 import { useEffect } from 'react';
 import { colorsDiffer } from '../../utils/utils';
-import { RequireEditing, RequireSelection } from './RequireEditing';
+import { RequireCards, SuggestSelecting } from './RequireEditing';
 
 export const ColorsPanel = ({
-  isEditing,
   hasSelection,
   hasCards,
 }: {
@@ -15,7 +14,8 @@ export const ColorsPanel = ({
   hasCards: boolean;
   hasSelection: boolean;
 }) => {
-  const { selectedCardsCount, cards } = useFileDropperContext();
+  const { cards } = useFileDropperContext();
+  const { isIdle } = useAppDataContext();
   const {
     originalColors,
     customColors,
@@ -25,31 +25,49 @@ export const ColorsPanel = ({
     setTemplate,
   } = useAppDataContext();
 
+  console.log({ originalColors, customColors });
+
   useEffect(() => {
-    if (selectedCardsCount === 1) {
-      const selectedCard = cards.current.find((card) => card.isSelected)!;
+    if (hasCards) {
+      const selectedCard =
+        cards.current.find((card) => card.isSelected) ?? cards.current[0];
+      const currentTemplate = selectedCard.template!;
       const currentColors = selectedCard.colors;
       const currentOriginalColors = selectedCard.originalColors;
-      const currentTemplate = selectedCard.template!;
-      if (colorsDiffer(currentColors, customColors)) {
+      console.log({ selectedCard, currentColors, currentOriginalColors });
+      if (
+        customColors.length === 0 ||
+        colorsDiffer(currentColors, customColors)
+      ) {
         setCustomColors(currentColors);
       }
-      if (colorsDiffer(currentOriginalColors, originalColors)) {
+      if (
+        originalColors.length === 0 ||
+        colorsDiffer(currentOriginalColors, originalColors)
+      ) {
         setOriginalColors(currentOriginalColors);
       }
-      if (currentTemplate !== template) {
+      if (currentTemplate && currentTemplate !== template) {
         setTemplate(currentTemplate);
       }
     }
-    // we want to run this only on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCardsCount]);
+  }, [
+    cards,
+    customColors,
+    originalColors,
+    hasSelection,
+    setCustomColors,
+    setOriginalColors,
+    setTemplate,
+    template,
+    hasCards,
+    isIdle,
+  ]);
 
   return (
     <PanelSection title="Color selection">
-      {isEditing || <RequireEditing />}
-      {hasSelection || <RequireSelection />}
-      {hasCards || <RequireSelection />}
+      {hasCards || <RequireCards />}
+      {hasSelection || <SuggestSelecting />}
       <div className="resourceListAreaLogos">
         <ColorChanger
           setCustomColors={setCustomColors}
