@@ -9,6 +9,7 @@
 }
 
 .previewFooter {
+  margin-top: var(--basic-gap);
   display: flex;
   align-items: center;
   min-height: 40px;
