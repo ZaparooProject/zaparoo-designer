@@ -44,7 +44,7 @@ export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
 
   return (
     <PanelSection title="Company logos">
-      {isEditing || <RequireEditing />}
+      {hasCards && !isEditing && <RequireEditing />}
       {hasCards || <RequireCards />}
       <div className="logoTools">
         <TextField

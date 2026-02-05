@@ -245,7 +245,10 @@ export const LabelsView = () => {
             hasSelection={hasSelection}
           />
         ))}
-        <TemplatePreview />
+        <TemplatePreview
+          hasCards={hasCards}
+          editingIsRequired={editingIsRequired}
+        />
         <SingleCardEditModal
           setCurrentEditingCanvas={setCurrentEditingCanvas}
           isOpen={!!editingCard}
