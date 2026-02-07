@@ -1,8 +1,5 @@
 import { createContext, useContext } from 'react';
-import {
-  defaultTemplate,
-  templates,
-} from '../cardsTemplates';
+import { defaultTemplate, templates } from '../cardsTemplates';
 import type { MediaDefinition, templateTypeV2 } from '../resourcesTypedef';
 import {
   type PrintTemplate,
@@ -14,8 +11,8 @@ import { noop } from '../utils/utils';
 export type PrintOptions = {
   imageType: 'raster' | 'vector';
   printerTemplateKey: string;
-  cutMarks: 'crop' | 'cut' | 'none',
-  outlines: boolean,
+  cutMarks: 'crop' | 'cut' | 'none';
+  outlines: boolean;
   fileType: 'pdf' | 'zip';
 };
 
@@ -24,7 +21,7 @@ export type contextType = {
   originalColors: string[];
   customColors: string[];
   template: templateTypeV2;
-  availableTemplates: (templateTypeV2)[];
+  availableTemplates: templateTypeV2[];
   mediaType: MediaDefinition;
   printerTemplate: PrintTemplate;
   printerTemplateKey: string;
@@ -44,15 +41,23 @@ export const defaultContextValue: contextType = {
   setIsIdle: noop,
   originalColors: [],
   customColors: [],
-  availableTemplates: Object.entries(templates).map(([key, value]) => ({ ...value, key, media : defaultTemplate.compatibleMedia[0] })).filter((t) => t.compatibleMedia.includes(defaultTemplate.compatibleMedia[0])),
+  availableTemplates: Object.entries(templates)
+    .map(([key, value]) => ({
+      ...value,
+      key,
+      media: defaultTemplate.compatibleMedia[0],
+    }))
+    .filter((t) =>
+      t.compatibleMedia.includes(defaultTemplate.compatibleMedia[0]),
+    ),
   mediaType: defaultTemplate.compatibleMedia[0],
   template: defaultTemplate,
   printerTemplate: defaultPrinterTemplate,
   printerTemplateKey: defaultPrinterTemplateKey,
   printOptions: {
-    imageType: 'raster',
+    imageType: 'vector',
     fileType: 'pdf',
-    cutMarks: 'none',
+    cutMarks: 'crop',
     outlines: true,
     printerTemplateKey: defaultPrinterTemplateKey,
   },
