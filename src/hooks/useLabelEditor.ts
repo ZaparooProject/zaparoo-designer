@@ -13,7 +13,7 @@ type useLabelEditorParams = {
 };
 
 export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
-  const { template, customColors, originalColors } = useAppDataContext();
+  const { template, customColors } = useAppDataContext();
   const [fabricCanvas, setFabricCanvas] = useState<StaticCanvas | null>(null);
   // local ready state, when template is loaded
   const [isImageReady, setImageReady] = useState<boolean>(false);
@@ -63,9 +63,8 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
       card.canvas = fabricCanvas;
       card.template = template;
       card.colors = customColors;
-      card.originalColors = originalColors;
       setTemplateV2OnCanvases([card], template).then(() => {
-        updateColors([card], customColors, originalColors);
+        updateColors([card], customColors);
         fabricCanvas.requestRenderAll();
       });
     }
