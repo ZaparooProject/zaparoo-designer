@@ -463,6 +463,7 @@ export const addCanvasToPdfPage = async (
 
   if (asRaster) {
     const canvasClone = await canvas.clone([]);
+    canvasClone.viewportTransform = canvas.viewportTransform.slice() as TMat2D;
     canvasClone.getObjects().forEach((object: FabricObject) => {
       if (object['zaparoo-no-print']) {
         object.visible = false;
