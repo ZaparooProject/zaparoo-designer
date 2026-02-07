@@ -18,6 +18,7 @@ import {
 } from 'fabric';
 import type { MediaDefinition, templateTypeV2 } from '../resourcesTypedef';
 import { getFontKey, registerFont } from './pdfFontCache';
+import { checkTypeOrFallback } from '../utils/checkTypeOrFallback';
 
 export const createDownloadStream = async (pdfDoc: any): Promise<Blob> => {
   // @ts-expect-error yeah no definitions
@@ -369,28 +370,22 @@ const addImageToPdf = async (
   const originalSize = fabricImage.getOriginalSize();
   // @ts-expect-error this isn't typed
   const originalFile = fabricImage.originalFile;
+  let arrayBuffer;
   if ((originalFile as File) instanceof File) {
     // @ts-expect-error this isn't typed
-    const arrayBuffer = await (fabricImage.originalFile as File).arrayBuffer();
-    pdfDoc.image(arrayBuffer, -fabricImage.width / 2, -fabricImage.height / 2, {
-      width: originalSize.width,
-      height: originalSize.height,
-    });
+    arrayBuffer = await (fabricImage.originalFile as File).arrayBuffer();
   } else if (originalFile) {
-    const imageFetch = await (await fetch(originalFile.src)).arrayBuffer();
-    pdfDoc.image(imageFetch, -fabricImage.width / 2, -fabricImage.height / 2, {
-      width: originalSize.width,
-      height: originalSize.height,
-    });
+    arrayBuffer = await (await fetch(originalFile.src)).arrayBuffer();
   } else {
     // todo fix
     // images part of the template will likely be duplicated.
-    const imageFetch = await (await fetch(fabricImage.getSrc())).arrayBuffer();
-    pdfDoc.image(imageFetch, -fabricImage.width / 2, -fabricImage.height / 2, {
-      width: originalSize.width,
-      height: originalSize.height,
-    });
+    arrayBuffer = await (await fetch(fabricImage.getSrc())).arrayBuffer();
   }
+  arrayBuffer = await checkTypeOrFallback(arrayBuffer, fabricImage);
+  pdfDoc.image(arrayBuffer, -fabricImage.width / 2, -fabricImage.height / 2, {
+    width: originalSize.width,
+    height: originalSize.height,
+  });
   pdfDoc.restore();
 };
 
@@ -463,6 +458,7 @@ export const addCanvasToPdfPage = async (
 
   if (asRaster) {
     const canvasClone = await canvas.clone([]);
+    canvasClone.viewportTransform = canvas.viewportTransform.slice() as TMat2D;
     canvasClone.getObjects().forEach((object: FabricObject) => {
       if (object['zaparoo-no-print']) {
         object.visible = false;
