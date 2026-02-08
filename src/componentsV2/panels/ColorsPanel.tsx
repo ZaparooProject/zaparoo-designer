@@ -2,7 +2,7 @@ import { PanelSection } from './PanelSection';
 import { ColorChanger } from './ColorChanger';
 import { useFileDropperContext } from '../../contexts/fileDropper';
 import { useAppDataContext } from '../../contexts/appData';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { colorsDiffer } from '../../utils/utils';
 import { RequireCards, SuggestSelecting } from './RequireEditing';
 
@@ -15,15 +15,54 @@ export const ColorsPanel = ({
   hasSelection: boolean;
 }) => {
   const { cards } = useFileDropperContext();
-  const findCard = () =>
-    cards.current.find((card) => card.isSelected) ?? cards.current[0];
-  const [customColors, setCustomColors] = useState(
-    () => findCard()?.colors ?? [],
-  );
-  const [originalColors] = useState(() => findCard()?.originalColors ?? []);
-  const { template, setTemplate } = useAppDataContext();
+  const { isIdle } = useAppDataContext();
+  const {
+    originalColors,
+    customColors,
+    setCustomColors,
+    template,
+    setOriginalColors,
+    setTemplate,
+  } = useAppDataContext();
 
   console.log({ originalColors, customColors });
+
+  useEffect(() => {
+    if (hasCards) {
+      const selectedCard =
+        cards.current.find((card) => card.isSelected) ?? cards.current[0];
+      const currentTemplate = selectedCard.template!;
+      const currentColors = selectedCard.colors;
+      const currentOriginalColors = selectedCard.originalColors;
+      console.log({ selectedCard, currentColors, currentOriginalColors });
+      if (
+        customColors.length === 0 ||
+        colorsDiffer(currentColors, customColors)
+      ) {
+        setCustomColors(currentColors);
+      }
+      if (
+        originalColors.length === 0 ||
+        colorsDiffer(currentOriginalColors, originalColors)
+      ) {
+        setOriginalColors(currentOriginalColors);
+      }
+      if (currentTemplate && currentTemplate !== template) {
+        setTemplate(currentTemplate);
+      }
+    }
+  }, [
+    cards,
+    customColors,
+    originalColors,
+    hasSelection,
+    setCustomColors,
+    setOriginalColors,
+    setTemplate,
+    template,
+    hasCards,
+    isIdle,
+  ]);
 
   return (
     <PanelSection title="Color selection">

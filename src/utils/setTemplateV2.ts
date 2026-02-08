@@ -105,7 +105,6 @@ export const setTemplateV2OnCanvases = async (
       continue;
     }
     card.template = template;
-    card.originalColors = colors;
     // resize only if necessary
     if (finalHeight !== canvas.height || finalWidth !== canvas.width) {
       canvas.enableRetinaScaling = false;
