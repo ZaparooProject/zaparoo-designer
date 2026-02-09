@@ -63,8 +63,8 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
       card.canvas = fabricCanvas;
       card.template = template;
       card.colors = customColors;
-      card.originalColors = originalColors;
-      setTemplateV2OnCanvases([card], template).then(() => {
+      setTemplateV2OnCanvases([card], template).then((meh) => {
+        card.originalColors = meh;
         updateColors([card], customColors, originalColors);
         fabricCanvas.requestRenderAll();
       });
