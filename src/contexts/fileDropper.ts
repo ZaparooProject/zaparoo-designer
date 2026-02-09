@@ -25,6 +25,7 @@ export type contextType = {
   cards: MutableRefObject<CardData[]>;
   removeCards: () => void;
   deleteCardByIndex: (index: number) => void;
+  duplicateCardByIndex: (index: number) => void;
   selectedCardsCount: number;
   setSelectedCardsCount: (qty: number) => void;
   editingCard: CardData | null;
@@ -40,6 +41,7 @@ export const FileDropContext = createContext<contextType>({
   setFiles: () => {},
   removeCards: () => {},
   deleteCardByIndex: () => {},
+  duplicateCardByIndex: () => {},
   selectedCardsCount: 0,
   setSelectedCardsCount: () => {},
   editingCard: null,

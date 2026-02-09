@@ -108,6 +108,32 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     [files, editingCard, setSelectedCardsCount, setEditingCardImpl],
   );
 
+  const duplicateCardByIndex = useCallback(
+    async (index: number) => {
+      const cardToDuplicate = cards.current[index];
+      if (!cardToDuplicate) return;
+      const duplicatedCard: CardData = {
+        ...cardToDuplicate,
+        colors: [...cardToDuplicate.colors],
+        originalColors: [...cardToDuplicate.originalColors],
+        canvas: await cardToDuplicate.canvas!.clone([]),
+        isSelected: false,
+        key: `${cardToDuplicate.key}-${Date.now()}`,
+      };
+      cards.current = [
+        ...cards.current.slice(0, index + 1),
+        duplicatedCard,
+        ...cards.current.slice(index + 1),
+      ];
+      setFilesImpl([
+        ...files.slice(0, index + 1),
+        cardToDuplicate.file,
+        ...files.slice(index + 1),
+      ]);
+    },
+    [files],
+  );
+
   const contextValue = useMemo<contextType>(
     () => ({
       files,
@@ -116,6 +142,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       cards,
       removeCards,
       deleteCardByIndex,
+      duplicateCardByIndex,
       selectedCardsCount,
       setSelectedCardsCount,
       editingCard,
@@ -127,6 +154,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       setFiles,
       removeCards,
       deleteCardByIndex,
+      duplicateCardByIndex,
       selectedCardsCount,
       editingCard,
       setEditingCard,

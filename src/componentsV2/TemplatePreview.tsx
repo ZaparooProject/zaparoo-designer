@@ -1,7 +1,7 @@
 import './labelEditor.css';
 import './templatePreview.css';
 import { useAppDataContext } from '../contexts/appData';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
@@ -32,7 +32,8 @@ export const TemplatePreview = ({
     <>
       <div className={`labelContainer ${className} ${className2}`}>
         <label className="canvasLabel" onClick={openInputFile}>
-          <img src={template.preview} />
+          <Typography color="secondary">Currently selected template</Typography>
+          <img src={template.preview} className="smaller" />
         </label>
         <div className="previewFooter">
           <Button

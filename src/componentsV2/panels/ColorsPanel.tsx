@@ -1,9 +1,7 @@
 import { PanelSection } from './PanelSection';
-import { ColorChanger } from './ColorChanger';
 import { useFileDropperContext } from '../../contexts/fileDropper';
 import { useAppDataContext } from '../../contexts/appData';
 import { useEffect, useState } from 'react';
-import { colorsDiffer } from '../../utils/utils';
 import { RequireCards, SuggestSelecting } from './RequireEditing';
 import { extractUniqueColorsFromGroup } from '../../utils/templateHandling';
 import { type Group } from 'fabric';

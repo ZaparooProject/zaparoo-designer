@@ -9,6 +9,7 @@
   border-radius: 8px;
   position: relative;
   display: flex;
+  gap: var(--basic-gap);
   flex-direction: column;
   align-items: center;
   height: fit-content;

@@ -2,10 +2,11 @@ import { useRef, type MouseEvent, useTransition } from 'react';
 import { FabricCanvasWrapper } from '../components/FabricCanvasWrapper';
 import { useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
-import { Checkbox, IconButton } from '@mui/material';
+import { Checkbox, IconButton, Tooltip } from '@mui/material';
 // import EditIcon from '@mui/icons-material/Edit';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { autoFillTemplate } from '../utils/autoFillTemplate';
 import './labelEditor.css';
 
@@ -35,6 +36,7 @@ export const LabelEditor = ({
     deleteCardByIndex,
     selectedCardsCount,
     setSelectedCardsCount,
+    duplicateCardByIndex,
   } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
@@ -112,18 +114,36 @@ export const LabelEditor = ({
           </div>
         )}
         <div className="button-look">
-          <IconButton
-            className="button-look"
-            color="secondary"
-            id={`${card.key}-delete`}
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              e.preventDefault();
-              deleteCardByIndex(index);
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Duplicate card">
+            <IconButton
+              className="button-look"
+              color="secondary"
+              id={`${card.key}-delete`}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                duplicateCardByIndex(index);
+              }}
+            >
+              <ContentCopyIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+        <div className="button-look">
+          <Tooltip title="Delete card">
+            <IconButton
+              className="button-look"
+              color="secondary"
+              id={`${card.key}-delete`}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                deleteCardByIndex(index);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
     </div>
