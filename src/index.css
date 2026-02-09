@@ -19,7 +19,7 @@ body {
 }
 
 :root {
-  --basic-gap: '8px';
+  --basic-gap: 8px;
   --ui-color-1: #1e1e2e;
   --ui-color-2: #2a2a3e;
   --cell-width: 450px;

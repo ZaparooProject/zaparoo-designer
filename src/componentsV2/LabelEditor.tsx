@@ -2,10 +2,11 @@ import { useRef, type MouseEvent, useTransition } from 'react';
 import { FabricCanvasWrapper } from '../components/FabricCanvasWrapper';
 import { useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
-import { Checkbox, IconButton } from '@mui/material';
+import { Checkbox, IconButton, Tooltip } from '@mui/material';
 // import EditIcon from '@mui/icons-material/Edit';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { autoFillTemplate } from '../utils/autoFillTemplate';
 import './labelEditor.css';
 
@@ -15,6 +16,7 @@ type LabelEditorProps = {
   setCardToEdit: (arg: number) => void;
   editingIsRequired: boolean;
   selectionIsRequired: boolean;
+  hasSelection: boolean;
 };
 
 export type MenuInfo = {
@@ -28,10 +30,14 @@ export const LabelEditor = ({
   card,
   setCardToEdit,
   selectionIsRequired,
-  // editingIsRequired,
+  hasSelection,
 }: LabelEditorProps) => {
-  const { selectedCardsCount, setSelectedCardsCount, setSelectedCardGame } =
-    useFileDropperContext();
+  const {
+    deleteCardByIndex,
+    selectedCardsCount,
+    setSelectedCardsCount,
+    duplicateCardByIndex,
+  } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
   const { setFabricCanvas } = useLabelEditor({
@@ -41,11 +47,12 @@ export const LabelEditor = ({
   });
 
   const isSelected = card.isSelected;
+  const flashSelection = selectionIsRequired && !hasSelection;
 
   return (
     <div
       className={`labelContainer horizontal ${
-        isSelected ? 'card-selected' : ''
+        isSelected && selectionIsRequired ? 'card-selected' : ''
       }`}
       ref={padderRef}
     >
@@ -56,6 +63,7 @@ export const LabelEditor = ({
         {selectionIsRequired && (
           <div className="button-look">
             <Checkbox
+              className={flashSelection ? 'flash-checkbox' : ''}
               color="secondary"
               id={card.key}
               checked={isSelected}
@@ -69,11 +77,6 @@ export const LabelEditor = ({
                     ? selectedCardsCount + 1
                     : selectedCardsCount - 1;
                   setSelectedCardsCount(newCount);
-                  if (newCount === 1) {
-                    setSelectedCardGame(card.game);
-                  } else {
-                    setSelectedCardGame({});
-                  }
                 });
               }}
             />
@@ -111,18 +114,36 @@ export const LabelEditor = ({
           </div>
         )}
         <div className="button-look">
-          <IconButton
-            className="button-look"
-            color="secondary"
-            id={`${card.key}-delete`}
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              e.preventDefault();
-              // TODO: implement delete logic
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Duplicate card">
+            <IconButton
+              className="button-look"
+              color="secondary"
+              id={`${card.key}-delete`}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                duplicateCardByIndex(index);
+              }}
+            >
+              <ContentCopyIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+        <div className="button-look">
+          <Tooltip title="Delete card">
+            <IconButton
+              className="button-look"
+              color="secondary"
+              id={`${card.key}-delete`}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                e.preventDefault();
+                deleteCardByIndex(index);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
     </div>

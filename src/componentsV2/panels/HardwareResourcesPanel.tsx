@@ -33,8 +33,18 @@ export function HardwareResourcesPanel({
           <Tab label="Controllers" value="controllers" />
         </Tabs>
       </div>
-      {value === 'controllers' && <ControllerDisplay canvasRef={canvasRef} />}
-      {value === 'consoles' && <ConsoleDisplay canvasRef={canvasRef} />}
+      {value === 'controllers' && (
+        <ControllerDisplay
+          canvasRef={canvasRef}
+          blocked={!isEditing || !hasCards}
+        />
+      )}
+      {value === 'consoles' && (
+        <ConsoleDisplay
+          canvasRef={canvasRef}
+          blocked={!isEditing || !hasCards}
+        />
+      )}
     </PanelSection>
   );
 }

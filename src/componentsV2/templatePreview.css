@@ -1,0 +1,30 @@
+.horizontal .canvasLabel img.smaller {
+  width: calc(var(--cell-width) * 0.8);
+  height: auto;
+}
+
+.vertical .canvasLabel img.smaller {
+  height: calc(var(--cell-width) * 0.8);
+  width: auto;
+}
+
+.previewFooter {
+  margin-top: var(--basic-gap);
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+@keyframes flash-blink {
+  0%,
+  100% {
+    border: 4px solid var(--ui-color-primary);
+  }
+  50% {
+    border: 4px solid transparent;
+  }
+}
+
+.flash-card {
+  animation: flash-blink 0.8s ease-in-out infinite;
+}

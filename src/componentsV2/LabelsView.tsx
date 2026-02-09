@@ -1,4 +1,11 @@
-import { lazy, MutableRefObject, Suspense, useEffect, useState } from 'react';
+import {
+  lazy,
+  MutableRefObject,
+  Suspense,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
@@ -9,22 +16,24 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { ActionBarButton } from './ActionBarButton';
-import ImageSearchPanel from './SearchPanel';
+import ImageSearchPanel from './panels/SearchPanel';
 import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
-import { ColorsPanel } from './ColorsPanel';
+import { ColorsPanel } from './panels/ColorsPanel';
 import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
 import { SingleCardEditModal } from './SingleCardEditModal';
-import { useSingleEditModal } from '../hooks/useSingleEditModal';
-import { LayersPanel } from './LayersPanel';
+import { LayersPanel } from './panels/LayersPanel';
+import { TemplatePreview } from './TemplatePreview';
 
-const LogoTabs = lazy(() => import('./LogosTabs'));
-const HardwareResourcesPanel = lazy(() => import('./HardwareResourcesPanel'));
-const TemplatePanel = lazy(() => import('./TemplatePanel'));
-const GameResourcesPanel = lazy(() => import('./GameResourcesPanel'));
+const LogoTabs = lazy(() => import('./panels/LogosTabs'));
+const HardwareResourcesPanel = lazy(
+  () => import('./panels/HardwareResourcesPanel'),
+);
+const TemplatePanel = lazy(() => import('./panels/TemplatePanel'));
+const GameResourcesPanel = lazy(() => import('./panels/GameResourcesPanel'));
 
 const enum panels {
   'Search',
@@ -77,7 +86,7 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
-  const { cards, selectedCardGame, selectedCardsCount } =
+  const { cards, selectedCardsCount, editingCard, setEditingCard } =
     useFileDropperContext();
   const [panel, setPanel] = useState<panels>(panels.Search);
   const [canvasRef, setCurrentEditingCanvas] = useState<
@@ -87,8 +96,10 @@ export const LabelsView = () => {
     loadFontsForCanvas();
   }, []);
 
-  const { isOpen, onClose, setCardToEdit, currentCardIndex } =
-    useSingleEditModal();
+  const onClose = useCallback(() => {
+    setEditingCard(-1);
+    setCurrentEditingCanvas({ current: null });
+  }, [setEditingCard]);
 
   const editingIsRequired = requireEditingPanel.includes(panel);
   const selectionIsRequired = requireSelectionPanel.includes(panel);
@@ -96,6 +107,7 @@ export const LabelsView = () => {
   const isEditing = canvasRef.current !== null;
   const hasSelection = selectedCardsCount > 0 || isEditing;
   const hasCards = cards.current.length > 0;
+
   return (
     <div className="editorContainer">
       <aside className="actionBar verticalStack">
@@ -158,7 +170,9 @@ export const LabelsView = () => {
       </aside>
       <div className="leftPanel">
         <Suspense fallback={null}>
-          {panel === panels.Search && <ImageSearchPanel />}
+          {panel === panels.Search && (
+            <ImageSearchPanel isEditing={isEditing} />
+          )}
           {panel === panels.Templates && (
             <TemplatePanel
               isEditing={isEditing}
@@ -169,7 +183,7 @@ export const LabelsView = () => {
           )}
           {panel === panels.Resources && (
             <GameResourcesPanel
-              game={selectedCardGame}
+              game={editingCard?.game}
               canvasRef={canvasRef}
               isEditing={isEditing}
               hasCards={hasCards}
@@ -225,16 +239,20 @@ export const LabelsView = () => {
             key={card.key}
             index={index}
             card={card}
-            setCardToEdit={setCardToEdit}
+            setCardToEdit={setEditingCard}
             editingIsRequired={editingIsRequired}
             selectionIsRequired={selectionIsRequired}
+            hasSelection={hasSelection}
           />
         ))}
+        <TemplatePreview
+          hasCards={hasCards}
+          editingIsRequired={editingIsRequired}
+        />
         <SingleCardEditModal
           setCurrentEditingCanvas={setCurrentEditingCanvas}
-          isOpen={isOpen}
+          isOpen={!!editingCard}
           onClose={onClose}
-          currentCardIndex={currentCardIndex}
         />
       </div>
       <DataToCanvasReconciler />

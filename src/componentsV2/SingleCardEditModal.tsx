@@ -8,7 +8,6 @@ import { type Canvas } from 'fabric';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
-  currentCardIndex: number;
   setCurrentEditingCanvas: (canvas: MutableRefObject<Canvas>) => void;
 };
 
@@ -18,7 +17,6 @@ type SingleCardEditModalProps = SingleCardEditSpaceProps & {
 
 export const ModalInternalComponent = ({
   onClose,
-  currentCardIndex,
   setCurrentEditingCanvas,
 }: SingleCardEditSpaceProps) => {
   const [ready, setReady] = useState(false);
@@ -26,7 +24,6 @@ export const ModalInternalComponent = ({
 
   const { selectedCard, editableCanvas, confirmAndSave, canvasElement } =
     useEditableCanvas({
-      currentCardIndex,
       setReady,
       setCurrentResource: noop,
       setCurrentEditingCanvas,
@@ -34,8 +31,8 @@ export const ModalInternalComponent = ({
 
   useRealTimeResize({
     fabricCanvas: editableCanvas.current,
-    layout: selectedCard.template!.layout,
-    media: selectedCard.template!.media,
+    layout: selectedCard!.template!.layout,
+    media: selectedCard!.template!.media,
     ready,
     padderRef,
     throttleMs: 100,
@@ -77,7 +74,6 @@ export const ModalInternalComponent = ({
 export const SingleCardEditModal = ({
   isOpen,
   onClose,
-  currentCardIndex,
   setCurrentEditingCanvas,
 }: SingleCardEditModalProps) => {
   return (
@@ -103,7 +99,6 @@ export const SingleCardEditModal = ({
           <ModalInternalComponent
             setCurrentEditingCanvas={setCurrentEditingCanvas}
             onClose={onClose}
-            currentCardIndex={currentCardIndex}
           />
         )}
       </div>

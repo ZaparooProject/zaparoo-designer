@@ -3,6 +3,7 @@ import type { FC, JSX } from 'react';
 import {
   type CardData,
   FileDropContext,
+  type PossibleFile,
   type contextType,
 } from '../contexts/fileDropper';
 
@@ -13,23 +14,21 @@ type FileDropperProps = {
 export const FileDropperContextProvider: FC<FileDropperProps> = ({
   children,
 }) => {
-  const [files, setFilesImpl] = useState<(File | HTMLImageElement)[]>([]);
+  const [files, setFilesImpl] = useState<PossibleFile[]>([]);
   const cards = useRef<CardData[]>([]);
   // the selection state needs to be refactored.
   const [selectedCardsCount, setSelectedCardsCount] = useState<number>(0);
-  const [selectedCardGame, setSelectedCardGame] = useState<CardData['game']>(
-    {},
-  );
+  const [editingCard, setEditingCardImpl] = useState<CardData | null>(null);
 
   const addFiles = useCallback(
-    (newFiles: (File | HTMLImageElement)[], games: CardData['game'][] = []) => {
+    (newFiles: PossibleFile[], games: CardData['game'][] = []) => {
       setFilesImpl([...files, ...newFiles]);
       cards.current.push(
         ...newFiles.map<CardData>((file, index) => ({
           file,
           game: games[index] || {},
           key: `${
-            (file as File).name || (file as HTMLImageElement).src
+            (file as File)?.name || (file as HTMLImageElement)?.src || 'empty'
           }-${Date.now()}`,
           canvas: undefined,
           template: undefined,
@@ -42,12 +41,16 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     [files, setFilesImpl],
   );
 
+  const setEditingCard = useCallback(
+    (index: number) => {
+      setEditingCardImpl(cards.current[index]);
+    },
+    [setEditingCardImpl],
+  );
+
   const setFiles = useCallback(
-    (
-      totalFiles: (File | HTMLImageElement)[],
-      games: CardData['game'][] = [],
-    ) => {
-      let newFiles: (File | HTMLImageElement)[] = [];
+    (totalFiles: PossibleFile[], games: CardData['game'][] = []) => {
+      let newFiles: PossibleFile[] = [];
       if (totalFiles.length > files.length) {
         newFiles = totalFiles.slice(files.length - totalFiles.length);
       }
@@ -57,7 +60,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
           file,
           game: games[index] || {},
           key: `${
-            (file as File).name || (file as HTMLImageElement).src
+            (file as File)?.name || (file as HTMLImageElement)?.src || 'empty'
           }-${Date.now()}`,
           canvas: undefined,
           template: undefined,
@@ -87,26 +90,74 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     setSelectedCardsCount(0);
   }, [files]);
 
+  const deleteCardByIndex = useCallback(
+    (index: number) => {
+      const cardToDelete = cards.current[index];
+      if (!cardToDelete) return;
+      cards.current = cards.current.filter(
+        (_, cardIndex) => cardIndex !== index,
+      );
+      setFilesImpl(files.filter((_, fileIndex) => fileIndex !== index));
+      if (cardToDelete.isSelected) {
+        setSelectedCardsCount((prev) => Math.max(0, prev - 1));
+      }
+      if (editingCard?.key === cardToDelete.key) {
+        setEditingCardImpl(null);
+      }
+    },
+    [files, editingCard, setSelectedCardsCount, setEditingCardImpl],
+  );
+
+  const duplicateCardByIndex = useCallback(
+    async (index: number) => {
+      const cardToDuplicate = cards.current[index];
+      if (!cardToDuplicate) return;
+      const duplicatedCard: CardData = {
+        ...cardToDuplicate,
+        colors: [...cardToDuplicate.colors],
+        originalColors: [...cardToDuplicate.originalColors],
+        canvas: await cardToDuplicate.canvas!.clone([]),
+        isSelected: false,
+        key: `${cardToDuplicate.key}-${Date.now()}`,
+      };
+      cards.current = [
+        ...cards.current.slice(0, index + 1),
+        duplicatedCard,
+        ...cards.current.slice(index + 1),
+      ];
+      setFilesImpl([
+        ...files.slice(0, index + 1),
+        cardToDuplicate.file,
+        ...files.slice(index + 1),
+      ]);
+    },
+    [files],
+  );
+
   const contextValue = useMemo<contextType>(
     () => ({
       files,
       addFiles,
-      setFiles: setFiles,
+      setFiles,
       cards,
       removeCards,
+      deleteCardByIndex,
+      duplicateCardByIndex,
       selectedCardsCount,
       setSelectedCardsCount,
-      selectedCardGame,
-      setSelectedCardGame,
+      editingCard,
+      setEditingCard,
     }),
     [
       files,
       addFiles,
       setFiles,
       removeCards,
+      deleteCardByIndex,
+      duplicateCardByIndex,
       selectedCardsCount,
-      selectedCardGame,
-      setSelectedCardGame,
+      editingCard,
+      setEditingCard,
     ],
   );
 
