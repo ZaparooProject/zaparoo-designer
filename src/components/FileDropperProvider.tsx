@@ -112,11 +112,13 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     async (index: number) => {
       const cardToDuplicate = cards.current[index];
       if (!cardToDuplicate) return;
+      const duplicatedCanvas = await cardToDuplicate.canvas!.clone([]);
+      duplicatedCanvas.requestRenderAll();
       const duplicatedCard: CardData = {
         ...cardToDuplicate,
         colors: [...cardToDuplicate.colors],
         originalColors: [...cardToDuplicate.originalColors],
-        canvas: await cardToDuplicate.canvas!.clone([]),
+        canvas: duplicatedCanvas,
         isSelected: false,
         key: `${cardToDuplicate.key}-${Date.now()}`,
       };

@@ -37,10 +37,10 @@ export const ImagePanelDisplay = ({
   };
 
   const handleDragStart: DragEventHandler<HTMLDivElement> = (event) => {
-    // if (blocked) {
-    //   event.preventDefault();
-    //   return;
-    // }
+    if (blocked) {
+      event.preventDefault();
+      return;
+    }
     const dragUrl = imageResult.url;
     event.dataTransfer.setData('application/x-zaparoo-image-url', dragUrl);
     event.dataTransfer.setData('text/uri-list', dragUrl);

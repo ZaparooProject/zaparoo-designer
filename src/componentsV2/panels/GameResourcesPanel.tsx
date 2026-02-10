@@ -5,7 +5,7 @@ import { PanelSection } from './PanelSection';
 import { SearchResult } from '../../../netlify/apiProviders/types.mts';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import './GameResourcesPanel.css';
-import { RequireCards, RequireEditing } from './RequireEditing';
+import { RequireCards, SuggestClick, SuggestDrag } from './RequireEditing';
 
 type GameResourcesDisplayProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -26,7 +26,8 @@ export function GameResourcesPanel({
         title="Game resources"
         className="gameResourcesPanel sectionNoScroll"
       >
-        {isEditing || <RequireEditing />}
+        {hasCards && !isEditing && <SuggestDrag />}
+        {hasCards && isEditing && <SuggestClick />}
         {hasCards || <RequireCards />}
       </PanelSection>
       <PanelSection title="" className="gameResourcesPanel">

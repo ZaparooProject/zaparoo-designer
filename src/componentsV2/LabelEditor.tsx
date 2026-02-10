@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { autoFillTemplate } from '../utils/autoFillTemplate';
 import './labelEditor.css';
+import { FabricImage, util } from 'fabric';
 
 type LabelEditorProps = {
   index: number;
@@ -23,10 +24,6 @@ type LabelEditorProps = {
   editingIsRequired: boolean;
   selectionIsRequired: boolean;
   hasSelection: boolean;
-  onImageDrop?: (
-    imageUrl: string,
-    context: { index: number; card: CardData; event: ReactDragEvent },
-  ) => void;
 };
 
 export type MenuInfo = {
@@ -49,7 +46,6 @@ export const LabelEditor = ({
   setCardToEdit,
   selectionIsRequired,
   hasSelection,
-  onImageDrop,
 }: LabelEditorProps) => {
   const {
     deleteCardByIndex,
@@ -97,8 +93,18 @@ export const LabelEditor = ({
     event.preventDefault();
     setIsDragOver(false);
     const imageUrl = getDraggedImageUrl(event);
-    if (imageUrl && onImageDrop) {
-      onImageDrop(imageUrl, { index, card, event });
+    if (imageUrl && card.canvas) {
+      util.loadImage(imageUrl).then((img) => {
+        const { canvas } = card;
+        if (canvas) {
+          const image = new FabricImage(img);
+          const scale = util.findScaleToFit(image, canvas);
+          image.scale(scale);
+          canvas.add(image);
+          canvas.centerObject(image);
+          canvas.requestRenderAll();
+        }
+      });
     }
   };
 

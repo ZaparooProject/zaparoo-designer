@@ -11,7 +11,12 @@ import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
-import { RequireEditing, RequireCards } from './RequireEditing';
+import {
+  RequireEditing,
+  RequireCards,
+  SuggestClick,
+  SuggestDrag,
+} from './RequireEditing';
 
 type StaticLogo = {
   url: string;
@@ -44,7 +49,8 @@ export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
 
   return (
     <PanelSection title="Company logos">
-      {hasCards && !isEditing && <RequireEditing />}
+      {hasCards && !isEditing && <SuggestDrag />}
+      {hasCards && isEditing && <SuggestClick />}
       {hasCards || <RequireCards />}
       <div className="logoTools">
         <TextField
@@ -84,7 +90,7 @@ export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
           (logo) =>
             logo.name.toLowerCase().includes(keyword) && (
               <ImagePanelDisplay
-                blocked={!isEditing || !hasCards}
+                blocked={!hasCards}
                 key={logo.url}
                 canvasRef={canvasRef}
                 imageResult={{ url: logo.url, width: 400, height: 400 }}

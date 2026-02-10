@@ -23,7 +23,7 @@ import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
 import { ColorsPanel } from './panels/ColorsPanel';
-import { DataToCanvasReconciler } from '../components/DataToCanvasReconciler';
+import { DataToCanvasReconciler } from './DataToCanvasReconciler';
 import { SingleCardEditModal } from './SingleCardEditModal';
 import { LayersPanel } from './panels/LayersPanel';
 import { TemplatePreview } from './TemplatePreview';

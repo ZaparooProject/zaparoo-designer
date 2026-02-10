@@ -19,8 +19,8 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
   const [isImageReady, setImageReady] = useState<boolean>(false);
 
   useEffect(() => {
-    if (fabricCanvas) {
-      const { file } = card;
+    const { file, canvas } = card;
+    if (fabricCanvas && !canvas) {
       const imagePromise =
         file instanceof Blob
           ? util.loadImage(URL.createObjectURL(file))
@@ -46,11 +46,29 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
         }
         setImageReady(true);
       });
+    } else if (fabricCanvas && canvas) {
+      // just swap the element
+      canvas.elements.lower = fabricCanvas.elements.lower;
+      canvas.setDimensions({
+        width: canvas.getWidth(),
+        height: canvas.getHeight(),
+      });
+      canvas.setDimensions(
+        {
+          width: 'var(--cell-width)' as unknown as number,
+          height: 'auto' as unknown as number,
+        },
+        { cssOnly: true },
+      );
     }
   }, [card, fabricCanvas]);
 
   // creation of a new card
   useEffect(() => {
+    // if the card is alrady done do not touch anything
+    if (card.canvas) {
+      return;
+    }
     const divRef = padderRef.current;
     if (fabricCanvas && divRef && isImageReady) {
       fabricCanvas.setDimensions(
