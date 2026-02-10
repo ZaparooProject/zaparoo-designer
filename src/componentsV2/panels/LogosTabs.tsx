@@ -11,12 +11,7 @@ import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
-import {
-  RequireEditing,
-  RequireCards,
-  SuggestClick,
-  SuggestDrag,
-} from './RequireEditing';
+import { RequireCards, SuggestClick, SuggestDrag } from './RequireEditing';
 
 type StaticLogo = {
   url: string;
