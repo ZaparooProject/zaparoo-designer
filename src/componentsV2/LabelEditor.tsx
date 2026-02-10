@@ -1,4 +1,10 @@
-import { useRef, type MouseEvent, useTransition } from 'react';
+import {
+  useRef,
+  useState,
+  type MouseEvent,
+  type DragEvent as ReactDragEvent,
+  useTransition,
+} from 'react';
 import { FabricCanvasWrapper } from '../components/FabricCanvasWrapper';
 import { useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
@@ -17,6 +23,10 @@ type LabelEditorProps = {
   editingIsRequired: boolean;
   selectionIsRequired: boolean;
   hasSelection: boolean;
+  onImageDrop?: (
+    imageUrl: string,
+    context: { index: number; card: CardData; event: ReactDragEvent },
+  ) => void;
 };
 
 export type MenuInfo = {
@@ -25,12 +35,21 @@ export type MenuInfo = {
   left: number | string;
 };
 
+const getDraggedImageUrl = (event: ReactDragEvent) => {
+  return (
+    event.dataTransfer.getData('application/x-zaparoo-image-url') ||
+    event.dataTransfer.getData('text/uri-list') ||
+    event.dataTransfer.getData('text/plain')
+  );
+};
+
 export const LabelEditor = ({
   index,
   card,
   setCardToEdit,
   selectionIsRequired,
   hasSelection,
+  onImageDrop,
 }: LabelEditorProps) => {
   const {
     deleteCardByIndex,
@@ -40,6 +59,7 @@ export const LabelEditor = ({
   } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
   const { setFabricCanvas } = useLabelEditor({
     card,
     index,
@@ -49,12 +69,49 @@ export const LabelEditor = ({
   const isSelected = card.isSelected;
   const flashSelection = selectionIsRequired && !hasSelection;
 
+  const handleDragOver = (event: ReactDragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+    if (!isDragOver) {
+      setIsDragOver(true);
+    }
+  };
+
+  const handleDragEnter = (event: ReactDragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (event: ReactDragEvent<HTMLDivElement>) => {
+    if (
+      event.currentTarget &&
+      event.relatedTarget instanceof Node &&
+      event.currentTarget.contains(event.relatedTarget)
+    ) {
+      return;
+    }
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (event: ReactDragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragOver(false);
+    const imageUrl = getDraggedImageUrl(event);
+    if (imageUrl && onImageDrop) {
+      onImageDrop(imageUrl, { index, card, event });
+    }
+  };
+
   return (
     <div
       className={`labelContainer horizontal ${
         isSelected && selectionIsRequired ? 'card-selected' : ''
-      }`}
+      } ${isDragOver ? 'card-drag-over' : ''}`}
       ref={padderRef}
+      onDragOver={handleDragOver}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
     >
       <label className="canvasLabel" onClick={() => setCardToEdit(index)}>
         <FabricCanvasWrapper setFabricCanvas={setFabricCanvas} />

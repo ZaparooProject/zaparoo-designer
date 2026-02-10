@@ -1,4 +1,9 @@
-import { type MouseEventHandler, type MutableRefObject } from 'react';
+import {
+  type MouseEventHandler,
+  type MutableRefObject,
+  type DragEventHandler,
+  useRef,
+} from 'react';
 import { type ResultImage } from '../../../netlify/apiProviders/types.mts';
 import { util, type Canvas, FabricImage } from 'fabric';
 import './ImagePanelDisplay.css';
@@ -17,6 +22,7 @@ export const ImagePanelDisplay = ({
   canvasRef,
   blocked = false,
 }: ImageDrawerDisplayProps) => {
+  const imgRef = useRef<HTMLImageElement | null>(null);
   const defaultOnClick = () => {
     util.loadImage(imageResult.url).then((img) => {
       if (!canvasRef?.current) {
@@ -30,16 +36,37 @@ export const ImagePanelDisplay = ({
     });
   };
 
+  const handleDragStart: DragEventHandler<HTMLDivElement> = (event) => {
+    // if (blocked) {
+    //   event.preventDefault();
+    //   return;
+    // }
+    const dragUrl = imageResult.url;
+    event.dataTransfer.setData('application/x-zaparoo-image-url', dragUrl);
+    event.dataTransfer.setData('text/uri-list', dragUrl);
+    event.dataTransfer.setData('text/plain', dragUrl);
+    event.dataTransfer.effectAllowed = 'copy';
+    if (imgRef.current) {
+      const offsetX = Math.max(0, imgRef.current.width / 2);
+      const offsetY = Math.max(0, imgRef.current.height / 2);
+      event.dataTransfer.setDragImage(imgRef.current, offsetX, offsetY);
+    }
+  };
+
   return (
     <div
       onClick={blocked ? noop : onClick ?? defaultOnClick}
       className={`imageResourceDisplayContainer ${blocked ? 'notActive' : ''}`}
+      draggable
+      onDragStart={handleDragStart}
     >
       <img
+        ref={imgRef}
         width="100%"
         className="imageResourceDisplay"
         src={imageResult.url}
         loading="lazy"
+        draggable={false}
       />
     </div>
   );
