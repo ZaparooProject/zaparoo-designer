@@ -19,7 +19,7 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
   const [isImageReady, setImageReady] = useState<boolean>(false);
 
   useEffect(() => {
-    const { file, canvas } = card;
+    const { file, canvas, template: cardTemplate } = card;
     if (fabricCanvas && !canvas) {
       const imagePromise =
         file instanceof Blob
@@ -53,13 +53,15 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
         width: canvas.getWidth(),
         height: canvas.getHeight(),
       });
+      const isHorizontal = cardTemplate?.layout === 'horizontal';
       canvas.setDimensions(
         {
-          width: 'var(--cell-width)' as unknown as number,
-          height: 'auto' as unknown as number,
+          width: isHorizontal ? 'var(--cell-width)' : 'auto',
+          height: isHorizontal ? 'auto' : 'var(--cell-width)',
         },
         { cssOnly: true },
       );
+      canvas.requestRenderAll();
     }
   }, [card, fabricCanvas]);
 
@@ -71,10 +73,11 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
     }
     const divRef = padderRef.current;
     if (fabricCanvas && divRef && isImageReady) {
+      const isHorizontal = template.layout === 'horizontal';
       fabricCanvas.setDimensions(
         {
-          width: 'var(--cell-width)' as unknown as number,
-          height: 'auto' as unknown as number,
+          width: isHorizontal ? 'var(--cell-width)' : 'auto',
+          height: isHorizontal ? 'auto' : 'var(--cell-width)',
         },
         { cssOnly: true },
       );

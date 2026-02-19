@@ -181,7 +181,7 @@ export const LabelEditor = ({
             <IconButton
               className="button-look"
               color="secondary"
-              id={`${card.key}-delete`}
+              id={`${card.key}-duplicate`}
               onClick={(e: MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 e.preventDefault();

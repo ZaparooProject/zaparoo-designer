@@ -113,6 +113,9 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       const cardToDuplicate = cards.current[index];
       if (!cardToDuplicate) return;
       const duplicatedCanvas = await cardToDuplicate.canvas!.clone([]);
+      duplicatedCanvas.viewportTransform = [
+        ...cardToDuplicate.canvas!.viewportTransform,
+      ];
       duplicatedCanvas.requestRenderAll();
       const duplicatedCard: CardData = {
         ...cardToDuplicate,
