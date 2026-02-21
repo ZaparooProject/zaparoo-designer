@@ -173,3 +173,5 @@ export const LayersPanel = ({
     </>
   );
 };
+
+export default LayersPanel;

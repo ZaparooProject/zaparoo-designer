@@ -64,3 +64,5 @@ export const ColorsPanel = ({
     </PanelSection>
   );
 };
+
+export default ColorsPanel;

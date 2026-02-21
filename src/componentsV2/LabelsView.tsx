@@ -21,10 +21,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
-import { ColorsPanel } from './panels/ColorsPanel';
 import { DataToCanvasReconciler } from './DataToCanvasReconciler';
-import { SingleCardEditModal } from './SingleCardEditModal';
-import { LayersPanel } from './panels/LayersPanel';
 import { TemplatePreview } from './TemplatePreview';
 
 const LogoTabs = lazy(() => import('./panels/LogosTabs'));
@@ -33,7 +30,9 @@ const HardwareResourcesPanel = lazy(
 );
 const TemplatePanel = lazy(() => import('./panels/TemplatePanel'));
 const GameResourcesPanel = lazy(() => import('./panels/GameResourcesPanel'));
-
+const LayersPanel = lazy(() => import('./panels/LayersPanel'));
+const ColorsPanel = lazy(() => import('./panels/ColorsPanel'));
+const SingleCardEditModal = lazy(() => import('./SingleCardEditModal'));
 const enum panels {
   'Search',
   'Resources',
@@ -248,11 +247,13 @@ export const LabelsView = () => {
           hasCards={hasCards}
           editingIsRequired={editingIsRequired}
         />
-        <SingleCardEditModal
-          setCurrentEditingCanvas={setCurrentEditingCanvas}
-          isOpen={!!editingCard}
-          onClose={onClose}
-        />
+        {!!editingCard && (
+          <SingleCardEditModal
+            setCurrentEditingCanvas={setCurrentEditingCanvas}
+            isOpen={!!editingCard}
+            onClose={onClose}
+          />
+        )}
       </div>
       <DataToCanvasReconciler />
     </div>
