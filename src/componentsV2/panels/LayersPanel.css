@@ -1,3 +1,43 @@
 .tools {
   padding-inline: 8px;
 }
+
+.layers-list {
+  padding-inline: 8px;
+  padding-block: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.layers-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 36px;
+  padding-inline: 12px;
+}
+
+.layers-row-text {
+  flex-grow: 1;
+}
+
+.layer-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+.layer-swatch.is-empty {
+  background-color: #ffffff;
+  background-image: linear-gradient(
+    135deg,
+    transparent 45%,
+    #d32f2f 45%,
+    #d32f2f 55%,
+    transparent 55%
+  );
+}
