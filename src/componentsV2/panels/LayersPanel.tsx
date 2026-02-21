@@ -2,7 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { PanelSection } from './PanelSection';
 import './LayersPanel.css';
 import { MutableRefObject, useCallback, useEffect, useState } from 'react';
-import { type TFiller, type Canvas } from 'fabric';
+import { type TFiller, type Canvas, FabricImage, StaticCanvas } from 'fabric';
 import { RequireCards, RequireEditing } from './RequireEditing';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -16,6 +16,23 @@ type LayersPanelProps = {
   hasCards: boolean;
 };
 
+const getFilteredObjects = (canvas: StaticCanvas) =>
+  canvas
+    .getObjects()
+    .filter(
+      (object) =>
+        !(object instanceof FabricImage) &&
+        object.visible === true &&
+        !(object.fill as unknown as TFiller)?.toLive,
+    )
+    .map((object) => ({
+      id: object.id,
+      type: object.type,
+      text: 'text' in object ? (object.text as string | undefined) : undefined,
+      fill: (object.fill as string | undefined) ?? undefined,
+      stroke: (object.stroke as string | undefined) ?? undefined,
+    }));
+
 export const LayersPanel = ({
   canvasRef,
   isEditing,
@@ -27,6 +44,7 @@ export const LayersPanel = ({
       text?: string;
       fill?: string;
       stroke?: string;
+      id: string;
     }>
   >([]);
 
@@ -36,22 +54,7 @@ export const LayersPanel = ({
       return;
     }
 
-    const objects = canvas
-      .getObjects()
-      .map((object) => ({
-        type: object.type,
-        text:
-          'text' in object ? (object.text as string | undefined) : undefined,
-        fill: (object.fill as string | undefined) ?? undefined,
-        stroke: (object.stroke as string | undefined) ?? undefined,
-      }))
-      .filter(
-        (object) =>
-          object.type !== 'image' &&
-          !(object.fill as unknown as TFiller)?.toLive,
-      );
-
-    setLayers(objects);
+    setLayers(getFilteredObjects(canvas));
   }, [canvasRef]);
 
   const rotateClockwise = useCallback(() => {
@@ -91,6 +94,31 @@ export const LayersPanel = ({
       canvas.requestRenderAll();
     }
   }, [canvasRef]);
+
+  const selectOnCanvas = useCallback(
+    (id: string) => {
+      const canvas = canvasRef.current!;
+      const layer = canvas.getObjects().find((obj) => obj.id === id);
+      if (layer) {
+        canvas.setActiveObject(layer);
+        canvas.requestRenderAll();
+      }
+    },
+    [canvasRef],
+  );
+
+  const onColorSelect = useCallback(
+    (id: string, nextColor: string, property: 'fill' | 'stroke') => {
+      const canvas = canvasRef.current!;
+      const layer = canvas.getObjects().find((obj) => obj.id === id);
+      if (layer) {
+        layer.set(property, nextColor);
+        canvas.requestRenderAll();
+        setLayers(getFilteredObjects(canvas));
+      }
+    },
+    [canvasRef],
+  );
 
   return (
     <>
@@ -154,7 +182,11 @@ export const LayersPanel = ({
       >
         <div className="layers-list">
           {layers.map((layer, index) => (
-            <div className="layers-row" key={`${layer.type}-${index}`}>
+            <div
+              className="layers-row"
+              onClick={() => selectOnCanvas(layer.id)}
+              key={layer.id}
+            >
               <Typography
                 display="flex"
                 flexGrow="1"
@@ -164,8 +196,20 @@ export const LayersPanel = ({
               >
                 {layer.type ?? 'layer'}
               </Typography>
-              <ColorSwatch color={layer.fill} ariaLabel="fill color" />
-              <ColorSwatch color={layer.stroke} ariaLabel="stroke color" />
+              <ColorSwatch
+                onColorSelect={onColorSelect}
+                property="fill"
+                id={layer.id}
+                color={layer.fill}
+                ariaLabel="fill color"
+              />
+              <ColorSwatch
+                onColorSelect={onColorSelect}
+                property="stroke"
+                id={layer.id}
+                color={layer.stroke}
+                ariaLabel="stroke color"
+              />
             </div>
           ))}
         </div>

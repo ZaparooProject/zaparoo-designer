@@ -4,9 +4,15 @@ import { HexColorInput, HexColorPicker } from 'react-colorful';
 import './LayersPanel.css';
 
 type ColorSwatchProps = {
+  id: string;
   color?: string;
   ariaLabel: string;
-  onColorSelect?: (color: string) => void;
+  property: 'fill' | 'stroke';
+  onColorSelect: (
+    id: string,
+    nextColor: string,
+    property: 'fill' | 'stroke',
+  ) => void;
 };
 
 const isSwatchEmpty = (value?: string) => !value || value === 'transparent';
@@ -50,14 +56,20 @@ const normalizeToHex = (value?: string) => {
 };
 
 export const ColorSwatch = ({
+  id,
   color,
   ariaLabel,
   onColorSelect,
+  property,
 }: ColorSwatchProps) => {
   const isEmpty = isSwatchEmpty(color);
   const [open, setOpen] = useState(false);
   const initialColor = useMemo(() => normalizeToHex(color), [color]);
   const [pickerColor, setPickerColor] = useState(initialColor);
+
+  const setOpenClick = useCallback(() => {
+    setOpen((current) => !current);
+  }, [setOpen]);
 
   useEffect(() => {
     setPickerColor(initialColor);
@@ -66,7 +78,7 @@ export const ColorSwatch = ({
   const onPickerChange = useCallback(
     (nextColor: string) => {
       setPickerColor(nextColor);
-      onColorSelect?.(nextColor);
+      onColorSelect(id, nextColor, property);
     },
     [onColorSelect],
   );
@@ -80,7 +92,7 @@ export const ColorSwatch = ({
         >
           <ButtonBase
             className="layer-swatch-button"
-            onClick={() => setOpen((current) => !current)}
+            onClick={setOpenClick}
             aria-label={ariaLabel}
           />
         </div>

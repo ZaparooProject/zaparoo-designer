@@ -14,12 +14,17 @@
 }
 
 .layers-row {
+  cursor: pointer;
   display: flex;
   flex-grow: 1;
   align-items: center;
   gap: 12px;
   min-height: 36px;
   padding-inline: 12px;
+}
+
+.layers-row:hover {
+  background-color: var(--ui-color-primary);
 }
 
 .layers-row-text {
@@ -33,6 +38,10 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   position: relative;
+}
+
+.layer-swatch:hover {
+  border: 1px solid var(--ui-color-primary);
 }
 
 .layer-swatch.is-empty {
