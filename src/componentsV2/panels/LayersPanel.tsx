@@ -181,7 +181,7 @@ export const LayersPanel = ({
         helpText="Perform actions on the selected layer"
       >
         <div className="layers-list">
-          {layers.map((layer, index) => (
+          {layers.map((layer) => (
             <div
               className="layers-row"
               onClick={() => selectOnCanvas(layer.id)}
