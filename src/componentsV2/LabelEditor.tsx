@@ -6,7 +6,7 @@ import {
   useTransition,
 } from 'react';
 import { FabricCanvasWrapper } from '../components/FabricCanvasWrapper';
-import { useLabelEditor } from '../hooks/useLabelEditor';
+import { setMainImageOnCanvas, useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
 import { Checkbox, IconButton, Tooltip } from '@mui/material';
 // import EditIcon from '@mui/icons-material/Edit';
@@ -16,6 +16,14 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { autoFillTemplate } from '../utils/autoFillTemplate';
 import './labelEditor.css';
 import { FabricImage, util } from 'fabric';
+import {
+  DRAG_MIME_GAME_OBJECT,
+  DRAG_MIME_IMAGE_URL,
+} from '../constants/dragDrop';
+import { SearchResult } from '../../netlify/apiProviders/types.mts';
+import { getImage } from '../utils/search';
+import { getMainImage, getPlaceholderMain } from '../utils/templateHandling';
+import { scaleImageToOverlayArea } from '../utils/setTemplateV2';
 
 type LabelEditorProps = {
   index: number;
@@ -32,14 +40,6 @@ export type MenuInfo = {
   left: number | string;
 };
 
-const getDraggedImageUrl = (event: ReactDragEvent) => {
-  return (
-    event.dataTransfer.getData('application/x-zaparoo-image-url') ||
-    event.dataTransfer.getData('text/uri-list') ||
-    event.dataTransfer.getData('text/plain')
-  );
-};
-
 export const LabelEditor = ({
   index,
   card,
@@ -52,6 +52,7 @@ export const LabelEditor = ({
     selectedCardsCount,
     setSelectedCardsCount,
     duplicateCardByIndex,
+    swapGameAtIndex,
   } = useFileDropperContext();
   const [, startTransition] = useTransition();
   const padderRef = useRef<HTMLDivElement | null>(null);
@@ -92,7 +93,7 @@ export const LabelEditor = ({
   const handleDrop = (event: ReactDragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragOver(false);
-    const imageUrl = getDraggedImageUrl(event);
+    const imageUrl = event.dataTransfer.getData(DRAG_MIME_IMAGE_URL);
     if (imageUrl && card.canvas) {
       util.loadImage(imageUrl).then((img) => {
         const { canvas } = card;
@@ -105,6 +106,35 @@ export const LabelEditor = ({
           canvas.requestRenderAll();
         }
       });
+      return;
+    }
+
+    const gameObjectRaw = event.dataTransfer.getData(DRAG_MIME_GAME_OBJECT);
+    const canvas = card.canvas;
+    if (gameObjectRaw && canvas) {
+      try {
+        const gameObject = JSON.parse(gameObjectRaw) as SearchResult;
+        const imageUrl = gameObject.cover.url;
+        getImage(imageUrl, imageUrl).then((file) => {
+          swapGameAtIndex(file, gameObject, index);
+          // now on current canvas wipe the main image and swap with the image from file.
+          // this is some code duplication from setTemplateV2 but i can't do better for now.
+          canvas.remove(getMainImage(canvas));
+          setMainImageOnCanvas(file, canvas).then(() => {
+            const placeholder = getPlaceholderMain(canvas);
+            const mainImage = getMainImage(canvas);
+            if (mainImage && placeholder) {
+              const index = canvas.getObjects().indexOf(placeholder);
+              canvas.insertAt(index, mainImage);
+              scaleImageToOverlayArea(placeholder, mainImage).then(() => {
+                canvas.requestRenderAll();
+              });
+            }
+          });
+        });
+      } catch {
+        // Ignore invalid payloads.
+      }
     }
   };
 

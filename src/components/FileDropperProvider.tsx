@@ -6,6 +6,7 @@ import {
   type PossibleFile,
   type contextType,
 } from '../contexts/fileDropper';
+import { SearchResult } from '../../netlify/apiProviders/types.mts';
 
 type FileDropperProps = {
   children: JSX.Element | JSX.Element[];
@@ -139,6 +140,15 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     [files],
   );
 
+  const swapGameAtIndex = useCallback(
+    async (file: PossibleFile, game: Partial<SearchResult>, index: number) => {
+      files[index] = file;
+      cards.current[index].game = game;
+      setFilesImpl([...files]);
+    },
+    [files],
+  );
+
   const contextValue = useMemo<contextType>(
     () => ({
       files,
@@ -152,6 +162,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       setSelectedCardsCount,
       editingCard,
       setEditingCard,
+      swapGameAtIndex,
     }),
     [
       files,
@@ -163,6 +174,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       selectedCardsCount,
       editingCard,
       setEditingCard,
+      swapGameAtIndex,
     ],
   );
 

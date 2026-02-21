@@ -1,5 +1,5 @@
 import { useEffect, useState, MutableRefObject } from 'react';
-import { type CardData } from '../contexts/fileDropper';
+import { PossibleFile, type CardData } from '../contexts/fileDropper';
 import { util, FabricImage, type StaticCanvas } from 'fabric';
 import { useAppDataContext } from '../contexts/appData';
 import { updateColors } from '../utils/updateColors';
@@ -12,6 +12,35 @@ type useLabelEditorParams = {
   card: CardData;
 };
 
+export const setMainImageOnCanvas = async (
+  file: PossibleFile,
+  fabricCanvas: StaticCanvas,
+): Promise<void> => {
+  const imagePromise =
+    file instanceof Blob
+      ? util.loadImage(URL.createObjectURL(file))
+      : Promise.resolve(file);
+
+  const currentImage = getMainImage(fabricCanvas);
+  if (currentImage) {
+    fabricCanvas.remove(currentImage);
+  }
+  return imagePromise.then((image) => {
+    if (image) {
+      const fabricImage = new FabricImage(image, {
+        resourceType: 'main',
+      });
+      // @ts-expect-error no originalFile
+      fabricImage.originalFile = file;
+      const scale = util.findScaleToCover(fabricImage, fabricCanvas);
+      fabricImage.scaleX = scale;
+      fabricImage.scaleY = scale;
+      fabricCanvas.add(fabricImage);
+      fabricCanvas.centerObject(fabricImage);
+    }
+  });
+};
+
 export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
   const { template, customColors, originalColors } = useAppDataContext();
   const [fabricCanvas, setFabricCanvas] = useState<StaticCanvas | null>(null);
@@ -21,29 +50,8 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
   useEffect(() => {
     const { file, canvas, template: cardTemplate } = card;
     if (fabricCanvas && !canvas) {
-      const imagePromise =
-        file instanceof Blob
-          ? util.loadImage(URL.createObjectURL(file))
-          : Promise.resolve(file);
-
-      const currentImage = getMainImage(fabricCanvas);
-      if (currentImage) {
-        fabricCanvas.remove(currentImage);
-      }
       setImageReady(false);
-      imagePromise.then((image) => {
-        if (image) {
-          const fabricImage = new FabricImage(image, {
-            resourceType: 'main',
-          });
-          // @ts-expect-error no originalFile
-          fabricImage.originalFile = file;
-          const scale = util.findScaleToCover(fabricImage, fabricCanvas);
-          fabricImage.scaleX = scale;
-          fabricImage.scaleY = scale;
-          fabricCanvas.add(fabricImage);
-          fabricCanvas.centerObject(fabricImage);
-        }
+      setMainImageOnCanvas(file, fabricCanvas).then(() => {
         setImageReady(true);
       });
     } else if (fabricCanvas && canvas) {

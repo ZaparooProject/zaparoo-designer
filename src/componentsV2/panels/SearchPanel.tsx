@@ -20,6 +20,7 @@ import {
 import { useFileDropperContext } from '../../contexts/fileDropper';
 
 import { boxShadow } from '../../constants';
+import { DRAG_MIME_GAME_OBJECT } from '../../constants/dragDrop';
 import { useInView } from 'react-intersection-observer';
 
 import './SearchPanel.css';
@@ -55,10 +56,10 @@ const SearchResultView = ({
 }) => {
   const imgRef = useRef<HTMLImageElement | null>(null);
   const handleDragStart: DragEventHandler<HTMLDivElement> = (event) => {
-    const dragUrl = imgSource.url;
-    event.dataTransfer.setData('application/x-zaparoo-image-url', dragUrl);
-    event.dataTransfer.setData('text/uri-list', dragUrl);
-    event.dataTransfer.setData('text/plain', dragUrl);
+    const dataObject = JSON.stringify(gameEntry);
+    event.dataTransfer.setData(DRAG_MIME_GAME_OBJECT, dataObject);
+    event.dataTransfer.setData('text/uri-list', dataObject);
+    event.dataTransfer.setData('text/plain', dataObject);
     event.dataTransfer.effectAllowed = 'copy';
     if (imgRef.current) {
       const offsetX = Math.max(0, imgRef.current.width / 2);

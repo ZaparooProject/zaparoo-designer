@@ -8,6 +8,7 @@ import { type ResultImage } from '../../../netlify/apiProviders/types.mts';
 import { util, type Canvas, FabricImage } from 'fabric';
 import './ImagePanelDisplay.css';
 import { noop } from '../../utils/utils';
+import { DRAG_MIME_IMAGE_URL } from '../../constants/dragDrop';
 
 type ImageDrawerDisplayProps = {
   canvasRef?: MutableRefObject<Canvas | null>;
@@ -42,7 +43,7 @@ export const ImagePanelDisplay = ({
       return;
     }
     const dragUrl = imageResult.url;
-    event.dataTransfer.setData('application/x-zaparoo-image-url', dragUrl);
+    event.dataTransfer.setData(DRAG_MIME_IMAGE_URL, dragUrl);
     event.dataTransfer.setData('text/uri-list', dragUrl);
     event.dataTransfer.setData('text/plain', dragUrl);
     event.dataTransfer.effectAllowed = 'copy';

@@ -63,7 +63,15 @@ export const SuggestDrag = () => {
 export const SuggestClick = () => {
   return (
     <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="info">
-      Click a logo to add it to the card.
+      Click a logo or image to add it to the card.
+    </Alert>
+  );
+};
+
+export const RequireGame = () => {
+  return (
+    <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="error">
+      This card has no game associated with it.
     </Alert>
   );
 };

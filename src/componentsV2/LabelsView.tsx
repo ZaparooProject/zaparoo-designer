@@ -146,13 +146,13 @@ export const LabelsView = () => {
         >
           <SportsEsportsIcon width="24" height="24" />
         </ActionBarButton>
-        <ActionBarButton
+        {/* <ActionBarButton
           label="COLORS"
           onClick={() => setPanel(panels.Colors)}
           selected={panel === panels.Colors}
         >
           <PaletteIcon width="24" height="24" />
-        </ActionBarButton>
+        </ActionBarButton> */}
         <ActionBarButton
           label="EDIT"
           onClick={() => setPanel(panels.Edit)}
