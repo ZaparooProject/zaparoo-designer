@@ -105,3 +105,5 @@ export const SingleCardEditModal = ({
     </Modal>
   );
 };
+
+export default SingleCardEditModal;

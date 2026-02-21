@@ -15,10 +15,12 @@ import {
   useRef,
   Fragment,
   useCallback,
+  DragEventHandler,
 } from 'react';
 import { useFileDropperContext } from '../../contexts/fileDropper';
 
 import { boxShadow } from '../../constants';
+import { DRAG_MIME_GAME_OBJECT } from '../../constants/dragDrop';
 import { useInView } from 'react-intersection-observer';
 
 import './SearchPanel.css';
@@ -52,12 +54,27 @@ const SearchResultView = ({
     game: SearchResult,
   ) => void;
 }) => {
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const handleDragStart: DragEventHandler<HTMLDivElement> = (event) => {
+    const dataObject = JSON.stringify(gameEntry);
+    event.dataTransfer.setData(DRAG_MIME_GAME_OBJECT, dataObject);
+    event.dataTransfer.setData('text/uri-list', dataObject);
+    event.dataTransfer.setData('text/plain', dataObject);
+    event.dataTransfer.effectAllowed = 'copy';
+    if (imgRef.current) {
+      const offsetX = Math.max(0, imgRef.current.width / 2);
+      const offsetY = Math.max(0, imgRef.current.height / 2);
+      event.dataTransfer.setDragImage(imgRef.current, offsetX, offsetY);
+    }
+  };
+
   // console.log(gameEntry);
   return (
-    <div className="searchResult">
+    <div className="searchResult" draggable onDragStart={handleDragStart}>
       <Tooltip title={description} placement="top">
         <Button sx={{ backgroundColor: 'transparent', padding: 0 }}>
           <img
+            ref={imgRef}
             src={useFull ? imgSource.url : imgSource.thumb}
             onClick={(e) => addImage(e, imgSource.url, gameEntry)}
             style={{ cursor: 'pointer' }}
@@ -161,16 +178,16 @@ export default function ImageSearchPanel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  const disclaimer = (
-    <div className="horizontalStack disclaimer" key="disclaimer">
-      <Typography color="secondary">
-        Search results and images provided by{' '}
-        <a href="https://www.igdb.com/" target="_blank">
-          IGDB
-        </a>
-      </Typography>
-    </div>
-  );
+  // const disclaimer = (
+  //   <div className="horizontalStack disclaimer" key="disclaimer">
+  //     <Typography color="secondary">
+  //       Search results and images provided by{' '}
+  //       <a href="https://www.igdb.com/" target="_blank">
+  //         IGDB
+  //       </a>
+  //     </Typography>
+  //   </div>
+  // );
 
   return (
     <PanelSection title="Search" className="searchPanel">
@@ -223,7 +240,7 @@ export default function ImageSearchPanel({
         </Typography>
       </div>
       <div className="searchResultsContainer horizontalStack" key="container">
-        {disclaimer}
+        {/* {disclaimer} */}
         {gameEntries.map((gameEntry: SearchResult) => (
           <Fragment key={`game-${gameEntry.id}`}>
             {gameEntry.id !== openGameId && (

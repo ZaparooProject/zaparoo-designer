@@ -5,7 +5,7 @@ import { ControllerDisplay } from './ControllerDisplay';
 import { ConsoleDisplay } from './ConsoleDisplay';
 import './HardwareResourcesPanel.css';
 import { PanelSection } from './PanelSection';
-import { RequireCards, RequireEditing } from './RequireEditing';
+import { RequireCards, SuggestClick, SuggestDrag } from './RequireEditing';
 
 type GameResourcesDisplayProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -25,7 +25,8 @@ export function HardwareResourcesPanel({
 
   return (
     <PanelSection title="Hardware">
-      {isEditing || <RequireEditing />}
+      {hasCards && !isEditing && <SuggestDrag />}
+      {hasCards && isEditing && <SuggestClick />}
       {hasCards || <RequireCards />}
       <div className="horizontalStack tabs">
         <Tabs value={value} onChange={handleChange}>
@@ -34,16 +35,10 @@ export function HardwareResourcesPanel({
         </Tabs>
       </div>
       {value === 'controllers' && (
-        <ControllerDisplay
-          canvasRef={canvasRef}
-          blocked={!isEditing || !hasCards}
-        />
+        <ControllerDisplay canvasRef={canvasRef} blocked={!hasCards} />
       )}
       {value === 'consoles' && (
-        <ConsoleDisplay
-          canvasRef={canvasRef}
-          blocked={!isEditing || !hasCards}
-        />
+        <ConsoleDisplay canvasRef={canvasRef} blocked={!hasCards} />
       )}
     </PanelSection>
   );

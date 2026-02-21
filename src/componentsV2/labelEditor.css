@@ -26,6 +26,10 @@ label.canvasLabel {
   border: 4px solid var(--ui-color-primary);
 }
 
+.card-drag-over {
+  border: 4px solid #3fd4a4;
+}
+
 .labelContainer.horizontal {
   max-width: var(--cell-width);
 }

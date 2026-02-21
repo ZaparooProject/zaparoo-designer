@@ -6,6 +6,7 @@ import {
   type PossibleFile,
   type contextType,
 } from '../contexts/fileDropper';
+import { SearchResult } from '../../netlify/apiProviders/types.mts';
 
 type FileDropperProps = {
   children: JSX.Element | JSX.Element[];
@@ -112,11 +113,16 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     async (index: number) => {
       const cardToDuplicate = cards.current[index];
       if (!cardToDuplicate) return;
+      const duplicatedCanvas = await cardToDuplicate.canvas!.clone([]);
+      duplicatedCanvas.viewportTransform = [
+        ...cardToDuplicate.canvas!.viewportTransform,
+      ];
+      duplicatedCanvas.requestRenderAll();
       const duplicatedCard: CardData = {
         ...cardToDuplicate,
         colors: [...cardToDuplicate.colors],
         originalColors: [...cardToDuplicate.originalColors],
-        canvas: await cardToDuplicate.canvas!.clone([]),
+        canvas: duplicatedCanvas,
         isSelected: false,
         key: `${cardToDuplicate.key}-${Date.now()}`,
       };
@@ -134,6 +140,15 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     [files],
   );
 
+  const swapGameAtIndex = useCallback(
+    async (file: PossibleFile, game: Partial<SearchResult>, index: number) => {
+      files[index] = file;
+      cards.current[index].game = game;
+      setFilesImpl([...files]);
+    },
+    [files],
+  );
+
   const contextValue = useMemo<contextType>(
     () => ({
       files,
@@ -147,6 +162,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       setSelectedCardsCount,
       editingCard,
       setEditingCard,
+      swapGameAtIndex,
     }),
     [
       files,
@@ -158,6 +174,7 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       selectedCardsCount,
       editingCard,
       setEditingCard,
+      swapGameAtIndex,
     ],
   );
 
