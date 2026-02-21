@@ -2,7 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { PanelSection } from './PanelSection';
 import './LayersPanel.css';
 import { MutableRefObject, useCallback, useEffect, useState } from 'react';
-import { type Canvas } from 'fabric';
+import { type TFiller, type Canvas } from 'fabric';
 import { RequireCards, RequireEditing } from './RequireEditing';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -45,7 +45,11 @@ export const LayersPanel = ({
         fill: (object.fill as string | undefined) ?? undefined,
         stroke: (object.stroke as string | undefined) ?? undefined,
       }))
-      .filter((object) => object.type !== 'image');
+      .filter(
+        (object) =>
+          object.type !== 'image' &&
+          !(object.fill as unknown as TFiller)?.toLive,
+      );
 
     setLayers(objects);
   }, [canvasRef]);
@@ -152,6 +156,8 @@ export const LayersPanel = ({
           {layers.map((layer, index) => (
             <div className="layers-row" key={`${layer.type}-${index}`}>
               <Typography
+                display="flex"
+                flexGrow="1"
                 variant="body2"
                 color="text.secondary"
                 className="layers-row-text"
