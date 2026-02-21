@@ -12,7 +12,6 @@ import './LabelsView.css';
 import { Button } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import SearchIcon from '@mui/icons-material/Search';
-import PaletteIcon from '@mui/icons-material/Palette';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { ActionBarButton } from './ActionBarButton';
