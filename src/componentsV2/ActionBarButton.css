@@ -7,3 +7,9 @@
   max-height: var(--action-bar-width);
   padding: 0;
 }
+
+.actionBarBackButton {
+  margin-bottom: 8px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 8px;
+}

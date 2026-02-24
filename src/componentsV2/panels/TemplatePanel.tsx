@@ -7,11 +7,10 @@ import { printMediaTypes } from '../../printMediaTypes';
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
 import { useAppDataContext } from '../../contexts/appData';
-import { NotWhileEditing, SuggestSelecting } from './RequireEditing';
+import { SuggestSelecting } from './RequireEditing';
 
-type LogoTabsProps = {
+type TemplatePanelProps = {
   canvasRef: MutableRefObject<Canvas | null>;
-  isEditing: boolean;
   hasCards: boolean;
   hasSelection: boolean;
 };
@@ -22,17 +21,13 @@ export const TemplatePanel = ({
   canvasRef,
   hasSelection,
   hasCards,
-  isEditing,
-}: LogoTabsProps) => {
+}: TemplatePanelProps) => {
   const { setTemplate, availableTemplates, setMediaType, mediaType } =
     useAppDataContext();
-
-  const blocked = isEditing;
 
   return (
     <PanelSection title="Templates">
       {hasCards && !hasSelection && <SuggestSelecting />}
-      {blocked && <NotWhileEditing />}
       <div className="logoTools">
         <FormControl variant="standard">
           <InputLabel variant="outlined" size="small" id="logo-style-label">
@@ -63,7 +58,6 @@ export const TemplatePanel = ({
       <div className="resourceListAreaLogos">
         {availableTemplates.map((templateTypeV2) => (
           <ImagePanelDisplay
-            blocked={blocked}
             key={templateTypeV2.key}
             canvasRef={canvasRef}
             onClick={() => setTemplate(templateTypeV2)}

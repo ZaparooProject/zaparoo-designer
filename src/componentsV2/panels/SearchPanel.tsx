@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   TextField,
   Typography,
@@ -30,7 +31,6 @@ import { PlatformResult } from '../../../netlify/apiProviders/types.mts';
 import type { SearchResult } from '../../../netlify/apiProviders/types.mts';
 import { PanelSection } from './PanelSection';
 import SearchIcon from '@mui/icons-material/Search';
-import { BehindEditor } from './RequireEditing';
 
 const SearchResultView = ({
   gameEntry,
@@ -88,10 +88,13 @@ const SearchResultView = ({
 
 export default function ImageSearchPanel({
   isEditing = false,
+  onSelectGame,
 }: {
   isEditing: boolean;
+  onSelectGame?: () => void;
 }) {
-  const { addFiles } = useFileDropperContext();
+  const { addFiles, editingCard, cards, swapGameAtIndex } =
+    useFileDropperContext();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [gameEntries, setGameEntries] = useState<SearchResult[]>([]);
@@ -126,13 +129,22 @@ export default function ImageSearchPanel({
   const addImage = useCallback(
     (e: MouseEvent<HTMLImageElement>, url: string, game: SearchResult) => {
       const target = e.target as HTMLImageElement;
-      getImage(url, target.src).then((file) => {
-        startTransition(() => {
-          addFiles([file], [game]);
+      if (isEditing && editingCard) {
+        const editingIndex = cards.current.indexOf(editingCard);
+        if (editingIndex === -1) return;
+        getImage(url, target.src).then((file) => {
+          swapGameAtIndex(file, game, editingIndex);
+          onSelectGame?.();
         });
-      });
+      } else {
+        getImage(url, target.src).then((file) => {
+          startTransition(() => {
+            addFiles([file], [game]);
+          });
+        });
+      }
     },
-    [addFiles],
+    [addFiles, isEditing, editingCard, cards, swapGameAtIndex, onSelectGame],
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -191,7 +203,6 @@ export default function ImageSearchPanel({
 
   return (
     <PanelSection title="Search" className="searchPanel">
-      {isEditing && <BehindEditor />}
       <div className="horizontalStack searchHeader" key="search-header">
         <TextField
           color="primary"
@@ -202,7 +213,7 @@ export default function ImageSearchPanel({
           value={searchQuery}
           onChange={(evt) => setSearchQuery(evt.target.value)}
           style={{ fontWeight: 400, fontSize: 14 }}
-          onKeyDown={(e: any) => {
+          onKeyDown={(e: React.KeyboardEvent) => {
             e.key === 'Enter' && executeSearchWithReset(e);
           }}
         />
@@ -239,8 +250,15 @@ export default function ImageSearchPanel({
           Fanmade
         </Typography>
       </div>
+      {isEditing && editingCard?.game?.name && (
+        <Alert
+          severity="success"
+          sx={{ width: '100%', boxSizing: 'border-box' }}
+        >
+          Current: {editingCard.game.name}
+        </Alert>
+      )}
       <div className="searchResultsContainer horizontalStack" key="container">
-        {/* {disclaimer} */}
         {gameEntries.map((gameEntry: SearchResult) => (
           <Fragment key={`game-${gameEntry.id}`}>
             {gameEntry.id !== openGameId && (

@@ -1,13 +1,5 @@
 import { Alert } from '@mui/material';
 
-export const RequireEditing = () => {
-  return (
-    <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="error">
-      This panel requires you to edit a card. (Click a card to edit it)
-    </Alert>
-  );
-};
-
 export const RequireCards = () => {
   return (
     <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="error">
@@ -33,25 +25,6 @@ export const SuggestSelecting = () => {
   );
 };
 
-export const NotWhileEditing = () => {
-  return (
-    <Alert
-      style={{ width: '100%', boxSizing: 'border-box' }}
-      severity="warning"
-    >
-      You cannot change template while editing a single card.
-    </Alert>
-  );
-};
-
-export const BehindEditor = () => {
-  return (
-    <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="info">
-      Games added while editing will appear behind the editor.
-    </Alert>
-  );
-};
-
 export const SuggestDrag = () => {
   return (
     <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="info">
@@ -68,10 +41,10 @@ export const SuggestClick = () => {
   );
 };
 
-export const RequireGame = () => {
+export const NoGameData = () => {
   return (
-    <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="error">
-      This card has no game associated with it.
+    <Alert style={{ width: '100%', boxSizing: 'border-box' }} severity="info">
+      No game artwork available. Use Search to create a card with game data.
     </Alert>
   );
 };

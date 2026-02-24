@@ -4,6 +4,8 @@ import {
   Suspense,
   useCallback,
   useEffect,
+  useReducer,
+  useRef,
   useState,
 } from 'react';
 import { LabelEditor } from './LabelEditor';
@@ -19,10 +21,17 @@ import ImageSearchPanel from './panels/SearchPanel';
 import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
 import { DataToCanvasReconciler } from './DataToCanvasReconciler';
 import { TemplatePreview } from './TemplatePreview';
+import {
+  panels,
+  requireSelectionPanel,
+  panelReducer,
+  initialPanelState,
+} from './panelReducer';
 
 const LogoTabs = lazy(() => import('./panels/LogosTabs'));
 const HardwareResourcesPanel = lazy(
@@ -33,28 +42,6 @@ const GameResourcesPanel = lazy(() => import('./panels/GameResourcesPanel'));
 const LayersPanel = lazy(() => import('./panels/LayersPanel'));
 const ColorsPanel = lazy(() => import('./panels/ColorsPanel'));
 const SingleCardEditModal = lazy(() => import('./SingleCardEditModal'));
-const enum panels {
-  'Search',
-  'Resources',
-  'Logos',
-  'Templates',
-  'FilesUtils',
-  'Consoles',
-  'Controllers',
-  'Colors',
-  'Edit',
-}
-
-const requireSelectionPanel = [panels.Templates, panels.Colors];
-const requireEditingPanel = [
-  panels.Templates,
-  panels.Colors,
-  panels.Resources,
-  panels.Logos,
-  panels.Consoles,
-  panels.Controllers,
-  panels.Edit,
-];
 
 const loadFontsForCanvas = async () => {
   const fontsToLoad = [
@@ -86,7 +73,12 @@ const loadFontsForCanvas = async () => {
 export const LabelsView = () => {
   const { cards, selectedCardsCount, editingCard, setEditingCard } =
     useFileDropperContext();
-  const [panel, setPanel] = useState<panels>(panels.Search);
+  const [{ panel }, dispatch] = useReducer(panelReducer, initialPanelState);
+  const setPanel = useCallback(
+    (p: panels) => dispatch({ type: 'SELECT_PANEL', panel: p }),
+    [],
+  );
+
   const [canvasRef, setCurrentEditingCanvas] = useState<
     MutableRefObject<Canvas | null>
   >({ current: null });
@@ -99,81 +91,124 @@ export const LabelsView = () => {
     setCurrentEditingCanvas({ current: null });
   }, [setEditingCard]);
 
-  const editingIsRequired = requireEditingPanel.includes(panel);
-  const selectionIsRequired = requireSelectionPanel.includes(panel);
-
   const isEditing = canvasRef.current !== null;
+  const wasEditing = useRef(false);
+
+  useEffect(() => {
+    if (isEditing && !wasEditing.current) {
+      dispatch({ type: 'ENTER_EDITING', editingCard });
+    } else if (!isEditing && wasEditing.current) {
+      dispatch({ type: 'LEAVE_EDITING' });
+    }
+    wasEditing.current = isEditing;
+  }, [isEditing, editingCard]);
+
+  const selectionIsRequired = requireSelectionPanel.includes(panel);
   const hasSelection = selectedCardsCount > 0 || isEditing;
   const hasCards = cards.current.length > 0;
 
   return (
     <div className="editorContainer">
+      {/* TODO: deduplicate shared buttons (SEARCH, LOGOS, CONSOLES) between editing/collection modes */}
       <aside className="actionBar verticalStack">
-        <ActionBarButton
-          label="SEARCH"
-          onClick={() => setPanel(panels.Search)}
-          selected={panel === panels.Search}
-        >
-          <SearchIcon width="24" height="24" />
-        </ActionBarButton>
-        <ActionBarButton
-          label="TEMPLATES"
-          onClick={() => setPanel(panels.Templates)}
-          selected={panel === panels.Templates}
-        >
-          <BackupTableIcon width="24" height="24" />
-        </ActionBarButton>
-        <ActionBarButton
-          label="GAME"
-          onClick={() => setPanel(panels.Resources)}
-          selected={panel === panels.Resources}
-        >
-          <AddPhotoAlternateIcon width="24" height="24" />
-        </ActionBarButton>
-        <ActionBarButton
-          label="LOGOS"
-          onClick={() => setPanel(panels.Logos)}
-          selected={panel === panels.Logos}
-        >
-          <BusinessIcon width="24" height="24" />
-        </ActionBarButton>
-        <ActionBarButton
-          label="CONSOLES"
-          onClick={() => setPanel(panels.Consoles)}
-          selected={panel === panels.Consoles}
-        >
-          <SportsEsportsIcon width="24" height="24" />
-        </ActionBarButton>
-        {/* <ActionBarButton
-          label="COLORS"
-          onClick={() => setPanel(panels.Colors)}
-          selected={panel === panels.Colors}
-        >
-          <PaletteIcon width="24" height="24" />
-        </ActionBarButton> */}
-        <ActionBarButton
-          label="EDIT"
-          onClick={() => setPanel(panels.Edit)}
-          selected={panel === panels.Edit}
-        >
-          <EditIcon width="24" height="24" />
-        </ActionBarButton>
-        <ActionBarButton
-          label="UTILS"
-          onClick={() => setPanel(panels.FilesUtils)}
-          selected={panel === panels.FilesUtils}
-        >
-          <BuildCircleIcon width="24" height="24" />
-        </ActionBarButton>
+        {isEditing ? (
+          <>
+            <ActionBarButton
+              className="actionBarBackButton"
+              label="BACK"
+              onClick={onClose}
+              selected={false}
+            >
+              <ArrowBackIcon width="24" height="24" />
+            </ActionBarButton>
+            <ActionBarButton
+              label="SEARCH"
+              onClick={() => setPanel(panels.Search)}
+              selected={panel === panels.Search}
+            >
+              <SearchIcon width="24" height="24" />
+            </ActionBarButton>
+            <ActionBarButton
+              label="GAME"
+              onClick={() => setPanel(panels.Resources)}
+              selected={panel === panels.Resources}
+            >
+              <AddPhotoAlternateIcon width="24" height="24" />
+            </ActionBarButton>
+            <ActionBarButton
+              label="LOGOS"
+              onClick={() => setPanel(panels.Logos)}
+              selected={panel === panels.Logos}
+            >
+              <BusinessIcon width="24" height="24" />
+            </ActionBarButton>
+            <ActionBarButton
+              label="CONSOLES"
+              onClick={() => setPanel(panels.Consoles)}
+              selected={panel === panels.Consoles}
+            >
+              <SportsEsportsIcon width="24" height="24" />
+            </ActionBarButton>
+            <ActionBarButton
+              label="EDIT"
+              onClick={() => setPanel(panels.Edit)}
+              selected={panel === panels.Edit}
+            >
+              <EditIcon width="24" height="24" />
+            </ActionBarButton>
+          </>
+        ) : (
+          <>
+            <ActionBarButton
+              label="TEMPLATES"
+              onClick={() => setPanel(panels.Templates)}
+              selected={panel === panels.Templates}
+            >
+              <BackupTableIcon width="24" height="24" />
+            </ActionBarButton>
+            <ActionBarButton
+              label="SEARCH"
+              onClick={() => setPanel(panels.Search)}
+              selected={panel === panels.Search}
+            >
+              <SearchIcon width="24" height="24" />
+            </ActionBarButton>
+            <ActionBarButton
+              label="LOGOS"
+              onClick={() => setPanel(panels.Logos)}
+              selected={panel === panels.Logos}
+            >
+              <BusinessIcon width="24" height="24" />
+            </ActionBarButton>
+            <ActionBarButton
+              label="CONSOLES"
+              onClick={() => setPanel(panels.Consoles)}
+              selected={panel === panels.Consoles}
+            >
+              <SportsEsportsIcon width="24" height="24" />
+            </ActionBarButton>
+            {import.meta.env.DEV && (
+              <ActionBarButton
+                label="UTILS"
+                onClick={() => setPanel(panels.FilesUtils)}
+                selected={panel === panels.FilesUtils}
+              >
+                <BuildCircleIcon width="24" height="24" />
+              </ActionBarButton>
+            )}
+          </>
+        )}
       </aside>
       <div className="leftPanel">
         <Suspense fallback={null}>
           {panel === panels.Search && (
-            <ImageSearchPanel isEditing={isEditing} />
+            <ImageSearchPanel
+              isEditing={isEditing}
+              onSelectGame={() => setPanel(panels.Resources)}
+            />
           )}
           {panel === panels.Templates && (
             <TemplatePanel
-              isEditing={isEditing}
               canvasRef={canvasRef}
               hasSelection={hasSelection}
               hasCards={hasCards}
@@ -183,8 +218,6 @@ export const LabelsView = () => {
             <GameResourcesPanel
               game={editingCard?.game}
               canvasRef={canvasRef}
-              isEditing={isEditing}
-              hasCards={hasCards}
             />
           )}
           {panel === panels.Logos && (
@@ -209,13 +242,9 @@ export const LabelsView = () => {
             />
           )}
           {panel === panels.Edit && (
-            <LayersPanel
-              canvasRef={canvasRef}
-              isEditing={isEditing}
-              hasCards={hasCards}
-            />
+            <LayersPanel canvasRef={canvasRef} hasCards={hasCards} />
           )}
-          {panel === panels.FilesUtils && (
+          {import.meta.env.DEV && panel === panels.FilesUtils && (
             <>
               <Button variant="contained" color="secondary">
                 Add from Disk
@@ -238,15 +267,11 @@ export const LabelsView = () => {
             index={index}
             card={card}
             setCardToEdit={setEditingCard}
-            editingIsRequired={editingIsRequired}
             selectionIsRequired={selectionIsRequired}
             hasSelection={hasSelection}
           />
         ))}
-        <TemplatePreview
-          hasCards={hasCards}
-          editingIsRequired={editingIsRequired}
-        />
+        <TemplatePreview hasCards={hasCards} />
         {!!editingCard && (
           <SingleCardEditModal
             setCurrentEditingCanvas={setCurrentEditingCanvas}

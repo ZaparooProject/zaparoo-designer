@@ -9,13 +9,7 @@ import { useFileAdder } from '../hooks/useFileAdder';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import { useCallback } from 'react';
 
-export const TemplatePreview = ({
-  hasCards,
-  editingIsRequired,
-}: {
-  hasCards: boolean;
-  editingIsRequired: boolean;
-}) => {
+export const TemplatePreview = ({ hasCards }: { hasCards: boolean }) => {
   const { template } = useAppDataContext();
   const { addFiles } = useFileDropperContext();
 
@@ -27,7 +21,7 @@ export const TemplatePreview = ({
 
   const className =
     template.layout === 'horizontal' ? 'horizontal' : 'vertical';
-  const className2 = editingIsRequired && !hasCards ? 'flash-card' : '';
+  const className2 = !hasCards ? 'flash-card' : '';
   return (
     <>
       <div className={`labelContainer ${className} ${className2}`}>

@@ -5,25 +5,16 @@ import { PanelSection } from './PanelSection';
 import { SearchResult } from '../../../netlify/apiProviders/types.mts';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
 import './GameResourcesPanel.css';
-import {
-  RequireCards,
-  SuggestClick,
-  RequireEditing,
-  RequireGame,
-} from './RequireEditing';
+import { SuggestClick, NoGameData } from './RequireEditing';
 
 type GameResourcesDisplayProps = {
   canvasRef: MutableRefObject<Canvas | null>;
   game?: Partial<SearchResult>;
-  isEditing: boolean;
-  hasCards: boolean;
 };
 
 export function GameResourcesPanel({
   canvasRef,
   game,
-  isEditing,
-  hasCards,
 }: GameResourcesDisplayProps) {
   const hasContent = Object.keys(game ?? {}).length > 0;
   return (
@@ -32,10 +23,8 @@ export function GameResourcesPanel({
         title="Game resources"
         className="gameResourcesPanel sectionNoScroll"
       >
-        {hasCards && !isEditing && <RequireEditing />}
-        {hasCards && isEditing && hasContent && <SuggestClick />}
-        {hasCards && isEditing && !hasContent && <RequireGame />}
-        {hasCards || <RequireCards />}
+        {hasContent && <SuggestClick />}
+        {!hasContent && <NoGameData />}
       </PanelSection>
       <PanelSection title="" className="gameResourcesPanel">
         {game && (

@@ -7,14 +7,16 @@ export const ActionBarButton = ({
   children,
   selected,
   onClick,
+  className,
 }: React.PropsWithChildren<{
   onClick: () => void;
   selected: boolean;
   label: string;
+  className?: string;
 }>) => (
   <Button
     size="small"
-    className="actionBarButton"
+    className={`actionBarButton ${className ?? ''}`}
     variant="contained"
     color={selected ? 'secondary' : 'primary'}
     onClick={onClick}

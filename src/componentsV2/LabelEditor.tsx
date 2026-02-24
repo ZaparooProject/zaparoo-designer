@@ -29,7 +29,6 @@ type LabelEditorProps = {
   index: number;
   card: CardData;
   setCardToEdit: (arg: number) => void;
-  editingIsRequired: boolean;
   selectionIsRequired: boolean;
   hasSelection: boolean;
 };

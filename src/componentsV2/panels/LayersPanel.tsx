@@ -3,7 +3,7 @@ import { PanelSection } from './PanelSection';
 import './LayersPanel.css';
 import { MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { type TFiller, type Canvas, FabricImage, StaticCanvas } from 'fabric';
-import { RequireCards, RequireEditing } from './RequireEditing';
+import { RequireCards } from './RequireEditing';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -12,7 +12,6 @@ import { ColorSwatch } from './ColorSwatch';
 
 type LayersPanelProps = {
   canvasRef: MutableRefObject<Canvas | null>;
-  isEditing: boolean;
   hasCards: boolean;
 };
 
@@ -33,11 +32,7 @@ const getFilteredObjects = (canvas: StaticCanvas) =>
       stroke: (object.stroke as string | undefined) ?? undefined,
     }));
 
-export const LayersPanel = ({
-  canvasRef,
-  isEditing,
-  hasCards,
-}: LayersPanelProps) => {
+export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
   const [layers, setLayers] = useState<
     Array<{
       type: string;
@@ -126,7 +121,6 @@ export const LayersPanel = ({
         title="Tools"
         helpText="Perform actions on the selected layer"
       >
-        {(isEditing && hasCards) || <RequireEditing />}
         {hasCards || <RequireCards />}
         <div className="tools">
           <div
