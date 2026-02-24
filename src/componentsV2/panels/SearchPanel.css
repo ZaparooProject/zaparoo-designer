@@ -42,8 +42,23 @@
   min-height: 36px;
 }
 
+.searchResultImageWrapper {
+  position: relative;
+  width: 100%;
+}
+
 .searchResult img {
   width: 100%;
+}
+
+.searchResultLoadingOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
 }
 
 .disclaimer {
