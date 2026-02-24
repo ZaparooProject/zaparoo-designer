@@ -61,3 +61,11 @@
   height: calc(100vh - var(--header-height));
   max-height: calc(100vh - var(--header-height));
 }
+
+.selectionBar {
+  position: fixed;
+  bottom: 16px;
+  left: calc(var(--left-panel-width) + var(--action-bar-width) + 16px);
+  display: flex;
+  gap: 8px;
+}

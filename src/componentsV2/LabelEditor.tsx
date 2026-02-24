@@ -30,7 +30,6 @@ type LabelEditorProps = {
   card: CardData;
   setCardToEdit: (arg: number) => void;
   selectionIsRequired: boolean;
-  hasSelection: boolean;
 };
 
 export type MenuInfo = {
@@ -44,11 +43,9 @@ export const LabelEditor = ({
   card,
   setCardToEdit,
   selectionIsRequired,
-  hasSelection,
 }: LabelEditorProps) => {
   const {
     deleteCardByIndex,
-    selectedCardsCount,
     setSelectedCardsCount,
     duplicateCardByIndex,
     swapGameAtIndex,
@@ -63,7 +60,6 @@ export const LabelEditor = ({
   });
 
   const isSelected = card.isSelected;
-  const flashSelection = selectionIsRequired && !hasSelection;
 
   const handleDragOver = (event: ReactDragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -152,28 +148,26 @@ export const LabelEditor = ({
         <FabricCanvasWrapper setFabricCanvas={setFabricCanvas} />
       </label>
       <div className="horizontalStack labelControls">
-        {selectionIsRequired && (
-          <div className="button-look">
-            <Checkbox
-              className={flashSelection ? 'flash-checkbox' : ''}
-              color="secondary"
-              id={card.key}
-              checked={isSelected}
-              onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                e.stopPropagation();
-                const isSelectedCheckbox = (e.target as HTMLInputElement)
-                  .checked;
-                card.isSelected = isSelectedCheckbox;
-                startTransition(() => {
-                  const newCount = isSelectedCheckbox
-                    ? selectedCardsCount + 1
-                    : selectedCardsCount - 1;
-                  setSelectedCardsCount(newCount);
-                });
-              }}
-            />
-          </div>
-        )}
+        <div
+          className="button-look"
+          style={{ visibility: selectionIsRequired ? 'visible' : 'hidden' }}
+        >
+          <Checkbox
+            color="secondary"
+            id={card.key}
+            checked={isSelected}
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+              const isSelectedCheckbox = (e.target as HTMLInputElement).checked;
+              card.isSelected = isSelectedCheckbox;
+              startTransition(() => {
+                setSelectedCardsCount((prev) =>
+                  isSelectedCheckbox ? prev + 1 : prev - 1,
+                );
+              });
+            }}
+          />
+        </div>
         <div style={{ flexGrow: 1 }}></div>
         {/* <div className="button-look">
           <IconButton

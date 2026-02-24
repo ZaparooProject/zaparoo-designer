@@ -39,16 +39,7 @@ label.canvasLabel {
   max-height: var(--cell-width);
 }
 
-@keyframes flash-blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
-}
-
-.flash-checkbox {
-  animation: flash-blink 0.8s ease-in-out infinite;
+.labelControls .button-look {
+  width: 40px;
+  height: 40px;
 }

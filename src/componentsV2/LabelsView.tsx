@@ -32,6 +32,7 @@ import {
   panelReducer,
   initialPanelState,
 } from './panelReducer';
+import { selectAllCards, clearCardSelection } from './cardSelection';
 
 const LogoTabs = lazy(() => import('./panels/LogosTabs'));
 const HardwareResourcesPanel = lazy(
@@ -71,8 +72,19 @@ const loadFontsForCanvas = async () => {
 };
 
 export const LabelsView = () => {
-  const { cards, selectedCardsCount, editingCard, setEditingCard } =
-    useFileDropperContext();
+  const {
+    cards,
+    selectedCardsCount,
+    setSelectedCardsCount,
+    editingCard,
+    setEditingCard,
+  } = useFileDropperContext();
+  const clearSelection = useCallback(() => {
+    setSelectedCardsCount(clearCardSelection(cards.current));
+  }, [cards, setSelectedCardsCount]);
+  const selectAll = useCallback(() => {
+    setSelectedCardsCount(selectAllCards(cards.current));
+  }, [cards, setSelectedCardsCount]);
   const [{ panel }, dispatch] = useReducer(panelReducer, initialPanelState);
   const setPanel = useCallback(
     (p: panels) => dispatch({ type: 'SELECT_PANEL', panel: p }),
@@ -208,11 +220,7 @@ export const LabelsView = () => {
             />
           )}
           {panel === panels.Templates && (
-            <TemplatePanel
-              canvasRef={canvasRef}
-              hasSelection={hasSelection}
-              hasCards={hasCards}
-            />
+            <TemplatePanel canvasRef={canvasRef} hasCards={hasCards} />
           )}
           {panel === panels.Resources && (
             <GameResourcesPanel
@@ -260,7 +268,12 @@ export const LabelsView = () => {
           )}
         </Suspense>
       </div>
-      <div className="labelsView">
+      <div
+        className="labelsView"
+        style={
+          selectionIsRequired && hasCards ? { paddingBottom: 72 } : undefined
+        }
+      >
         {cards.current.map((card, index) => (
           <LabelEditor
             key={card.key}
@@ -268,10 +281,33 @@ export const LabelsView = () => {
             card={card}
             setCardToEdit={setEditingCard}
             selectionIsRequired={selectionIsRequired}
-            hasSelection={hasSelection}
           />
         ))}
         <TemplatePreview hasCards={hasCards} />
+        {selectionIsRequired && hasCards && (
+          <div className="selectionBar">
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={selectAll}
+              disabled={selectedCardsCount === cards.current.length}
+              disableElevation
+            >
+              Select all
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={clearSelection}
+              disabled={selectedCardsCount === 0}
+              disableElevation
+            >
+              Clear selection ({selectedCardsCount})
+            </Button>
+          </div>
+        )}
         {!!editingCard && (
           <SingleCardEditModal
             setCurrentEditingCanvas={setCurrentEditingCanvas}

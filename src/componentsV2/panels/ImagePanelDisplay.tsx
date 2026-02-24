@@ -15,6 +15,7 @@ type ImageDrawerDisplayProps = {
   onClick?: MouseEventHandler<HTMLDivElement>;
   imageResult: Pick<ResultImage, 'url' | 'width' | 'height'>;
   blocked?: boolean;
+  active?: boolean;
 };
 
 export const ImagePanelDisplay = ({
@@ -22,6 +23,7 @@ export const ImagePanelDisplay = ({
   onClick,
   canvasRef,
   blocked = false,
+  active = false,
 }: ImageDrawerDisplayProps) => {
   const imgRef = useRef<HTMLImageElement | null>(null);
   const defaultOnClick = () => {
@@ -57,7 +59,9 @@ export const ImagePanelDisplay = ({
   return (
     <div
       onClick={blocked ? noop : onClick ?? defaultOnClick}
-      className={`imageResourceDisplayContainer ${blocked ? 'notActive' : ''}`}
+      className={`imageResourceDisplayContainer ${blocked ? 'notActive' : ''} ${
+        active ? 'active' : ''
+      }`}
       draggable
       onDragStart={handleDragStart}
     >

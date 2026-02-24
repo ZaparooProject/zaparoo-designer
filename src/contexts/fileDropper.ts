@@ -1,4 +1,4 @@
-import type { MutableRefObject } from 'react';
+import type { MutableRefObject, SetStateAction } from 'react';
 import { createContext, useContext } from 'react';
 import type { StaticCanvas } from 'fabric';
 import type { templateTypeV2 } from '../resourcesTypedef';
@@ -27,7 +27,7 @@ export type contextType = {
   deleteCardByIndex: (index: number) => void;
   duplicateCardByIndex: (index: number) => void;
   selectedCardsCount: number;
-  setSelectedCardsCount: (qty: number) => void;
+  setSelectedCardsCount: (value: SetStateAction<number>) => void;
   editingCard: CardData | null;
   setEditingCard: (index: number) => void;
   swapGameAtIndex: (

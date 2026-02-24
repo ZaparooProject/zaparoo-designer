@@ -1,4 +1,11 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Alert,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import { type MutableRefObject } from 'react';
 import { type Canvas } from 'fabric';
 import { ImagePanelDisplay } from './ImagePanelDisplay';
@@ -7,38 +14,55 @@ import { printMediaTypes } from '../../printMediaTypes';
 import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
 import { useAppDataContext } from '../../contexts/appData';
-import { SuggestSelecting } from './RequireEditing';
+import { useFileDropperContext } from '../../contexts/fileDropper';
 
 type TemplatePanelProps = {
   canvasRef: MutableRefObject<Canvas | null>;
   hasCards: boolean;
-  hasSelection: boolean;
 };
 
 const mediaEntries = Object.entries(printMediaTypes);
 
-export const TemplatePanel = ({
-  canvasRef,
-  hasSelection,
-  hasCards,
-}: TemplatePanelProps) => {
-  const { setTemplate, availableTemplates, setMediaType, mediaType } =
+export const TemplatePanel = ({ canvasRef, hasCards }: TemplatePanelProps) => {
+  const { setTemplate, template, availableTemplates, setMediaType, mediaType } =
     useAppDataContext();
+  const { selectedCardsCount } = useFileDropperContext();
 
   return (
     <PanelSection title="Templates">
-      {hasCards && !hasSelection && <SuggestSelecting />}
+      {hasCards && selectedCardsCount === 0 && (
+        <Alert
+          style={{ width: '100%', boxSizing: 'border-box' }}
+          severity="info"
+        >
+          Choosing a template sets the design for new cards. To change existing
+          cards, select them first.
+        </Alert>
+      )}
+      {selectedCardsCount > 0 && (
+        <Alert
+          style={{ width: '100%', boxSizing: 'border-box' }}
+          severity="info"
+        >
+          Template will be applied to selected cards.
+        </Alert>
+      )}
       <div className="logoTools">
         <FormControl variant="standard">
           <InputLabel variant="outlined" size="small" id="logo-style-label">
             Media
           </InputLabel>
+          {/* Temporary workaround: disable media type changes when cards exist,
+              because PDF export uses the first card's media dimensions for the
+              entire grid layout. Mixed media types silently corrupt the output.
+              Remove this gate when export supports multiple media types. */}
           <Select
             variant="outlined"
             size="small"
             labelId="template-media"
             value={mediaType.label}
             label="Style"
+            disabled={hasCards}
             onChange={async (event) => {
               const val = event.target.value;
               const [, value] =
@@ -53,6 +77,11 @@ export const TemplatePanel = ({
               </MenuItem>
             ))}
           </Select>
+          {hasCards && (
+            <FormHelperText>
+              Remove all cards to change media type.
+            </FormHelperText>
+          )}
         </FormControl>
       </div>
       <div className="resourceListAreaLogos">
@@ -61,6 +90,7 @@ export const TemplatePanel = ({
             key={templateTypeV2.key}
             canvasRef={canvasRef}
             onClick={() => setTemplate(templateTypeV2)}
+            active={templateTypeV2.key === template.key}
             imageResult={{
               url: templateTypeV2.preview,
               width: 400,
