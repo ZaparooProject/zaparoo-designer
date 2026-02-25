@@ -3,6 +3,7 @@ import {
   type MutableRefObject,
   type DragEventHandler,
   useRef,
+  useState,
 } from 'react';
 import { type ResultImage } from '../../../netlify/apiProviders/types.mts';
 import { util, type Canvas, FabricImage } from 'fabric';
@@ -26,6 +27,7 @@ export const ImagePanelDisplay = ({
   active = false,
 }: ImageDrawerDisplayProps) => {
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const [loaded, setLoaded] = useState(false);
   const defaultOnClick = () => {
     util.loadImage(imageResult.url).then((img) => {
       if (!canvasRef?.current) {
@@ -56,22 +58,26 @@ export const ImagePanelDisplay = ({
     }
   };
 
+  // TODO: virtualize long lists (logos, consoles, controllers) so only
+  // visible items are in the DOM instead of rendering all at once.
   return (
     <div
       onClick={blocked ? noop : onClick ?? defaultOnClick}
       className={`imageResourceDisplayContainer ${blocked ? 'notActive' : ''} ${
         active ? 'active' : ''
       }`}
+      style={{ aspectRatio: `${imageResult.width} / ${imageResult.height}` }}
       draggable
       onDragStart={handleDragStart}
     >
       <img
         ref={imgRef}
         width="100%"
-        className="imageResourceDisplay"
+        className={`imageResourceDisplay ${loaded ? '' : 'loading'}`}
         src={imageResult.url}
         loading="lazy"
         draggable={false}
+        onLoad={() => setLoaded(true)}
       />
     </div>
   );

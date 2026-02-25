@@ -19,4 +19,10 @@
 
 .imageResourceDisplay {
   object-fit: contain;
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+.imageResourceDisplay.loading {
+  opacity: 0;
 }

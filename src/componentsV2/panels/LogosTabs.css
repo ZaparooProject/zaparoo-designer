@@ -4,3 +4,14 @@
   height: fit-content;
   padding-inline: 8px;
 }
+
+.panelSection.panelLoading {
+  flex: 1;
+}
+
+.resourceListAreaLogos.loadingArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}

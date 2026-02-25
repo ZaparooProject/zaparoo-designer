@@ -1,5 +1,13 @@
 import fs from 'node:fs';
 
+function readPngDimensions(filePath) {
+  const buf = Buffer.alloc(24);
+  const fd = fs.openSync(filePath, 'r');
+  fs.readSync(fd, buf, 0, 24, 0);
+  fs.closeSync(fd);
+  return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+}
+
 const dirs = [
   'Dark - Black & White',
   'Dark - Color',
@@ -20,9 +28,8 @@ const dirs = [
   const imports = [];
   logoDir.entries().forEach(([, value], index) => {
     const stringIndex = index.toString().padStart(4, '0');
-    const stats = fs.statSync(
-      `${import.meta.dirname}/../src/assets/logos/${dirName}/${value}`,
-    );
+    const filePath = `${import.meta.dirname}/../src/assets/logos/${dirName}/${value}`;
+    const stats = fs.statSync(filePath);
     const easyDirname = dirName.replaceAll(/[\s&-]/g, '');
     if (stats.isDirectory() || value.includes('.DS_Store')) {
       return;
@@ -32,6 +39,7 @@ const dirs = [
     const importname = `${easyDirname}${value
       .replace('.png', `_${stringIndex}`)
       .replaceAll(/[^a-zA-Z0-9_]/g, '')}`;
+    const { width, height } = readPngDimensions(filePath);
     imports.push(`import ${importname} from "./${dirName}/${value}";`);
     data.push(
       `  {\n    url: ${importname},\n    name: '${filename
@@ -39,7 +47,7 @@ const dirs = [
         .replaceAll(
           /[^\sa-zA-Z0-9+]/g,
           ' ',
-        )}',\n    style: '${dirName}',\n    category: '${parts[0]}',\n  },`,
+        )}',\n    style: '${dirName}',\n    category: '${parts[0]}',\n    width: ${width},\n    height: ${height},\n  },`,
     );
     const fileData = `
 ${imports.join('\n')}
