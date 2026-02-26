@@ -21,7 +21,6 @@ import ImageSearchPanel from './panels/SearchPanel';
 import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
 import { DataToCanvasReconciler } from './DataToCanvasReconciler';
@@ -121,94 +120,65 @@ export const LabelsView = () => {
 
   return (
     <div className="editorContainer">
-      {/* TODO: deduplicate shared buttons (SEARCH, LOGOS, CONSOLES) between editing/collection modes */}
       <aside className="actionBar verticalStack">
-        {isEditing ? (
-          <>
-            <ActionBarButton
-              className="actionBarBackButton"
-              label="BACK"
-              onClick={onClose}
-              selected={false}
-            >
-              <ArrowBackIcon width="24" height="24" />
-            </ActionBarButton>
-            <ActionBarButton
-              label="SEARCH"
-              onClick={() => setPanel(panels.Search)}
-              selected={panel === panels.Search}
-            >
-              <SearchIcon width="24" height="24" />
-            </ActionBarButton>
-            <ActionBarButton
-              label="GAME"
-              onClick={() => setPanel(panels.Resources)}
-              selected={panel === panels.Resources}
-            >
-              <AddPhotoAlternateIcon width="24" height="24" />
-            </ActionBarButton>
-            <ActionBarButton
-              label="LOGOS"
-              onClick={() => setPanel(panels.Logos)}
-              selected={panel === panels.Logos}
-            >
-              <BusinessIcon width="24" height="24" />
-            </ActionBarButton>
-            <ActionBarButton
-              label="CONSOLES"
-              onClick={() => setPanel(panels.Consoles)}
-              selected={panel === panels.Consoles}
-            >
-              <SportsEsportsIcon width="24" height="24" />
-            </ActionBarButton>
-            <ActionBarButton
-              label="EDIT"
-              onClick={() => setPanel(panels.Edit)}
-              selected={panel === panels.Edit}
-            >
-              <EditIcon width="24" height="24" />
-            </ActionBarButton>
-          </>
-        ) : (
-          <>
-            <ActionBarButton
-              label="TEMPLATES"
-              onClick={() => setPanel(panels.Templates)}
-              selected={panel === panels.Templates}
-            >
-              <BackupTableIcon width="24" height="24" />
-            </ActionBarButton>
-            <ActionBarButton
-              label="SEARCH"
-              onClick={() => setPanel(panels.Search)}
-              selected={panel === panels.Search}
-            >
-              <SearchIcon width="24" height="24" />
-            </ActionBarButton>
-            <ActionBarButton
-              label="LOGOS"
-              onClick={() => setPanel(panels.Logos)}
-              selected={panel === panels.Logos}
-            >
-              <BusinessIcon width="24" height="24" />
-            </ActionBarButton>
-            <ActionBarButton
-              label="CONSOLES"
-              onClick={() => setPanel(panels.Consoles)}
-              selected={panel === panels.Consoles}
-            >
-              <SportsEsportsIcon width="24" height="24" />
-            </ActionBarButton>
-            {import.meta.env.DEV && (
-              <ActionBarButton
-                label="UTILS"
-                onClick={() => setPanel(panels.FilesUtils)}
-                selected={panel === panels.FilesUtils}
-              >
-                <BuildCircleIcon width="24" height="24" />
-              </ActionBarButton>
-            )}
-          </>
+        <ActionBarButton
+          label="TEMPLATES"
+          onClick={() => setPanel(panels.Templates)}
+          selected={panel === panels.Templates}
+          disabled={isEditing}
+          tooltip="Close editor to change template"
+        >
+          <BackupTableIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton
+          label="SEARCH"
+          onClick={() => setPanel(panels.Search)}
+          selected={panel === panels.Search}
+        >
+          <SearchIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton
+          label="GAME"
+          onClick={() => setPanel(panels.Resources)}
+          selected={panel === panels.Resources}
+          disabled={!isEditing}
+          tooltip="Select a card to edit"
+        >
+          <AddPhotoAlternateIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton
+          label="LOGOS"
+          onClick={() => setPanel(panels.Logos)}
+          selected={panel === panels.Logos}
+        >
+          <BusinessIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton
+          label="CONSOLES"
+          onClick={() => setPanel(panels.Consoles)}
+          selected={panel === panels.Consoles}
+        >
+          <SportsEsportsIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton
+          label="EDIT"
+          onClick={() => setPanel(panels.Edit)}
+          selected={panel === panels.Edit}
+          disabled={!isEditing}
+          tooltip="Select a card to edit"
+        >
+          <EditIcon width="24" height="24" />
+        </ActionBarButton>
+        {import.meta.env.DEV && (
+          <ActionBarButton
+            label="UTILS"
+            onClick={() => setPanel(panels.FilesUtils)}
+            selected={panel === panels.FilesUtils}
+            disabled={isEditing}
+            tooltip="Close editor first"
+          >
+            <BuildCircleIcon width="24" height="24" />
+          </ActionBarButton>
         )}
       </aside>
       <div className="leftPanel">

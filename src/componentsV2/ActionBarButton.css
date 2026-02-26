@@ -8,8 +8,11 @@
   padding: 0;
 }
 
-.actionBarBackButton {
-  margin-bottom: 8px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-  padding-bottom: 8px;
+.actionBarButton:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.actionBarButtonWrapper {
+  display: inline-flex;
 }
