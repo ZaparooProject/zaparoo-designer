@@ -149,7 +149,7 @@ export const LabelEditor = ({
       </label>
       <div className="horizontalStack labelControls">
         <div
-          className="button-look"
+          className={`button-look ${selectionIsRequired ? 'checkbox-pulse' : ''}`}
           style={{ visibility: selectionIsRequired ? 'visible' : 'hidden' }}
         >
           <Checkbox
