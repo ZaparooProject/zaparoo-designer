@@ -32,7 +32,8 @@ type LogoTabsProps = {
 export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
   const [value, setValue] = useState(0);
   const [keyword, setKeyword] = useState('');
-  const [logos, setLogos] = useState<StaticLogo[] | null>(null);
+  const [logos, setLogos] = useState<StaticLogo[]>([]);
+  const hasLogos = logos.length > 0;
 
   useEffect(() => {
     logoStyles[0].getter().then((data) => setLogos(data));
@@ -46,7 +47,7 @@ export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
   );
 
   return (
-    <PanelSection title="Company logos" className={logos === null ? 'panelLoading' : ''}>
+    <PanelSection title="Company logos" className={!hasLogos ? 'panelLoading' : ''}>
       {hasCards && !isEditing && <SuggestDrag />}
       {hasCards && isEditing && <SuggestClick />}
       {hasCards || <RequireCards />}
@@ -72,7 +73,7 @@ export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
             onChange={async (event) => {
               const val = event.target.value;
               setValue(val);
-              setLogos(null);
+              setLogos([]);
               setLogos(await logoStyles[val].getter());
             }}
           >
@@ -84,11 +85,11 @@ export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
           </Select>
         </FormControl>
       </div>
-      <div className={`resourceListAreaLogos ${logos === null ? 'loadingArea' : ''}`}>
-        {logos === null && (
+      <div className={`resourceListAreaLogos ${!hasLogos ? 'loadingArea' : ''}`}>
+        {!hasLogos && (
           <CircularProgress />
         )}
-        {logos?.map(
+        {logos.map(
           (logo) =>
             logo.name.toLowerCase().includes(keyword) && (
               <ImagePanelDisplay
