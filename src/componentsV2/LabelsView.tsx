@@ -11,7 +11,7 @@ import {
 import { LabelEditor } from './LabelEditor';
 import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import SearchIcon from '@mui/icons-material/Search';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -142,7 +142,7 @@ export const LabelsView = () => {
           onClick={() => setPanel(panels.Resources)}
           selected={panel === panels.Resources}
           disabled={!isEditing}
-          tooltip="Select a card to edit"
+          tooltip="Click a card to edit"
         >
           <AddPhotoAlternateIcon width="24" height="24" />
         </ActionBarButton>
@@ -165,7 +165,7 @@ export const LabelsView = () => {
           onClick={() => setPanel(panels.Edit)}
           selected={panel === panels.Edit}
           disabled={!isEditing}
-          tooltip="Select a card to edit"
+          tooltip="Click a card to edit"
         >
           <EditIcon width="24" height="24" />
         </ActionBarButton>
@@ -244,6 +244,15 @@ export const LabelsView = () => {
           selectionIsRequired && hasCards ? { paddingBottom: 72 } : undefined
         }
       >
+        {hasCards && !isEditing && (
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{ position: 'absolute', top: 4, left: 8, zIndex: 1 }}
+          >
+            Click a card to edit it.
+          </Typography>
+        )}
         {cards.current.map((card, index) => (
           <LabelEditor
             key={card.key}
