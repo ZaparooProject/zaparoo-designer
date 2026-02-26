@@ -26,7 +26,8 @@ const mediaEntries = Object.entries(printMediaTypes);
 export const TemplatePanel = ({ canvasRef, hasCards }: TemplatePanelProps) => {
   const { setTemplate, template, availableTemplates, setMediaType, mediaType } =
     useAppDataContext();
-  const { selectedCardsCount } = useFileDropperContext();
+  const { selectedCardsCount, cards } = useFileDropperContext();
+  const allSelected = hasCards && selectedCardsCount === cards.current.length;
 
   return (
     <PanelSection title="Templates">
@@ -52,17 +53,17 @@ export const TemplatePanel = ({ canvasRef, hasCards }: TemplatePanelProps) => {
           <InputLabel variant="outlined" size="small" id="logo-style-label">
             Media
           </InputLabel>
-          {/* Temporary workaround: disable media type changes when cards exist,
+          {/* Disable media type changes when cards exist unless all are selected,
               because PDF export uses the first card's media dimensions for the
-              entire grid layout. Mixed media types silently corrupt the output.
-              Remove this gate when export supports multiple media types. */}
+              entire grid layout. Allowing changes only when all cards are selected
+              ensures no mixed media types which would corrupt the output. */}
           <Select
             variant="outlined"
             size="small"
             labelId="template-media"
             value={mediaType.label}
             label="Style"
-            disabled={hasCards}
+            disabled={hasCards && !allSelected}
             onChange={async (event) => {
               const val = event.target.value;
               const [, value] =
@@ -77,9 +78,9 @@ export const TemplatePanel = ({ canvasRef, hasCards }: TemplatePanelProps) => {
               </MenuItem>
             ))}
           </Select>
-          {hasCards && (
+          {hasCards && !allSelected && (
             <FormHelperText>
-              Remove all cards to change media type.
+              Select all cards to change media type.
             </FormHelperText>
           )}
         </FormControl>
