@@ -1,5 +1,10 @@
-import { ButtonBase, ClickAwayListener } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button, ButtonBase, ClickAwayListener } from '@mui/material';
+import {
+  type KeyboardEvent,
+  type MouseEvent,
+  useCallback,
+  useMemo,
+} from 'react';
 import { HexColorInput, HexColorPicker } from 'react-colorful';
 import './LayersPanel.css';
 
@@ -8,6 +13,8 @@ type ColorSwatchProps = {
   color?: string;
   ariaLabel: string;
   property: 'fill' | 'stroke';
+  isOpen: boolean;
+  onOpenChange: (nextOpen: boolean) => void;
   onColorSelect: (
     id: string,
     nextColor: string,
@@ -59,53 +66,96 @@ export const ColorSwatch = ({
   id,
   color,
   ariaLabel,
+  isOpen,
+  onOpenChange,
   onColorSelect,
   property,
 }: ColorSwatchProps) => {
   const isEmpty = isSwatchEmpty(color);
-  const [open, setOpen] = useState(false);
-  const initialColor = useMemo(() => normalizeToHex(color), [color]);
-  const [pickerColor, setPickerColor] = useState(initialColor);
+  const pickerColor = useMemo(() => normalizeToHex(color), [color]);
 
   const setOpenClick = useCallback(() => {
-    setOpen((current) => !current);
-  }, [setOpen]);
-
-  useEffect(() => {
-    setPickerColor(initialColor);
-  }, [initialColor]);
+    onOpenChange(!isOpen);
+  }, [isOpen, onOpenChange]);
 
   const onPickerChange = useCallback(
     (nextColor: string) => {
-      setPickerColor(nextColor);
       onColorSelect(id, nextColor, property);
     },
-    [onColorSelect],
+    [id, onColorSelect, property],
   );
 
+  const setTransparent = useCallback(() => {
+    onColorSelect(id, 'transparent', property);
+    onOpenChange(false);
+  }, [id, onColorSelect, onOpenChange, property]);
+
+  const closePopover = useCallback(() => {
+    onOpenChange(false);
+  }, [onOpenChange]);
+
+  const stopPopoverClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  }, []);
+
+  const onHexInputKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        closePopover();
+      }
+    },
+    [closePopover],
+  );
+
+  const transparentLabel = `Set ${ariaLabel.toLowerCase()} to transparent`;
+
+  const transparentButtonLabel = property === 'fill' ? 'No fill' : 'No stroke';
+
+  const transparentButtonTitle =
+    property === 'fill'
+      ? 'Set fill to transparent'
+      : 'Set stroke to transparent';
+
+  const pickerInputLabel = `${ariaLabel} hex input`;
+
+  const buttonAriaLabel = ariaLabel;
+  const swatchStyle = isEmpty ? undefined : { backgroundColor: color };
+
+  const swatchClassName = `layer-swatch${isEmpty ? ' is-empty' : ''}`;
+
   return (
-    <ClickAwayListener onClickAway={() => setOpen(false)}>
+    <ClickAwayListener onClickAway={closePopover}>
       <div className="layer-swatch-wrapper">
-        <div
-          className={`layer-swatch${isEmpty ? ' is-empty' : ''}`}
-          style={isEmpty ? undefined : { backgroundColor: color }}
-        >
+        <div className={swatchClassName} style={swatchStyle}>
           <ButtonBase
             className="layer-swatch-button"
             onClick={setOpenClick}
-            aria-label={ariaLabel}
+            aria-label={buttonAriaLabel}
           />
         </div>
-        {open && (
-          <div className="layer-swatch-popover">
+        {isOpen && (
+          <div className="layer-swatch-popover" onClick={stopPopoverClick}>
             <HexColorPicker color={pickerColor} onChange={onPickerChange} />
             <HexColorInput
               prefixed
               color={pickerColor}
               onChange={onPickerChange}
+              onKeyDown={onHexInputKeyDown}
               className="layer-swatch-hex-input"
-              aria-label={`${ariaLabel} hex input`}
+              aria-label={pickerInputLabel}
             />
+            <Button
+              size="small"
+              variant="outlined"
+              fullWidth
+              onClick={setTransparent}
+              aria-label={transparentLabel}
+              title={transparentButtonTitle}
+              className="layer-swatch-transparent-button"
+            >
+              {transparentButtonLabel}
+            </Button>
           </div>
         )}
       </div>

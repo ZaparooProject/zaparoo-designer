@@ -1,8 +1,19 @@
-import { Button, Typography } from '@mui/material';
+import { Button, IconButton, Typography } from '@mui/material';
 import { PanelSection } from './PanelSection';
 import './LayersPanel.css';
-import { MutableRefObject, useCallback, useEffect, useState } from 'react';
-import { type TFiller, type Canvas, FabricImage, StaticCanvas } from 'fabric';
+import {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  type TFiller,
+  type Canvas,
+  FabricImage,
+  FabricObject,
+  StaticCanvas,
+} from 'fabric';
 import { RequireCards } from './RequireEditing';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -42,6 +53,21 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
       id: string;
     }>
   >([]);
+  const [openSwatchKey, setOpenSwatchKey] = useState<string | null>(null);
+
+  const getSwatchKey = useCallback((id: string, property: 'fill' | 'stroke') => {
+    return `${id}:${property}`;
+  }, []);
+
+  const refreshLayers = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      setLayers([]);
+      return;
+    }
+
+    setLayers(getFilteredObjects(canvas));
+  }, [canvasRef]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -49,8 +75,26 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
       return;
     }
 
-    setLayers(getFilteredObjects(canvas));
-  }, [canvasRef]);
+    refreshLayers();
+  }, [canvasRef, refreshLayers]);
+
+  const deleteCanvasLayer = useCallback(
+    (layer: FabricObject) => {
+      const canvas = canvasRef.current;
+      if (!canvas) {
+        return;
+      }
+
+      if (canvas.getActiveObject() === layer) {
+        canvas.discardActiveObject();
+      }
+
+      canvas.remove(layer);
+      canvas.requestRenderAll();
+      refreshLayers();
+    },
+    [canvasRef, refreshLayers],
+  );
 
   const rotateClockwise = useCallback(() => {
     const canvas = canvasRef.current;
@@ -60,8 +104,9 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
       layer.set('angle', layer.angle + 90 - angleRemainder);
       layer.setCoords();
       canvas.requestRenderAll();
+      refreshLayers();
     }
-  }, [canvasRef]);
+  }, [canvasRef, refreshLayers]);
 
   const moveUp = useCallback(() => {
     const canvas = canvasRef.current;
@@ -69,8 +114,9 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
     if (layer) {
       canvas.bringObjectForward(layer);
       canvas.requestRenderAll();
+      refreshLayers();
     }
-  }, [canvasRef]);
+  }, [canvasRef, refreshLayers]);
 
   const moveDown = useCallback(() => {
     const canvas = canvasRef.current;
@@ -78,17 +124,28 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
     if (layer) {
       canvas.sendObjectBackwards(layer);
       canvas.requestRenderAll();
+      refreshLayers();
     }
-  }, [canvasRef]);
+  }, [canvasRef, refreshLayers]);
 
   const deleteLayer = useCallback(() => {
     const canvas = canvasRef.current;
     const layer = canvas && canvas.getActiveObject();
     if (layer) {
-      canvas.remove(layer);
-      canvas.requestRenderAll();
+      deleteCanvasLayer(layer);
     }
-  }, [canvasRef]);
+  }, [canvasRef, deleteCanvasLayer]);
+
+  const deleteLayerById = useCallback(
+    (id: string) => {
+      const canvas = canvasRef.current;
+      const layer = canvas?.getObjects().find((obj) => obj.id === id);
+      if (layer) {
+        deleteCanvasLayer(layer);
+      }
+    },
+    [canvasRef, deleteCanvasLayer],
+  );
 
   const selectOnCanvas = useCallback(
     (id: string) => {
@@ -109,10 +166,10 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
       if (layer) {
         layer.set(property, nextColor);
         canvas.requestRenderAll();
-        setLayers(getFilteredObjects(canvas));
+        refreshLayers();
       }
     },
-    [canvasRef],
+    [canvasRef, refreshLayers],
   );
 
   return (
@@ -190,20 +247,46 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
               >
                 {layer.type ?? 'layer'}
               </Typography>
-              <ColorSwatch
-                onColorSelect={onColorSelect}
-                property="fill"
-                id={layer.id}
-                color={layer.fill}
-                ariaLabel="fill color"
-              />
-              <ColorSwatch
-                onColorSelect={onColorSelect}
-                property="stroke"
-                id={layer.id}
-                color={layer.stroke}
-                ariaLabel="stroke color"
-              />
+              <div onClick={(event) => event.stopPropagation()}>
+                <ColorSwatch
+                  onColorSelect={onColorSelect}
+                  property="fill"
+                  id={layer.id}
+                  color={layer.fill}
+                  ariaLabel="fill color"
+                  isOpen={openSwatchKey === getSwatchKey(layer.id, 'fill')}
+                  onOpenChange={(nextOpen) => {
+                    setOpenSwatchKey(
+                      nextOpen ? getSwatchKey(layer.id, 'fill') : null,
+                    );
+                  }}
+                />
+              </div>
+              <div onClick={(event) => event.stopPropagation()}>
+                <ColorSwatch
+                  onColorSelect={onColorSelect}
+                  property="stroke"
+                  id={layer.id}
+                  color={layer.stroke}
+                  ariaLabel="stroke color"
+                  isOpen={openSwatchKey === getSwatchKey(layer.id, 'stroke')}
+                  onOpenChange={(nextOpen) => {
+                    setOpenSwatchKey(
+                      nextOpen ? getSwatchKey(layer.id, 'stroke') : null,
+                    );
+                  }}
+                />
+              </div>
+              <IconButton
+                size="small"
+                aria-label={`Delete ${layer.type ?? 'layer'}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  deleteLayerById(layer.id);
+                }}
+              >
+                <DeleteOutlineIcon fontSize="small" />
+              </IconButton>
             </div>
           ))}
         </div>

@@ -93,3 +93,7 @@
   box-sizing: border-box;
   font: inherit;
 }
+
+.layer-swatch-transparent-button {
+  margin-top: 8px;
+}
