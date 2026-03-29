@@ -120,7 +120,7 @@ export const LabelsView = () => {
 
   return (
     <div className="editorContainer">
-      <aside className="actionBar verticalStack">
+      <aside className="actionBar verticalStack" key="leftbar">
         <ActionBarButton
           label="TEMPLATES"
           onClick={() => setPanel(panels.Templates)}
@@ -181,7 +181,7 @@ export const LabelsView = () => {
           </ActionBarButton>
         )}
       </aside>
-      <div className="leftPanel">
+      <div className="leftPanel" key="leftPanel">
         <Suspense fallback={null}>
           {panel === panels.Search && (
             <ImageSearchPanel
@@ -244,56 +244,59 @@ export const LabelsView = () => {
           selectionIsRequired && hasCards ? { paddingBottom: 72 } : undefined
         }
       >
-        {hasCards && !isEditing && (
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ position: 'absolute', top: 4, left: 8, zIndex: 1 }}
-          >
-            Click a card to edit it.
-          </Typography>
-        )}
-        {cards.current.map((card, index) => (
-          <LabelEditor
-            key={card.key}
-            index={index}
-            card={card}
-            setCardToEdit={setEditingCard}
-            selectionIsRequired={selectionIsRequired}
-          />
-        ))}
-        <TemplatePreview hasCards={hasCards} />
-        {selectionIsRequired && hasCards && (
-          <div className="selectionBar">
-            <Button
-              variant="contained"
-              size="large"
-              color="primary"
-              onClick={selectAll}
-              disabled={selectedCardsCount === cards.current.length}
-              disableElevation
+        <Suspense fallback={null}>
+          {hasCards && !isEditing && (
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ position: 'absolute', top: 4, left: 8, zIndex: 1 }}
             >
-              Select all
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              color="primary"
-              onClick={clearSelection}
-              disabled={selectedCardsCount === 0}
-              disableElevation
-            >
-              Clear selection ({selectedCardsCount})
-            </Button>
-          </div>
-        )}
-        {!!editingCard && (
-          <SingleCardEditModal
-            setCurrentEditingCanvas={setCurrentEditingCanvas}
-            isOpen={!!editingCard}
-            onClose={onClose}
-          />
-        )}
+              Click a card to edit it.
+            </Typography>
+          )}
+          {cards.current.map((card, index) => (
+            <LabelEditor
+              key={card.key}
+              index={index}
+              card={card}
+              setCardToEdit={setEditingCard}
+              selectionIsRequired={selectionIsRequired}
+            />
+          ))}
+          <TemplatePreview hasCards={hasCards} />
+          {selectionIsRequired && hasCards && (
+            <div className="selectionBar">
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                onClick={selectAll}
+                disabled={selectedCardsCount === cards.current.length}
+                disableElevation
+              >
+                Select all
+              </Button>
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                onClick={clearSelection}
+                disabled={selectedCardsCount === 0}
+                disableElevation
+              >
+                Clear selection ({selectedCardsCount})
+              </Button>
+            </div>
+          )}
+          {!!editingCard && (
+            <SingleCardEditModal
+              key="singleCardModal"
+              setCurrentEditingCanvas={setCurrentEditingCanvas}
+              isOpen={!!editingCard}
+              onClose={onClose}
+            />
+          )}
+        </Suspense>
       </div>
       <DataToCanvasReconciler />
     </div>
