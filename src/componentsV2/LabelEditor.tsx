@@ -89,11 +89,13 @@ export const LabelEditor = ({
     event.preventDefault();
     setIsDragOver(false);
     const imageUrl = event.dataTransfer.getData(DRAG_MIME_IMAGE_URL);
-    if (imageUrl && card.canvas) {
+    const { canvas } = card;
+    if (imageUrl && canvas) {
       util.loadImage(imageUrl).then((img) => {
-        const { canvas } = card;
         if (canvas) {
-          const image = new FabricImage(img);
+          const image = new FabricImage(img, {
+            'zaparoo-user-layer': true,
+          });
           const scale = util.findScaleToFit(image, canvas);
           image.scale(scale);
           canvas.add(image);
@@ -105,7 +107,6 @@ export const LabelEditor = ({
     }
 
     const gameObjectRaw = event.dataTransfer.getData(DRAG_MIME_GAME_OBJECT);
-    const canvas = card.canvas;
     if (gameObjectRaw && canvas) {
       try {
         const gameObject = JSON.parse(gameObjectRaw) as SearchResult;
@@ -149,7 +150,9 @@ export const LabelEditor = ({
       </label>
       <div className="horizontalStack labelControls">
         <div
-          className={`button-look ${selectionIsRequired ? 'checkbox-pulse' : ''}`}
+          className={`button-look ${
+            selectionIsRequired ? 'checkbox-pulse' : ''
+          }`}
           style={{ visibility: selectionIsRequired ? 'visible' : 'hidden' }}
         >
           <Checkbox

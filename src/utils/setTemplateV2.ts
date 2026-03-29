@@ -4,6 +4,7 @@ import {
   loadSVGFromURL,
   Group,
   FabricObject,
+  Point,
   type Canvas,
   Rect,
 } from 'fabric';
@@ -73,6 +74,82 @@ const parseSvg = (url: string): Promise<Group> =>
     },
   );
 
+type CarriedUserLayer = {
+  layer: FabricObject;
+  centerXRatio: number;
+  centerYRatio: number;
+  cardWidth: number;
+  cardHeight: number;
+};
+
+const getCarriedUserLayers = (
+  canvas: CardData['canvas'],
+  mainImage?: FabricImage,
+): CarriedUserLayer[] => {
+  if (!canvas) {
+    return [];
+  }
+
+  const zoom = canvas.getZoom();
+  const sourceCardWidth = canvas.getWidth() / zoom;
+  const sourceCardHeight = canvas.getHeight() / zoom;
+  return canvas
+    .getObjects()
+    .filter(
+      (layer) => layer !== mainImage && layer['zaparoo-user-layer'] === true,
+    )
+    .map((layer) => {
+      const center = layer.getRelativeCenterPoint();
+
+      return {
+        layer,
+        centerXRatio: center.x / sourceCardWidth,
+        centerYRatio: center.y / sourceCardHeight,
+        cardWidth: sourceCardWidth,
+        cardHeight: sourceCardHeight,
+      };
+    });
+};
+
+const restoreCarriedUserLayers = (
+  canvas: CardData['canvas'],
+  carriedLayers: CarriedUserLayer[],
+) => {
+  if (!canvas) {
+    return;
+  }
+  const zoom = canvas.getZoom();
+  const cardWidth = canvas.getWidth() / zoom;
+  const cardHeight = canvas.getHeight() / zoom;
+
+  carriedLayers.forEach(
+    ({
+      layer,
+      centerXRatio,
+      centerYRatio,
+      // cardWidth: sourceCardWidth,
+      // cardHeight: sourceCardHeight,
+    }) => {
+      // require checking of template aspect ratio change
+      // const widthRatio = cardWidth / sourceCardWidth;
+      // const heightRatio = cardHeight / sourceCardHeight;
+      // const uniformScale = Math.min(widthRatio, heightRatio);
+
+      // layer.set({
+      //   scaleX: layer.scaleX * uniformScale,
+      //   scaleY: layer.scaleY * uniformScale,
+      // });
+      layer.setPositionByOrigin(
+        new Point(cardWidth * centerXRatio, cardHeight * centerYRatio),
+        'center',
+        'center',
+      );
+      layer.setCoords();
+      canvas.add(layer);
+    },
+  );
+};
+
 export const setTemplateV2OnCanvases = async (
   cards: CardData[],
   template: templateTypeV2,
@@ -105,6 +182,8 @@ export const setTemplateV2OnCanvases = async (
       continue;
     }
     card.template = template;
+    const mainImage = getMainImage(canvas);
+    const carriedUserLayers = getCarriedUserLayers(canvas, mainImage);
     // resize only if necessary
     if (finalHeight !== canvas.height || finalWidth !== canvas.width) {
       canvas.enableRetinaScaling = false;
@@ -128,8 +207,6 @@ export const setTemplateV2OnCanvases = async (
         { cssOnly: true },
       );
     }
-    // save a reference to the original image
-    const mainImage = getMainImage(canvas);
     // copy the template for this card
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
@@ -177,6 +254,8 @@ export const setTemplateV2OnCanvases = async (
         await scaleImageToOverlayArea(placeholder, mainImage);
       }
     }
+
+    restoreCarriedUserLayers(canvas, carriedUserLayers);
 
     const { clipPath } = canvas;
     if (clipPath) {

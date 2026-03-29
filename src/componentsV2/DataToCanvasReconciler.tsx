@@ -32,21 +32,23 @@ export const DataToCanvasReconciler = () => {
   }, [template, setCustomColors, cards, setOriginalColors, setIsIdle]);
 
   useEffect(() => {
-    const selectedCardsWithDifferentTemplate = cards.current.filter(
-      (card): card is Required<CardData> =>
-        card.isSelected && card.template !== template,
-    );
-
     const selectedCards = cards.current.filter(
       (card): card is Required<CardData> => !!card.isSelected && !!card.canvas,
     );
-    setIsIdle(false);
-    setTemplateV2OnCanvases(selectedCardsWithDifferentTemplate, template).then(
-      () => {
-        updateColors(selectedCards, customColors, originalColors);
-        setIsIdle(true);
-      },
+    if (!selectedCards.length) {
+      return;
+    }
+
+    const hasPendingTemplateSwap = selectedCards.some(
+      (card) => card.template !== template,
     );
+    if (hasPendingTemplateSwap) {
+      return;
+    }
+
+    setIsIdle(false);
+    updateColors(selectedCards, customColors, originalColors);
+    setIsIdle(true);
   }, [cards, customColors, originalColors, setIsIdle, template]);
 
   return null;

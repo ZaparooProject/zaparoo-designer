@@ -33,7 +33,9 @@ export const ImagePanelDisplay = ({
       if (!canvasRef?.current) {
         return;
       }
-      const image = new FabricImage(img);
+      const image = new FabricImage(img, {
+        'zaparoo-user-layer': true,
+      });
       const scale = util.findScaleToFit(image, canvasRef.current);
       image.scale(scale);
       canvasRef.current.add(image);

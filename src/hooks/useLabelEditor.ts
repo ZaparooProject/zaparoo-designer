@@ -29,6 +29,7 @@ export const setMainImageOnCanvas = async (
     if (image) {
       const fabricImage = new FabricImage(image, {
         resourceType: 'main',
+        'zaparoo-user-layer': true,
       });
       // @ts-expect-error no originalFile
       fabricImage.originalFile = file;

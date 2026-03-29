@@ -11,6 +11,7 @@ declare module 'fabric' {
     'zaparoo-no-print'?: 'true';
     'zaparoo-fill-strategy'?: 'fit' | 'cover';
     'zaparoo-align-strategy'?: 'left-top' | 'center-top';
+    'zaparoo-user-layer'?: boolean;
   }
 
   interface FabricImage {
@@ -50,13 +51,10 @@ export const setupFabricJSCustomConfiguration = () => {
     ...extra_attrs,
   ];
   FabricObject.customProperties = [
-    'zaparoo-placeholder',
-    'id',
-    'zaparoo-fill-strategy',
+    ...extra_attrs,
     'original_stroke',
     'original_fill',
-    'zaparoo-no-print',
-    'zaparoo-align-strategy',
+    'zaparoo-user-layer',
   ];
 
   FabricImage.customProperties = [
