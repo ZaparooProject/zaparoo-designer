@@ -30,7 +30,7 @@ export const TemplatePanel = ({ canvasRef, hasCards }: TemplatePanelProps) => {
   const allSelected = hasCards && selectedCardsCount === cards.current.length;
 
   return (
-    <PanelSection title="Templates">
+    <PanelSection title="Templates" className="resourcePanelSection">
       {hasCards && selectedCardsCount === 0 && (
         <Alert
           style={{ width: '100%', boxSizing: 'border-box' }}
@@ -85,20 +85,22 @@ export const TemplatePanel = ({ canvasRef, hasCards }: TemplatePanelProps) => {
           )}
         </FormControl>
       </div>
-      <div className="resourceListAreaLogos">
-        {availableTemplates.map((templateTypeV2) => (
-          <ImagePanelDisplay
-            key={templateTypeV2.key}
-            canvasRef={canvasRef}
-            onClick={() => setTemplate(templateTypeV2)}
-            active={templateTypeV2.key === template.key}
-            imageResult={{
-              url: templateTypeV2.preview,
-              width: 400,
-              height: 400,
-            }}
-          />
-        ))}
+      <div className="resourceListAreaLogosScroll">
+        <div className="resourceListAreaLogos">
+          {availableTemplates.map((templateTypeV2) => (
+            <ImagePanelDisplay
+              key={templateTypeV2.key}
+              canvasRef={canvasRef}
+              onClick={() => setTemplate(templateTypeV2)}
+              active={templateTypeV2.key === template.key}
+              imageResult={{
+                url: templateTypeV2.preview,
+                width: 400,
+                height: 400,
+              }}
+            />
+          ))}
+        </div>
       </div>
     </PanelSection>
   );

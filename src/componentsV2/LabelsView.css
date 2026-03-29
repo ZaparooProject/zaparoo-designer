@@ -34,15 +34,23 @@
 .resourceListAreaLogos {
   column-count: 2;
   column-gap: 8px;
-  overflow-y: scroll;
   padding-left: 8px;
   padding-right: 0px;
   box-sizing: border-box;
   width: 100%;
 }
 
-.resourceListAreaLogos.noScroll {
-  overflow-y: hidden;
+.resourceListAreaLogosScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.resourcePanelSection {
+  flex: 1;
+  min-height: 0;
 }
 
 .verticalStack.leftPanel {

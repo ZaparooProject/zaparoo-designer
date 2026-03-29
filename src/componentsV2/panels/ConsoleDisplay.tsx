@@ -32,18 +32,20 @@ export const ConsoleDisplay = ({ canvasRef, blocked }: ConsoleDisplayProps) => {
           onChange={searchHandler}
         />
       </div>
-      <div className="resourceListAreaLogos">
-        {consoles.map(
-          (console, index) =>
-            console.name.toLowerCase().includes(keyword) && (
-              <ImagePanelDisplay
-                blocked={blocked}
-                key={`${console.name}-${index}`}
-                canvasRef={canvasRef}
-                imageResult={{ url: console.url, width: 400, height: 400 }}
-              />
-            ),
-        )}
+      <div className="resourceListAreaLogosScroll">
+        <div className="resourceListAreaLogos">
+          {consoles.map(
+            (console, index) =>
+              console.name.toLowerCase().includes(keyword) && (
+                <ImagePanelDisplay
+                  blocked={blocked}
+                  key={`${console.name}-${index}`}
+                  canvasRef={canvasRef}
+                  imageResult={{ url: console.url, width: 400, height: 400 }}
+                />
+              ),
+          )}
+        </div>
       </div>
     </>
   );

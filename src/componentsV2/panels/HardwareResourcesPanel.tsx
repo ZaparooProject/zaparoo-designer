@@ -24,7 +24,7 @@ export function HardwareResourcesPanel({
   };
 
   return (
-    <PanelSection title="Hardware">
+    <PanelSection title="Hardware" className="resourcePanelSection">
       {hasCards && !isEditing && <SuggestDrag />}
       {hasCards && isEditing && <SuggestClick />}
       {hasCards || <RequireCards />}

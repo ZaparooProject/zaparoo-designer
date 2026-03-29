@@ -32,18 +32,20 @@ export const ControllerDisplay = ({ canvasRef, blocked }: LogoTabsProps) => {
           onChange={searchHandler}
         />
       </div>
-      <div className="resourceListAreaLogos">
-        {controllers.map(
-          (controller) =>
-            controller.name.toLowerCase().includes(keyword) && (
-              <ImagePanelDisplay
-                blocked={blocked}
-                key={controller.name}
-                canvasRef={canvasRef}
-                imageResult={{ url: controller.url, width: 400, height: 400 }}
-              />
-            ),
-        )}
+      <div className="resourceListAreaLogosScroll">
+        <div className="resourceListAreaLogos">
+          {controllers.map(
+            (controller) =>
+              controller.name.toLowerCase().includes(keyword) && (
+                <ImagePanelDisplay
+                  blocked={blocked}
+                  key={controller.name}
+                  canvasRef={canvasRef}
+                  imageResult={{ url: controller.url, width: 400, height: 400 }}
+                />
+              ),
+          )}
+        </div>
       </div>
     </>
   );
