@@ -20,6 +20,7 @@ import { ActionBarButton } from './ActionBarButton';
 import ImageSearchPanel from './panels/SearchPanel';
 import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
@@ -32,6 +33,7 @@ import {
   initialPanelState,
 } from './panelReducer';
 import { selectAllCards, clearCardSelection } from './cardSelection';
+import { noop } from '../utils/utils';
 
 const LogoTabs = lazy(() => import('./panels/LogosTabs'));
 const HardwareResourcesPanel = lazy(
@@ -180,6 +182,16 @@ export const LabelsView = () => {
             <BuildCircleIcon width="24" height="24" />
           </ActionBarButton>
         )}
+        <a href="/about" target="_blank">
+          <ActionBarButton
+            label="INFO"
+            tooltip="Designer info"
+            onClick={noop}
+            selected={false}
+          >
+            <InfoIcon width="24" height="24" />
+          </ActionBarButton>
+        </a>
       </aside>
       <div className="leftPanel" key="leftPanel">
         <Suspense fallback={null}>
