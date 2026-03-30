@@ -1,14 +1,6 @@
-import { BaseProvider } from './baseProvider.mjs';
-import { SEARCH_PAGESIZE } from './constants.mjs';
 import { getToken } from './steamTokenManager.mjs';
-import type {
-  ResultImage,
-  SearchResult,
-  SearchResults,
-  PlatformResults,
-} from './types.mts';
 
-type SGDBSearchResult = {
+export type SGDBSearchResult = {
   id: number;
   name: string;
   types: string[];
@@ -16,7 +8,7 @@ type SGDBSearchResult = {
   release_date: number;
 };
 
-type SGDBSearchResultData = {
+export type SGDBSearchResultData = {
   data: SGDBSearchResult[];
 };
 
@@ -35,7 +27,7 @@ export interface SGDBImage {
   downvotes: number;
 }
 
-export class SGDBProvider extends BaseProvider<unknown[]> {
+export class SGDBProvider {
   urlPath = '/igdb/';
   endpoint = process.env.STEAMGRID_DB_BASEURL;
 
