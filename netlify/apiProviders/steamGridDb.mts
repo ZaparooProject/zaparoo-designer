@@ -28,12 +28,7 @@ export interface SGDBImage {
 }
 
 export class SGDBProvider {
-  urlPath = '/igdb/';
   endpoint = process.env.STEAMGRID_DB_BASEURL;
-
-  newUrl(path: string) {
-    return `${this.endpoint}${path}`;
-  }
 
   async requestHeaders() {
     const token = await getToken();
@@ -46,10 +41,13 @@ export class SGDBProvider {
   async getSearchRequest(searchTerm: string): Promise<Request> {
     const searchPath = `/search/autocomplete/${encodeURIComponent(searchTerm)}`;
     const url = new URL(searchPath, this.endpoint);
+    const headers = await this.requestHeaders();
+
+    console.log({ url, headers });
 
     return new Request(url, {
       method: 'GET',
-      headers: await this.requestHeaders(),
+      headers,
     });
   }
 

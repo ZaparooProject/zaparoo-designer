@@ -26,11 +26,12 @@ export default async (req: Request): Promise<Response> => {
   }
 
   const provider = new SGDBProvider();
-  const searchRequest = await provider.getSearchRequest(searchTerm, '1');
+  const searchRequest = await provider.getSearchRequest(searchTerm);
 
   try {
     const response = await fetch(searchRequest);
     const data = (await response.json()) as SteamAutocompleteResponse;
+    console.log(data);
     const results = Array.isArray(data.data)
       ? data.data.map(({ id, name }) => ({ id, name }))
       : [];
