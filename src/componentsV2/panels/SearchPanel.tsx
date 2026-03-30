@@ -204,8 +204,8 @@ export default function ImageSearchPanel({
       return;
     }
     timerRef.current = now;
-    fetchGameList(searchQuery, platform, page.toString(), isRomHacks).then(
-      ({ games, hasMore }) => {
+    fetchGameList(searchQuery, platform, page.toString(), isRomHacks)
+      .then(({ games, hasMore }) => {
         if (queueResults) {
           setGameEntries([...gameEntries, ...games]);
         } else {
@@ -216,8 +216,10 @@ export default function ImageSearchPanel({
         }
         setHasMore(hasMore);
         setSearching(false);
-      },
-    );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   useEffect(() => {

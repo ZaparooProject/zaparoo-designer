@@ -47,9 +47,13 @@ export async function fetchGameList(
     fetch(url, {
       mode: 'cors',
     })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((res) => res.json() as Promise<SearchResults>)
-      .then(async ({ results, count }) => {
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error(`Search request failed with status ${res.status}`);
+        }
+        const data = (await res.json()) as Partial<SearchResults>;
+        const results = Array.isArray(data.results) ? data.results : [];
+        const count = typeof data.count === 'number' ? data.count : 0;
         await platformPromise;
         return {
           count,

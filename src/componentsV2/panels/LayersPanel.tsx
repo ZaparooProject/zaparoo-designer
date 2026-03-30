@@ -1,19 +1,8 @@
 import { Button, IconButton, Typography } from '@mui/material';
 import { PanelSection } from './PanelSection';
 import './LayersPanel.css';
-import {
-  MutableRefObject,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import {
-  type TFiller,
-  type Canvas,
-  FabricImage,
-  FabricObject,
-  StaticCanvas,
-} from 'fabric';
+import { MutableRefObject, useCallback, useEffect, useState } from 'react';
+import { type TFiller, type Canvas, FabricObject, StaticCanvas } from 'fabric';
 import { RequireCards } from './RequireEditing';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -29,12 +18,7 @@ type LayersPanelProps = {
 const getFilteredObjects = (canvas: StaticCanvas) =>
   canvas
     .getObjects()
-    .filter(
-      (object) =>
-        !(object instanceof FabricImage) &&
-        object.visible === true &&
-        !(object.fill as unknown as TFiller)?.toLive,
-    )
+    .filter((object) => object.visible === true)
     .map((object) => ({
       id: object.id,
       type: object.type,
@@ -55,9 +39,12 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
   >([]);
   const [openSwatchKey, setOpenSwatchKey] = useState<string | null>(null);
 
-  const getSwatchKey = useCallback((id: string, property: 'fill' | 'stroke') => {
-    return `${id}:${property}`;
-  }, []);
+  const getSwatchKey = useCallback(
+    (id: string, property: 'fill' | 'stroke') => {
+      return `${id}:${property}`;
+    },
+    [],
+  );
 
   const refreshLayers = useCallback(() => {
     const canvas = canvasRef.current;
@@ -245,38 +232,51 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
                 color="text.secondary"
                 className="layers-row-text"
               >
-                {layer.type ?? 'layer'}
+                {layer.type ?? 'layer'} {layer.text ?? layer.id}
               </Typography>
-              <div onClick={(event) => event.stopPropagation()}>
-                <ColorSwatch
-                  onColorSelect={onColorSelect}
-                  property="fill"
-                  id={layer.id}
-                  color={layer.fill}
-                  ariaLabel="fill color"
-                  isOpen={openSwatchKey === getSwatchKey(layer.id, 'fill')}
-                  onOpenChange={(nextOpen) => {
-                    setOpenSwatchKey(
-                      nextOpen ? getSwatchKey(layer.id, 'fill') : null,
-                    );
-                  }}
-                />
-              </div>
-              <div onClick={(event) => event.stopPropagation()}>
-                <ColorSwatch
-                  onColorSelect={onColorSelect}
-                  property="stroke"
-                  id={layer.id}
-                  color={layer.stroke}
-                  ariaLabel="stroke color"
-                  isOpen={openSwatchKey === getSwatchKey(layer.id, 'stroke')}
-                  onOpenChange={(nextOpen) => {
-                    setOpenSwatchKey(
-                      nextOpen ? getSwatchKey(layer.id, 'stroke') : null,
-                    );
-                  }}
-                />
-              </div>
+              {layer.type !== 'image' && (
+                <div onClick={(event) => event.stopPropagation()}>
+                  <ColorSwatch
+                    onColorSelect={onColorSelect}
+                    property="fill"
+                    id={layer.id}
+                    color={
+                      layer.fill && !(layer.fill as unknown as TFiller)?.toLive
+                        ? layer.fill
+                        : 'transparent'
+                    }
+                    ariaLabel="fill color"
+                    isOpen={openSwatchKey === getSwatchKey(layer.id, 'fill')}
+                    onOpenChange={(nextOpen) => {
+                      setOpenSwatchKey(
+                        nextOpen ? getSwatchKey(layer.id, 'fill') : null,
+                      );
+                    }}
+                  />
+                </div>
+              )}
+              {layer.type !== 'image' && (
+                <div onClick={(event) => event.stopPropagation()}>
+                  <ColorSwatch
+                    onColorSelect={onColorSelect}
+                    property="stroke"
+                    id={layer.id}
+                    color={
+                      layer.stroke &&
+                      !(layer.stroke as unknown as TFiller)?.toLive
+                        ? layer.stroke
+                        : 'transparent'
+                    }
+                    ariaLabel="stroke color"
+                    isOpen={openSwatchKey === getSwatchKey(layer.id, 'stroke')}
+                    onOpenChange={(nextOpen) => {
+                      setOpenSwatchKey(
+                        nextOpen ? getSwatchKey(layer.id, 'stroke') : null,
+                      );
+                    }}
+                  />
+                </div>
+              )}
               <IconButton
                 size="small"
                 aria-label={`Delete ${layer.type ?? 'layer'}`}
