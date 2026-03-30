@@ -6,8 +6,13 @@ import type {
 import { SEARCH_PAGESIZE } from '../../netlify/apiProviders/constants.mts';
 
 const SEARCH_ENDPOINT = '/api/search';
+const STEAM_AUTOCOMPLETE_ENDPOINT = '/api/steam/autocomplete';
 
 export let platformsData: PlatformResult[] = [];
+export type SteamAutocompleteGame = {
+  id: number;
+  name: string;
+};
 
 export type ResultsForSearchUI = {
   games: SearchResult[];
@@ -43,33 +48,77 @@ export async function fetchGameList(
   if (romHacks) {
     url.searchParams.append('romHacks', '1');
   }
-  return (
-    fetch(url, {
-      mode: 'cors',
+  return fetch(url, {
+    mode: 'cors',
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        throw new Error(`Search request failed with status ${res.status}`);
+      }
+      const data = (await res.json()) as Partial<SearchResults>;
+      const results = Array.isArray(data.results) ? data.results : [];
+      const count = typeof data.count === 'number' ? data.count : 0;
+      await platformPromise;
+      return {
+        count,
+        hasMore: count / SEARCH_PAGESIZE > parseInt(page, 10) ? true : false,
+        games: results,
+      };
     })
-      .then(async (res) => {
-        if (!res.ok) {
-          throw new Error(`Search request failed with status ${res.status}`);
-        }
-        const data = (await res.json()) as Partial<SearchResults>;
-        const results = Array.isArray(data.results) ? data.results : [];
-        const count = typeof data.count === 'number' ? data.count : 0;
-        await platformPromise;
-        return {
-          count,
-          hasMore: count / SEARCH_PAGESIZE > parseInt(page, 10) ? true : false,
-          games: results,
-        };
-      })
-      .catch((err) => {
-        console.error(err);
-        return {
-          count: 0,
-          hasMore: false,
-          games: [] as SearchResult[],
-        };
-      })
-  );
+    .catch((err) => {
+      console.error(err);
+      return {
+        count: 0,
+        hasMore: false,
+        games: [] as SearchResult[],
+      };
+    });
+}
+
+export async function fetchSteamAutocomplete(
+  query: string,
+  signal?: AbortSignal,
+): Promise<SteamAutocompleteGame[]> {
+  const trimmedQuery = query.trim();
+
+  if (!trimmedQuery) {
+    return [];
+  }
+
+  const url = getGoodUrl(STEAM_AUTOCOMPLETE_ENDPOINT);
+  url.searchParams.append('searchTerm', trimmedQuery);
+
+  return fetch(url, {
+    mode: 'cors',
+    signal,
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        throw new Error(
+          `Steam autocomplete request failed with status ${res.status}`,
+        );
+      }
+
+      const data = (await res.json()) as unknown;
+      return Array.isArray(data)
+        ? data.filter((item): item is SteamAutocompleteGame => {
+            return (
+              typeof item === 'object' &&
+              item !== null &&
+              typeof item.id === 'number' &&
+              typeof item.name === 'string'
+            );
+          })
+        : [];
+    })
+    .catch((err) => {
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        return [];
+      }
+
+      console.error(err);
+      return [];
+    });
 }
 
 const getGoodUrl = (relativeUrl: string): URL => {

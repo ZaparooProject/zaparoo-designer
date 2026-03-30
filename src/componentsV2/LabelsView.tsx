@@ -43,6 +43,7 @@ const TemplatePanel = lazy(() => import('./panels/TemplatePanel'));
 const GameResourcesPanel = lazy(() => import('./panels/GameResourcesPanel'));
 const LayersPanel = lazy(() => import('./panels/LayersPanel'));
 const ColorsPanel = lazy(() => import('./panels/ColorsPanel'));
+const SteamPanel = lazy(() => import('./panels/SteamPanel'));
 const SingleCardEditModal = lazy(() => import('./SingleCardEditModal'));
 
 const loadFontsForCanvas = async () => {
@@ -140,6 +141,13 @@ export const LabelsView = () => {
           <SearchIcon width="24" height="24" />
         </ActionBarButton>
         <ActionBarButton
+          label="STEAM"
+          onClick={() => setPanel(panels.Steam)}
+          selected={panel === panels.Steam}
+        >
+          <SearchIcon width="24" height="24" />
+        </ActionBarButton>
+        <ActionBarButton
           label="GAME"
           onClick={() => setPanel(panels.Resources)}
           selected={panel === panels.Resources}
@@ -201,6 +209,7 @@ export const LabelsView = () => {
               onSelectGame={() => setPanel(panels.Resources)}
             />
           )}
+          {panel === panels.Steam && <SteamPanel />}
           {panel === panels.Templates && (
             <TemplatePanel canvasRef={canvasRef} hasCards={hasCards} />
           )}

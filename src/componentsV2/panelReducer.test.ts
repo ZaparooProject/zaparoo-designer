@@ -22,9 +22,9 @@ describe('panelReducer', () => {
     it('should change the active panel', () => {
       const state = panelReducer(initialPanelState, {
         type: 'SELECT_PANEL',
-        panel: panels.Search,
+        panel: panels.Steam,
       });
-      expect(state.panel).toBe(panels.Search);
+      expect(state.panel).toBe(panels.Steam);
     });
 
     it('should preserve other state when changing panel', () => {
@@ -59,13 +59,13 @@ describe('panelReducer', () => {
     it('should keep current panel when it exists in editing panels', () => {
       const state: PanelState = {
         ...initialPanelState,
-        panel: panels.Search,
+        panel: panels.Steam,
       };
       const next = panelReducer(state, {
         type: 'ENTER_EDITING',
         editingCard: makeCard(),
       });
-      expect(next.panel).toBe(panels.Search);
+      expect(next.panel).toBe(panels.Steam);
     });
 
     it('should switch to Edit panel when current panel is not in editing panels and card has no game data', () => {
@@ -131,10 +131,10 @@ describe('panelReducer', () => {
     it('should keep current panel when it exists in collection panels', () => {
       const state: PanelState = {
         ...initialPanelState,
-        panel: panels.Search,
+        panel: panels.Steam,
       };
       const next = panelReducer(state, { type: 'LEAVE_EDITING' });
-      expect(next.panel).toBe(panels.Search);
+      expect(next.panel).toBe(panels.Steam);
     });
 
     it('should restore lastCollectionPanel when current panel is not in collection panels', () => {
@@ -173,14 +173,14 @@ describe('panelReducer', () => {
     });
 
     it('should restore collection panel when leaving from an editing-only panel', () => {
-      let state: PanelState = { ...initialPanelState, panel: panels.Search };
+      let state: PanelState = { ...initialPanelState, panel: panels.Steam };
 
-      // Enter editing on Search (shared panel, stays)
+      // Enter editing on Steam (shared panel, stays)
       state = panelReducer(state, {
         type: 'ENTER_EDITING',
         editingCard: makeCard(),
       });
-      expect(state.panel).toBe(panels.Search);
+      expect(state.panel).toBe(panels.Steam);
 
       // Navigate to Resources (editing-only)
       state = panelReducer(state, {
@@ -188,9 +188,9 @@ describe('panelReducer', () => {
         panel: panels.Resources,
       });
 
-      // Leave editing — Resources not in collectionPanels, restores Search
+      // Leave editing — Resources not in collectionPanels, restores Steam
       state = panelReducer(state, { type: 'LEAVE_EDITING' });
-      expect(state.panel).toBe(panels.Search);
+      expect(state.panel).toBe(panels.Steam);
     });
   });
 });

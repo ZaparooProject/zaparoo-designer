@@ -2,6 +2,7 @@ import type { CardData } from '../contexts/fileDropper';
 
 export const enum panels {
   'Search',
+  'Steam',
   'Resources',
   'Logos',
   'Templates',
@@ -15,6 +16,7 @@ export const enum panels {
 export const requireSelectionPanel = [panels.Templates, panels.Colors];
 export const editingPanels = [
   panels.Search,
+  panels.Steam,
   panels.Resources,
   panels.Logos,
   panels.Consoles,
@@ -22,6 +24,7 @@ export const editingPanels = [
 ];
 export const collectionPanels = [
   panels.Search,
+  panels.Steam,
   panels.Templates,
   panels.Logos,
   panels.Consoles,
