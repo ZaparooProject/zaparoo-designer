@@ -2,10 +2,10 @@ import { useFileDropperContext } from '../contexts/fileDropper';
 import './Header.css';
 import { Suspense, useCallback, useState, memo } from 'react';
 import logoUrl from '../img/zaparoo.png';
-import { Button } from '../components/ResponsiveIconButton';
+import { Button } from './ResponsiveIconButton';
 import { Typography } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
-import PrintModal from '../components/PrintModal';
+import PrintModal from './PrintModal';
 
 export const Header = memo(() => {
   const { cards } = useFileDropperContext();

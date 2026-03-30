@@ -5,7 +5,7 @@ import {
   type DragEvent as ReactDragEvent,
   useTransition,
 } from 'react';
-import { FabricCanvasWrapper } from '../components/FabricCanvasWrapper';
+import { FabricCanvasWrapper } from './FabricCanvasWrapper';
 import { setMainImageOnCanvas, useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
 import { Checkbox, IconButton, Tooltip } from '@mui/material';
