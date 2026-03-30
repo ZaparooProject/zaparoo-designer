@@ -39,7 +39,9 @@ export class SGDBProvider {
   }
 
   async getSearchRequest(searchTerm: string): Promise<Request> {
-    const searchPath = `/search/autocomplete/${encodeURIComponent(searchTerm)}`;
+    const searchPath = `/api/v2/search/autocomplete/${encodeURIComponent(
+      searchTerm,
+    )}`;
     const url = new URL(searchPath, this.endpoint);
     const headers = await this.requestHeaders();
 
@@ -52,7 +54,7 @@ export class SGDBProvider {
   }
 
   async getGridsByGameId(gameId: string): Promise<Request> {
-    const gridsPath = `/grids/game/${gameId}`;
+    const gridsPath = `/api/v2/grids/game/${gameId}`;
     const url = new URL(gridsPath, this.endpoint);
 
     return new Request(url, {
