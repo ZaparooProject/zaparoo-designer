@@ -124,9 +124,11 @@ export async function fetchSteamAutocomplete(
 
 export async function fetchSteamGridsByGameId(
   gameId: number,
+  gameName: string,
   signal?: AbortSignal,
-): Promise<unknown> {
+): Promise<ResultsForSearchUI> {
   const url = getGoodUrl(`${STEAM_GRID_GAME_ENDPOINT}/${gameId}`);
+  url.searchParams.append('gameName', gameName);
 
   return fetch(url, {
     mode: 'cors',
@@ -138,7 +140,15 @@ export async function fetchSteamGridsByGameId(
       );
     }
 
-    return res.json() as Promise<unknown>;
+    const data = (await res.json()) as Partial<SearchResults>;
+    const results = Array.isArray(data.results) ? data.results : [];
+    const count = typeof data.count === 'number' ? data.count : results.length;
+
+    return {
+      count,
+      hasMore: false,
+      games: results,
+    };
   });
 }
 

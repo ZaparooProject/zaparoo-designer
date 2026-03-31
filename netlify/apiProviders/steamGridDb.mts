@@ -1,3 +1,4 @@
+import type { ResultImage, SearchResult, SearchResults } from './types.mts';
 import { getToken } from './steamTokenManager.mjs';
 
 export type SGDBSearchResult = {
@@ -16,8 +17,8 @@ export interface SGDBImage {
   id: number;
   score: number;
   style: string[];
-  url: URL;
-  thumb: URL;
+  url: string;
+  thumb?: string;
   tags: string[];
   language: string;
   notes: string | null;
@@ -26,6 +27,53 @@ export interface SGDBImage {
   upvotes: number;
   downvotes: number;
 }
+
+export type SGDBGridData = {
+  data?: SGDBImage[];
+};
+
+const toResultImage = (image: SGDBImage): ResultImage => ({
+  id: image.id,
+  image_id: `${image.id}`,
+  url: image.url,
+  thumb: image.thumb ?? image.url,
+  width: image.width ?? 0,
+  height: image.height ?? 0,
+});
+
+export const convertGridsToSearchResults = (
+  data: SGDBGridData,
+  gameName = 'SteamGridDB',
+): SearchResults => {
+  const grids = Array.isArray(data.data) ? data.data : [];
+
+  return {
+    count: grids.length,
+    results: grids.map((grid): SearchResult => {
+      const cover = toResultImage(grid);
+      const summaryBits = [
+        Array.isArray(grid.style) && grid.style.length > 0
+          ? grid.style.join(', ')
+          : null,
+        grid.language && grid.language !== 'none' ? grid.language : null,
+        typeof grid.score === 'number' ? `score ${grid.score}` : null,
+        grid.notes ?? null,
+      ].filter(Boolean);
+
+      return {
+        id: `${grid.id}`,
+        name: gameName,
+        summary: summaryBits.join(' · '),
+        storyline: '',
+        cover,
+        artworks: [cover],
+        screenshots: [],
+        involved_companies: [],
+        extra_images: 0,
+      };
+    }),
+  };
+};
 
 export class SGDBProvider {
   endpoint = process.env.STEAMGRID_DB_BASEURL;
@@ -43,13 +91,9 @@ export class SGDBProvider {
       searchTerm,
     )}`;
     const url = new URL(searchPath, this.endpoint);
-    const headers = await this.requestHeaders();
-
-    console.log({ url, headers });
-
     return new Request(url, {
       method: 'GET',
-      headers,
+      headers: await this.requestHeaders(),
     });
   }
 

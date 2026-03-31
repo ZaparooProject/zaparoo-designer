@@ -209,7 +209,12 @@ export const LabelsView = () => {
               onSelectGame={() => setPanel(panels.Resources)}
             />
           )}
-          {panel === panels.Steam && <SteamPanel />}
+          {panel === panels.Steam && (
+            <SteamPanel
+              isEditing={isEditing}
+              onSelectGame={() => setPanel(panels.Resources)}
+            />
+          )}
           {panel === panels.Templates && (
             <TemplatePanel canvasRef={canvasRef} hasCards={hasCards} />
           )}

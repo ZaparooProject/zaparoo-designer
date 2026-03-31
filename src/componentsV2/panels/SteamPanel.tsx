@@ -5,24 +5,40 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useDeferredValue, useEffect, useState } from 'react';
+import { useDeferredValue, useEffect, useState, type MouseEvent } from 'react';
+import type { SearchResult } from '../../../netlify/apiProviders/types.mts';
+import { useFileDropperContext } from '../../contexts/fileDropper';
 import { PanelSection } from './PanelSection';
 import {
   fetchSteamAutocomplete,
   fetchSteamGridsByGameId,
+  getImage,
   type SteamAutocompleteGame,
 } from '../../utils/search';
+import { SearchResultCard } from './SearchResultCard';
 import './SteamPanel.css';
 
 const MIN_QUERY_LENGTH = 2;
 const SEARCH_DEBOUNCE_MS = 250;
 
-export default function SteamPanel() {
+export default function SteamPanel({
+  isEditing = false,
+  onSelectGame,
+}: {
+  isEditing?: boolean;
+  onSelectGame?: () => void;
+}) {
+  const { addFiles, editingCard, cards, swapGameAtIndex } =
+    useFileDropperContext();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGame, setSelectedGame] =
     useState<SteamAutocompleteGame | null>(null);
   const [options, setOptions] = useState<SteamAutocompleteGame[]>([]);
+  const [gridEntries, setGridEntries] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingGrids, setIsLoadingGrids] = useState(false);
+  const [loadingGameId, setLoadingGameId] = useState<string | null>(null);
+  const [tooltipGameId, setTooltipGameId] = useState<string | null>(null);
   const [hasLoadedQuery, setHasLoadedQuery] = useState(false);
   const deferredQuery = useDeferredValue(searchQuery.trim());
 
@@ -55,14 +71,21 @@ export default function SteamPanel() {
 
   useEffect(() => {
     if (!selectedGame) {
+      setGridEntries([]);
       return;
     }
 
     const controller = new AbortController();
+    setIsLoadingGrids(true);
 
-    void fetchSteamGridsByGameId(selectedGame.id, controller.signal)
-      .then((results) => {
-        console.log(results);
+    void fetchSteamGridsByGameId(
+      selectedGame.id,
+      selectedGame.name,
+      controller.signal,
+    )
+      .then(({ games }) => {
+        setGridEntries(games);
+        console.log(games);
       })
       .catch((err) => {
         if (err instanceof DOMException && err.name === 'AbortError') {
@@ -70,12 +93,41 @@ export default function SteamPanel() {
         }
 
         console.error(err);
+      })
+      .finally(() => {
+        setIsLoadingGrids(false);
       });
 
     return () => {
       controller.abort();
     };
   }, [selectedGame]);
+
+  const addImage = (
+    e: MouseEvent<HTMLImageElement>,
+    url: string,
+    game: SearchResult,
+  ) => {
+    const target = e.target as HTMLImageElement;
+    setLoadingGameId(game.id);
+    if (isEditing && editingCard) {
+      const editingIndex = cards.current.indexOf(editingCard);
+      if (editingIndex === -1) {
+        setLoadingGameId(null);
+        return;
+      }
+      getImage(url, target.src).then((file) => {
+        swapGameAtIndex(file, game, editingIndex);
+        onSelectGame?.();
+        setLoadingGameId(null);
+      });
+    } else {
+      getImage(url, target.src).then((file) => {
+        addFiles([file], [game]);
+        setLoadingGameId(null);
+      });
+    }
+  };
 
   return (
     <PanelSection title="Steam" className="steamPanel">
@@ -132,6 +184,28 @@ export default function SteamPanel() {
         <Alert severity="info" sx={{ width: '100%', boxSizing: 'border-box' }}>
           Selected: {selectedGame.name}
         </Alert>
+      )}
+      {isLoadingGrids && (
+        <div className="steamLoading">
+          <CircularProgress color="secondary" size={24} />
+        </div>
+      )}
+      {!isLoadingGrids && gridEntries.length > 0 && (
+        <div className="searchResultsContainer horizontalStack">
+          {gridEntries.map((gameEntry) => (
+            <SearchResultCard
+              key={`steam-grid-${gameEntry.id}`}
+              description={gameEntry.summary}
+              gameEntry={gameEntry}
+              imgSource={gameEntry.cover}
+              addImage={addImage}
+              loading={loadingGameId === gameEntry.id}
+              tooltipOpen={tooltipGameId === gameEntry.id}
+              onTooltipOpen={() => setTooltipGameId(gameEntry.id)}
+              onTooltipClose={() => setTooltipGameId(null)}
+            />
+          ))}
+        </div>
       )}
       {!selectedGame && hasLoadedQuery && options.length > 0 && (
         <Typography

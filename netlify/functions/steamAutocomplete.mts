@@ -1,7 +1,6 @@
 import type { Config } from '@netlify/functions';
 import { SGDBProvider } from '../apiProviders/steamGridDb.mts';
 import { prepareCorsHeaders } from '../data/utils';
-import { genericError } from '../utils.mjs';
 
 type SteamAutocompleteResult = {
   id: number;
@@ -43,7 +42,11 @@ export default async (req: Request): Promise<Response> => {
     });
   } catch (e: unknown) {
     console.log(e);
-    return genericError();
+    return new Response('{}', {
+      status: 500,
+      statusText: 'error',
+      headers: respHeaders,
+    });
   }
 };
 
