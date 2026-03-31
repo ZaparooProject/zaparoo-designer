@@ -7,6 +7,7 @@ import { SEARCH_PAGESIZE } from '../../netlify/apiProviders/constants.mts';
 
 const SEARCH_ENDPOINT = '/api/search';
 const STEAM_AUTOCOMPLETE_ENDPOINT = '/api/steam/autocomplete';
+const STEAM_GRID_GAME_ENDPOINT = '/api/steamGrid';
 
 export let platformsData: PlatformResult[] = [];
 export type SteamAutocompleteGame = {
@@ -119,6 +120,26 @@ export async function fetchSteamAutocomplete(
       console.error(err);
       return [];
     });
+}
+
+export async function fetchSteamGridsByGameId(
+  gameId: number,
+  signal?: AbortSignal,
+): Promise<unknown> {
+  const url = getGoodUrl(`${STEAM_GRID_GAME_ENDPOINT}/${gameId}`);
+
+  return fetch(url, {
+    mode: 'cors',
+    signal,
+  }).then(async (res) => {
+    if (!res.ok) {
+      throw new Error(
+        `Steam grids request failed with status ${res.status} for game ${gameId}`,
+      );
+    }
+
+    return res.json() as Promise<unknown>;
+  });
 }
 
 const getGoodUrl = (relativeUrl: string): URL => {

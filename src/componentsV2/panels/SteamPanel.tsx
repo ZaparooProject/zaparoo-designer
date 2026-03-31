@@ -9,6 +9,7 @@ import { useDeferredValue, useEffect, useState } from 'react';
 import { PanelSection } from './PanelSection';
 import {
   fetchSteamAutocomplete,
+  fetchSteamGridsByGameId,
   type SteamAutocompleteGame,
 } from '../../utils/search';
 import './SteamPanel.css';
@@ -51,6 +52,30 @@ export default function SteamPanel() {
       window.clearTimeout(timeoutId);
     };
   }, [deferredQuery]);
+
+  useEffect(() => {
+    if (!selectedGame) {
+      return;
+    }
+
+    const controller = new AbortController();
+
+    void fetchSteamGridsByGameId(selectedGame.id, controller.signal)
+      .then((results) => {
+        console.log(results);
+      })
+      .catch((err) => {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+
+        console.error(err);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, [selectedGame]);
 
   return (
     <PanelSection title="Steam" className="steamPanel">
@@ -98,19 +123,14 @@ export default function SteamPanel() {
           const { key, ...optionProps } = props;
           return (
             <li key={key} {...optionProps}>
-              <div>
-                <Typography color="secondary">{option.name}</Typography>
-                <Typography variant="caption" color="text.secondary">
-                  ID {option.id}
-                </Typography>
-              </div>
+              <Typography color="secondary">{option.name}</Typography>
             </li>
           );
         }}
       />
       {selectedGame && (
         <Alert severity="info" sx={{ width: '100%', boxSizing: 'border-box' }}>
-          Selected: {selectedGame.name} (ID {selectedGame.id})
+          Selected: {selectedGame.name}
         </Alert>
       )}
       {!selectedGame && hasLoadedQuery && options.length > 0 && (
