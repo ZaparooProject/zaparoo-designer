@@ -8,6 +8,7 @@ import { SEARCH_PAGESIZE } from '../../netlify/apiProviders/constants.mts';
 const SEARCH_ENDPOINT = '/api/search';
 const STEAM_AUTOCOMPLETE_ENDPOINT = '/api/steam/autocomplete';
 const STEAM_GRID_GAME_ENDPOINT = '/api/steam/grid';
+const STEAM_LOGO_GAME_ENDPOINT = '/api/steam/logo';
 
 export let platformsData: PlatformResult[] = [];
 export type SteamAutocompleteGame = {
@@ -137,6 +138,36 @@ export async function fetchSteamGridsByGameId(
     if (!res.ok) {
       throw new Error(
         `Steam grids request failed with status ${res.status} for game ${gameId}`,
+      );
+    }
+
+    const data = (await res.json()) as Partial<SearchResults>;
+    const results = Array.isArray(data.results) ? data.results : [];
+    const count = typeof data.count === 'number' ? data.count : results.length;
+
+    return {
+      count,
+      hasMore: false,
+      games: results,
+    };
+  });
+}
+
+export async function fetchSteamLogosByGameId(
+  gameId: number,
+  gameName: string,
+  signal?: AbortSignal,
+): Promise<ResultsForSearchUI> {
+  const url = getGoodUrl(`${STEAM_LOGO_GAME_ENDPOINT}/${gameId}`);
+  url.searchParams.append('gameName', gameName);
+
+  return fetch(url, {
+    mode: 'cors',
+    signal,
+  }).then(async (res) => {
+    if (!res.ok) {
+      throw new Error(
+        `Steam logos request failed with status ${res.status} for game ${gameId}`,
       );
     }
 

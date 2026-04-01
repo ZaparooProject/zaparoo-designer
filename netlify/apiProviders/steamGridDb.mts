@@ -32,6 +32,10 @@ export type SGDBGridData = {
   data?: SGDBImage[];
 };
 
+export type SGDBLogoData = {
+  data?: SGDBImage[];
+};
+
 const toResultImage = (image: SGDBImage): ResultImage => ({
   id: image.id,
   image_id: `${image.id}`,
@@ -41,7 +45,7 @@ const toResultImage = (image: SGDBImage): ResultImage => ({
   height: image.height ?? 0,
 });
 
-export const convertGridsToSearchResults = (
+const convertAssetsToSearchResults = (
   data: SGDBGridData,
   gameName = 'SteamGridDB',
 ): SearchResults => {
@@ -75,6 +79,16 @@ export const convertGridsToSearchResults = (
   };
 };
 
+export const convertGridsToSearchResults = (
+  data: SGDBGridData,
+  gameName = 'SteamGridDB',
+): SearchResults => convertAssetsToSearchResults(data, gameName);
+
+export const convertLogosToSearchResults = (
+  data: SGDBLogoData,
+  gameName = 'SteamGridDB',
+): SearchResults => convertAssetsToSearchResults(data, gameName);
+
 export class SGDBProvider {
   endpoint = process.env.STEAMGRID_DB_BASEURL;
 
@@ -100,6 +114,16 @@ export class SGDBProvider {
   async getGridsByGameId(gameId: string): Promise<Request> {
     const gridsPath = `/api/v2/grids/game/${gameId}`;
     const url = new URL(gridsPath, this.endpoint);
+
+    return new Request(url, {
+      method: 'GET',
+      headers: await this.requestHeaders(),
+    });
+  }
+
+  async getLogosByGameId(gameId: string): Promise<Request> {
+    const logosPath = `/api/v2/logos/game/${gameId}`;
+    const url = new URL(logosPath, this.endpoint);
 
     return new Request(url, {
       method: 'GET',

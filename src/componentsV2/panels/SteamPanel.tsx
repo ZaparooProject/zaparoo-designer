@@ -2,21 +2,31 @@ import {
   Alert,
   Autocomplete,
   CircularProgress,
+  Tab,
   TextField,
+  Tabs,
   Typography,
 } from '@mui/material';
-import { useDeferredValue, useEffect, useState, type MouseEvent } from 'react';
+import {
+  useDeferredValue,
+  useEffect,
+  useState,
+  type MouseEvent,
+  type SyntheticEvent,
+} from 'react';
 import type { SearchResult } from '../../../netlify/apiProviders/types.mts';
 import { useFileDropperContext } from '../../contexts/fileDropper';
 import { PanelSection } from './PanelSection';
 import {
   fetchSteamAutocomplete,
   fetchSteamGridsByGameId,
+  fetchSteamLogosByGameId,
   getImage,
   type SteamAutocompleteGame,
 } from '../../utils/search';
 import { SearchResultCard } from './SearchResultCard';
 import './SteamPanel.css';
+import './HardwareResourcesPanel.css';
 
 const MIN_QUERY_LENGTH = 2;
 const SEARCH_DEBOUNCE_MS = 250;
@@ -35,12 +45,18 @@ export default function SteamPanel({
     useState<SteamAutocompleteGame | null>(null);
   const [options, setOptions] = useState<SteamAutocompleteGame[]>([]);
   const [gridEntries, setGridEntries] = useState<SearchResult[]>([]);
+  const [logoEntries, setLogoEntries] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingGrids, setIsLoadingGrids] = useState(false);
+  const [isLoadingAssets, setIsLoadingAssets] = useState(false);
   const [loadingGameId, setLoadingGameId] = useState<string | null>(null);
   const [tooltipGameId, setTooltipGameId] = useState<string | null>(null);
   const [hasLoadedQuery, setHasLoadedQuery] = useState(false);
+  const [tabValue, setTabValue] = useState('images');
   const deferredQuery = useDeferredValue(searchQuery.trim());
+
+  const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
+  };
 
   useEffect(() => {
     if (deferredQuery.length < MIN_QUERY_LENGTH) {
@@ -72,20 +88,32 @@ export default function SteamPanel({
   useEffect(() => {
     if (!selectedGame) {
       setGridEntries([]);
+      setLogoEntries([]);
       return;
     }
 
     const controller = new AbortController();
-    setIsLoadingGrids(true);
+    setIsLoadingAssets(true);
 
-    void fetchSteamGridsByGameId(
-      selectedGame.id,
-      selectedGame.name,
-      controller.signal,
-    )
-      .then(({ games }) => {
-        setGridEntries(games);
-        console.log(games);
+    void Promise.all([
+      fetchSteamGridsByGameId(
+        selectedGame.id,
+        selectedGame.name,
+        controller.signal,
+      ),
+      fetchSteamLogosByGameId(
+        selectedGame.id,
+        selectedGame.name,
+        controller.signal,
+      ),
+    ])
+      .then(([gridResults, logoResults]) => {
+        setGridEntries(gridResults.games);
+        setLogoEntries(logoResults.games);
+        console.log({
+          grids: gridResults.games,
+          logos: logoResults.games,
+        });
       })
       .catch((err) => {
         if (err instanceof DOMException && err.name === 'AbortError') {
@@ -95,13 +123,15 @@ export default function SteamPanel({
         console.error(err);
       })
       .finally(() => {
-        setIsLoadingGrids(false);
+        setIsLoadingAssets(false);
       });
 
     return () => {
       controller.abort();
     };
   }, [selectedGame]);
+
+  const visibleEntries = tabValue === 'logos' ? logoEntries : gridEntries;
 
   const addImage = (
     e: MouseEvent<HTMLImageElement>,
@@ -155,7 +185,6 @@ export default function SteamPanel({
             size="small"
             autoComplete="off"
             label="SteamGridDB game"
-            helperText="Autocomplete suggestions from SteamGridDB."
             slotProps={{
               input: {
                 ...params.InputProps,
@@ -185,30 +214,42 @@ export default function SteamPanel({
           Selected: {selectedGame.name}
         </Alert>
       )}
-      {isLoadingGrids && (
+      <div className="horizontalStack tabs">
+        <Tabs value={tabValue} onChange={handleTabChange}>
+          <Tab label="Images" value="images" />
+          <Tab label="Logos" value="logos" />
+        </Tabs>
+      </div>
+      {isLoadingAssets && (
         <div className="steamLoading">
           <CircularProgress color="secondary" size={24} />
         </div>
       )}
-      {!isLoadingGrids && gridEntries.length > 0 && (
+      {!isLoadingAssets && visibleEntries.length > 0 && (
         <div className="searchResultsContainer horizontalStack">
-          {gridEntries.map(
-            (gameEntry) =>
-              console.log(gameEntry) || (
-                <SearchResultCard
-                  key={`steam-grid-${gameEntry.id}`}
-                  description={gameEntry.summary}
-                  gameEntry={gameEntry}
-                  imgSource={gameEntry.cover}
-                  addImage={addImage}
-                  loading={loadingGameId === gameEntry.id}
-                  tooltipOpen={tooltipGameId === gameEntry.id}
-                  onTooltipOpen={() => setTooltipGameId(gameEntry.id)}
-                  onTooltipClose={() => setTooltipGameId(null)}
-                />
-              ),
-          )}
+          {visibleEntries.map((gameEntry) => (
+            <SearchResultCard
+              key={`steam-${tabValue}-${gameEntry.id}`}
+              description={gameEntry.summary}
+              gameEntry={gameEntry}
+              imgSource={gameEntry.cover}
+              addImage={addImage}
+              loading={loadingGameId === gameEntry.id}
+              tooltipOpen={tooltipGameId === gameEntry.id}
+              onTooltipOpen={() => setTooltipGameId(gameEntry.id)}
+              onTooltipClose={() => setTooltipGameId(null)}
+            />
+          ))}
         </div>
+      )}
+      {!isLoadingAssets && selectedGame && visibleEntries.length === 0 && (
+        <Typography
+          variant="body2"
+          color="secondary"
+          className="steamSelectedGame"
+        >
+          No {tabValue === 'logos' ? 'logos' : 'images'} found for this game.
+        </Typography>
       )}
       {!selectedGame && hasLoadedQuery && options.length > 0 && (
         <Typography
