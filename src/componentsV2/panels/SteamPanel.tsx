@@ -110,10 +110,6 @@ export default function SteamPanel({
       .then(([gridResults, logoResults]) => {
         setGridEntries(gridResults.games);
         setLogoEntries(logoResults.games);
-        console.log({
-          grids: gridResults.games,
-          logos: logoResults.games,
-        });
       })
       .catch((err) => {
         if (err instanceof DOMException && err.name === 'AbortError') {
@@ -209,11 +205,6 @@ export default function SteamPanel({
           );
         }}
       />
-      {selectedGame && (
-        <Alert severity="info" sx={{ width: '100%', boxSizing: 'border-box' }}>
-          Selected: {selectedGame.name}
-        </Alert>
-      )}
       <div className="horizontalStack tabs">
         <Tabs value={tabValue} onChange={handleTabChange}>
           <Tab label="Images" value="images" />
