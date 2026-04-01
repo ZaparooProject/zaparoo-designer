@@ -224,6 +224,9 @@ export const LabelsView = () => {
               canvasRef={canvasRef}
             />
           )}
+          {panel === panels.Edit && (
+            <LayersPanel canvasRef={canvasRef} hasCards={hasCards} />
+          )}
           {panel === panels.Logos && (
             <LogoTabs
               canvasRef={canvasRef}
@@ -244,9 +247,6 @@ export const LabelsView = () => {
               hasSelection={hasSelection}
               hasCards={hasCards}
             />
-          )}
-          {panel === panels.Edit && (
-            <LayersPanel canvasRef={canvasRef} hasCards={hasCards} />
           )}
           {import.meta.env.DEV && panel === panels.FilesUtils && (
             <>
