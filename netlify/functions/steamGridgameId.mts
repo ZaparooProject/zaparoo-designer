@@ -2,8 +2,8 @@ import type { Config, Context } from '@netlify/functions';
 import {
   convertGridsToSearchResults,
   SGDBProvider,
-} from '../../apiProviders/steamGridDb.mts';
-import { prepareCorsHeaders } from '../../data/utils';
+} from '../apiProviders/steamGridDb.mts';
+import { prepareCorsHeaders } from '../data/utils';
 
 export default async (req: Request, context: Context): Promise<Response> => {
   const gameId = context.params.gameId?.trim() ?? '';
@@ -44,5 +44,5 @@ export default async (req: Request, context: Context): Promise<Response> => {
 };
 
 export const config: Config = {
-  path: '/api/steamGrid/:gameId',
+  path: '/api/steam/grid/:gameId',
 };
