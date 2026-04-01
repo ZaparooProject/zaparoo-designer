@@ -192,19 +192,22 @@ export default function SteamPanel({
       )}
       {!isLoadingGrids && gridEntries.length > 0 && (
         <div className="searchResultsContainer horizontalStack">
-          {gridEntries.map((gameEntry) => (
-            <SearchResultCard
-              key={`steam-grid-${gameEntry.id}`}
-              description={gameEntry.summary}
-              gameEntry={gameEntry}
-              imgSource={gameEntry.cover}
-              addImage={addImage}
-              loading={loadingGameId === gameEntry.id}
-              tooltipOpen={tooltipGameId === gameEntry.id}
-              onTooltipOpen={() => setTooltipGameId(gameEntry.id)}
-              onTooltipClose={() => setTooltipGameId(null)}
-            />
-          ))}
+          {gridEntries.map(
+            (gameEntry) =>
+              console.log(gameEntry) || (
+                <SearchResultCard
+                  key={`steam-grid-${gameEntry.id}`}
+                  description={gameEntry.summary}
+                  gameEntry={gameEntry}
+                  imgSource={gameEntry.cover}
+                  addImage={addImage}
+                  loading={loadingGameId === gameEntry.id}
+                  tooltipOpen={tooltipGameId === gameEntry.id}
+                  onTooltipOpen={() => setTooltipGameId(gameEntry.id)}
+                  onTooltipClose={() => setTooltipGameId(null)}
+                />
+              ),
+          )}
         </div>
       )}
       {!selectedGame && hasLoadedQuery && options.length > 0 && (
