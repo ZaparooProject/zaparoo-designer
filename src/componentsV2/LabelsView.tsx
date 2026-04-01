@@ -13,7 +13,6 @@ import { useFileDropperContext } from '../contexts/fileDropper';
 import './LabelsView.css';
 import { Button, Typography } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import SearchIcon from '@mui/icons-material/Search';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { ActionBarButton } from './ActionBarButton';
@@ -34,6 +33,7 @@ import {
 } from './panelReducer';
 import { selectAllCards, clearCardSelection } from './cardSelection';
 import { noop } from '../utils/utils';
+import { IgdbSourceIcon, SteamGridDbSourceIcon } from './SourceIcons';
 
 const LogoTabs = lazy(() => import('./panels/LogosTabs'));
 const HardwareResourcesPanel = lazy(
@@ -138,14 +138,14 @@ export const LabelsView = () => {
           onClick={() => setPanel(panels.Search)}
           selected={panel === panels.Search}
         >
-          <SearchIcon width="24" height="24" />
+          <IgdbSourceIcon sx={{ fontSize: 24 }} />
         </ActionBarButton>
         <ActionBarButton
           label="STEAM"
           onClick={() => setPanel(panels.Steam)}
           selected={panel === panels.Steam}
         >
-          <SearchIcon width="24" height="24" />
+          <SteamGridDbSourceIcon sx={{ fontSize: 24 }} />
         </ActionBarButton>
         <ActionBarButton
           label="GAME"
