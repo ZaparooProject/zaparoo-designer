@@ -7,7 +7,7 @@ import { SEARCH_PAGESIZE } from '../../netlify/apiProviders/constants.mts';
 
 const SEARCH_ENDPOINT = '/api/search';
 const STEAM_AUTOCOMPLETE_ENDPOINT = '/api/steam/autocomplete';
-const STEAM_GRID_GAME_ENDPOINT = '/api/steamGrid';
+const STEAM_GRID_GAME_ENDPOINT = '/api/steam/grid';
 
 export let platformsData: PlatformResult[] = [];
 export type SteamAutocompleteGame = {
