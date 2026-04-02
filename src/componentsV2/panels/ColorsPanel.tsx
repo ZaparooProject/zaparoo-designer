@@ -27,13 +27,12 @@ export const ColorsPanel = ({
       const card =
         cards.current.find((card) => card.isSelected) ?? cards.current[0];
       const objectGroup = card?.canvas ?? (await template.parsed);
-      console.log(objectGroup);
       const actualColors = extractUniqueColorsFromGroup(objectGroup as Group);
       setCustomColors(actualColors);
       setOriginalColors(card ? card.originalColors : actualColors);
     };
     colorPicker();
-  }, [selectedCardsCount]);
+  }, [cards, selectedCardsCount, template.parsed]);
 
   return (
     <PanelSection title="Color selection">

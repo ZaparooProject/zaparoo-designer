@@ -21,7 +21,10 @@ export default async (req: Request, context: Context): Promise<Response> => {
   }
 
   const provider = new SGDBProvider();
-  const request = await provider.getGridsByGameId(gameId);
+  const request = await provider.getGridsByGameId(gameId, {
+    dimensions: ['600x900', '1024x1024', '920x430'],
+    styles: ['no_logo', 'white_logo', 'material', 'alternate'],
+  });
 
   try {
     const response = await fetch(request);

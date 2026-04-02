@@ -36,6 +36,33 @@ export type SGDBLogoData = {
   data?: SGDBImage[];
 };
 
+export type SGDBGridStyle =
+  | 'alternate'
+  | 'blurred'
+  | 'white_logo'
+  | 'material'
+  | 'no_logo';
+
+export type SGDBGridDimension =
+  | '460x215'
+  | '920x430'
+  | '600x900'
+  | '342x482'
+  | '660x930'
+  | '512x512'
+  | '1024x1024';
+
+export type SGDBGridQueryOptions = {
+  styles?: SGDBGridStyle[];
+  dimensions?: SGDBGridDimension[];
+};
+
+export type SGDBLogoStyle = 'official' | 'white' | 'black' | 'custom';
+
+export type SGDBLogoQueryOptions = {
+  style?: SGDBLogoStyle[];
+};
+
 const toResultImage = (image: SGDBImage): ResultImage => ({
   id: image.id,
   image_id: `${image.id}`,
@@ -89,6 +116,18 @@ export const convertLogosToSearchResults = (
   gameName = 'SteamGridDB',
 ): SearchResults => convertAssetsToSearchResults(data, gameName);
 
+const setArraySearchParam = (
+  url: URL,
+  key: string,
+  values?: string[],
+) => {
+  const filteredValues = values?.filter(Boolean);
+
+  if (filteredValues && filteredValues.length > 0) {
+    url.searchParams.set(key, filteredValues.join(','));
+  }
+};
+
 export class SGDBProvider {
   endpoint = process.env.STEAMGRID_DB_BASEURL;
 
@@ -111,9 +150,14 @@ export class SGDBProvider {
     });
   }
 
-  async getGridsByGameId(gameId: string): Promise<Request> {
+  async getGridsByGameId(
+    gameId: string,
+    options: SGDBGridQueryOptions = {},
+  ): Promise<Request> {
     const gridsPath = `/api/v2/grids/game/${gameId}`;
     const url = new URL(gridsPath, this.endpoint);
+    setArraySearchParam(url, 'styles', options.styles);
+    setArraySearchParam(url, 'dimensions', options.dimensions);
 
     return new Request(url, {
       method: 'GET',
@@ -121,9 +165,13 @@ export class SGDBProvider {
     });
   }
 
-  async getLogosByGameId(gameId: string): Promise<Request> {
+  async getLogosByGameId(
+    gameId: string,
+    options: SGDBLogoQueryOptions = {},
+  ): Promise<Request> {
     const logosPath = `/api/v2/logos/game/${gameId}`;
     const url = new URL(logosPath, this.endpoint);
+    setArraySearchParam(url, 'style', options.style);
 
     return new Request(url, {
       method: 'GET',

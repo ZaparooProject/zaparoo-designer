@@ -21,7 +21,9 @@ export default async (req: Request, context: Context): Promise<Response> => {
   }
 
   const provider = new SGDBProvider();
-  const request = await provider.getLogosByGameId(gameId);
+  const request = await provider.getLogosByGameId(gameId, {
+    style: ['official', 'white', 'black', 'custom'],
+  });
 
   try {
     const response = await fetch(request);
