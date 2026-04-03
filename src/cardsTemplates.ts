@@ -60,7 +60,7 @@ import template_StandardNFCCard_BlankVCover_26 from './assets/templatesPreviews/
 import template_StandardNFCCard_BlankHFit_27 from './assets/templatesPreviews/template_Standard NFC card_Blank H fit_27.png';
 import template_StandardNFCCard_BlankVFit_28 from './assets/templatesPreviews/template_Standard NFC card_Blank V fit_28.png';
 import template_FoldableSleeve_PaperSleeve_29 from './assets/templatesPreviews/template_Foldable sleeve_Paper sleeve_29.png';
-import borderOnlyPreview from './assets/templatesPreviews/template_Foldable sleeve_Paper sleeve_29.png';
+import borderOnlyPreview from './assets/templatesPreviews/template_Standard NFC card_Vertical card with only one border_30.png';
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
