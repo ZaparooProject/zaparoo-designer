@@ -11,8 +11,10 @@ import {
   useEffect,
   useState,
   type MouseEvent,
+  type MutableRefObject,
   type SyntheticEvent,
 } from 'react';
+import { type Canvas } from 'fabric';
 import type { SearchResult } from '../../../netlify/apiProviders/types.mts';
 import { useFileDropperContext } from '../../contexts/fileDropper';
 import { PanelSection } from './PanelSection';
@@ -31,9 +33,11 @@ const MIN_QUERY_LENGTH = 2;
 const SEARCH_DEBOUNCE_MS = 500;
 
 export default function SteamPanel({
+  editingCanvasRef,
   isEditing = false,
   onSelectGame,
 }: {
+  editingCanvasRef?: MutableRefObject<Canvas | null>;
   isEditing?: boolean;
   onSelectGame?: () => void;
 }) {
@@ -139,6 +143,7 @@ export default function SteamPanel({
       addFiles,
       cards: cards.current,
       editingCard: isEditing ? editingCard : null,
+      editingCanvas: editingCanvasRef?.current ?? null,
       game,
       onSelectGame,
       previewSrc: target.src,

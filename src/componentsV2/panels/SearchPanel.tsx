@@ -15,6 +15,7 @@ import {
   useRef,
   Fragment,
   useCallback,
+  type MutableRefObject,
 } from 'react';
 import { useFileDropperContext } from '../../contexts/fileDropper';
 
@@ -30,11 +31,14 @@ import { PanelSection } from './PanelSection';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchResultCard } from './SearchResultCard';
 import { applySearchResultToCards } from './searchResultActions';
+import { type Canvas } from 'fabric';
 
 export default function ImageSearchPanel({
+  editingCanvasRef,
   isEditing = false,
   onSelectGame,
 }: {
+  editingCanvasRef?: MutableRefObject<Canvas | null>;
   isEditing: boolean;
   onSelectGame?: () => void;
 }) {
@@ -90,6 +94,7 @@ export default function ImageSearchPanel({
         addFiles,
         cards: cards.current,
         editingCard: isEditing ? editingCard : null,
+        editingCanvas: editingCanvasRef?.current ?? null,
         game,
         onSelectGame,
         previewSrc: target.src,
@@ -100,7 +105,15 @@ export default function ImageSearchPanel({
         setLoadingGameId(null);
       });
     },
-    [addFiles, isEditing, editingCard, cards, swapGameAtIndex, onSelectGame],
+    [
+      addFiles,
+      isEditing,
+      editingCard,
+      cards,
+      swapGameAtIndex,
+      onSelectGame,
+      editingCanvasRef,
+    ],
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

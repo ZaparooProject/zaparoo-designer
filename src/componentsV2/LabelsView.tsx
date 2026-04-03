@@ -205,12 +205,14 @@ export const LabelsView = () => {
         <Suspense fallback={null}>
           {panel === panels.Search && (
             <ImageSearchPanel
+              editingCanvasRef={canvasRef}
               isEditing={isEditing}
               onSelectGame={() => setPanel(panels.Resources)}
             />
           )}
           {panel === panels.Steam && (
             <SteamPanel
+              editingCanvasRef={canvasRef}
               isEditing={isEditing}
               onSelectGame={() => setPanel(panels.Resources)}
             />

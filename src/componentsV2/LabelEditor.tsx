@@ -6,7 +6,7 @@ import {
   useTransition,
 } from 'react';
 import { FabricCanvasWrapper } from './FabricCanvasWrapper';
-import { setMainImageOnCanvas, useLabelEditor } from '../hooks/useLabelEditor';
+import { useLabelEditor } from '../hooks/useLabelEditor';
 import { useFileDropperContext, type CardData } from '../contexts/fileDropper';
 import { Checkbox, IconButton, Tooltip } from '@mui/material';
 // import EditIcon from '@mui/icons-material/Edit';
@@ -22,8 +22,7 @@ import {
 } from '../constants/dragDrop';
 import { SearchResult } from '../../netlify/apiProviders/types.mts';
 import { getImage } from '../utils/search';
-import { getMainImage, getPlaceholderMain } from '../utils/templateHandling';
-import { scaleImageToOverlayArea } from '../utils/setTemplateV2';
+import { replaceMainImageOnCanvas } from '../utils/applyMainImageToCanvas';
 
 type LabelEditorProps = {
   index: number;
@@ -113,20 +112,7 @@ export const LabelEditor = ({
         const imageUrl = gameObject.cover.url;
         getImage(imageUrl, imageUrl).then((file) => {
           swapGameAtIndex(file, gameObject, index);
-          // now on current canvas wipe the main image and swap with the image from file.
-          // this is some code duplication from setTemplateV2 but i can't do better for now.
-          canvas.remove(getMainImage(canvas));
-          setMainImageOnCanvas(file, canvas).then(() => {
-            const placeholder = getPlaceholderMain(canvas);
-            const mainImage = getMainImage(canvas);
-            if (mainImage && placeholder) {
-              const index = canvas.getObjects().indexOf(placeholder);
-              canvas.insertAt(index, mainImage);
-              scaleImageToOverlayArea(placeholder, mainImage).then(() => {
-                canvas.requestRenderAll();
-              });
-            }
-          });
+          void replaceMainImageOnCanvas(canvas, file);
         });
       } catch {
         // Ignore invalid payloads.

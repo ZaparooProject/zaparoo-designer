@@ -5,6 +5,7 @@ import {
   getActiveResultTargetIndex,
   hasUserImageLayers,
 } from './searchResultActions';
+import { applyMainImageIfCanvasIsEmpty } from '../../utils/applyMainImageToCanvas';
 
 vi.mock('../../utils/search', () => ({
   getImage: vi.fn().mockResolvedValue(null),
@@ -18,6 +19,14 @@ vi.mock('../../utils/setTemplateV2', () => ({
 vi.mock('../../utils/templateHandling', () => ({
   getMainImage: vi.fn().mockReturnValue(null),
   getPlaceholderMain: vi.fn().mockReturnValue(null),
+}));
+vi.mock('../../utils/applyMainImageToCanvas', () => ({
+  applyMainImageIfCanvasIsEmpty: vi.fn().mockResolvedValue(true),
+  hasUserImageLayersOnCanvas: vi.fn((canvas) =>
+    !!canvas?.getObjects().some((obj: { 'zaparoo-user-layer'?: boolean }) =>
+      obj['zaparoo-user-layer'] === true,
+    ),
+  ),
 }));
 
 const makeCard = (isSelected = false): CardData => ({
@@ -82,13 +91,22 @@ describe('applySearchResultToCards', () => {
 
   it('should call onSelectGame when applying to the editing card', async () => {
     const cards = [makeCard(false), makeCard(false)];
+    cards[1].canvas = {
+      getObjects: () => [],
+    } as unknown as CardData['canvas'];
     const onSelectGame = vi.fn();
     const swapGameAtIndex = vi.fn();
+    const editingCanvas = {
+      getObjects: () => [],
+    } as Parameters<
+      typeof applySearchResultToCards
+    >[0]['editingCanvas'];
 
     await applySearchResultToCards({
       addFiles: vi.fn(),
       cards,
       editingCard: cards[1],
+      editingCanvas,
       game,
       onSelectGame,
       previewSrc: game.cover.thumb,
@@ -97,6 +115,16 @@ describe('applySearchResultToCards', () => {
     });
 
     expect(swapGameAtIndex).toHaveBeenCalledWith(null, game, 1);
+    expect(applyMainImageIfCanvasIsEmpty).toHaveBeenNthCalledWith(
+      1,
+      cards[1].canvas,
+      null,
+    );
+    expect(applyMainImageIfCanvasIsEmpty).toHaveBeenNthCalledWith(
+      2,
+      editingCanvas,
+      null,
+    );
     expect(onSelectGame).toHaveBeenCalledTimes(1);
   });
 

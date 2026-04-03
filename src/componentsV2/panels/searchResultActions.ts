@@ -1,12 +1,14 @@
 import type { SearchResult } from '../../../netlify/apiProviders/types.mts';
+import type { StaticCanvas } from 'fabric';
 import type {
   CardData,
   PossibleFile,
 } from '../../contexts/fileDropper';
 import { getImage } from '../../utils/search';
-import { setMainImageOnCanvas } from '../../hooks/useLabelEditor';
-import { scaleImageToOverlayArea } from '../../utils/setTemplateV2';
-import { getMainImage, getPlaceholderMain } from '../../utils/templateHandling';
+import {
+  applyMainImageIfCanvasIsEmpty,
+  hasUserImageLayersOnCanvas,
+} from '../../utils/applyMainImageToCanvas';
 
 export const getActiveResultTargetIndex = (
   cards: CardData[],
@@ -23,35 +25,39 @@ export const getActiveResultTargetIndex = (
 };
 
 export const hasUserImageLayers = (card: CardData) =>
-  !!card.canvas?.getObjects().some((obj) => obj['zaparoo-user-layer'] === true);
+  hasUserImageLayersOnCanvas(card.canvas);
 
 const applyAsMainImageIfCardIsEmpty = async (
   card: CardData | undefined,
   file: PossibleFile,
+  syncedCanvas?: StaticCanvas | null,
 ) => {
-  if (!card?.canvas || hasUserImageLayers(card)) {
+  if (!card?.canvas) {
     return;
   }
 
-  await setMainImageOnCanvas(file, card.canvas);
-  const placeholder = getPlaceholderMain(card.canvas);
-  const mainImage = getMainImage(card.canvas);
+  const didApplyToSourceCard = await applyMainImageIfCanvasIsEmpty(
+    card.canvas,
+    file,
+  );
 
-  if (!placeholder || !mainImage) {
-    card.canvas.requestRenderAll();
+  if (
+    !didApplyToSourceCard ||
+    !syncedCanvas ||
+    syncedCanvas === card.canvas ||
+    hasUserImageLayersOnCanvas(syncedCanvas)
+  ) {
     return;
   }
 
-  const index = card.canvas.getObjects().indexOf(placeholder);
-  card.canvas.insertAt(index, mainImage);
-  await scaleImageToOverlayArea(placeholder, mainImage);
-  card.canvas.requestRenderAll();
+  await applyMainImageIfCanvasIsEmpty(syncedCanvas, file);
 };
 
 type ApplySearchResultArgs = {
   addFiles: (files: PossibleFile[], games?: SearchResult[]) => void;
   cards: CardData[];
   editingCard: CardData | null;
+  editingCanvas?: StaticCanvas | null;
   game: SearchResult;
   onSelectGame?: () => void;
   previewSrc: string;
@@ -68,6 +74,7 @@ export const applySearchResultToCards = async ({
   addFiles,
   cards,
   editingCard,
+  editingCanvas,
   game,
   onSelectGame,
   previewSrc,
@@ -84,7 +91,11 @@ export const applySearchResultToCards = async ({
 
   if (targetIndex !== -1) {
     swapGameAtIndex(file, game, targetIndex);
-    await applyAsMainImageIfCardIsEmpty(cards[targetIndex], file);
+    await applyAsMainImageIfCardIsEmpty(
+      cards[targetIndex],
+      file,
+      targetIndex === editingIndex ? editingCanvas : null,
+    );
     if (targetIndex === editingIndex) {
       onSelectGame?.();
     }
