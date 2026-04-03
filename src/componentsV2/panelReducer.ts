@@ -9,11 +9,10 @@ export const enum panels {
   'FilesUtils',
   'Consoles',
   'Controllers',
-  'Colors',
   'Edit',
 }
 
-export const requireSelectionPanel = [panels.Templates, panels.Colors];
+export const requireSelectionPanel = [panels.Templates];
 export const editingPanels = [
   panels.Search,
   panels.Steam,

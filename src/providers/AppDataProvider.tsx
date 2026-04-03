@@ -17,12 +17,6 @@ export const AppDataContextProvider: FC<AppDataContextProps> = ({
   const [isIdle, setIsIdle] = useState<contextType['isIdle']>(
     defaultContextValue.isIdle,
   );
-  const [originalColors, setOriginalColors] = useState<
-    contextType['originalColors']
-  >(defaultContextValue.originalColors);
-  const [customColors, setCustomColors] = useState<contextType['customColors']>(
-    defaultContextValue.customColors,
-  );
   const [template, setTemplate] = useState<contextType['template']>(
     defaultContextValue.template,
   );
@@ -69,8 +63,6 @@ export const AppDataContextProvider: FC<AppDataContextProps> = ({
 
   const contextValue = useMemo(
     () => ({
-      originalColors,
-      customColors,
       template,
       printerTemplate,
       printerTemplateKey,
@@ -78,8 +70,6 @@ export const AppDataContextProvider: FC<AppDataContextProps> = ({
       isIdle,
       mediaType,
       availableTemplates,
-      setOriginalColors,
-      setCustomColors,
       setTemplate,
       setPrinterTemplate,
       setPrinterTemplateKey,
@@ -88,8 +78,6 @@ export const AppDataContextProvider: FC<AppDataContextProps> = ({
       setMediaType,
     }),
     [
-      originalColors,
-      customColors,
       template,
       printerTemplate,
       printerTemplateKey,

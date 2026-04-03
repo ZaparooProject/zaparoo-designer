@@ -2,7 +2,6 @@ import { useEffect, useState, MutableRefObject } from 'react';
 import { PossibleFile, type CardData } from '../contexts/fileDropper';
 import { util, FabricImage, type StaticCanvas } from 'fabric';
 import { useAppDataContext } from '../contexts/appData';
-import { updateColors } from '../utils/updateColors';
 import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
 import { getMainImage } from '../utils/templateHandling';
 
@@ -43,7 +42,7 @@ export const setMainImageOnCanvas = async (
 };
 
 export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
-  const { template, customColors, originalColors } = useAppDataContext();
+  const { template } = useAppDataContext();
   const [fabricCanvas, setFabricCanvas] = useState<StaticCanvas | null>(null);
   // local ready state, when template is loaded
   const [isImageReady, setImageReady] = useState<boolean>(false);
@@ -92,15 +91,11 @@ export const useLabelEditor = ({ card, padderRef }: useLabelEditorParams) => {
       );
       card.canvas = fabricCanvas;
       card.template = template;
-      card.colors = customColors;
-      setTemplateV2OnCanvases([card], template).then((meh) => {
-        card.originalColors = meh;
-        updateColors([card], customColors, originalColors);
+      setTemplateV2OnCanvases([card], template).then(() => {
         fabricCanvas.requestRenderAll();
       });
     }
-    // shouldn't retrigger for index change or template change or colors
-    // the data reconciler does that
+    // shouldn't retrigger for index change or template change
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card, fabricCanvas, isImageReady]);
 

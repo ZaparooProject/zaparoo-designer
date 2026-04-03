@@ -15,6 +15,7 @@ import './LogosTabs.css';
 import { PanelSection } from './PanelSection';
 import { useAppDataContext } from '../../contexts/appData';
 import { useFileDropperContext } from '../../contexts/fileDropper';
+import { applyTemplateToSelectedCards } from '../../utils/applyTemplateToSelectedCards';
 
 type TemplatePanelProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -24,10 +25,30 @@ type TemplatePanelProps = {
 const mediaEntries = Object.entries(printMediaTypes);
 
 export const TemplatePanel = ({ canvasRef, hasCards }: TemplatePanelProps) => {
-  const { setTemplate, template, availableTemplates, setMediaType, mediaType } =
-    useAppDataContext();
+  const {
+    setTemplate,
+    template,
+    availableTemplates,
+    setMediaType,
+    mediaType,
+    setIsIdle,
+  } = useAppDataContext();
   const { selectedCardsCount, cards } = useFileDropperContext();
   const allSelected = hasCards && selectedCardsCount === cards.current.length;
+
+  const handleTemplateSelect = async (nextTemplate: typeof template) => {
+    setTemplate(nextTemplate);
+    if (selectedCardsCount === 0) {
+      return;
+    }
+
+    setIsIdle(false);
+    try {
+      await applyTemplateToSelectedCards(cards.current, nextTemplate);
+    } finally {
+      setIsIdle(true);
+    }
+  };
 
   return (
     <PanelSection title="Templates" className="resourcePanelSection">
@@ -91,7 +112,7 @@ export const TemplatePanel = ({ canvasRef, hasCards }: TemplatePanelProps) => {
             <ImagePanelDisplay
               key={templateTypeV2.key}
               canvasRef={canvasRef}
-              onClick={() => setTemplate(templateTypeV2)}
+              onClick={() => void handleTemplateSelect(templateTypeV2)}
               active={templateTypeV2.key === template.key}
               imageResult={{
                 url: templateTypeV2.preview,

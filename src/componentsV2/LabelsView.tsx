@@ -23,7 +23,6 @@ import InfoIcon from '@mui/icons-material/Info';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
 import { Canvas } from 'fabric';
-import { DataToCanvasReconciler } from './DataToCanvasReconciler';
 import { TemplatePreview } from './TemplatePreview';
 import {
   panels,
@@ -42,7 +41,6 @@ const HardwareResourcesPanel = lazy(
 const TemplatePanel = lazy(() => import('./panels/TemplatePanel'));
 const GameResourcesPanel = lazy(() => import('./panels/GameResourcesPanel'));
 const LayersPanel = lazy(() => import('./panels/LayersPanel'));
-const ColorsPanel = lazy(() => import('./panels/ColorsPanel'));
 const SteamPanel = lazy(() => import('./panels/SteamPanel'));
 const SingleCardEditModal = lazy(() => import('./SingleCardEditModal'));
 
@@ -118,7 +116,6 @@ export const LabelsView = () => {
   }, [isEditing, editingCard]);
 
   const selectionIsRequired = requireSelectionPanel.includes(panel);
-  const hasSelection = selectedCardsCount > 0 || isEditing;
   const hasCards = cards.current.length > 0;
 
   return (
@@ -243,13 +240,6 @@ export const LabelsView = () => {
               hasCards={hasCards}
             />
           )}
-          {panel === panels.Colors && (
-            <ColorsPanel
-              isEditing={isEditing}
-              hasSelection={hasSelection}
-              hasCards={hasCards}
-            />
-          )}
           {import.meta.env.DEV && panel === panels.FilesUtils && (
             <>
               <Button variant="contained" color="secondary">
@@ -326,7 +316,6 @@ export const LabelsView = () => {
           )}
         </Suspense>
       </div>
-      <DataToCanvasReconciler />
     </div>
   );
 };

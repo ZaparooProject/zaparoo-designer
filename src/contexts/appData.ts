@@ -18,8 +18,6 @@ export type PrintOptions = {
 
 export type contextType = {
   isIdle: boolean;
-  originalColors: string[];
-  customColors: string[];
   template: templateTypeV2;
   availableTemplates: templateTypeV2[];
   mediaType: MediaDefinition;
@@ -27,8 +25,6 @@ export type contextType = {
   printerTemplateKey: string;
   printOptions: PrintOptions;
   setPrintOptions: (options: Partial<PrintOptions>) => void;
-  setOriginalColors: (colors: string[]) => void;
-  setCustomColors: (colors: string[]) => void;
   setTemplate: (template: templateTypeV2) => void;
   setPrinterTemplate: (template: PrintTemplate) => void;
   setPrinterTemplateKey: (templateKey: string) => void;
@@ -39,8 +35,6 @@ export type contextType = {
 export const defaultContextValue: contextType = {
   isIdle: false,
   setIsIdle: noop,
-  originalColors: [],
-  customColors: [],
   availableTemplates: Object.entries(templates)
     .map(([key, value]) => ({
       ...value,
@@ -62,8 +56,6 @@ export const defaultContextValue: contextType = {
     printerTemplateKey: defaultPrinterTemplateKey,
   },
   setPrintOptions: noop,
-  setOriginalColors: noop,
-  setCustomColors: noop,
   setTemplate: noop,
   setPrinterTemplate: noop,
   setPrinterTemplateKey: noop,
