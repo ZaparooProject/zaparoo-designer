@@ -134,18 +134,18 @@ export const LabelsView = () => {
           <BackupTableIcon width="24" height="24" />
         </ActionBarButton>
         <ActionBarButton
-          label="SEARCH"
+          label="IGDB"
           onClick={() => setPanel(panels.Search)}
           selected={panel === panels.Search}
         >
-          <IgdbSourceIcon sx={{ fontSize: 24 }} />
+          <IgdbSourceIcon />
         </ActionBarButton>
         <ActionBarButton
           label="STEAM"
           onClick={() => setPanel(panels.Steam)}
           selected={panel === panels.Steam}
         >
-          <SteamGridDbSourceIcon sx={{ fontSize: 24 }} />
+          <SteamGridDbSourceIcon />
         </ActionBarButton>
         <ActionBarButton
           label="GAME"

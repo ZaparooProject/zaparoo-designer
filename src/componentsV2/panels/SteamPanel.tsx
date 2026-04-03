@@ -20,15 +20,15 @@ import {
   fetchSteamAutocomplete,
   fetchSteamGridsByGameId,
   fetchSteamLogosByGameId,
-  getImage,
   type SteamAutocompleteGame,
 } from '../../utils/search';
 import { SearchResultCard } from './SearchResultCard';
+import { applySearchResultToCards } from './searchResultActions';
 import './SteamPanel.css';
 import './HardwareResourcesPanel.css';
 
 const MIN_QUERY_LENGTH = 2;
-const SEARCH_DEBOUNCE_MS = 250;
+const SEARCH_DEBOUNCE_MS = 500;
 
 export default function SteamPanel({
   isEditing = false,
@@ -135,27 +135,22 @@ export default function SteamPanel({
   ) => {
     const target = e.target as HTMLImageElement;
     setLoadingGameId(game.id);
-    if (isEditing && editingCard) {
-      const editingIndex = cards.current.indexOf(editingCard);
-      if (editingIndex === -1) {
-        setLoadingGameId(null);
-        return;
-      }
-      getImage(url, target.src).then((file) => {
-        swapGameAtIndex(file, game, editingIndex);
-        onSelectGame?.();
-        setLoadingGameId(null);
-      });
-    } else {
-      getImage(url, target.src).then((file) => {
-        addFiles([file], [game]);
-        setLoadingGameId(null);
-      });
-    }
+    void applySearchResultToCards({
+      addFiles,
+      cards: cards.current,
+      editingCard: isEditing ? editingCard : null,
+      game,
+      onSelectGame,
+      previewSrc: target.src,
+      swapGameAtIndex,
+      url,
+    }).finally(() => {
+      setLoadingGameId(null);
+    });
   };
 
   return (
-    <PanelSection title="Steam" className="steamPanel">
+    <PanelSection title="SteamGrid search" className="steamPanel">
       <Autocomplete
         className="steamAutocomplete"
         options={options}
@@ -204,8 +199,8 @@ export default function SteamPanel({
           );
         }}
       />
-      <div className="horizontalStack tabs">
-        <Tabs value={tabValue} onChange={handleTabChange}>
+      <div className="horizontalStack tabs steamTabs">
+        <Tabs value={tabValue} onChange={handleTabChange} variant="fullWidth">
           <Tab label="Images" value="images" />
           <Tab label="Logos" value="logos" />
         </Tabs>

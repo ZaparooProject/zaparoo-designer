@@ -22,13 +22,14 @@ import { boxShadow } from '../../constants';
 import { useInView } from 'react-intersection-observer';
 
 import './SearchPanel.css';
-import { fetchGameList, getImage } from '../../utils/search';
+import { fetchGameList } from '../../utils/search';
 import { PlatformResult } from '../../../netlify/apiProviders/types.mts';
 // import { PlatformDropdown } from './PlatformDropdown';
 import type { SearchResult } from '../../../netlify/apiProviders/types.mts';
 import { PanelSection } from './PanelSection';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchResultCard } from './SearchResultCard';
+import { applySearchResultToCards } from './searchResultActions';
 
 export default function ImageSearchPanel({
   isEditing = false,
@@ -85,25 +86,19 @@ export default function ImageSearchPanel({
     (e: MouseEvent<HTMLImageElement>, url: string, game: SearchResult) => {
       const target = e.target as HTMLImageElement;
       setLoadingGameId(game.id);
-      if (isEditing && editingCard) {
-        const editingIndex = cards.current.indexOf(editingCard);
-        if (editingIndex === -1) {
-          setLoadingGameId(null);
-          return;
-        }
-        getImage(url, target.src).then((file) => {
-          swapGameAtIndex(file, game, editingIndex);
-          onSelectGame?.();
-          setLoadingGameId(null);
-        });
-      } else {
-        getImage(url, target.src).then((file) => {
-          startTransition(() => {
-            addFiles([file], [game]);
-          });
-          setLoadingGameId(null);
-        });
-      }
+      void applySearchResultToCards({
+        addFiles,
+        cards: cards.current,
+        editingCard: isEditing ? editingCard : null,
+        game,
+        onSelectGame,
+        previewSrc: target.src,
+        scheduleAddFiles: startTransition,
+        swapGameAtIndex,
+        url,
+      }).finally(() => {
+        setLoadingGameId(null);
+      });
     },
     [addFiles, isEditing, editingCard, cards, swapGameAtIndex, onSelectGame],
   );
