@@ -22,10 +22,14 @@ vi.mock('../../utils/templateHandling', () => ({
 }));
 vi.mock('../../utils/applyMainImageToCanvas', () => ({
   applyMainImageIfCanvasIsEmpty: vi.fn().mockResolvedValue(true),
-  hasUserImageLayersOnCanvas: vi.fn((canvas) =>
-    !!canvas?.getObjects().some((obj: { 'zaparoo-user-layer'?: boolean }) =>
-      obj['zaparoo-user-layer'] === true,
-    ),
+  hasUserImageLayersOnCanvas: vi.fn(
+    (canvas) =>
+      !!canvas
+        ?.getObjects()
+        .some(
+          (obj: { 'zaparoo-user-layer'?: boolean }) =>
+            obj['zaparoo-user-layer'] === true,
+        ),
   ),
 }));
 
@@ -98,7 +102,7 @@ describe('applySearchResultToCards', () => {
     const swapGameAtIndex = vi.fn();
     const editingCanvas = {
       getObjects: () => [],
-    } as Parameters<
+    } as unknown as Parameters<
       typeof applySearchResultToCards
     >[0]['editingCanvas'];
 
