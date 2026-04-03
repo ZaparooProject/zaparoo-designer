@@ -1,33 +1,34 @@
-import tapToHorizontal from './assets/tapto_horizontal.svg';
-import tapToVertical from './assets/tapto_vertical.svg';
-import tapToHu from './assets/tapto_hucard.svg';
-import tapToHuSteam from './assets/tapto_hucard_steam.svg';
-import tapToHuSteamVR from './assets/tapto_hucard_steamVR.svg';
-import tapToHuC64 from './assets/tapto_hucard_c64.svg';
-import tapToGB from './assets/tapto_gameboy_f.svg';
-import tapToFloppy from './assets/tapto_floppy.svg';
-import floppy525 from './assets/tapto_floppy525.svg';
-import taptoNes from './assets/tapto_nes.svg';
-import tapToGenesis from './assets/tapto_genesis.svg';
-import pcEngine from './assets/pcengine.svg';
-import animeOt4ku from './assets/tapto_0t4ku.svg';
-import cassetTape from './assets/cassette_tape.svg';
-import mininfcAlice from './assets/3by5_steam.svg';
-import r2PcbCardFront from './assets/RetroRemake_PCBCardRev1-0.svg';
-import upgradeStickerZTCSFull from './assets/ZapTradingCard_Single_Full.svg';
-import upgradeStickerZTCSFrame from './assets/ZapTradingCard_Single_Frame.svg';
-import upgradeStickerZTCSRounded from './assets/ZapTradingCard_Single_RoundFrame.svg';
-import upgradeStickerZTCDFull from './assets/ZapTradingCard_Double_Full.svg';
-import upgradeStickerZTCDFrame from './assets/ZapTradingCard_Double_Frame.svg';
-import upgradeStickerZTCDRounded from './assets/ZapTradingCard_Double_RoundFrame.svg';
-import gameCardVertical from './assets/fossHuCardLabel.svg';
-import blankCoverH from './assets/blank_cover_h.svg';
-import blankCoverV from './assets/blank_cover_v.svg';
-import blankFitH from './assets/blank_fit_h.svg';
-import blankFitV from './assets/blank_fit_v.svg';
-import cassetteTapeEmpty from './assets/cassette_tape_empty.svg';
-import foldableSleeveSvg from './assets/foldable_sleeve.svg';
-import labelWithName from './assets/labelWithName.svg';
+import tapToHorizontal from './assets/templates/tapto_horizontal.svg';
+import tapToVertical from './assets/templates/tapto_vertical.svg';
+import tapToHu from './assets/templates/tapto_hucard.svg';
+import tapToHuSteam from './assets/templates/tapto_hucard_steam.svg';
+import tapToHuSteamVR from './assets/templates/tapto_hucard_steamVR.svg';
+import tapToHuC64 from './assets/templates/tapto_hucard_c64.svg';
+import tapToGB from './assets/templates/tapto_gameboy_f.svg';
+import tapToFloppy from './assets/templates/tapto_floppy.svg';
+import floppy525 from './assets/templates/tapto_floppy525.svg';
+import taptoNes from './assets/templates/tapto_nes.svg';
+import tapToGenesis from './assets/templates/tapto_genesis.svg';
+import pcEngine from './assets/templates/pcengine.svg';
+import animeOt4ku from './assets/templates/tapto_0t4ku.svg';
+import cassetTape from './assets/templates/cassette_tape.svg';
+import mininfcAlice from './assets/templates/3by5_steam.svg';
+import r2PcbCardFront from './assets/templates/RetroRemake_PCBCardRev1-0.svg';
+import upgradeStickerZTCSFull from './assets/templates/ZapTradingCard_Single_Full.svg';
+import upgradeStickerZTCSFrame from './assets/templates/ZapTradingCard_Single_Frame.svg';
+import upgradeStickerZTCSRounded from './assets/templates/ZapTradingCard_Single_RoundFrame.svg';
+import upgradeStickerZTCDFull from './assets/templates/ZapTradingCard_Double_Full.svg';
+import upgradeStickerZTCDFrame from './assets/templates/ZapTradingCard_Double_Frame.svg';
+import upgradeStickerZTCDRounded from './assets/templates/ZapTradingCard_Double_RoundFrame.svg';
+import gameCardVertical from './assets/templates/fossHuCardLabel.svg';
+import blankCoverH from './assets/templates/blank_cover_h.svg';
+import blankCoverV from './assets/templates/blank_cover_v.svg';
+import blankFitH from './assets/templates/blank_fit_h.svg';
+import blankFitV from './assets/templates/blank_fit_v.svg';
+import cassetteTapeEmpty from './assets/templates/cassette_tape_empty.svg';
+import foldableSleeveSvg from './assets/templates/foldable_sleeve.svg';
+import labelWithName from './assets/templates/labelWithName.svg';
+import borderOnly from './assets/templates/border_only.svg';
 // previews
 import template_StandardNFCCard_GameCardVertical_0 from './assets/templatesPreviews/template_Standard NFC card_Game card Vertical_0.png';
 import template_StandardNFCCard_SquareGameCard_1 from './assets/templatesPreviews/template_Standard NFC card_Square game card_1.png';
@@ -59,7 +60,7 @@ import template_StandardNFCCard_BlankVCover_26 from './assets/templatesPreviews/
 import template_StandardNFCCard_BlankHFit_27 from './assets/templatesPreviews/template_Standard NFC card_Blank H fit_27.png';
 import template_StandardNFCCard_BlankVFit_28 from './assets/templatesPreviews/template_Standard NFC card_Blank V fit_28.png';
 import template_FoldableSleeve_PaperSleeve_29 from './assets/templatesPreviews/template_Foldable sleeve_Paper sleeve_29.png';
-
+import borderOnlyPreview from './assets/templatesPreviews/template_Foldable sleeve_Paper sleeve_29.png';
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
@@ -87,6 +88,17 @@ export const templates: Record<string, templateTypeV2> = {
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'gameCardV',
     preview: template_StandardNFCCard_GameCardVertical_0,
+  },
+  borderOnly: {
+    version: 2,
+    layout: 'vertical',
+    url: borderOnly,
+    label: 'Vertical card with only one border',
+    author: Authors.animeotaku,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'borderOnlyV',
+    preview: borderOnlyPreview,
   },
   labelWithName: {
     version: 2,

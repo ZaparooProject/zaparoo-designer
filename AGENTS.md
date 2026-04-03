@@ -32,7 +32,7 @@ src/
   hooks/            Custom hooks (canvas, file handling, paste, resize)
   utils/            Utilities (PDF prep, template handling, search, colors)
   extensions/       FabricJS extensions (PDF export, font cache, custom config)
-  assets/           SVG templates, console/controller/logo images, fonts
+  assets/templates  SVG templates, console/controller/logo images, fonts
   constants/        App constants
 netlify/
   functions/        Serverless endpoints (search, imageProxy, platforms, companies)
@@ -45,6 +45,7 @@ V1 and V2 UIs coexist during migration. New work should target `componentsV2/` u
 ## State Management
 
 Two React Contexts provide app-wide state:
+
 - `AppDataContext` (`src/contexts/appData.ts`) — template selection, colors, print options, media type
 - `FileDropContext` (`src/contexts/fileDropper.ts`) — files/cards, card editing, selection state
 
@@ -91,6 +92,7 @@ Testing is in early stages. Add tests when writing new logic — especially pure
 **Test behavior, not implementation.** Tests should verify what the code does from the consumer's perspective. If you refactor internals without changing behavior, no tests should break. Ask: "What would a caller of this function observe?" Test that.
 
 **Mock discipline:**
+
 - Only mock external dependencies: network I/O, browser APIs, third-party services.
 - Never mock internal business logic. If you need to mock an internal module to test another, the design likely needs rethinking.
 - "Don't mock what you don't own": wrap third-party code in your own abstraction. Mock your wrapper, not the library directly.
@@ -117,12 +119,12 @@ it('should return Edit panel when card has no game data', () => {
 
 ```typescript
 // Good
-it('should restore lastCollectionPanel when leaving from editing-only panel')
-it('should switch to Resources panel when card has game data')
+it('should restore lastCollectionPanel when leaving from editing-only panel');
+it('should switch to Resources panel when card has game data');
 
 // Bad
-it('works')
-it('test panel')
+it('works');
+it('test panel');
 ```
 
 ### LLM-Specific Pitfalls
