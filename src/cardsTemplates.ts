@@ -29,6 +29,7 @@ import cassetteTapeEmpty from './assets/templates/cassette_tape_empty.svg';
 import foldableSleeveSvg from './assets/templates/foldable_sleeve.svg';
 import labelWithName from './assets/templates/labelWithName.svg';
 import borderOnly from './assets/templates/border_only.svg';
+import blackFrame from './assets/templates/blackframe.svg';
 // previews
 import template_StandardNFCCard_GameCardVertical_0 from './assets/templatesPreviews/template_Standard NFC card_Game card Vertical_0.png';
 import template_StandardNFCCard_SquareGameCard_1 from './assets/templatesPreviews/template_Standard NFC card_Square game card_1.png';
@@ -61,6 +62,8 @@ import template_StandardNFCCard_BlankHFit_27 from './assets/templatesPreviews/te
 import template_StandardNFCCard_BlankVFit_28 from './assets/templatesPreviews/template_Standard NFC card_Blank V fit_28.png';
 import template_FoldableSleeve_PaperSleeve_29 from './assets/templatesPreviews/template_Foldable sleeve_Paper sleeve_29.png';
 import borderOnlyPreview from './assets/templatesPreviews/template_Standard NFC card_Vertical card with only one border_30.png';
+import blackFramePreview from './assets/templatesPreviews/template_Standard NFC card_Black frame.png';
+
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
@@ -99,6 +102,17 @@ export const templates: Record<string, templateTypeV2> = {
     compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'borderOnlyV',
     preview: borderOnlyPreview,
+  },
+  blackFrame: {
+    version: 2,
+    layout: 'vertical',
+    url: blackFrame,
+    label: 'Black frame with nfc loading and space for logo',
+    author: Authors.animeotaku,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'blackframeV',
+    preview: blackFramePreview,
   },
   labelWithName: {
     version: 2,
