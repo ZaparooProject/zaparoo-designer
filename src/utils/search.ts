@@ -22,6 +22,11 @@ export type ResultsForSearchUI = {
   count: number;
 };
 
+type SteamAssetFetchOptions = {
+  page?: number;
+  signal?: AbortSignal;
+};
+
 export const platformPromise = import(
   '../../netlify/data/IGDBPlatforms.mts'
 ).then((data) => {
@@ -126,10 +131,11 @@ export async function fetchSteamAutocomplete(
 export async function fetchSteamGridsByGameId(
   gameId: number,
   gameName: string,
-  signal?: AbortSignal,
+  { page = 1, signal }: SteamAssetFetchOptions = {},
 ): Promise<ResultsForSearchUI> {
   const url = getGoodUrl(`${STEAM_GRID_GAME_ENDPOINT}/${gameId}`);
   url.searchParams.append('gameName', gameName);
+  url.searchParams.append('page', `${page}`);
 
   return fetch(url, {
     mode: 'cors',
@@ -147,7 +153,7 @@ export async function fetchSteamGridsByGameId(
 
     return {
       count,
-      hasMore: false,
+      hasMore: results.length > 0 && count > page * results.length,
       games: results,
     };
   });
@@ -156,10 +162,11 @@ export async function fetchSteamGridsByGameId(
 export async function fetchSteamLogosByGameId(
   gameId: number,
   gameName: string,
-  signal?: AbortSignal,
+  { page = 1, signal }: SteamAssetFetchOptions = {},
 ): Promise<ResultsForSearchUI> {
   const url = getGoodUrl(`${STEAM_LOGO_GAME_ENDPOINT}/${gameId}`);
   url.searchParams.append('gameName', gameName);
+  url.searchParams.append('page', `${page}`);
 
   return fetch(url, {
     mode: 'cors',
@@ -177,7 +184,7 @@ export async function fetchSteamLogosByGameId(
 
     return {
       count,
-      hasMore: false,
+      hasMore: results.length > 0 && count > page * results.length,
       games: results,
     };
   });

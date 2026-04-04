@@ -7,7 +7,15 @@ import { prepareCorsHeaders } from '../data/utils';
 
 export default async (req: Request, context: Context): Promise<Response> => {
   const gameId = context.params.gameId?.trim() ?? '';
-  const gameName = new URL(req.url).searchParams.get('gameName')?.trim() ?? '';
+  const parsedUrl = new URL(req.url);
+  const gameName = parsedUrl.searchParams.get('gameName')?.trim() ?? '';
+  const requestedPage = Number.parseInt(
+    parsedUrl.searchParams.get('page') ?? '1',
+    10,
+  );
+  const page = Number.isInteger(requestedPage) && requestedPage > 0
+    ? requestedPage
+    : 1;
   const respHeaders = prepareCorsHeaders(req);
 
   if (!gameId) {
@@ -22,6 +30,7 @@ export default async (req: Request, context: Context): Promise<Response> => {
 
   const provider = new SGDBProvider();
   const request = await provider.getLogosByGameId(gameId, {
+    page,
     style: ['official', 'white', 'black', 'custom'],
   });
 

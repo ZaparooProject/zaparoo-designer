@@ -7,14 +7,17 @@ import {
   Typography,
 } from '@mui/material';
 import {
+  useCallback,
   useDeferredValue,
   useEffect,
+  useRef,
   useState,
   type MouseEvent,
   type MutableRefObject,
   type SyntheticEvent,
 } from 'react';
 import { type Canvas } from 'fabric';
+import { useInView } from 'react-intersection-observer';
 import type { SearchResult } from '../../../netlify/apiProviders/types.mts';
 import { useFileDropperContext } from '../../contexts/fileDropper';
 import { PanelSection } from './PanelSection';
@@ -32,6 +35,24 @@ import './HardwareResourcesPanel.css';
 const MIN_QUERY_LENGTH = 2;
 const SEARCH_DEBOUNCE_MS = 500;
 
+type SteamAssetTab = 'images' | 'logos';
+
+type SteamAssetState = {
+  entries: SearchResult[];
+  page: number;
+  total: number;
+  hasMore: boolean;
+  isLoading: boolean;
+};
+
+const INITIAL_ASSET_STATE: SteamAssetState = {
+  entries: [],
+  page: 1,
+  total: 0,
+  hasMore: false,
+  isLoading: false,
+};
+
 export default function SteamPanel({
   editingCanvasRef,
   isEditing = false,
@@ -47,19 +68,119 @@ export default function SteamPanel({
   const [selectedGame, setSelectedGame] =
     useState<SteamAutocompleteGame | null>(null);
   const [options, setOptions] = useState<SteamAutocompleteGame[]>([]);
-  const [gridEntries, setGridEntries] = useState<SearchResult[]>([]);
-  const [logoEntries, setLogoEntries] = useState<SearchResult[]>([]);
+  const [gridState, setGridState] = useState<SteamAssetState>(
+    INITIAL_ASSET_STATE,
+  );
+  const [logoState, setLogoState] = useState<SteamAssetState>(
+    INITIAL_ASSET_STATE,
+  );
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingAssets, setIsLoadingAssets] = useState(false);
   const [loadingGameId, setLoadingGameId] = useState<string | null>(null);
   const [tooltipGameId, setTooltipGameId] = useState<string | null>(null);
   const [hasLoadedQuery, setHasLoadedQuery] = useState(false);
   const [tabValue, setTabValue] = useState('images');
   const deferredQuery = useDeferredValue(searchQuery.trim());
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const gridStateRef = useRef(gridState);
+  const logoStateRef = useRef(logoState);
+  const requestIdsRef = useRef<Record<SteamAssetTab, number>>({
+    images: 0,
+    logos: 0,
+  });
+  const { ref: loaderRef, inView } = useInView({
+    threshold: 0.9,
+  });
+
+  useEffect(() => {
+    gridStateRef.current = gridState;
+  }, [gridState]);
+
+  useEffect(() => {
+    logoStateRef.current = logoState;
+  }, [logoState]);
 
   const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
+
+  const getAssetSetter = (assetType: SteamAssetTab) =>
+    assetType === 'logos' ? setLogoState : setGridState;
+
+  const getAssetState = (assetType: SteamAssetTab) =>
+    assetType === 'logos' ? logoStateRef.current : gridStateRef.current;
+
+  const loadAssetPage = useCallback(
+    (
+      assetType: SteamAssetTab,
+      game: SteamAutocompleteGame,
+      page: number,
+      {
+        reset = false,
+        signal,
+      }: {
+        reset?: boolean;
+        signal?: AbortSignal;
+      } = {},
+    ) => {
+      const setAssetState = getAssetSetter(assetType);
+      const fetchAssets =
+        assetType === 'logos'
+          ? fetchSteamLogosByGameId
+          : fetchSteamGridsByGameId;
+      const requestId = requestIdsRef.current[assetType] + 1;
+      requestIdsRef.current[assetType] = requestId;
+
+      setAssetState((prev) =>
+        reset
+          ? { ...INITIAL_ASSET_STATE, isLoading: true }
+          : { ...prev, isLoading: true },
+      );
+
+      void fetchAssets(game.id, game.name, { page, signal })
+        .then(({ games, count }) => {
+          if (requestIdsRef.current[assetType] !== requestId) {
+            return;
+          }
+
+          setAssetState((prev) => {
+            const entries = reset ? games : [...prev.entries, ...games];
+            const hasMore = entries.length < count;
+
+            return {
+              entries,
+              total: count,
+              hasMore,
+              isLoading: false,
+              page: hasMore ? page + 1 : page,
+            };
+          });
+        })
+        .catch((err) => {
+          if (requestIdsRef.current[assetType] !== requestId) {
+            return;
+          }
+
+          if (err instanceof DOMException && err.name === 'AbortError') {
+            setAssetState((prev) => ({ ...prev, isLoading: false }));
+            return;
+          }
+
+          console.error(err);
+          setAssetState((prev) => ({ ...prev, isLoading: false }));
+        });
+    },
+    [],
+  );
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => setTooltipGameId(null);
+    container.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [gridState.entries.length, logoState.entries.length, tabValue]);
 
   useEffect(() => {
     if (deferredQuery.length < MIN_QUERY_LENGTH) {
@@ -90,47 +211,54 @@ export default function SteamPanel({
 
   useEffect(() => {
     if (!selectedGame) {
-      setGridEntries([]);
-      setLogoEntries([]);
+      setGridState(INITIAL_ASSET_STATE);
+      setLogoState(INITIAL_ASSET_STATE);
+      setTooltipGameId(null);
       return;
     }
 
     const controller = new AbortController();
-    setIsLoadingAssets(true);
-
-    void Promise.all([
-      fetchSteamGridsByGameId(
-        selectedGame.id,
-        selectedGame.name,
-        controller.signal,
-      ),
-      fetchSteamLogosByGameId(
-        selectedGame.id,
-        selectedGame.name,
-        controller.signal,
-      ),
-    ])
-      .then(([gridResults, logoResults]) => {
-        setGridEntries(gridResults.games);
-        setLogoEntries(logoResults.games);
-      })
-      .catch((err) => {
-        if (err instanceof DOMException && err.name === 'AbortError') {
-          return;
-        }
-
-        console.error(err);
-      })
-      .finally(() => {
-        setIsLoadingAssets(false);
-      });
+    setTooltipGameId(null);
+    loadAssetPage('images', selectedGame, 1, {
+      reset: true,
+      signal: controller.signal,
+    });
+    loadAssetPage('logos', selectedGame, 1, {
+      reset: true,
+      signal: controller.signal,
+    });
 
     return () => {
       controller.abort();
     };
-  }, [selectedGame]);
+  }, [loadAssetPage, selectedGame]);
 
-  const visibleEntries = tabValue === 'logos' ? logoEntries : gridEntries;
+  useEffect(() => {
+    if (!inView || !selectedGame) {
+      return;
+    }
+
+    const assetType = tabValue === 'logos' ? 'logos' : 'images';
+    const assetState = getAssetState(assetType);
+
+    if (!assetState.hasMore || assetState.isLoading) {
+      return;
+    }
+
+    const controller = new AbortController();
+    loadAssetPage(assetType, selectedGame, assetState.page, {
+      signal: controller.signal,
+    });
+
+    return () => {
+      controller.abort();
+    };
+  }, [inView, loadAssetPage, selectedGame, tabValue]);
+
+  const activeAssetState = tabValue === 'logos' ? logoState : gridState;
+  const visibleEntries = activeAssetState.entries;
+  const isLoadingAssets =
+    activeAssetState.isLoading && visibleEntries.length === 0;
 
   const addImage = (
     e: MouseEvent<HTMLImageElement>,
@@ -216,7 +344,10 @@ export default function SteamPanel({
         </div>
       )}
       {!isLoadingAssets && visibleEntries.length > 0 && (
-        <div className="searchResultsContainer horizontalStack">
+        <div
+          className="searchResultsContainer horizontalStack"
+          ref={scrollContainerRef}
+        >
           {visibleEntries.map((gameEntry) => (
             <SearchResultCard
               key={`steam-${tabValue}-${gameEntry.id}`}
@@ -230,6 +361,11 @@ export default function SteamPanel({
               onTooltipClose={() => setTooltipGameId(null)}
             />
           ))}
+          {activeAssetState.hasMore && (
+            <div className="loader" ref={loaderRef}>
+              <CircularProgress color="secondary" size={24} />
+            </div>
+          )}
         </div>
       )}
       {!isLoadingAssets && selectedGame && visibleEntries.length === 0 && (

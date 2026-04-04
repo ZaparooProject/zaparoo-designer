@@ -90,6 +90,8 @@ export const LabelEditor = ({
     const imageUrl = event.dataTransfer.getData(DRAG_MIME_IMAGE_URL);
     const { canvas } = card;
     if (imageUrl && canvas) {
+      console.log(event, event.clientX, canvas?.calcOffset());
+
       util.loadImage(imageUrl).then((img) => {
         if (canvas) {
           const image = new FabricImage(img, {

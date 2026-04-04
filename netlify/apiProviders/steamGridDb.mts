@@ -30,10 +30,12 @@ export interface SGDBImage {
 
 export type SGDBGridData = {
   data?: SGDBImage[];
+  total?: number;
 };
 
 export type SGDBLogoData = {
   data?: SGDBImage[];
+  total?: number;
 };
 
 export type SGDBGridStyle =
@@ -55,12 +57,14 @@ export type SGDBGridDimension =
 export type SGDBGridQueryOptions = {
   styles?: SGDBGridStyle[];
   dimensions?: SGDBGridDimension[];
+  page?: number;
 };
 
 export type SGDBLogoStyle = 'official' | 'white' | 'black' | 'custom';
 
 export type SGDBLogoQueryOptions = {
   style?: SGDBLogoStyle[];
+  page?: number;
 };
 
 const toResultImage = (image: SGDBImage): ResultImage => ({
@@ -77,9 +81,10 @@ const convertAssetsToSearchResults = (
   gameName = 'SteamGridDB',
 ): SearchResults => {
   const grids = Array.isArray(data.data) ? data.data : [];
+  const count = typeof data.total === 'number' ? data.total : grids.length;
 
   return {
-    count: grids.length,
+    count,
     results: grids.map((grid): SearchResult => {
       const cover = toResultImage(grid);
       const summaryBits = [
@@ -128,6 +133,16 @@ const setArraySearchParam = (
   }
 };
 
+const setNumberSearchParam = (
+  url: URL,
+  key: string,
+  value?: number,
+) => {
+  if (typeof value === 'number' && Number.isInteger(value) && value > 0) {
+    url.searchParams.set(key, `${value}`);
+  }
+};
+
 export class SGDBProvider {
   endpoint = process.env.STEAMGRID_DB_BASEURL;
 
@@ -158,6 +173,7 @@ export class SGDBProvider {
     const url = new URL(gridsPath, this.endpoint);
     setArraySearchParam(url, 'styles', options.styles);
     setArraySearchParam(url, 'dimensions', options.dimensions);
+    setNumberSearchParam(url, 'page', options.page);
 
     return new Request(url, {
       method: 'GET',
@@ -172,6 +188,7 @@ export class SGDBProvider {
     const logosPath = `/api/v2/logos/game/${gameId}`;
     const url = new URL(logosPath, this.endpoint);
     setArraySearchParam(url, 'style', options.style);
+    setNumberSearchParam(url, 'page', options.page);
 
     return new Request(url, {
       method: 'GET',
