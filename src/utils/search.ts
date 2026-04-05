@@ -131,7 +131,7 @@ export async function fetchSteamAutocomplete(
 export async function fetchSteamGridsByGameId(
   gameId: number,
   gameName: string,
-  { page = 1, signal }: SteamAssetFetchOptions = {},
+  { page = 0, signal }: SteamAssetFetchOptions = {},
 ): Promise<ResultsForSearchUI> {
   const url = getGoodUrl(`${STEAM_GRID_GAME_ENDPOINT}/${gameId}`);
   url.searchParams.append('gameName', gameName);
@@ -162,7 +162,7 @@ export async function fetchSteamGridsByGameId(
 export async function fetchSteamLogosByGameId(
   gameId: number,
   gameName: string,
-  { page = 1, signal }: SteamAssetFetchOptions = {},
+  { page = 0, signal }: SteamAssetFetchOptions = {},
 ): Promise<ResultsForSearchUI> {
   const url = getGoodUrl(`${STEAM_LOGO_GAME_ENDPOINT}/${gameId}`);
   url.searchParams.append('gameName', gameName);

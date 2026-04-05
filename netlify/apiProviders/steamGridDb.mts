@@ -29,8 +29,9 @@ export interface SGDBImage {
 }
 
 export type SGDBGridData = {
-  data?: SGDBImage[];
-  total?: number;
+  data: SGDBImage[];
+  total: number;
+  page: number;
 };
 
 export type SGDBLogoData = {
@@ -81,10 +82,12 @@ const convertAssetsToSearchResults = (
   gameName = 'SteamGridDB',
 ): SearchResults => {
   const grids = Array.isArray(data.data) ? data.data : [];
-  const count = typeof data.total === 'number' ? data.total : grids.length;
+  const count = grids.length;
+  const { total } = data;
 
   return {
     count,
+    total,
     results: grids.map((grid): SearchResult => {
       const cover = toResultImage(grid);
       const summaryBits = [
@@ -121,11 +124,7 @@ export const convertLogosToSearchResults = (
   gameName = 'SteamGridDB',
 ): SearchResults => convertAssetsToSearchResults(data, gameName);
 
-const setArraySearchParam = (
-  url: URL,
-  key: string,
-  values?: string[],
-) => {
+const setArraySearchParam = (url: URL, key: string, values?: string[]) => {
   const filteredValues = values?.filter(Boolean);
 
   if (filteredValues && filteredValues.length > 0) {
@@ -133,11 +132,7 @@ const setArraySearchParam = (
   }
 };
 
-const setNumberSearchParam = (
-  url: URL,
-  key: string,
-  value?: number,
-) => {
+const setNumberSearchParam = (url: URL, key: string, value?: number) => {
   if (typeof value === 'number' && Number.isInteger(value) && value > 0) {
     url.searchParams.set(key, `${value}`);
   }

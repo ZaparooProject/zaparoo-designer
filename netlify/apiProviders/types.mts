@@ -41,6 +41,7 @@ export type SearchResult = {
 
 export type SearchResults = {
   count: number;
+  total?: number;
   results: SearchResult[];
 };
 
