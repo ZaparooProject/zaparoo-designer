@@ -142,7 +142,6 @@ export default function SteamPanel({
 
           setAssetState((prev) => {
             const entries = reset ? games : [...prev.entries, ...games];
-            console.log({ hasMore });
             return {
               entries,
               total: count,
