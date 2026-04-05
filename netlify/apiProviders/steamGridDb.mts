@@ -35,8 +35,9 @@ export type SGDBGridData = {
 };
 
 export type SGDBLogoData = {
-  data?: SGDBImage[];
-  total?: number;
+  data: SGDBImage[];
+  total: number;
+  page: number;
 };
 
 export type SGDBGridStyle =

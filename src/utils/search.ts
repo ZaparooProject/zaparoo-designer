@@ -193,7 +193,7 @@ export async function fetchSteamLogosByGameId(
 const getGoodUrl = (relativeUrl: string): URL => {
   const host = window.location.hostname;
   // let fqdn = 'https://design.zaparoo.org';
-  let fqdn = 'https://deploy-preview-170--zaparoo-designer.netlify.app/';
+  let fqdn = 'https://deploy-preview-173--zaparoo-designer.netlify.app/';
   if (host.includes('netlify') || host.includes('design.zaparoo.org')) {
     fqdn = `${window.location.protocol}//${window.location.hostname}`;
   }
