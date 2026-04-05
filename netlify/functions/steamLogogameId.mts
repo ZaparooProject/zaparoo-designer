@@ -10,12 +10,11 @@ export default async (req: Request, context: Context): Promise<Response> => {
   const parsedUrl = new URL(req.url);
   const gameName = parsedUrl.searchParams.get('gameName')?.trim() ?? '';
   const requestedPage = Number.parseInt(
-    parsedUrl.searchParams.get('page') ?? '1',
+    parsedUrl.searchParams.get('page') ?? '0',
     10,
   );
-  const page = Number.isInteger(requestedPage) && requestedPage > 0
-    ? requestedPage
-    : 1;
+  const page =
+    Number.isInteger(requestedPage) && requestedPage >= 0 ? requestedPage : 0;
   const respHeaders = prepareCorsHeaders(req);
 
   if (!gameId) {
