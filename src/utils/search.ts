@@ -153,7 +153,7 @@ export async function fetchSteamGridsByGameId(
 
     return {
       count,
-      hasMore: results.length > 0 && count > page * results.length,
+      hasMore: results.length > 0 && count > (page + 1) * 50,
       games: results,
     };
   });
@@ -184,7 +184,7 @@ export async function fetchSteamLogosByGameId(
 
     return {
       count,
-      hasMore: results.length > 0 && count > page * results.length,
+      hasMore: results.length > 0 && count > (page + 1) * 50,
       games: results,
     };
   });

@@ -83,12 +83,10 @@ const convertAssetsToSearchResults = (
   gameName = 'SteamGridDB',
 ): SearchResults => {
   const grids = Array.isArray(data.data) ? data.data : [];
-  const count = grids.length;
   const { total } = data;
 
   return {
-    count,
-    total,
+    count: total,
     results: grids.map((grid): SearchResult => {
       const cover = toResultImage(grid);
       const summaryBits = [

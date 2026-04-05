@@ -68,12 +68,10 @@ export default function SteamPanel({
   const [selectedGame, setSelectedGame] =
     useState<SteamAutocompleteGame | null>(null);
   const [options, setOptions] = useState<SteamAutocompleteGame[]>([]);
-  const [gridState, setGridState] = useState<SteamAssetState>(
-    INITIAL_ASSET_STATE,
-  );
-  const [logoState, setLogoState] = useState<SteamAssetState>(
-    INITIAL_ASSET_STATE,
-  );
+  const [gridState, setGridState] =
+    useState<SteamAssetState>(INITIAL_ASSET_STATE);
+  const [logoState, setLogoState] =
+    useState<SteamAssetState>(INITIAL_ASSET_STATE);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingGameId, setLoadingGameId] = useState<string | null>(null);
   const [tooltipGameId, setTooltipGameId] = useState<string | null>(null);
@@ -137,15 +135,14 @@ export default function SteamPanel({
       );
 
       void fetchAssets(game.id, game.name, { page, signal })
-        .then(({ games, count }) => {
+        .then(({ games, count, hasMore }) => {
           if (requestIdsRef.current[assetType] !== requestId) {
             return;
           }
 
           setAssetState((prev) => {
             const entries = reset ? games : [...prev.entries, ...games];
-            const hasMore = entries.length < count;
-
+            console.log({ hasMore });
             return {
               entries,
               total: count,
@@ -219,11 +216,11 @@ export default function SteamPanel({
 
     const controller = new AbortController();
     setTooltipGameId(null);
-    loadAssetPage('images', selectedGame, 1, {
+    loadAssetPage('images', selectedGame, 0, {
       reset: true,
       signal: controller.signal,
     });
-    loadAssetPage('logos', selectedGame, 1, {
+    loadAssetPage('logos', selectedGame, 0, {
       reset: true,
       signal: controller.signal,
     });
