@@ -32,6 +32,10 @@
   padding-inline: 12px;
 }
 
+.layers-row.selected {
+  background-color: var(--ui-color-primary);
+}
+
 .layers-row:hover {
   background-color: var(--ui-color-primary);
 }

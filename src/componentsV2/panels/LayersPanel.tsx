@@ -159,6 +159,8 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
     [canvasRef, refreshLayers],
   );
 
+  const selected = true;
+
   return (
     <>
       <PanelSection
@@ -222,7 +224,7 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
         <div className="layers-list">
           {layers.map((layer) => (
             <div
-              className="layers-row"
+              className={`layers-row ${selected ? 'selected' : ''}`}
               onClick={() => selectOnCanvas(layer.id)}
               key={layer.id}
             >
