@@ -215,6 +215,7 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
         </div>
       </PanelSection>
       <PanelSection
+        className="layersContainer"
         title="Layers"
         helpText="Perform actions on the selected layer"
       >
@@ -226,8 +227,6 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
               key={layer.id}
             >
               <Typography
-                display="flex"
-                flexGrow="1"
                 variant="body2"
                 color="text.secondary"
                 className="layers-row-text"
