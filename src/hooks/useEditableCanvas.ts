@@ -17,6 +17,7 @@ type useEditableCanvasArgs = {
     [TemplateEdit | undefined, FabricObject | undefined]
   >;
   setCurrentEditingCanvas?: React.Dispatch<MutableRefObject<Canvas>>;
+  setCurrentSelectedLayer: React.Dispatch<FabricObject | undefined >;
 };
 
 type useEditableCanvasReturnType = {
@@ -32,6 +33,7 @@ export const useEditableCanvas = ({
   setReady,
   setCurrentResource,
   setCurrentEditingCanvas,
+  setCurrentSelectedLayer,
 }: useEditableCanvasArgs): useEditableCanvasReturnType => {
   const { cards, editingCard } = useFileDropperContext();
   const editableCanvas = useRef<Canvas | null>(null);
@@ -99,6 +101,7 @@ export const useEditableCanvas = ({
           // });
 
           canvas.on('selection:created', ({ selected }) => {
+            setCurrentSelectedLayer(selected[0]);
             if (selected[0] === mainImage) {
               setImageAdjust(true);
               setIsObjectAdjust(false);
@@ -109,12 +112,14 @@ export const useEditableCanvas = ({
             }
           });
           canvas.on('selection:cleared', ({ deselected }) => {
+            setCurrentSelectedLayer(undefined);
             if (deselected.length) {
               setImageAdjust(false);
               setIsObjectAdjust(false);
             }
           });
           canvas.on('selection:updated', ({ selected }) => {
+            setCurrentSelectedLayer(selected[0]);
             if (selected[0] === mainImage) {
               setImageAdjust(true);
               setIsObjectAdjust(false);
@@ -143,6 +148,7 @@ export const useEditableCanvas = ({
     setCurrentEditingCanvas,
     setCurrentResource,
     setReady,
+    setCurrentSelectedLayer,
   ]);
 
   useEffect(() => {

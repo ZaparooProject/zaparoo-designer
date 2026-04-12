@@ -4,11 +4,12 @@ import { MutableRefObject, useCallback, useRef, useState } from 'react';
 import { useRealTimeResize } from '../hooks/useRealtimeResize';
 import { useEditableCanvas } from '../hooks/useEditableCanvas';
 import { noop } from '../utils/utils';
-import { type Canvas } from 'fabric';
+import { type FabricObject, type Canvas } from 'fabric';
 
 type SingleCardEditSpaceProps = {
   onClose: () => void;
   setCurrentEditingCanvas: (canvas: MutableRefObject<Canvas>) => void;
+  setCurrentSelectedLayer: React.Dispatch<FabricObject | undefined>;
 };
 
 type SingleCardEditModalProps = SingleCardEditSpaceProps & {
@@ -18,6 +19,7 @@ type SingleCardEditModalProps = SingleCardEditSpaceProps & {
 export const ModalInternalComponent = ({
   onClose,
   setCurrentEditingCanvas,
+  setCurrentSelectedLayer,
 }: SingleCardEditSpaceProps) => {
   const [ready, setReady] = useState(false);
   const padderRef = useRef<HTMLDivElement>(null);
@@ -27,6 +29,7 @@ export const ModalInternalComponent = ({
       setReady,
       setCurrentResource: noop,
       setCurrentEditingCanvas,
+      setCurrentSelectedLayer,
     });
 
   useRealTimeResize({
@@ -75,6 +78,7 @@ export const SingleCardEditModal = ({
   isOpen,
   onClose,
   setCurrentEditingCanvas,
+  setCurrentSelectedLayer,
 }: SingleCardEditModalProps) => {
   return (
     <Modal
@@ -97,6 +101,7 @@ export const SingleCardEditModal = ({
       <div className="cardEditModal verticalStack" tabIndex={-1}>
         {isOpen && (
           <ModalInternalComponent
+            setCurrentSelectedLayer={setCurrentSelectedLayer}
             setCurrentEditingCanvas={setCurrentEditingCanvas}
             onClose={onClose}
           />

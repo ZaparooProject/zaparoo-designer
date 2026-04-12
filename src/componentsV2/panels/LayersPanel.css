@@ -2,15 +2,24 @@
   padding-inline: 8px;
 }
 
+.layersContainer {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
 .layers-list {
   padding-inline: 8px;
   padding-block: 8px;
   display: flex;
   flex-grow: 1;
+  max-height: 100%;
   width: 100%;
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .layers-row {
@@ -23,12 +32,22 @@
   padding-inline: 12px;
 }
 
+.layers-row.selected {
+  background-color: var(--ui-color-primary);
+}
+
 .layers-row:hover {
   background-color: var(--ui-color-primary);
 }
 
 .layers-row-text {
+  display: flex;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-wrap: nowrap;
   flex-grow: 1;
+  max-width: 170px;
+  text-overflow: ellipsis;
 }
 
 .layer-swatch {

@@ -22,7 +22,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import InfoIcon from '@mui/icons-material/Info';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { downloadTemplatesPreview } from '../utils/downloadTemplatePreviews';
-import { Canvas } from 'fabric';
+import { Canvas, FabricObject } from 'fabric';
 import { TemplatePreview } from './TemplatePreview';
 import {
   panels,
@@ -94,6 +94,9 @@ export const LabelsView = () => {
   const [canvasRef, setCurrentEditingCanvas] = useState<
     MutableRefObject<Canvas | null>
   >({ current: null });
+
+  const [currentLayer, setCurrentSelectedLayer] = useState<FabricObject | undefined >(undefined);
+
   useEffect(() => {
     loadFontsForCanvas();
   }, []);
@@ -224,7 +227,7 @@ export const LabelsView = () => {
             />
           )}
           {panel === panels.Edit && (
-            <LayersPanel canvasRef={canvasRef} hasCards={hasCards} />
+            <LayersPanel currentLayer={currentLayer} canvasRef={canvasRef} hasCards={hasCards} />
           )}
           {panel === panels.Logos && (
             <LogoTabs
@@ -309,6 +312,7 @@ export const LabelsView = () => {
           {!!editingCard && (
             <SingleCardEditModal
               key="singleCardModal"
+              setCurrentSelectedLayer={setCurrentSelectedLayer}
               setCurrentEditingCanvas={setCurrentEditingCanvas}
               isOpen={!!editingCard}
               onClose={onClose}

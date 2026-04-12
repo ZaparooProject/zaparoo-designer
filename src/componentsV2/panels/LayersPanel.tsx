@@ -13,6 +13,7 @@ import { ColorSwatch } from './ColorSwatch';
 type LayersPanelProps = {
   canvasRef: MutableRefObject<Canvas | null>;
   hasCards: boolean;
+  currentLayer?: FabricObject;
 };
 
 const getFilteredObjects = (canvas: StaticCanvas) =>
@@ -27,7 +28,7 @@ const getFilteredObjects = (canvas: StaticCanvas) =>
       stroke: (object.stroke as string | undefined) ?? undefined,
     }));
 
-export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
+export const LayersPanel = ({ canvasRef, hasCards, currentLayer }: LayersPanelProps) => {
   const [layers, setLayers] = useState<
     Array<{
       type: string;
@@ -215,19 +216,18 @@ export const LayersPanel = ({ canvasRef, hasCards }: LayersPanelProps) => {
         </div>
       </PanelSection>
       <PanelSection
+        className="layersContainer"
         title="Layers"
         helpText="Perform actions on the selected layer"
       >
         <div className="layers-list">
           {layers.map((layer) => (
             <div
-              className="layers-row"
+              className={`layers-row ${currentLayer?.id === layer.id ? 'selected' : ''}`}
               onClick={() => selectOnCanvas(layer.id)}
               key={layer.id}
             >
               <Typography
-                display="flex"
-                flexGrow="1"
                 variant="body2"
                 color="text.secondary"
                 className="layers-row-text"
