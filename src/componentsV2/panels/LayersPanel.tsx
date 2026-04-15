@@ -2,13 +2,24 @@ import { Button, IconButton, Typography } from '@mui/material';
 import { PanelSection } from './PanelSection';
 import './LayersPanel.css';
 import { MutableRefObject, useCallback, useEffect, useState } from 'react';
-import { type TFiller, type Canvas, FabricObject, StaticCanvas } from 'fabric';
+import {
+  type TFiller,
+  type Canvas,
+  FabricObject,
+  StaticCanvas,
+  Textbox,
+} from 'fabric';
 import { RequireCards } from './RequireEditing';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import TextFieldsIcon from '@mui/icons-material/TextFields';
 import { ColorSwatch } from './ColorSwatch';
+import {
+  DEFAULT_USER_TEXT,
+  getUserTextboxOptions,
+} from './userTextLayer';
 
 type LayersPanelProps = {
   canvasRef: MutableRefObject<Canvas | null>;
@@ -135,6 +146,24 @@ export const LayersPanel = ({ canvasRef, hasCards, currentLayer }: LayersPanelPr
     [canvasRef, deleteCanvasLayer],
   );
 
+  const addTextLayer = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    const textLayer = new Textbox(
+      DEFAULT_USER_TEXT,
+      getUserTextboxOptions(canvas.getWidth(), canvas.getHeight()),
+    );
+
+    canvas.add(textLayer);
+    canvas.setActiveObject(textLayer);
+    textLayer.setCoords();
+    canvas.requestRenderAll();
+    refreshLayers();
+  }, [canvasRef, refreshLayers]);
+
   const selectOnCanvas = useCallback(
     (id: string) => {
       const canvas = canvasRef.current!;
@@ -176,6 +205,15 @@ export const LayersPanel = ({ canvasRef, hasCards, currentLayer }: LayersPanelPr
               padding: 12,
             }}
           >
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<TextFieldsIcon />}
+              onClick={addTextLayer}
+              sx={{ justifyContent: 'flex-start' }}
+            >
+              Add text
+            </Button>
             <Button
               variant="contained"
               color="primary"

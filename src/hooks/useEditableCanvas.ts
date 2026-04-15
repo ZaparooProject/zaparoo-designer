@@ -10,6 +10,7 @@ import { Canvas, FabricObject } from 'fabric';
 import { fixImageInsideCanvas } from '../utils/fixImageInsideCanvas';
 import { getMainImage } from '../utils/templateHandling';
 import { type TemplateEdit } from '../resourcesTypedef';
+import { createFabricObjectId } from '../utils/createFabricObjectId';
 
 type useEditableCanvasArgs = {
   setReady: React.Dispatch<boolean>;
@@ -80,6 +81,14 @@ export const useEditableCanvas = ({
           'original_stroke',
         ]);
         canvas.loadFromJSON(jsonData).then(() => {
+          canvas.on('object:added', ({ target }) => {
+            if (!target || target.id) {
+              return;
+            }
+
+            target.id = createFabricObjectId();
+          });
+
           const mainImage = getMainImage(canvas);
           if (mainImage) {
             mainImage.hasControls = false;
