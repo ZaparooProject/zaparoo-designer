@@ -19,6 +19,7 @@ import {
 import type { MediaDefinition, templateTypeV2 } from '../resourcesTypedef';
 import { getFontKey, registerFont } from './pdfFontCache';
 import { checkTypeOrFallback } from '../utils/checkTypeOrFallback';
+import { createProxyUrl } from '../utils/search';
 
 export const createDownloadStream = async (pdfDoc: any): Promise<Blob> => {
   // @ts-expect-error yeah no definitions
@@ -379,7 +380,13 @@ const addImageToPdf = async (
   } else {
     // todo fix
     // images part of the template will likely be duplicated.
-    arrayBuffer = await (await fetch(fabricImage.getSrc())).arrayBuffer();
+    try {
+      arrayBuffer = await (await fetch(fabricImage.getSrc())).arrayBuffer();
+    } catch (e) {
+      arrayBuffer = await (
+        await fetch(createProxyUrl(fabricImage.getSrc()))
+      ).arrayBuffer();
+    }
   }
   arrayBuffer = await checkTypeOrFallback(arrayBuffer, fabricImage);
   pdfDoc.image(arrayBuffer, -fabricImage.width / 2, -fabricImage.height / 2, {
