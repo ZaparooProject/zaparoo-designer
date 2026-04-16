@@ -30,6 +30,7 @@
   gap: 12px;
   min-height: 36px;
   padding-inline: 12px;
+  max-height: fit-content;
 }
 
 .layers-row.selected {

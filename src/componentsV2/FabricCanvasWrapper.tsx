@@ -1,17 +1,9 @@
 import { useRef, useEffect, useTransition } from 'react';
 import { StaticCanvas } from 'fabric';
+import { createFabricObjectId } from '../utils/createFabricObjectId';
 
 type WrapperProp = {
   setFabricCanvas: (canvas: StaticCanvas | null) => void;
-};
-
-const uiid = () => {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-    return crypto.randomUUID();
-  }
-  return `uuid-${Date.now().toString(16)}-${Math.random()
-    .toString(16)
-    .slice(2)}`;
 };
 
 export const FabricCanvasWrapper = ({ setFabricCanvas }: WrapperProp) => {
@@ -29,8 +21,7 @@ export const FabricCanvasWrapper = ({ setFabricCanvas }: WrapperProp) => {
         if (!target || target.id) {
           return;
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        target.id = uiid();
+        target.id = createFabricObjectId();
       });
       startTransition(() => {
         setFabricCanvas(fabricCanvas);

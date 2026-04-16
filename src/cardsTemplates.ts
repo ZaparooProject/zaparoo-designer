@@ -291,6 +291,7 @@ export const templates: Record<string, templateTypeV2> = {
   cassetteBoxV2: {
     layout: 'horizontal',
     label: 'Casset box cover',
+    canFill: true,
     url: cassetTape,
     version: 2,
     canEdit: true,
