@@ -67,7 +67,7 @@ import blackFramePreview from './assets/templatesPreviews/template_Standard NFC 
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
-// import { cassetteTemplates } from './cassetteTemplates';
+import { cassetteTemplates } from './cassetteTemplates';
 import type { templateTypeV2 } from './resourcesTypedef';
 // import { logoResource } from './logos';
 
@@ -313,7 +313,7 @@ export const templates: Record<string, templateTypeV2> = {
     key: 'miniNfcAlice',
     preview: template_MiniNFCCard_Steam3by5cm_17,
   },
-  // ...cassetteTemplates,
+  ...cassetteTemplates,
   retroRemakePcb1: {
     canEdit: true,
     version: 2,

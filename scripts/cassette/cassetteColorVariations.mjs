@@ -150,9 +150,6 @@ export const referencColorTable = {
   loadingLogoBack: '#1000FF',
   loadingLogoSpine: '#2000FF',
   loadingLogoFront: '#3000FF',
-  nfcLogoBack: '#FF0010',
-  nfcLogoSpine: '#FF0020',
-  nfcLogoFront: '#FF0030',
 };
 
 export const cassetteBaseTemplate = `  {
@@ -166,6 +163,6 @@ export const cassetteBaseTemplate = `  {
     media: TapeBoxCover,
     compatibleMedia: [TapeBoxCover],
     key: 'cassetteBoxV2',
-    preview: template_CassetteTapeCase_CassetBoxCover_16,
+    // preview: template_CassetteTapeCase_CassetBoxCover_16,
   },
 `;
