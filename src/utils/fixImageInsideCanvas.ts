@@ -1,17 +1,16 @@
-import { Point, type TOriginX, type TOriginY, type FabricImage } from "fabric";
-import type { templateType } from "../resourcesTypedef";
+import { Point, type TOriginX, type TOriginY, type FabricImage } from 'fabric';
+import { getPlaceholderMain } from './templateHandling';
 
 /**\
  * This function is meant to run in a context in which the canvas is zoomed and larger to fit the entire modal
  * In general the preview of the label editor are 1:1 pixel at 300dpi with the sizes and css scaled.
  */
-export const fixImageInsideCanvas = (target: FabricImage, template: templateType) => {
+export const fixImageInsideCanvas = (target: FabricImage) => {
   const { canvas } = target;
   if (!canvas) return;
-  const overlayImage = canvas.getObjects('group')[0];
+  const placeholder = getPlaceholderMain(canvas);
   // constrain image position
   const zoom = canvas.getZoom();
-
   const center = target.getRelativeCenterPoint();
   let fixOriginX: TOriginX = 'center';
   let fixOriginY: TOriginY = 'center';
@@ -21,53 +20,53 @@ export const fixImageInsideCanvas = (target: FabricImage, template: templateType
   let minY = 0;
   let maxX = canvas.width / zoom;
   let maxY = canvas.height / zoom;
-  if (template.overlay && overlayImage) {
-    const overlayCenter =  overlayImage.getRelativeCenterPoint();
-    const overlaySize = overlayImage._getTransformedDimensions();
-    const overlayTopLeft = overlayImage.translateToOriginPoint(
-      overlayCenter,
-      'left',
-      'top',
-    );
-    minX = (template.overlay.x * overlaySize.x + overlayTopLeft.x);
-    minY = (template.overlay.y * overlaySize.y + overlayTopLeft.y);
-    maxX = (template.overlay.width * overlaySize.x + minX);
-    maxY = (template.overlay.height * overlaySize.y + minY);
+
+  if (placeholder) {
+    const [tl, , br] = placeholder.getCoords();
+    minX = tl.x;
+    minY = tl.y;
+    maxX = br.x;
+    maxY = br.y;
   }
+
   // top left corner
-  const topLeft = target.translateToOriginPoint(
-    center,
-    'left',
-    'top',
-  );
-  if (topLeft.x > minX) {
-    fixXPos = minX;
-    fixOriginX = 'left';
+  const topLeft = target.translateToOriginPoint(center, 'left', 'top');
+  const bottomRight = target.translateToOriginPoint(center, 'right', 'bottom');
+
+  const { x, y } = target._getTransformedDimensions();
+  const { x: px, y: py } = placeholder?._getTransformedDimensions() ?? {
+    x: canvas.width,
+    y: canvas.height,
+  };
+
+  if (x < px) {
+    fixXPos = (minX + maxX) / 2;
+  } else {
+    if (topLeft.x > minX) {
+      fixXPos = minX;
+      fixOriginX = 'left';
+    }
+    if (bottomRight.x < maxX) {
+      fixXPos = maxX;
+      fixOriginX = 'right';
+    }
   }
-  if (topLeft.y > minY) {
-    fixYPos = minY;
-    fixOriginY = 'top';
+  if (y < py) {
+    fixYPos = (minY + maxY) / 2;
+  } else {
+    if (topLeft.y > minY) {
+      fixYPos = minY;
+      fixOriginY = 'top';
+    }
+    if (bottomRight.y < maxY) {
+      fixYPos = maxY;
+      fixOriginY = 'bottom';
+    }
   }
 
-  // bottom left corner
-  // max y and max x depends on currenct canvas size and zoom
-
-  const bottomRight = target.translateToOriginPoint(
-    center,
-    'right',
-    'bottom',
-  );
-  if (bottomRight.x < maxX) {
-    fixXPos = maxX;
-    fixOriginX = 'right';
-  }
-  if (bottomRight.y < maxY) {
-    fixYPos = maxY;
-    fixOriginY = 'bottom';
-  }
   target.setPositionByOrigin(
     new Point(fixXPos, fixYPos),
     fixOriginX,
     fixOriginY,
   );
-}
+};

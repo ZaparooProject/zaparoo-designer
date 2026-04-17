@@ -20,6 +20,19 @@ export const NFCCCsizeCard: MediaDefinition = {
   label: 'Standard NFC card',
 };
 
+// a standard credit card sized nfc card
+export const NFCCCsizeSlimCard: MediaDefinition = {
+  width: 1004, // 3.346inch * 300dpi (85mm)
+  height: 591, // 1.9685inch * 300dpi, (50mm)
+  rx: 35,
+  ry: 35,
+  strokeWidth: 2,
+  stroke: 'black',
+  fill: 'white',
+  label: 'Standard NFC card (slim)',
+  stretchTemplate: true,
+};
+
 // or a musicasset box inlay cover
 export const TapeBoxCover: MediaDefinition = {
   width: 1233, // 4.11inch * 300dpi
@@ -43,7 +56,7 @@ export const tapToPrePrinted: MediaDefinition = {
   label: 'Zap Trading Card',
 };
 
-// or a musicasset box inlay cover
+// a smaller nfc card
 export const miniNfcCard: MediaDefinition = {
   width: 591, //5cm * 300dpi
   height: 354, // 63mm * 300dpi
@@ -53,6 +66,18 @@ export const miniNfcCard: MediaDefinition = {
   stroke: 'black',
   fill: 'white',
   label: 'Mini NFC card',
+};
+
+// a smaller nfc card
+export const foldableSleeve: MediaDefinition = {
+  width: 1441, //12.2cm * 300dpi
+  height: 1157, // 9.8cm * 300dpi
+  rx: 0,
+  ry: 0,
+  strokeWidth: 0,
+  stroke: 'transparent',
+  fill: 'white',
+  label: 'Foldable sleeve',
 };
 
 // retro remake pcb cards
@@ -68,11 +93,23 @@ export const r2Pcb1_0: MediaDefinition = {
   label: 'Retro Remake NFC PCB',
 };
 
-export const mediaTargetList = [
+export const printMediaTypes = {
   NFCCCsizeCard,
+  NFCCCsizeSlimCard,
   tapToPrePrinted,
   miniNfcCard,
   r2Pcb1_0,
   TapeBoxCover,
+  foldableSleeve,
+};
+
+export const mediaTargetList = [
+  NFCCCsizeCard,
+  NFCCCsizeSlimCard,
+  tapToPrePrinted,
+  miniNfcCard,
+  r2Pcb1_0,
+  TapeBoxCover,
+  foldableSleeve,
   // taptoPrePrintedFullHeight,
 ];

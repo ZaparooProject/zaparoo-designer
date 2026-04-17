@@ -1,0 +1,37 @@
+.steamPanel {
+  display: flex;
+  gap: 12px;
+  min-height: 0;
+}
+
+.steamAutocomplete {
+  width: 100%;
+  padding-inline: 8px;
+  box-sizing: border-box;
+}
+
+.steamPanel .textField {
+  width: 100%;
+}
+
+.steamSelectedGame {
+  padding-inline: 8px;
+}
+
+.steamTabs {
+  width: 100%;
+  padding-inline: 8px;
+  box-sizing: border-box;
+}
+
+.steamTabs .MuiTabs-root {
+  width: 100%;
+}
+
+.steamLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 36px;
+}

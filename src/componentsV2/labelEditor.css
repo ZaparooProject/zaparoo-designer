@@ -1,0 +1,54 @@
+.labelControls {
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.labelContainer {
+  background-color: var(--ui-color-2);
+  padding: 8px;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  gap: var(--basic-gap);
+  flex-direction: column;
+  align-items: center;
+  height: fit-content;
+  border: 4px solid transparent;
+  margin-bottom: 20px;
+}
+
+label.canvasLabel {
+  cursor: pointer;
+}
+
+.card-selected,
+.labelContainer:has(label.canvasLabel:hover) {
+  border: 4px solid var(--ui-color-primary);
+}
+
+.card-drag-over {
+  border: 4px solid #3fd4a4;
+}
+
+.labelContainer.horizontal {
+  max-width: var(--cell-width);
+}
+
+.canvasLabel {
+  max-width: var(--cell-width);
+  max-height: var(--cell-width);
+}
+
+.labelControls .button-look {
+  width: 40px;
+  height: 40px;
+}
+
+@keyframes checkbox-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.checkbox-pulse {
+  animation: checkbox-pulse 0.8s ease-in-out 3;
+}

@@ -1,26 +1,40 @@
-import type { MutableRefObject } from 'react';
+import type { MutableRefObject, SetStateAction } from 'react';
 import { createContext, useContext } from 'react';
 import type { StaticCanvas } from 'fabric';
-import type { templateType } from '../resourcesTypedef';
+import type { templateTypeV2 } from '../resourcesTypedef';
+import type { SearchResult } from '../../netlify/apiProviders/types.mts';
+
+export type PossibleFile = File | HTMLImageElement | null;
 
 export type CardData = {
   /* the source of the main image */
-  file: File | HTMLImageElement,
+  file: PossibleFile;
+  game: Partial<SearchResult>;
   canvas?: StaticCanvas;
-  template?: templateType;
+  template?: templateTypeV2;
   isSelected: boolean;
   colors: string[];
   originalColors: string[];
   key: string;
-}
+};
 
 export type contextType = {
-  files: (File | HTMLImageElement)[];
-  setFiles: (files: (File | HTMLImageElement)[]) => void;
+  files: PossibleFile[];
+  addFiles: (files: PossibleFile[], games?: SearchResult[]) => void;
+  setFiles: (files: PossibleFile[]) => void;
   cards: MutableRefObject<CardData[]>;
   removeCards: () => void;
+  deleteCardByIndex: (index: number) => void;
+  duplicateCardByIndex: (index: number) => void;
   selectedCardsCount: number;
-  setSelectedCardsCount: (qty: number) => void;
+  setSelectedCardsCount: (value: SetStateAction<number>) => void;
+  editingCard: CardData | null;
+  setEditingCard: (index: number) => void;
+  swapGameAtIndex: (
+    file: PossibleFile,
+    game: SearchResult,
+    index: number,
+  ) => void;
 };
 
 export const FileDropContext = createContext<contextType>({
@@ -28,10 +42,16 @@ export const FileDropContext = createContext<contextType>({
   cards: {
     current: [],
   },
+  addFiles: () => {},
   setFiles: () => {},
   removeCards: () => {},
+  deleteCardByIndex: () => {},
+  duplicateCardByIndex: () => {},
   selectedCardsCount: 0,
   setSelectedCardsCount: () => {},
+  editingCard: null,
+  setEditingCard: () => {},
+  swapGameAtIndex: () => {},
 });
 
 export const useFileDropperContext = () => useContext(FileDropContext);

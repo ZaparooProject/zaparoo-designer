@@ -137,12 +137,12 @@ src/cardsTemplates.ts
 And it looks like this:
 
 ```ts
-import mininfcAlice from './assets/3by5_steam.svg'; // where your SVG is placed
+import mininfcAlice from './assets/templates/3by5_steam.svg'; // where your SVG is placed
 import { Authors } from './templateAuthors'; // where the authors are defined
 
 import { miniNfcCard } from './printMediaTypes'; // where the media types are defined
 
-export const templates: Record<string, templateType | templateTypeV2> = {
+export const templates: Record<string, templateTypeV2> = {
   blankH: {
     layout: 'horizontal',
     label: 'Blank H cover',

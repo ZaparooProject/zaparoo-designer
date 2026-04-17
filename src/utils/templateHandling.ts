@@ -1,11 +1,43 @@
 import {
-  loadSVGFromURL,
   Group,
-  FabricObject,
   Color,
   Gradient,
-  type SerializedGroupProps,
+  type Canvas,
+  type StaticCanvas,
+  FabricImage,
 } from 'fabric';
+
+/**
+ * Search in the canvas objects particular ones marked as placeholders
+ * @param canvas
+ * @param name
+ * @returns
+ */
+const getNamedPlaceholder = (
+  canvas: Canvas | Group | StaticCanvas,
+  name: string,
+) => canvas.getObjects().find((obj) => obj['zaparoo-placeholder'] === name);
+export const getPlaceholderMain = (canvas: Canvas | Group | StaticCanvas) =>
+  getNamedPlaceholder(canvas, 'main');
+export const getPlaceholderPlatformLogo = (
+  canvas: Canvas | Group | StaticCanvas,
+) => getNamedPlaceholder(canvas, 'platform_logo');
+export const getPlaceholderScreenshot = (
+  canvas: Canvas | Group | StaticCanvas,
+) => getNamedPlaceholder(canvas, 'screenshot');
+export const getPlaceholderDescription = (
+  canvas: Canvas | Group | StaticCanvas,
+) => getNamedPlaceholder(canvas, 'description');
+export const getPlaceholderTitle = (canvas: Canvas | Group | StaticCanvas) =>
+  getNamedPlaceholder(canvas, 'title');
+export const getPlaceholderCompanyLogo = (canvas: Canvas | Group | StaticCanvas) =>
+  getNamedPlaceholder(canvas, 'company_logo');
+export const getMainImage = (canvas: Canvas | Group | StaticCanvas) =>
+  canvas
+    .getObjects('image')
+    .find(
+      (fabricImage) => (fabricImage as FabricImage).resourceType === 'main',
+    ) as FabricImage;
 
 /**
  * extract and normalizes to hex format colors in the objects
@@ -42,15 +74,3 @@ export const extractUniqueColorsFromGroup = (group: Group): string[] => {
   });
   return colors;
 };
-
-export const parseSvg = (url: string): Promise<SerializedGroupProps> =>
-  loadSVGFromURL(url).then(({ objects }) => {
-    const nonNullObjects = objects.filter(
-      (objects) => !!objects,
-    ) as FabricObject[];
-    const group = new Group(nonNullObjects);
-    extractUniqueColorsFromGroup(group);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return group.toObject(['original_stroke', 'original_fill', 'id']);
-  });

@@ -1,0 +1,18 @@
+.actionBarButton {
+  display: flex;
+  width: var(--action-bar-width);
+  min-width: var(--action-bar-width) !important;
+  max-width: var(--action-bar-width);
+  height: var(--action-bar-width);
+  max-height: var(--action-bar-width);
+  padding: 0;
+}
+
+.actionBarButton:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.actionBarButtonWrapper {
+  display: inline-flex;
+}

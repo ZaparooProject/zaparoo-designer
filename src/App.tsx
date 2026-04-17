@@ -1,23 +1,37 @@
 import { lazy, Suspense } from 'react';
-import { useFileDropperContext } from './contexts/fileDropper';
+import { Routes, Route } from 'react-router-dom';
 import { useWindowPaste } from './hooks/useWindowPaste';
-import { Header } from './components/Header';
-import { HomePage } from './components/HomePage';
+import { Header as HeaderV2 } from './componentsV2/Header';
+import LabelsViewV2 from './componentsV2/LabelsView';
+
+const AboutPage = lazy(() => import('./AboutPage'));
 
 import './App.css';
 
-const LabelsView = lazy(() => import('./components/LabelsView'));
-
 function App() {
   useWindowPaste();
-  const { files } = useFileDropperContext();
-  const hasFiles = files.length > 0;
 
   return (
     <>
-      <Header />
-      {!hasFiles && <HomePage />}
-      <Suspense fallback={null}>{hasFiles && <LabelsView />}</Suspense>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <HeaderV2 />
+              <LabelsViewV2 />
+            </>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Suspense fallback={null}>
+              <AboutPage />
+            </Suspense>
+          }
+        />
+      </Routes>
     </>
   );
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="619" height="994" viewBox="0 0 198.048 318.048">
+  <path id="white_background" fill="#fff" fill-rule="evenodd" d="M0 0v-226.65a5.94 5.94 0 0 0-5.94-5.94h-136.55a5.94 5.94 0 0 0-5.94 5.94V0a5.94 5.94 0 0 0 5.94 5.94H-5.94A5.94 5.94 0 0 0 0 0" clip-path="url(#clipPath2)" transform="matrix(1.333 0 0 -1.333 197.9 7.92)"/>
+  <rect zaparoo-fill-strategy="cover" zaparoo-placeholder="main" width="186.67" height="306.608" x="5.947" y="5.495" fill="none" stroke="red" stroke-dasharray="5, 5" stroke-width="2" ry="0"/>
+  <path id="cover_border" fill="#a5a2a2" fill-rule="evenodd" d="M190.909 309.3V8.835a1.76 1.76 0 0 0-1.76-1.76H8.801a1.76 1.76 0 0 0-1.76 1.76v300.45c0 .972.788 1.76 1.76 1.76 0 0 176.192.004 180.371 0a3.33 3.33 0 0 0 1.737-1.743m3.996-300.466v300.45a5.76 5.76 0 0 1-5.756 5.759H8.801a5.76 5.76 0 0 1-5.756-5.76V8.834a5.76 5.76 0 0 1 5.756-5.76H189.15a5.76 5.76 0 0 1 5.756 5.76"/>
+</svg>

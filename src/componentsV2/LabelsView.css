@@ -1,0 +1,83 @@
+.editorContainer {
+  padding-top: 60px;
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
+  overflow: hidden;
+}
+
+.actionBar {
+  background: #2a2a3e;
+  display: flex;
+  height: 100%;
+  min-height: 100%;
+  width: var(--action-bar-width) !important;
+  border-right: 1px solid var(--ui-color-3);
+}
+
+.leftPanel {
+  background: #2a2a3e;
+  border-right: 1px solid var(--ui-color-3);
+  flex-direction: column;
+  width: var(--left-panel-width);
+  min-width: var(--left-panel-width);
+  display: flex;
+  height: calc(100vh - var(--header-height));;
+  min-height: calc(100vh - var(--header-height));
+  overflow-x: hidden;
+  max-height: calc(100vh - var(--header-height));
+  padding: 0;
+}
+
+.resourceListAreaLogos {
+  column-count: 2;
+  column-gap: 8px;
+  padding-left: 8px;
+  padding-right: 0px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.resourceListAreaLogosScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.resourcePanelSection {
+  flex: 1;
+  min-height: 0;
+}
+
+.verticalStack.leftPanel {
+  align-items: start;
+}
+
+.labelsView {
+  position: relative;
+  background-color: var(--ui-color-1);
+  padding-top: 16px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  column-gap: 20px;
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
+}
+
+.selectionBar {
+  position: fixed;
+  bottom: 16px;
+  left: calc(var(--left-panel-width) + var(--action-bar-width) + 16px);
+  display: flex;
+  gap: 8px;
+}

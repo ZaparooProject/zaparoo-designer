@@ -1,0 +1,114 @@
+import {
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from '@mui/material';
+import { logoStyles } from '../../filteredLogos';
+import { type MutableRefObject, useCallback, useEffect, useState } from 'react';
+import { type Canvas } from 'fabric';
+import { ImagePanelDisplay } from './ImagePanelDisplay';
+import './LogosTabs.css';
+import { PanelSection } from './PanelSection';
+import { RequireCards, SuggestClick, SuggestDrag } from './RequireEditing';
+
+type StaticLogo = {
+  url: string;
+  name: string;
+  style: string;
+  category: string;
+  width: number;
+  height: number;
+};
+
+type LogoTabsProps = {
+  canvasRef: MutableRefObject<Canvas | null>;
+  isEditing: boolean;
+  hasCards: boolean;
+};
+
+export const LogoTabs = ({ canvasRef, isEditing, hasCards }: LogoTabsProps) => {
+  const [value, setValue] = useState(0);
+  const [keyword, setKeyword] = useState('');
+  const [logos, setLogos] = useState<StaticLogo[]>([]);
+  const hasLogos = logos.length > 0;
+
+  useEffect(() => {
+    logoStyles[0].getter().then((data) => setLogos(data));
+  }, [setLogos]);
+
+  const searchHandler = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setKeyword(evt.target.value.toLocaleLowerCase());
+    },
+    [setKeyword],
+  );
+
+  return (
+    <PanelSection
+      title="Company logos"
+      className={`resourcePanelSection ${!hasLogos ? 'panelLoading' : ''}`}
+    >
+      {hasCards && !isEditing && <SuggestDrag />}
+      {hasCards && isEditing && <SuggestClick />}
+      {hasCards || <RequireCards />}
+      <div className="logoTools">
+        <TextField
+          id="filled-search"
+          label="Search"
+          type="search"
+          variant="outlined"
+          size="small"
+          onChange={searchHandler}
+        />
+        <FormControl variant="standard">
+          <InputLabel variant="outlined" size="small" id="logo-style-label">
+            Style
+          </InputLabel>
+          <Select
+            variant="outlined"
+            size="small"
+            labelId="logo-style-label"
+            value={value}
+            label="Style"
+            onChange={async (event) => {
+              const val = event.target.value;
+              setValue(val);
+              setLogos([]);
+              setLogos(await logoStyles[val].getter());
+            }}
+          >
+            {logoStyles.map((_, index) => (
+              <MenuItem key={logoStyles[index].style} value={index}>
+                {logoStyles[index].style}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+      <div className={`resourceListAreaLogosScroll ${!hasLogos ? 'loadingArea' : ''}`}>
+        {!hasLogos ? (
+          <CircularProgress />
+        ) : (
+          <div className="resourceListAreaLogos">
+            {logos.map(
+              (logo) =>
+                logo.name.toLowerCase().includes(keyword) && (
+                  <ImagePanelDisplay
+                    blocked={!hasCards}
+                    key={logo.url}
+                    canvasRef={canvasRef}
+                    imageResult={{ url: logo.url, width: logo.width, height: logo.height }}
+                  />
+                ),
+            )}
+          </div>
+        )}
+      </div>
+    </PanelSection>
+  );
+};
+
+export default LogoTabs;

@@ -21,7 +21,7 @@ export type templateOverlay = templateLayer & {
   width: number;
   /* percentage height that is transparent */
   height: number;
-  strategy?: 'fit' | 'cover'
+  strategy?: 'fit' | 'cover';
 };
 
 export enum EditType {
@@ -32,12 +32,12 @@ export enum EditType {
 export type ResourceArray = {
   label: string;
   value: string;
-}
+};
 
 export type EditResource = {
   type: EditType;
   data: ResourceArray[];
-}
+};
 
 export type layoutOrientation = 'horizontal' | 'vertical';
 
@@ -46,7 +46,7 @@ export type TemplateEdit = {
   id: string;
   /* one of the valid edit types */
   resource: EditResource;
-}
+};
 
 export type MediaDefinition = {
   width: number;
@@ -57,39 +57,19 @@ export type MediaDefinition = {
   stroke: string;
   fill: string;
   label: string;
-}
+  stretchTemplate?: boolean;
+};
 
 export type PrintableArea = {
   width: number;
   height: number;
   x: number;
   y: number;
-}
-
-export type templateType = {
-  layout: layoutOrientation;
-  overlay?: templateOverlay;
-  background?: templateLayer;
-  label: string;
-  /* box-shadow like property for the main image, 3 numbers + color */
-  shadow?: string;
-  /* if noMargin is true the image you load will cover the full card and bleed outside */
-  noMargin?: boolean;
-  /* a reference to the author data */
-  author: Authors;
-  /**
-   * if true it means a button to edit the tempalte is shown on screen
-   * More data in the template is needed to make that happen.
-   * */ 
-  canEdit?: boolean;
-
-  edits?: TemplateEdit[];
-  media: MediaDefinition;
-  printableAreas?: PrintableArea[],
-  key: string;
 };
 
 export type templateTypeV2 = {
+  canFill?: boolean;
+  canEdit?: boolean;
   parsed?: Promise<Group>;
   version: number;
   layout: layoutOrientation;
@@ -98,6 +78,8 @@ export type templateTypeV2 = {
   /* a reference to the author data */
   author: Authors;
   media: MediaDefinition;
-  printableAreas?: PrintableArea[],
+  compatibleMedia: MediaDefinition[];
+  printableAreas?: PrintableArea[];
   key: string;
+  preview: string;
 };

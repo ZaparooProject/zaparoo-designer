@@ -1,101 +1,87 @@
-import tapToHorizontal from './assets/tapto_horizontal.svg';
-import tapToVertical from './assets/tapto_vertical.svg';
-import tapToBg from './assets/tapto_pattern_bg.svg';
-import tapToBgV from './assets/tapto_pattern_bg_vertical.svg';
-import tapToHu from './assets/tapto_hucard.svg';
-import tapToHuSteam from './assets/tapto_hucard_steam.svg';
-import tapToHuSteamVR from './assets/tapto_hucard_steamVR.svg';
-import tapToHuBg from './assets/tapto_hucard_bg.svg';
-import tapToHuBgLarge from './assets/tapto_hucard_bg_large.svg';
-import tapToHuC64 from './assets/tapto_hucard_c64.svg';
-import tapToGB from './assets/tapto_gameboy_f.svg';
-import emptyVertical from './assets/empty_vertical.svg';
-import emptyHorizontal from './assets/empty_horizontal.svg';
-import tapToFloppy from './assets/tapto_floppy.svg';
-import floppy525 from './assets/tapto_floppy525.svg';
-import floppy525Bg from './assets/tapto_floppy525_bg.svg';
-import taptoNes from './assets/tapto_nes.svg';
-import tapToGenesis from './assets/tapto_genesis.svg';
-import genesisBg from './assets/genesis_bg.svg';
-import pcEngine from './assets/pcengine.svg';
-import pcEngineBG from './assets/pcengine_bg.svg';
-import animeOt4ku from './assets/tapto_0t4ku.svg';
-import mininfcAlice from './assets/3by5_steam.svg';
-import r2PcbCardFront from './assets/RetroRemake_PCBCardRev1-0.svg';
-import upgradeStickerZTCSFull from './assets/ZapTradingCard_Single_Full.svg';
-import upgradeStickerZTCSFrame from './assets/ZapTradingCard_Single_Frame.svg';
-import upgradeStickerZTCSRounded from './assets/ZapTradingCard_Single_RoundFrame.svg';
-import upgradeStickerZTCDFull from './assets/ZapTradingCard_Double_Full.svg';
-import upgradeStickerZTCDFrame from './assets/ZapTradingCard_Double_Frame.svg';
-import upgradeStickerZTCDRounded from './assets/ZapTradingCard_Double_RoundFrame.svg';
-import gameCardVertical from './assets/fossHuCardLabel.svg';
+import tapToHorizontal from './assets/templates/tapto_horizontal.svg';
+import tapToVertical from './assets/templates/tapto_vertical.svg';
+import tapToHu from './assets/templates/tapto_hucard.svg';
+import tapToHuSteam from './assets/templates/tapto_hucard_steam.svg';
+import tapToHuSteamVR from './assets/templates/tapto_hucard_steamVR.svg';
+import tapToHuC64 from './assets/templates/tapto_hucard_c64.svg';
+import tapToGB from './assets/templates/tapto_gameboy_f.svg';
+import tapToFloppy from './assets/templates/tapto_floppy.svg';
+import floppy525 from './assets/templates/tapto_floppy525.svg';
+import taptoNes from './assets/templates/tapto_nes.svg';
+import tapToGenesis from './assets/templates/tapto_genesis.svg';
+import pcEngine from './assets/templates/pcengine.svg';
+import animeOt4ku from './assets/templates/tapto_0t4ku.svg';
+import cassetTape from './assets/templates/cassette_tape.svg';
+import mininfcAlice from './assets/templates/3by5_steam.svg';
+import r2PcbCardFront from './assets/templates/RetroRemake_PCBCardRev1-0.svg';
+import upgradeStickerZTCSFull from './assets/templates/ZapTradingCard_Single_Full.svg';
+import upgradeStickerZTCSFrame from './assets/templates/ZapTradingCard_Single_Frame.svg';
+import upgradeStickerZTCSRounded from './assets/templates/ZapTradingCard_Single_RoundFrame.svg';
+import upgradeStickerZTCDFull from './assets/templates/ZapTradingCard_Double_Full.svg';
+import upgradeStickerZTCDFrame from './assets/templates/ZapTradingCard_Double_Frame.svg';
+import upgradeStickerZTCDRounded from './assets/templates/ZapTradingCard_Double_RoundFrame.svg';
+import gameCardVertical from './assets/templates/fossHuCardLabel.svg';
+import blankCoverH from './assets/templates/blank_cover_h.svg';
+import blankCoverV from './assets/templates/blank_cover_v.svg';
+import blankFitH from './assets/templates/blank_fit_h.svg';
+import blankFitV from './assets/templates/blank_fit_v.svg';
+import cassetteTapeEmpty from './assets/templates/cassette_tape_empty.svg';
+import foldableSleeveSvg from './assets/templates/foldable_sleeve.svg';
+import labelWithName from './assets/templates/labelWithName.svg';
+import borderOnly from './assets/templates/border_only.svg';
+import blackFrame from './assets/templates/blackframe.svg';
+// previews
+import template_StandardNFCCard_GameCardVertical_0 from './assets/templatesPreviews/template_Standard NFC card_Game card Vertical_0.png';
+import template_StandardNFCCard_SquareGameCard_1 from './assets/templatesPreviews/template_Standard NFC card_Square game card_1.png';
+import template_StandardNFCCard_TapToH_2 from './assets/templatesPreviews/template_Standard NFC card_Tap-to H_2.png';
+import template_StandardNFCCard_TapToV_3 from './assets/templatesPreviews/template_Standard NFC card_Tap-to V_3.png';
+import template_StandardNFCCard_HuCard_4 from './assets/templatesPreviews/template_Standard NFC card_HuCard_4.png';
+import template_StandardNFCCard_HuCardSteam_5 from './assets/templatesPreviews/template_Standard NFC card_HuCardSteam_5.png';
+import template_StandardNFCCard_HuCardSteamVR_6 from './assets/templatesPreviews/template_Standard NFC card_HuCardSteamVR_6.png';
+import template_StandardNFCCard_HuCardC64_7 from './assets/templatesPreviews/template_Standard NFC card_HuCard (C64)_7.png';
+import template_StandardNFCCard_TapToGameboy_8 from './assets/templatesPreviews/template_Standard NFC card_Tap-to Gameboy_8.png';
+import template_StandardNFCCard_Floppy35_9 from './assets/templatesPreviews/template_Standard NFC card_Floppy 3.5_9.png';
+import template_StandardNFCCard_Floppy525_10 from './assets/templatesPreviews/template_Standard NFC card_Floppy 5.25_10.png';
+import template_StandardNFCCard_Nes_11 from './assets/templatesPreviews/template_Standard NFC card_Nes_11.png';
+import template_StandardNFCCard_Genesis_12 from './assets/templatesPreviews/template_Standard NFC card_Genesis_12.png';
+import template_StandardNFCCard_PcEngineCD_13 from './assets/templatesPreviews/template_Standard NFC card_PcEngineCD_13.png';
+import template_StandardNFCCard_FullImageSystem_14 from './assets/templatesPreviews/template_Standard NFC card_full image + system_14.png';
+import template_CassetteTapeCase_CassetBoxPlaceholder_15 from './assets/templatesPreviews/template_Cassette tape case_Casset box placeholder_15.png';
+import template_CassetteTapeCase_CassetBoxCover_16 from './assets/templatesPreviews/template_Cassette tape case_Casset box cover_16.png';
+import template_MiniNFCCard_Steam3by5cm_17 from './assets/templatesPreviews/template_Mini NFC card_Steam 3by5cm_17.png';
+import template_RetroRemakeNFCPCB_NFCPCBFramed_18 from './assets/templatesPreviews/template_Retro Remake NFC PCB_NFC PCB 1.0 - Framed_18.png';
+import template_ZapTradingCard_SingleFull_19 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Full_19.png';
+import template_ZapTradingCard_SingleFrame_20 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Frame_20.png';
+import template_ZapTradingCard_SingleFrameRounded_21 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Frame Rounded_21.png';
+import template_ZapTradingCard_DoubleFull_22 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Double Full_22.png';
+import template_ZapTradingCard_DoubleFrame_23 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Double Frame_23.png';
+import template_ZapTradingCard_DoubleFrameRounded_24 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Double Frame Rounded_24.png';
+import template_StandardNFCCard_BlankHCover_25 from './assets/templatesPreviews/template_Standard NFC card_Blank H cover_25.png';
+import template_StandardNFCCard_BlankVCover_26 from './assets/templatesPreviews/template_Standard NFC card_Blank V cover_26.png';
+import template_StandardNFCCard_BlankHFit_27 from './assets/templatesPreviews/template_Standard NFC card_Blank H fit_27.png';
+import template_StandardNFCCard_BlankVFit_28 from './assets/templatesPreviews/template_Standard NFC card_Blank V fit_28.png';
+import template_FoldableSleeve_PaperSleeve_29 from './assets/templatesPreviews/template_Foldable sleeve_Paper sleeve_29.png';
+import borderOnlyPreview from './assets/templatesPreviews/template_Standard NFC card_Vertical card with only one border_30.png';
+import blackFramePreview from './assets/templatesPreviews/template_Standard NFC card_Black frame.png';
 
 // import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
 // import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
-import type { templateType, templateTypeV2 } from './resourcesTypedef';
-import { logoResource } from './logos';
-import { cassetteTemplates } from './cassetteTemplates';
+// import { cassetteTemplates } from './cassetteTemplates';
+import type { templateTypeV2 } from './resourcesTypedef';
+// import { logoResource } from './logos';
 
 import {
   NFCCCsizeCard,
+  NFCCCsizeSlimCard,
   TapeBoxCover,
   tapToPrePrinted,
   miniNfcCard,
   r2Pcb1_0,
+  foldableSleeve,
 } from './printMediaTypes';
 
-export const templates: Record<string, templateType | templateTypeV2> = {
-  blankH: {
-    layout: 'horizontal',
-    label: 'Blank H cover',
-    author: Authors.andrea,
-    media: NFCCCsizeCard,
-    key: 'blankH',
-  },
-  blankV: {
-    layout: 'vertical',
-    label: 'Blank V cover',
-    author: Authors.andrea,
-    media: NFCCCsizeCard,
-    key: 'blankV',
-  },
-  blankHF: {
-    layout: 'horizontal',
-    label: 'Blank H fit',
-    overlay: {
-      // full card size
-      url: emptyHorizontal,
-      layerWidth: 975,
-      layerHeight: 600,
-      x: 0.04,
-      width: 0.92,
-      y: 0.02,
-      height: 0.96,
-      isSvg: true,
-    },
-    author: Authors.andrea,
-    media: NFCCCsizeCard,
-    key: 'blankHF',
-  },
-  blankVF: {
-    layout: 'vertical',
-    label: 'Blank V fit',
-    overlay: {
-      // full card size
-      url: emptyVertical,
-      layerWidth: 600,
-      layerHeight: 975,
-      x: 0.02,
-      width: 0.96,
-      y: 0.04,
-      height: 0.92,
-      isSvg: true,
-    },
-    author: Authors.andrea,
-    media: NFCCCsizeCard,
-    key: 'blankVF',
-  },
+export const templates: Record<string, templateTypeV2> = {
   gameCardV: {
     version: 2,
     layout: 'vertical',
@@ -103,308 +89,218 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     label: 'Game card Vertical',
     author: Authors.tim,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'gameCardV',
+    preview: template_StandardNFCCard_GameCardVertical_0,
+  },
+  borderOnly: {
+    version: 2,
+    layout: 'vertical',
+    url: borderOnly,
+    label: 'Vertical card with only one border',
+    author: Authors.animeotaku,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'borderOnlyV',
+    preview: borderOnlyPreview,
+  },
+  blackFrame: {
+    version: 2,
+    layout: 'vertical',
+    url: blackFrame,
+    label: 'Black frame with nfc loading and space for logo',
+    author: Authors.animeotaku,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'blackframeV',
+    preview: blackFramePreview,
+  },
+  labelWithName: {
+    version: 2,
+    canEdit: true,
+    canFill: true,
+    layout: 'vertical',
+    url: labelWithName,
+    label: 'Square game card',
+    author: Authors.unnamed1,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'labelWithName',
+    preview: template_StandardNFCCard_SquareGameCard_1,
   },
   tapto2: {
+    version: 2,
     layout: 'horizontal',
-    overlay: {
-      layerWidth: 994,
-      layerHeight: 619,
-      url: tapToHorizontal,
-      width: 1 - (310 + 37) / 994,
-      height: 1 - (37 * 2) / 619,
-      x: 310 / 994,
-      y: 37 / 619,
-      isSvg: true,
-    },
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 994,
-      layerHeight: 619,
-      url: tapToBg,
-      isSvg: true,
-    },
+    url: tapToHorizontal,
     label: 'Tap-to H',
     author: Authors.tim,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapto2',
+    preview: template_StandardNFCCard_TapToH_2,
   },
   tapto3: {
     version: 2,
     layout: 'vertical',
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
     url: tapToVertical,
     label: 'Tap-to V',
     author: Authors.tim,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapto3',
+    preview: template_StandardNFCCard_TapToV_3,
   },
   hucard: {
+    version: 2,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHu,
-      height: 1 - (84 + 268) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 268 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuBg,
-      isSvg: true,
-    },
+    url: tapToHu,
     label: 'HuCard',
     author: Authors.tim,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucard',
+    preview: template_StandardNFCCard_HuCard_4,
   },
   hucardsteam: {
+    version: 2,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuSteam,
-      height: 1 - (84 + 125) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 168 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuBgLarge,
-      isSvg: true,
-    },
+    url: tapToHuSteam,
     label: 'HuCardSteam',
     author: Authors.ewrt,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucardsteam',
+    preview: template_StandardNFCCard_HuCardSteam_5,
   },
   hucardsteamVR: {
+    version: 2,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuSteamVR,
-      height: 1 - (84 + 125) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 168 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuBgLarge,
-      isSvg: true,
-    },
+    url: tapToHuSteamVR,
     label: 'HuCardSteamVR',
     author: Authors.ewrt,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucardsteamVR',
+    preview: template_StandardNFCCard_HuCardSteamVR_6,
   },
   hucardc64: {
+    version: 2,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuC64,
-      height: 1 - (84 + 268) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 268 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToHuBg,
-      isSvg: true,
-    },
+    url: tapToHuC64,
     label: 'HuCard (C64)',
     author: Authors.ben,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'hucardc64',
+    preview: template_StandardNFCCard_HuCardC64_7,
   },
   taptoGB: {
+    version: 2,
     layout: 'horizontal',
-    overlay: {
-      layerWidth: 994,
-      layerHeight: 619,
-      url: tapToGB,
-      width: 1 - (310 + 37) / 994,
-      height: 1 - (37 * 2) / 619,
-      x: 310 / 994,
-      y: 37 / 619,
-      isSvg: true,
-    },
-    shadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    background: {
-      layerWidth: 994,
-      layerHeight: 619,
-      url: tapToBg,
-      isSvg: true,
-    },
+    url: tapToGB,
     label: 'Tap-to Gameboy',
     author: Authors.ariel,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'taptoGB',
+    preview: template_StandardNFCCard_TapToGameboy_8,
   },
   taptoFloppy: {
+    version: 2,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: '',
-      width: 1 - (76 + 77) / 619,
-      height: 1 - (276 + 10) / 994,
-      x: 77 / 619,
-      y: 276 / 994,
-      isSvg: false,
-    },
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToFloppy,
-      isSvg: true,
-    },
+    url: tapToFloppy,
     label: 'Floppy 3.5',
     author: Authors.andrea,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'taptoFloppy',
+    preview: template_StandardNFCCard_Floppy35_9,
   },
   taptoFloppy525: {
+    version: 2,
     layout: 'vertical',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: floppy525Bg,
-      isSvg: true,
-    },
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: floppy525,
-      width: 1 - (20 + 44) / 619,
-      height: 316 / 994,
-      x: 20 / 619,
-      y: 12.6 / 994,
-      isSvg: true,
-    },
+    url: floppy525,
     label: 'Floppy 5.25',
     author: Authors.andrea,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'taptoFloppy525',
+    preview: template_StandardNFCCard_Floppy525_10,
   },
   tapToNes: {
     layout: 'vertical',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToBgV,
-      isSvg: true,
-    },
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: taptoNes,
-      width: 1 - (37 * 2) / 619,
-      height: 1 - (37 + 144) / 994,
-      x: 37 / 619,
-      y: 37 / 994,
-      isSvg: true,
-    },
+    version: 2,
+    url: taptoNes,
     label: 'Nes',
     author: Authors.ariel,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapToNes',
+    preview: template_StandardNFCCard_Nes_11,
   },
   tapToGenesis: {
+    version: 2,
     layout: 'vertical',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: genesisBg,
-      isSvg: true,
-    },
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: tapToGenesis,
-      height: 1 - (84 + 268) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 268 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
+    url: tapToGenesis,
     label: 'Genesis',
     author: Authors.ariel,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapToGenesis',
+    preview: template_StandardNFCCard_Genesis_12,
   },
   tapToPcEngine: {
+    version: 2,
     layout: 'vertical',
-    background: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: pcEngineBG,
-      isSvg: true,
-    },
-    overlay: {
-      layerWidth: 619,
-      layerHeight: 994,
-      url: pcEngine,
-      height: 1 - (84 + 268) / 994,
-      width: 1 - (37 * 2) / 619,
-      y: 268 / 994,
-      x: 37 / 619,
-      isSvg: true,
-    },
+    url: pcEngine,
     label: 'PcEngineCD',
     author: Authors.ariel,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'tapToPcEngine',
+    preview: template_StandardNFCCard_PcEngineCD_13,
   },
   anime0taku: {
+    version: 2,
     canEdit: true,
     layout: 'vertical',
-    overlay: {
-      layerWidth: 640,
-      layerHeight: 1006,
-      url: animeOt4ku,
-      height: 1,
-      width: 1,
-      y: 0,
-      x: 0,
-      isSvg: true,
-    },
-    edits: [
-      {
-        id: 'placeholder_logo',
-        resource: logoResource,
-      },
-    ],
+    url: animeOt4ku,
+    // edits: [
+    //   {
+    //     id: 'placeholder_logo',
+    //     resource: logoResource,
+    //   },
+    // ],
     label: 'full image + system',
-    noMargin: true,
     author: Authors.animeotaku,
     media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
     key: 'anime0taku',
+    preview: template_StandardNFCCard_FullImageSystem_14,
   },
   cassetteBox: {
+    version: 2,
+    url: cassetteTapeEmpty,
     layout: 'horizontal',
     label: 'Casset box placeholder',
     author: Authors.animeotaku, // to be changed with Phoneix data
     media: TapeBoxCover,
+    compatibleMedia: [TapeBoxCover],
     key: 'cassetteBoxBlank',
+    preview: template_CassetteTapeCase_CassetBoxPlaceholder_15,
+  },
+  cassetteBoxV2: {
+    layout: 'horizontal',
+    label: 'Casset box cover',
+    canFill: true,
+    url: cassetTape,
+    version: 2,
+    canEdit: true,
+    author: Authors.animeotaku, // to be changed with Phoneix data
+    media: TapeBoxCover,
+    compatibleMedia: [TapeBoxCover],
+    key: 'cassetteBoxV2',
+    preview: template_CassetteTapeCase_CassetBoxCover_16,
   },
   miniNfcAlice: {
     version: 2,
@@ -413,9 +309,11 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     url: mininfcAlice,
     author: Authors.alice,
     media: miniNfcCard,
+    compatibleMedia: [miniNfcCard],
     key: 'miniNfcAlice',
+    preview: template_MiniNFCCard_Steam3by5cm_17,
   },
-  ...cassetteTemplates,
+  // ...cassetteTemplates,
   retroRemakePcb1: {
     canEdit: true,
     version: 2,
@@ -424,7 +322,9 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     url: r2PcbCardFront,
     author: Authors.wizzo,
     media: r2Pcb1_0,
+    compatibleMedia: [r2Pcb1_0],
     key: 'retroRemakePcb1',
+    preview: template_RetroRemakeNFCPCB_NFCPCBFramed_18,
   },
   upgradeStickerT1: {
     canEdit: true,
@@ -434,7 +334,9 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     url: upgradeStickerZTCSFull,
     author: Authors.tim,
     media: tapToPrePrinted,
+    compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT1',
+    preview: template_ZapTradingCard_SingleFull_19,
   },
   upgradeStickerT2: {
     canEdit: true,
@@ -444,7 +346,9 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     url: upgradeStickerZTCSFrame,
     author: Authors.tim,
     media: tapToPrePrinted,
+    compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT2',
+    preview: template_ZapTradingCard_SingleFrame_20,
   },
   upgradeStickerT6: {
     canEdit: true,
@@ -454,7 +358,9 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     url: upgradeStickerZTCSRounded,
     author: Authors.tim,
     media: tapToPrePrinted,
+    compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT6',
+    preview: template_ZapTradingCard_SingleFrameRounded_21,
   },
   upgradeStickerT3: {
     canEdit: true,
@@ -464,7 +370,9 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     url: upgradeStickerZTCDFull,
     author: Authors.tim,
     media: tapToPrePrinted,
+    compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT3',
+    preview: template_ZapTradingCard_DoubleFull_22,
   },
   upgradeStickerT4: {
     canEdit: true,
@@ -474,7 +382,9 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     url: upgradeStickerZTCDFrame,
     author: Authors.tim,
     media: tapToPrePrinted,
+    compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT4',
+    preview: template_ZapTradingCard_DoubleFrame_23,
   },
   upgradeStickerT5: {
     canEdit: true,
@@ -484,9 +394,68 @@ export const templates: Record<string, templateType | templateTypeV2> = {
     url: upgradeStickerZTCDRounded,
     author: Authors.tim,
     media: tapToPrePrinted,
+    compatibleMedia: [tapToPrePrinted],
     key: 'upgradeStickerT5',
+    preview: template_ZapTradingCard_DoubleFrameRounded_24,
+  },
+  blankH: {
+    version: 2,
+    layout: 'horizontal',
+    label: 'Blank H cover',
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'blankH',
+    url: blankCoverH,
+    preview: template_StandardNFCCard_BlankHCover_25,
+  },
+  blankV: {
+    version: 2,
+    layout: 'vertical',
+    label: 'Blank V cover',
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'blankV',
+    url: blankCoverV,
+    preview: template_StandardNFCCard_BlankVCover_26,
+  },
+  blankHF: {
+    version: 2,
+    layout: 'horizontal',
+    label: 'Blank H fit',
+    url: blankFitH,
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'blankHF',
+    preview: template_StandardNFCCard_BlankHFit_27,
+  },
+  blankVF: {
+    version: 2,
+    layout: 'vertical',
+    label: 'Blank V fit',
+    author: Authors.andrea,
+    media: NFCCCsizeCard,
+    compatibleMedia: [NFCCCsizeCard, NFCCCsizeSlimCard],
+    key: 'blankVF',
+    url: blankFitV,
+    preview: template_StandardNFCCard_BlankVFit_28,
+  },
+  foldableSleeve: {
+    version: 2,
+    canFill: true,
+    canEdit: true,
+    layout: 'horizontal',
+    label: 'Paper sleeve',
+    author: Authors.andrea,
+    media: foldableSleeve,
+    compatibleMedia: [foldableSleeve],
+    url: foldableSleeveSvg,
+    key: 'foldable1',
+    preview: template_FoldableSleeve_PaperSleeve_29,
   },
 } as const;
 
-export const defaultTemplateKey = 'hucard';
+export const defaultTemplateKey = 'gameCardV';
 export const defaultTemplate = templates[defaultTemplateKey];

@@ -1,0 +1,28 @@
+.imageResourceDisplayContainer {
+  cursor: pointer;
+  background-color: lightgrey;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  margin-bottom: 8px;
+  break-inside: avoid;
+}
+
+.imageResourceDisplayContainer.notActive {
+  cursor: not-allowed;
+}
+
+.imageResourceDisplayContainer.active {
+  outline: 3px solid var(--ui-color-primary);
+  outline-offset: -3px;
+}
+
+.imageResourceDisplay {
+  object-fit: contain;
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+.imageResourceDisplay.loading {
+  opacity: 0;
+}

@@ -23,6 +23,17 @@ export const printTemplates: Record<string, PrintTemplate> = {
     rightMargin: 3,
     paperSize: [210, 297],
   },
+  a4SlimStickers: {
+    gridSize: [0, 0],
+    label: 'A4 (10x slim NFC)',
+    rows: 0,
+    columns: 0,
+    leftMargin: 10,
+    topMargin: 11,
+    bottomMargin: 12,
+    rightMargin: 7,
+    paperSize: [210, 297],
+  },
   verticalLetter: {
     gridSize: [0, 0],
     label: 'Letter',

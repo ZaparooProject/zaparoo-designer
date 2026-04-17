@@ -4,63 +4,26 @@ import {
   loadSVGFromURL,
   Group,
   FabricObject,
+  Point,
   type Canvas,
   Rect,
-  Path,
 } from 'fabric';
 import { CardData } from '../contexts/fileDropper';
-import type { templateType, templateTypeV2 } from '../resourcesTypedef';
-import { extractUniqueColorsFromGroup } from './templateHandling';
-
-FabricObject.ownDefaults.originX = 'center';
-FabricObject.ownDefaults.originY = 'center';
-FabricObject.ownDefaults.objectCaching = false;
-/* add the ability to parse 'id' and zaparoo attributes to shapes */
-Rect.ATTRIBUTE_NAMES = [...Rect.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy', 'zaparoo-no-print'];
-Path.ATTRIBUTE_NAMES = [...Path.ATTRIBUTE_NAMES, 'id', 'zaparoo-placeholder', 'zaparoo-fill-strategy', 'zaparoo-no-print'];
-FabricImage.ATTRIBUTE_NAMES = [...FabricImage.ATTRIBUTE_NAMES, 'id', 'zaparoo-no-print'];
-FabricObject.customProperties = [
-  'zaparoo-placeholder',
-  'id',
-  'zaparoo-fill-strategy',
-  'original_stroke',
-  'original_fill',
-  'zaparoo-no-print'
-];
-
-FabricImage.customProperties = [
-  'resourceType',
-  'original_stroke',
-  'original_fill',
-  'zaparoo-no-print'
-];
-
-// declare the methods for typescript
-declare module "fabric" {
-  // to have the properties recognized on the instance and in the constructor
-  interface FabricObject {
-    "original_fill": string;
-    "original_stroke": string;
-    "zaparoo-placeholder"?: "main";
-    "zaparoo-no-print"?: "true";
-    "zaparoo-fill-strategy"?: "fit" | "cover";
-  }
-
-  interface FabricImage {
-    "resourceType"?: "main" | "screenshot" | "logo";
-  }
-}
-
+import type { templateTypeV2 } from '../resourcesTypedef';
+import {
+  extractUniqueColorsFromGroup,
+  getPlaceholderMain,
+  getMainImage,
+} from './templateHandling';
 
 export const scaleImageToOverlayArea = async (
   placeholder: FabricObject,
   mainImage: FabricImage,
 ) => {
-
   // scale the art to the designed area in the template. to fit
   // TODO: add option later for fit or cover
   const isRotated = mainImage.angle % 180 !== 0;
-  const isCover =  placeholder["zaparoo-fill-strategy"] === "cover";
+  const isCover = placeholder['zaparoo-fill-strategy'] === 'cover';
   const scaler = isCover ? util.findScaleToCover : util.findScaleToFit;
   const scaledOverlay = placeholder._getTransformedDimensions();
 
@@ -75,13 +38,11 @@ export const scaleImageToOverlayArea = async (
     },
   );
 
-  if (isCover) {
+  if (!(placeholder instanceof FabricImage)) {
     const clipPath = await placeholder.clone();
     clipPath.visible = true;
     clipPath.absolutePositioned = true;
     mainImage.clipPath = clipPath;
-  } else {
-    mainImage.clipPath = undefined
   }
 
   mainImage.set({
@@ -99,32 +60,94 @@ export const scaleImageToOverlayArea = async (
   mainImage.setCoords();
 };
 
-
-
 const parseSvg = (url: string): Promise<Group> =>
-  loadSVGFromURL(url).then(({ objects }) => {
-    const nonNullObjects = objects.filter(
-      (objects) => !!objects,
-    ) as FabricObject[];
-    const group = new Group(nonNullObjects);
-    extractUniqueColorsFromGroup(group);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return group;
-  });
+  loadSVGFromURL(url, undefined, { crossOrigin: 'anonymous' }).then(
+    ({ objects }) => {
+      const nonNullObjects = objects.filter(
+        (objects) => !!objects,
+      ) as FabricObject[];
+      const group = new Group(nonNullObjects);
+      extractUniqueColorsFromGroup(group);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return group;
+    },
+  );
 
-const reposition = (
-  fabricLayer: FabricObject,
-  template: templateType,
-): void => {
-  if (template.layout === 'horizontal') {
-    fabricLayer.left = template.media.width / 2;
-    fabricLayer.top = template.media.height / 2;
-  } else {
-    fabricLayer.left = template.media.height / 2;
-    fabricLayer.top = template.media.width / 2;
+type CarriedUserLayer = {
+  layer: FabricObject;
+  centerXRatio: number;
+  centerYRatio: number;
+  cardWidth: number;
+  cardHeight: number;
+};
+
+const getCarriedUserLayers = (
+  canvas: CardData['canvas'],
+  mainImage?: FabricImage,
+): CarriedUserLayer[] => {
+  if (!canvas) {
+    return [];
   }
-  fabricLayer.setCoords();
+
+  const zoom = canvas.getZoom();
+  const sourceCardWidth = canvas.getWidth() / zoom;
+  const sourceCardHeight = canvas.getHeight() / zoom;
+  return canvas
+    .getObjects()
+    .filter(
+      (layer) => layer !== mainImage && layer['zaparoo-user-layer'] === true,
+    )
+    .map((layer) => {
+      const center = layer.getRelativeCenterPoint();
+
+      return {
+        layer,
+        centerXRatio: center.x / sourceCardWidth,
+        centerYRatio: center.y / sourceCardHeight,
+        cardWidth: sourceCardWidth,
+        cardHeight: sourceCardHeight,
+      };
+    });
+};
+
+const restoreCarriedUserLayers = (
+  canvas: CardData['canvas'],
+  carriedLayers: CarriedUserLayer[],
+) => {
+  if (!canvas) {
+    return;
+  }
+  const zoom = canvas.getZoom();
+  const cardWidth = canvas.getWidth() / zoom;
+  const cardHeight = canvas.getHeight() / zoom;
+
+  carriedLayers.forEach(
+    ({
+      layer,
+      centerXRatio,
+      centerYRatio,
+      // cardWidth: sourceCardWidth,
+      // cardHeight: sourceCardHeight,
+    }) => {
+      // require checking of template aspect ratio change
+      // const widthRatio = cardWidth / sourceCardWidth;
+      // const heightRatio = cardHeight / sourceCardHeight;
+      // const uniformScale = Math.min(widthRatio, heightRatio);
+
+      // layer.set({
+      //   scaleX: layer.scaleX * uniformScale,
+      //   scaleY: layer.scaleY * uniformScale,
+      // });
+      layer.setPositionByOrigin(
+        new Point(cardWidth * centerXRatio, cardHeight * centerYRatio),
+        'center',
+        'center',
+      );
+      layer.setCoords();
+      canvas.add(layer);
+    },
+  );
 };
 
 export const setTemplateV2OnCanvases = async (
@@ -134,19 +157,24 @@ export const setTemplateV2OnCanvases = async (
   const { layout, url, parsed, media } = template;
 
   const templateSource = await (parsed ?? (template.parsed = parseSvg(url)));
-  const placeholder = templateSource.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main");
+  const placeholder = getPlaceholderMain(templateSource);
   if (placeholder) {
-      // remove strokewidth so the placeholder can clip the image
-      placeholder.strokeWidth = 0;
-      // the placeholder stays with us but we don't want to see it
-      placeholder.visible = false;
+    // remove strokewidth so the placeholder can clip the image
+    placeholder.strokeWidth = 0;
+    // the placeholder stays with us but we don't want to see it
+    placeholder.visible = false;
   }
   // fixme: avoid parsing colors more than once.
   const colors = extractUniqueColorsFromGroup(templateSource);
   const isHorizontal = layout === 'horizontal';
   const { width, height } = media;
-  const finalWidth = isHorizontal ? width : height;
-  const finalHeight = isHorizontal ? height : width;
+  const maximumBox = {
+    width: 900, // use --cell-width css var value
+    height: 900,
+  };
+  const scale = util.findScaleToFit(media, maximumBox);
+  const finalWidth = isHorizontal ? scale * width : scale * height;
+  const finalHeight = isHorizontal ? scale * height : scale * width;
 
   for (const card of cards) {
     const { canvas } = card;
@@ -154,8 +182,11 @@ export const setTemplateV2OnCanvases = async (
       continue;
     }
     card.template = template;
+    const mainImage = getMainImage(canvas);
+    const carriedUserLayers = getCarriedUserLayers(canvas, mainImage);
     // resize only if necessary
     if (finalHeight !== canvas.height || finalWidth !== canvas.width) {
+      canvas.enableRetinaScaling = false;
       canvas.setDimensions(
         {
           width: finalWidth,
@@ -163,11 +194,11 @@ export const setTemplateV2OnCanvases = async (
         },
         { backstoreOnly: true },
       );
+      canvas.setZoom(scale);
       const clipPath = new Rect(template.media);
       clipPath.canvas = canvas as Canvas;
       canvas.centerObject(clipPath);
       canvas.clipPath = clipPath;
-
       canvas.setDimensions(
         {
           width: isHorizontal ? 'var(--cell-width)' : 'auto',
@@ -176,36 +207,46 @@ export const setTemplateV2OnCanvases = async (
         { cssOnly: true },
       );
     }
-    // save a reference to the original image
-    const mainImage = canvas.getObjects('image').find(
-      (fabricImage) => (fabricImage as FabricImage).resourceType === 'main'
-    ) as FabricImage;
-
     // copy the template for this card
     const fabricLayer = await templateSource.clone();
     // find out how bit it is naturally
     const templateSize = fabricLayer._getTransformedDimensions();
-    // scale the overlay asset to fit the designed media ( the card )
-    const templateScale = util.findScaleToFit({
-      width: templateSize.x,
-      height: templateSize.y,
-    }, canvas);
 
-    fabricLayer.scaleX = templateScale;
-    fabricLayer.scaleY = templateScale;
+    if (media?.stretchTemplate) {
+      // Stretch the overlay asset to fill the designed media ( the card )
+      fabricLayer.scaleX = canvas.width / templateSize.x;
+      fabricLayer.scaleY = canvas.height / templateSize.y;
+    } else {
+      // scale the overlay asset to fit the designed media ( the card )
+      const templateScale = util.findScaleToFit(
+        {
+          width: templateSize.x,
+          height: templateSize.y,
+        },
+        canvas,
+      );
+
+      fabricLayer.scaleX = templateScale / scale;
+      fabricLayer.scaleY = templateScale / scale;
+    }
 
     // set the overlay of the template in the center of the card
-    reposition(fabricLayer, template);
+    canvas.viewportCenterObject(fabricLayer);
 
     // remove the previous template from the canvas if any.
     canvas.remove(...canvas.getObjects());
     canvas.backgroundImage = undefined;
     canvas.overlayImage = undefined;
     // add the template to the canvas
-    canvas.add(...fabricLayer.removeAll());
+    const objectsToAdd = fabricLayer.removeAll();
+    objectsToAdd.forEach((obj) => {
+      obj.selectable = false;
+      obj.evented = false;
+    });
+    canvas.add(...objectsToAdd);
     // find the layer that olds the image.
-    const placeholder = canvas.getObjects().find((obj) => obj["zaparoo-placeholder"] === "main");
-    if (placeholder) {
+    const placeholder = getPlaceholderMain(canvas);
+    if (placeholder && mainImage) {
       // add the image on the placeholder
       if (mainImage) {
         const index = canvas.getObjects().indexOf(placeholder);
@@ -213,7 +254,9 @@ export const setTemplateV2OnCanvases = async (
         await scaleImageToOverlayArea(placeholder, mainImage);
       }
     }
-  
+
+    restoreCarriedUserLayers(canvas, carriedUserLayers);
+
     const { clipPath } = canvas;
     if (clipPath) {
       if (template.layout === 'horizontal') {
@@ -221,7 +264,7 @@ export const setTemplateV2OnCanvases = async (
       } else {
         clipPath.angle = 90;
       }
-      reposition(clipPath, template);
+      canvas.viewportCenterObject(clipPath);
     }
 
     canvas.requestRenderAll();

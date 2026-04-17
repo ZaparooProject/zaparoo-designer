@@ -5,16 +5,25 @@ export type ResultImage = {
   image_id: string;
   width: number;
   height: number;
-}
+};
 
 export type PlatformResult = {
   id: number;
   name: string;
   abbreviation?: string;
   platform_logo?: ResultImage;
-}
+};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CompanyResult = {
+  id: number;
+  logo?: ResultImage;
+};
+
+export type InvolvedCompanies = {
+  id: number;
+  company: CompanyResult;
+};
+
 export type SearchResult = {
   id: string;
   artworks: ResultImage[];
@@ -23,20 +32,23 @@ export type SearchResult = {
   summary: string;
   name: string;
   storyline: string;
-  platforms?: Pick<PlatformResult, 'id' | 'abbreviation'>[];
-  involved_companies: unknown[];
+  platforms?: (Pick<PlatformResult, 'id' | 'abbreviation' | 'name'> & {
+    logos: ResultImage[];
+  })[];
+  involved_companies: InvolvedCompanies[];
   extra_images: number;
 };
 
 export type SearchResults = {
   count: number;
-  results: SearchResult[],
-}
+  total?: number;
+  results: SearchResult[];
+};
 
 export type PlatformResults = {
   count: number;
   results: (PlatformResult & {
     versions: PlatformResult[];
-    popular?: boolean,
-  })[],
-}
+    popular?: boolean;
+  })[];
+};

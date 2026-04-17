@@ -1,0 +1,24 @@
+<svg width="1220" height="980" viewBox="0 0 1220 980" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/">
+  <rect id="placeholder" x="0" y="0" width="1220" height="980" fill="white" />
+  <path
+    d="M 0 0 H 1120 A 100 100 0 0 1 1220 100 V 760 A 100 100 0 0 1 1120 860 H 540 V 880 A 100 100 0 0 1 440 980 H 100 A 100 100 0 0 1 0 880 V 0 Z"
+    fill="none"
+    stroke="black"
+    stroke-width="2"
+  />
+  <path id="bend_lines" d="M 540 0 V 860 M 560 0 V 860 M 1100 0 V 860 M 1120 0 V 860 M 0 860 H 540 M 0 880 H 540"
+    stroke-dasharray="5 5" stroke-width="1" stroke="black" zaparoo-no-print="true" />
+  <rect id="placeholder" zaparoo-placeholder="main" x="0" y="0" width="540" height="860" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="cover" />
+
+
+  <rect x="560" y="0" width="540" height="100" fill="blue" stroke-width="0" />
+  <rect id="logo_1" zaparoo-placeholder="platform_logo" x="570" y="10" width="520" height="80" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="fit" />
+  <rect id="title_1" zaparoo-placeholder="title" x="570" y="110" width="400" height="50" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-align-strategy="left-top" />
+  <rect id="screenshot_1" zaparoo-placeholder="screenshot" x="570" y="200" width="520" height="270" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-fill-strategy="fit" />
+  <rect id="description_1" zaparoo-placeholder="description" x="570" y="480" width="520" height="270" fill="none" stroke="red"
+    stroke-dasharray="5 5" stroke-width="2" zaparoo-align-strategy="left-top" />
+</svg>

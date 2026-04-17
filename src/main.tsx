@@ -1,11 +1,13 @@
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
-import { AppDataContextProvider } from './components/AppDataProvider.tsx';
-import { FileDropperContextProvider } from './components/FileDropperProvider';
+import { AppDataContextProvider } from './providers/AppDataProvider.tsx';
+import { FileDropperContextProvider } from './providers/FileDropperProvider.tsx';
 import './index.css';
-import createTheme from '@mui/material/styles/createTheme';
+import { createTheme } from '@mui/material/styles';
 
 import { ThemeProvider } from '@emotion/react';
+import { setupFabricJSCustomConfiguration } from './extensions/setupFabricJSCustomConfiguration.ts';
 
 window.global = window;
 
@@ -44,12 +46,16 @@ const theme = createTheme({
   },
 });
 
+setupFabricJSCustomConfiguration();
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <ThemeProvider theme={theme}>
-    <AppDataContextProvider>
-      <FileDropperContextProvider>
-        <App />
-      </FileDropperContextProvider>
-    </AppDataContextProvider>
-  </ThemeProvider>,
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <AppDataContextProvider>
+        <FileDropperContextProvider>
+          <App />
+        </FileDropperContextProvider>
+      </AppDataContextProvider>
+    </ThemeProvider>
+  </BrowserRouter>,
 );
