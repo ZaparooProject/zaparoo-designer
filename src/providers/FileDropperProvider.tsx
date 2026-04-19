@@ -7,6 +7,10 @@ import {
   type contextType,
 } from '../contexts/fileDropper';
 import { SearchResult } from '../../netlify/apiProviders/types.mts';
+import {
+  downloadSession,
+  loadSessionFromFile,
+} from '../utils/sessionFile';
 
 type FileDropperProps = {
   children: JSX.Element | JSX.Element[];
@@ -149,6 +153,18 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
     [files],
   );
 
+  const saveSession = useCallback(() => {
+    downloadSession(cards.current);
+  }, [cards]);
+
+  const loadSession = useCallback(async () => {
+    const loaded = await loadSessionFromFile();
+    cards.current = loaded;
+    setFilesImpl(loaded.map((card) => card.file));
+    setSelectedCardsCount(0);
+    setEditingCardImpl(null);
+  }, [cards]);
+
   const contextValue = useMemo<contextType>(
     () => ({
       files,
@@ -163,6 +179,8 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       editingCard,
       setEditingCard,
       swapGameAtIndex,
+      saveSession,
+      loadSession,
     }),
     [
       files,
@@ -175,6 +193,8 @@ export const FileDropperContextProvider: FC<FileDropperProps> = ({
       editingCard,
       setEditingCard,
       swapGameAtIndex,
+      saveSession,
+      loadSession,
     ],
   );
 

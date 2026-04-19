@@ -11,6 +11,12 @@ export type CardData = {
   file: PossibleFile;
   game: Partial<SearchResult>;
   canvas?: StaticCanvas;
+  /* serialized canvas JSON, used to restore canvas state on load */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  canvasJSON?: Record<string, any>;
+  canvasWidth?: number;
+  canvasHeight?: number;
+  canvasViewportTransform?: number[];
   template?: templateTypeV2;
   isSelected: boolean;
   colors: string[];
@@ -35,6 +41,8 @@ export type contextType = {
     game: SearchResult,
     index: number,
   ) => void;
+  saveSession: () => void;
+  loadSession: () => Promise<void>;
 };
 
 export const FileDropContext = createContext<contextType>({
@@ -52,6 +60,8 @@ export const FileDropContext = createContext<contextType>({
   editingCard: null,
   setEditingCard: () => {},
   swapGameAtIndex: () => {},
+  saveSession: () => {},
+  loadSession: async () => {},
 });
 
 export const useFileDropperContext = () => useContext(FileDropContext);
