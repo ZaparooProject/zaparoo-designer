@@ -1,11 +1,11 @@
-# Zaparoo Designer (fork)
+# Zaparoo Designer: Fork Details
 
 This fork adds additional features to the Zaparoo Designer project (https://github.com/ZaparooProject/zaparoo-designer).
 
 ## Changes
 1. Load/Save functionality
 
-
+# Zaparoo Designer
 
 A companion app to the Zaparoo project. The Designer allows you to easily generate Zaparoo labels from templates, ready to print and cut, right from your web browser using external sources for game media. Read more about the Zaparoo project at [Zaparoo.org](https://zaparoo.org/).
 
