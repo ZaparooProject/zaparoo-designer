@@ -27,3 +27,4 @@ dist-ssr
 CLAUDE.md
 .claude/
 .agent-shell/
+.opencode/

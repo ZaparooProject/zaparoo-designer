@@ -20,6 +20,8 @@ import upgradeStickerZTCSRounded from './assets/templates/ZapTradingCard_Single_
 import upgradeStickerZTCDFull from './assets/templates/ZapTradingCard_Double_Full.svg';
 import upgradeStickerZTCDFrame from './assets/templates/ZapTradingCard_Double_Frame.svg';
 import upgradeStickerZTCDRounded from './assets/templates/ZapTradingCard_Double_RoundFrame.svg';
+import upgradeStickerStandardFull from './assets/templates/UpgradeStandard_Single_Full.svg';
+import upgradeStickerStandardFrame from './assets/templates/UpgradeStandard_Single_Frame.svg';
 import gameCardVertical from './assets/templates/fossHuCardLabel.svg';
 import blankCoverH from './assets/templates/blank_cover_h.svg';
 import blankCoverV from './assets/templates/blank_cover_v.svg';
@@ -50,6 +52,8 @@ import template_CassetteTapeCase_CassetBoxPlaceholder_15 from './assets/template
 import template_CassetteTapeCase_CassetBoxCover_16 from './assets/templatesPreviews/template_Cassette tape case_Casset box cover_16.png';
 import template_MiniNFCCard_Steam3by5cm_17 from './assets/templatesPreviews/template_Mini NFC card_Steam 3by5cm_17.png';
 import template_RetroRemakeNFCPCB_NFCPCBFramed_18 from './assets/templatesPreviews/template_Retro Remake NFC PCB_NFC PCB 1.0 - Framed_18.png';
+import template_UpgradeStickers_StandardFull_21 from './assets/templatesPreviews/template_Upgrade Stickers_Upgrade Sticker - Standard Full_21.png';
+import template_UpgradeStickers_StandardFrame_22 from './assets/templatesPreviews/template_Upgrade Stickers_Upgrade Sticker - Standard Frame_22.png';
 import template_ZapTradingCard_SingleFull_19 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Full_19.png';
 import template_ZapTradingCard_SingleFrame_20 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Frame_20.png';
 import template_ZapTradingCard_SingleFrameRounded_21 from './assets/templatesPreviews/template_Zap Trading Card_Trading Card - Single Frame Rounded_21.png';
@@ -64,8 +68,6 @@ import template_FoldableSleeve_PaperSleeve_29 from './assets/templatesPreviews/t
 import borderOnlyPreview from './assets/templatesPreviews/template_Standard NFC card_Vertical card with only one border_30.png';
 import blackFramePreview from './assets/templatesPreviews/template_Standard NFC card_Black frame.png';
 
-// import upgradeStickerStdFull from './assets/UpgradeStandard_Single_Full.svg';
-// import upgradeStickerStdFrame from './assets/UpgradeStandard_Single_Frame.svg';
 import { Authors } from './templateAuthors';
 import type { templateTypeV2 } from './resourcesTypedef';
 // import { logoResource } from './logos';
@@ -324,11 +326,35 @@ export const templates: Record<string, templateTypeV2> = {
     key: 'retroRemakePcb1',
     preview: template_RetroRemakeNFCPCB_NFCPCBFramed_18,
   },
+  upgradeStickerStandardFull: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Upgrade Sticker - Standard Full',
+    url: upgradeStickerStandardFull,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    compatibleMedia: [tapToPrePrinted],
+    key: 'upgradeStickerStandardFull',
+    preview: template_UpgradeStickers_StandardFull_21,
+  },
+  upgradeStickerStandardFrame: {
+    canEdit: true,
+    version: 2,
+    layout: 'vertical',
+    label: 'Upgrade Sticker - Standard Frame',
+    url: upgradeStickerStandardFrame,
+    author: Authors.tim,
+    media: tapToPrePrinted,
+    compatibleMedia: [tapToPrePrinted],
+    key: 'upgradeStickerStandardFrame',
+    preview: template_UpgradeStickers_StandardFrame_22,
+  },
   upgradeStickerT1: {
     canEdit: true,
     version: 2,
     layout: 'vertical',
-    label: 'Trading Card - Single Full',
+    label: 'Upgrade Sticker - Single Full',
     url: upgradeStickerZTCSFull,
     author: Authors.tim,
     media: tapToPrePrinted,
@@ -340,7 +366,7 @@ export const templates: Record<string, templateTypeV2> = {
     canEdit: true,
     version: 2,
     layout: 'vertical',
-    label: 'Trading Card - Single Frame',
+    label: 'Upgrade Sticker - Single Frame',
     url: upgradeStickerZTCSFrame,
     author: Authors.tim,
     media: tapToPrePrinted,
@@ -352,7 +378,7 @@ export const templates: Record<string, templateTypeV2> = {
     canEdit: true,
     version: 2,
     layout: 'vertical',
-    label: 'Trading Card - Single Frame Rounded',
+    label: 'Upgrade Sticker - Single Frame Rounded',
     url: upgradeStickerZTCSRounded,
     author: Authors.tim,
     media: tapToPrePrinted,
@@ -364,7 +390,7 @@ export const templates: Record<string, templateTypeV2> = {
     canEdit: true,
     version: 2,
     layout: 'vertical',
-    label: 'Trading Card - Double Full',
+    label: 'Upgrade Sticker - Double Full',
     url: upgradeStickerZTCDFull,
     author: Authors.tim,
     media: tapToPrePrinted,
@@ -376,7 +402,7 @@ export const templates: Record<string, templateTypeV2> = {
     canEdit: true,
     version: 2,
     layout: 'vertical',
-    label: 'Trading Card - Double Frame',
+    label: 'Upgrade Sticker - Double Frame',
     url: upgradeStickerZTCDFrame,
     author: Authors.tim,
     media: tapToPrePrinted,
@@ -388,7 +414,7 @@ export const templates: Record<string, templateTypeV2> = {
     canEdit: true,
     version: 2,
     layout: 'vertical',
-    label: 'Trading Card - Double Frame Rounded',
+    label: 'Upgrade Sticker - Double Frame Rounded',
     url: upgradeStickerZTCDRounded,
     author: Authors.tim,
     media: tapToPrePrinted,
