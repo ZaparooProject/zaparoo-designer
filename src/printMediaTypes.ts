@@ -53,7 +53,7 @@ export const tapToPrePrinted: MediaDefinition = {
   strokeWidth: 2,
   stroke: 'black',
   fill: 'white',
-  label: 'Zap Trading Card',
+  label: 'Upgrade Stickers',
 };
 
 // a smaller nfc card
