@@ -32,6 +32,8 @@ import foldableSleeveSvg from './assets/templates/foldable_sleeve.svg';
 import labelWithName from './assets/templates/labelWithName.svg';
 import borderOnly from './assets/templates/border_only.svg';
 import blackFrame from './assets/templates/blackframe.svg';
+import floppyLabelSvg from './assets/templates/floppy_label.svg';
+
 // previews
 import template_StandardNFCCard_GameCardVertical_0 from './assets/templatesPreviews/template_Standard NFC card_Game card Vertical_0.png';
 import template_StandardNFCCard_SquareGameCard_1 from './assets/templatesPreviews/template_Standard NFC card_Square game card_1.png';
@@ -80,6 +82,7 @@ import {
   miniNfcCard,
   r2Pcb1_0,
   foldableSleeve,
+  floppyLabel35,
 } from './printMediaTypes';
 
 export const templates: Record<string, templateTypeV2> = {
@@ -479,6 +482,19 @@ export const templates: Record<string, templateTypeV2> = {
     key: 'foldable1',
     preview: template_FoldableSleeve_PaperSleeve_29,
   },
+  floppy35label: {
+    version: 2,
+    canFill: true,
+    canEdit: true,
+    layout: 'horizontal',
+    label: 'Floopy Label',
+    author: Authors.andrea,
+    media: floppyLabel35,
+    compatibleMedia: [floppyLabel35],
+    url: floppyLabelSvg,
+    key: 'floppyLabel',
+    preview: template_FoldableSleeve_PaperSleeve_29,
+  }
 } as const;
 
 export const defaultTemplateKey = 'gameCardV';
