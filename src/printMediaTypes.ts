@@ -80,6 +80,17 @@ export const foldableSleeve: MediaDefinition = {
   label: 'Foldable sleeve',
 };
 
+export const floppyLabel35: MediaDefinition = {
+  width: 827, //12.2cm * 300dpi
+  height: 862, // 9.8cm * 300dpi
+  rx: 8,
+  ry: 8,
+  strokeWidth: 0,
+  stroke: 'transparent',
+  fill: 'white',
+  label: '3.5 Inch floppy label',
+}
+
 // retro remake pcb cards
 export const r2Pcb1_0: MediaDefinition = {
   // TODO: these were swapped?
@@ -99,6 +110,7 @@ export const printMediaTypes = {
   tapToPrePrinted,
   miniNfcCard,
   r2Pcb1_0,
+  floppyLabel35,
   TapeBoxCover,
   foldableSleeve,
 };
@@ -109,6 +121,7 @@ export const mediaTargetList = [
   tapToPrePrinted,
   miniNfcCard,
   r2Pcb1_0,
+  floppyLabel35,
   TapeBoxCover,
   foldableSleeve,
   // taptoPrePrintedFullHeight,
