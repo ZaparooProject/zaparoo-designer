@@ -69,7 +69,7 @@ import template_StandardNFCCard_BlankVFit_28 from './assets/templatesPreviews/te
 import template_FoldableSleeve_PaperSleeve_29 from './assets/templatesPreviews/template_Foldable sleeve_Paper sleeve_29.png';
 import borderOnlyPreview from './assets/templatesPreviews/template_Standard NFC card_Vertical card with only one border_30.png';
 import blackFramePreview from './assets/templatesPreviews/template_Standard NFC card_Black frame.png';
-
+import templateFloppyLabelPreview  from './assets/templatesPreviews/template_3.5 Inch floppy label_Floopy Label_34.png';
 import { Authors } from './templateAuthors';
 import type { templateTypeV2 } from './resourcesTypedef';
 // import { logoResource } from './logos';
@@ -493,7 +493,7 @@ export const templates: Record<string, templateTypeV2> = {
     compatibleMedia: [floppyLabel35],
     url: floppyLabelSvg,
     key: 'floppyLabel',
-    preview: template_FoldableSleeve_PaperSleeve_29,
+    preview: templateFloppyLabelPreview,
   }
 } as const;
 
