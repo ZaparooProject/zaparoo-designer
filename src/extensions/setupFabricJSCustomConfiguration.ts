@@ -7,7 +7,12 @@ declare module 'fabric' {
     id: string;
     original_fill: string;
     original_stroke: string;
-    'zaparoo-placeholder'?: 'main';
+    'zaparoo-placeholder'?:
+      | 'main'
+      | 'description'
+      | 'platform_logo'
+      | 'title'
+      | 'screenshot';
     'zaparoo-no-print'?: 'true';
     'zaparoo-fill-strategy'?: 'fit' | 'cover';
     'zaparoo-align-strategy'?: 'left-top' | 'center-top';

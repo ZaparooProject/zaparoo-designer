@@ -10,7 +10,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "make-logos": "node scripts/logos-data.mjs && prettier --write ./src/assets/logos/*.ts",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "generate-cassette": "node scripts/cassette/buildCassetteCover.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

@@ -71,6 +71,7 @@ import borderOnlyPreview from './assets/templatesPreviews/template_Standard NFC 
 import blackFramePreview from './assets/templatesPreviews/template_Standard NFC card_Black frame.png';
 import templateFloppyLabelPreview  from './assets/templatesPreviews/template_3.5 Inch floppy label_Floopy Label_34.png';
 import { Authors } from './templateAuthors';
+import { cassetteTemplates } from './cassetteTemplates';
 import type { templateTypeV2 } from './resourcesTypedef';
 // import { logoResource } from './logos';
 
@@ -317,6 +318,7 @@ export const templates: Record<string, templateTypeV2> = {
     key: 'miniNfcAlice',
     preview: template_MiniNFCCard_Steam3by5cm_17,
   },
+  ...cassetteTemplates,
   retroRemakePcb1: {
     canEdit: true,
     version: 2,
